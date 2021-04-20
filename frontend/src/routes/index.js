@@ -10,6 +10,23 @@ const router =  new Router({
       name: 'Signup',
       component: () => import('@/views/user/Signup.vue'),
     },
+    {
+      path: '/member/login',
+      name: 'Login',
+      component: () => import('@/views/user/Login.vue'),
+      children: [
+        {
+          path: 'findid',
+          name: 'FindId',
+          component: () => import('@/components/user/FindId.vue'),
+        },
+        {
+          path: 'findpw',
+          name: "FindPw",
+          component: () => import('@/components/user/FindPw.vue')
+        },
+      ]
+    },
   ],
 });
 

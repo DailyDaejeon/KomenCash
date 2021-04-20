@@ -1,6 +1,4 @@
 import { setInterceptors } from './config/interceptors'
-import axios from 'axios';
-import store from '@/stores/modules/user'
 const instance = setInterceptors()
 
 //회원가입 API
@@ -83,4 +81,8 @@ export {
     deleteMyInfo,
     emailAuth,
     phoneAuth,
+    userIdChk,
+    dupNickNameChk,
+    changePw,
+    dupIdChk   
 }

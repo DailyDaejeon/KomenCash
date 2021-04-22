@@ -67,7 +67,7 @@ function changePw(userData) {
 // 휴대폰 인증
 function phoneAuth(userPhonenum) {
     //아이디찾기
-    return instance.get(`member/find_id/`, {
+    return instance.get(`member/find_id`, {
         params: { u_phone_number: userPhonenum }
     }) 
 }

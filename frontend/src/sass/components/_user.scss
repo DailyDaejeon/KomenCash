@@ -40,7 +40,7 @@
 
   & h6 a {
     border-radius: 4px;
-    background-color: $komenta-color;
+    background-color: $komencash-color;
     color: $bg-color !important;
     padding: 1px 2px;
     text-decoration: none;
@@ -71,7 +71,7 @@
 
 .idView {
   font-weight: 700;
-  color: $komenta-color;
+  color: $komencash-color;
 }
 
 //mypage tab
@@ -185,7 +185,7 @@
       padding-bottom: 1rem;
 
       &:focus-within {
-        border-bottom: 7px solid $komenta-color;
+        border-bottom: 7px solid $komencash-color;
         font-weight: 700;
       }
     }
@@ -275,8 +275,8 @@
 
 //회원 정보 수정
 .btn-upload {
-  background-color: $komenta-color !important;
-  border-color: $komenta-color !important;
+  background-color: $komencash-color !important;
+  border-color: $komencash-color !important;
   margin-top: 0.2rem;
 }
 
@@ -404,7 +404,7 @@
 
 .goJoinMember {
   cursor: pointer;
-  color: $komenta-color;
+  color: $komencash-color;
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -455,17 +455,17 @@
         margin-left: 5px;
         position: absolute;
         top: 5px;
-        border: 1px solid $komenta-color;
+        border: 1px solid $komencash-color;
         border-radius: 5px;
         font-size: 14px;
-        color: $komenta-color;
+        color: $komencash-color;
         padding: 0.4rem;
       }
 
       & .phoneNumChange:hover {
         color: #fff;
-        background-color: $komenta-color;
-        border-color: $komenta-color;
+        background-color: $komencash-color;
+        border-color: $komencash-color;
       }
 
       & .modify-authentic {
@@ -560,13 +560,13 @@
   }
 
   & .membership-form-card:hover {
-    border: 1px solid $komenta-color;
+    border: 1px solid $komencash-color;
     background-color: #fff8f8;
     & button {
       color: white;
-      background-color: $komenta-color;
+      background-color: $komencash-color;
       border-color: rgba(255, 0, 0, 0.596);
-      background-color: $komenta-color;
+      background-color: $komencash-color;
     }
   }
 

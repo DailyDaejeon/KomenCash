@@ -1,74 +1,71 @@
 <template>
-  <div class="temp-bc login">
-    <div class="alert alert-danger alert-dismissible" role="alert" :style="{ display: display }">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true" @click="closeError">×</span>
-      </button>
-      <div class="alert-message">
-        <strong>아이디 또는 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</strong>
-      </div>
-    </div>
-    <b-container class="login-form">
-      <hr class="inContent or"/>
-      <b-col class="bcol-login">
-        <b-form @submit.prevent="loginComplete">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#495057"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                  ></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </div>
-            </div>
-            <input
-              v-model="userId"
-              class="form-control form-control-lg"
-              placeholder="example@example.com"
-              type="text"
-              autocapitalize="off"
-            />
+<main class="d-flex w-100">
+  <div class="container d-flex flex-column">
+    <div class="row vh-100">
+      <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+        <div class="d-table-cell align-middle">
+          <div class="text-center mt-4">
+            <h1 class="h2">Welcome back, KOMENCASH</h1>
+            <p class="lead">
+              Sign in to your account to continue
+            </p>
           </div>
-          <p class="warning-form">
-            <span class="warning-text" v-if="!isUserIdValid && userId">
-              id를 이메일형식으로 입력하세요.
-            </span>
-          </p>
 
-          <div class="input-group">
-            <input
-              v-model="password"
-              class="form-control form-control-lg"
-              :type="passwordType"
-              placeholder="●●●●●●●●(8자 이상)"
-            />
-            <div class="input-group-append">
-              <div class="input-group-text input-group-button" @click="viewPassword">
-                <font-awesome-icon :icon="['far', fwName]" :style="{ color: '#495057' }"/>
+          <div class="card">
+            <div class="card-body">
+              <div class="m-sm-4">
+                <form @submit.prevent="loginComplete">
+                  <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input 
+                    v-model="userId"
+                    autocapitalize="off"
+                    class="form-control form-control-lg" type="email" name="email" placeholder="komencash@komencash.com" />
+                    <p class="warning-form">
+                      <span class="warning-text" v-if="!isUserIdValid && userId">
+                        id를 이메일형식으로 입력하세요.
+                      </span>
+                    </p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input 
+                    v-model="password"
+                    :type="passwordType"
+                    placeholder="●●●●●●●●(8자 이상)"
+                    class="form-control form-control-lg" name="password"/>
+                    <div class="input-group-append">
+                      <div class="input-group-text input-group-button" @click="viewPassword">
+                        <font-awesome-icon :icon="['far', fwName]" :style="{ color: '#495057' }"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="form-check">
+                    <input class="form-check-input" type="checkbox" value="remember-me" name="remember-me" checked>
+                    <span class="form-check-label">
+                      Remember me next time
+                      </span>
+                    </label>
+                  </div>
+                  <div class="text-center mt-3">
+                    <button 
+                    :disabled="isLoginValid"
+                    type="submit" class="btn btn-lg btn-primary">로그인</button>
+                  </div>
+                </form>
+                <div class="sign-setting">
+                  <h6><a @click="showModalForm">아이디 또는 비밀번호</a>를 잊으셨습니까?</h6>
+                  <h6>아직 계정이 없으시다면? <router-link :to="{name:'Signup'}">회원 가입</router-link></h6>
+                </div>
               </div>
-            </div>
-          </div>
-          <button class="btn btn-normal btn-large temp-color" type="submit" :disabled="isLoginValid">로그인</button>
-        </b-form>
-        <div class="sign-setting">
-          <h6><a @click="showModalForm">아이디 또는 비밀번호</a>를 잊으셨습니까?</h6>
-          <h6>아직 계정이 없으시다면? <router-link :to="{name:'Signup'}">회원 가입</router-link></h6>
-        </div>
-      </b-col>
-    </b-container>
-  </div>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
 </template>
 
 <script>

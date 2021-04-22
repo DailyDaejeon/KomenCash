@@ -12,19 +12,19 @@
   }
 
   .alert-message {
-    // @include border-end-radius($alert-border-radius);
-    // @include border-start-radius($alert-border-radius);
-    // border: 1px solid $gray-400;
+    @include border-end-radius($alert-border-radius);
+    @include border-start-radius($alert-border-radius);
+    border: 1px solid $gray-400;
   }
 
   .alert-message:not(:nth-child(2)) {
-    // @include border-start-radius(0);
-    // border-left: 0;
+    @include border-start-radius(0);
+    border-left: 0;
   }
 
   .alert-icon {
-    // @include border-start-radius($alert-border-radius);
-    // color: $white;
+    @include border-start-radius($alert-border-radius);
+    color: $white;
   }
 
   @each $color, $value in $theme-colors {

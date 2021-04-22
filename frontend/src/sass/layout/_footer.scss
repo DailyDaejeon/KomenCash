@@ -7,7 +7,7 @@ footer.footer {
     margin-bottom: 0;
   }
 
-  // @include media-breakpoint-down(md) {
-  //   width: 100vw;
-  // }
+  @include media-breakpoint-down(md) {
+    width: 100vw;
+  }
 }

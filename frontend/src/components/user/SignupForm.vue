@@ -83,27 +83,36 @@
                         password가 일치하지 않습니다.
                       </span>
                     </p>
+                    <div class="mb-3">
                     <PhoneCertification class="join-authentic" @checkCertification="checkCertification"/>
+                    </div>
                     <div class="fw-checkbox">
-                        <input type="checkbox" id="term1" value="term1" v-model="isTerm.term1"/>
+                        <input type="checkbox" id="term1" value="term1" v-model="isTerm.term1"
+                        class="check-input-none"
+                        />
                         <label for="term1"><font-awesome-icon class="chk-label" :icon="[isTerm.icon1, 'check-circle']" /></label>
                         <label for="term1">회원약관(필수)</label>
                         <span class="termView">약관보기</span>
                     </div>
                     <div class="fw-checkbox">
-                      <input type="checkbox" id="term2" value="term2" v-model="isTerm.term2"/>
+                      <input type="checkbox" id="term2" value="term2" v-model="isTerm.term2"
+                      class="check-input-none"
+                      />
                       <label for="term2"><font-awesome-icon class="chk-label" :icon="[isTerm.icon2, 'check-circle']" /></label>
                       <label for="term2">개인정보 수집 및 이용 동의(필수)</label>
                       <span class="termView">약관보기</span>
                     </div>
                     <div class="fw-checkbox">
-                      <input type="checkbox" id="term3" value="term3" v-model="isTerm.term3"/>
+                      <input type="checkbox" id="term3" value="term3" v-model="isTerm.term3"
+                      class="check-input-none"/>
                       <label for="term3"><font-awesome-icon class="chk-label" :icon="[isTerm.icon3, 'check-circle']" /></label>
                       <label for="term3">마케팅/홍보의 수집 및 이용 동의(선택)</label>
                       <span class="termView">약관보기</span>
                     </div>
                     <div class="fw-checkbox">
-                      <input type="checkbox" id="allTerm" value="allTerm" v-model="allTerm" @click="allTermcheck"/>
+                      <input type="checkbox" id="allTerm" value="allTerm" v-model="allTerm" @click="allTermcheck"
+                      class="check-input-none"
+                      />
                       <label for="allTerm"><font-awesome-icon class="chk-label" :icon="[isTerm.icon4, 'check-circle']" /></label>
                       <label for="allTerm">전체 동의</label>
                     </div>
@@ -112,7 +121,7 @@
                     class="text-center mt-3">
 											<button 
                       :disabled="isSignupDisabled"
-                      type="submit" class="btn btn-lg btn-primary">가입하기</button>
+                      type="submit" class="btn btn-lg btn-main">가입하기</button>
 										</div>
 									</form>
 								</div>

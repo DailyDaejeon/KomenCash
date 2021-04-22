@@ -56,6 +56,7 @@ $enable-rfs: false !default;
 $enable-negative-margins: true !default;
 
 // Theme colors
+$main:    #e7ab3c !default;
 $blue:    #3B7DDD !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
@@ -89,6 +90,7 @@ $light:         $gray-100 !default;
 $dark:          $gray-900 !default;
 
 $theme-colors: (
+  "main": $main,
   "primary": $primary,
   "secondary": $secondary,
   "success": $success,

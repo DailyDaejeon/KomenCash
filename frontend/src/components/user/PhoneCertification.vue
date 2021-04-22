@@ -1,8 +1,8 @@
 <template>
-    <b-col class="col-setting col-center">
-      <div class="phoneNum-form">
+    <!-- <b-col class="col-setting col-center"> -->
+      <div class="phoneNum-form  mb-3">
         <form @submit.prevent="sendCertificationNumber">
-          <p class="phone-label">휴대폰 번호 : </p><input type="text" @focus="isAuthen" class="form-control form-control-lg find" v-model="userPhoneNum" placeholder="휴대폰 번호를 입력하세요(-제외한 숫자만 입력)"/>
+          <label class="form-label">휴대폰 번호  </label><input type="text" @focus="isAuthen" class="form-control form-control-lg" v-model="userPhoneNum" placeholder="휴대폰 번호를 입력하세요(-제외한 숫자만 입력)"/>
           <button class="btn btn-normal btn-authentic" :disabled="!putPhoneNum">
             휴대폰 인증</button>
           <br />
@@ -13,7 +13,7 @@
           <p class="authentic-text" :style="{display:resetBtnDisplay}">인증 문자가 도착하지 않았다면? <b class="" @click="smsReset">다시보내기</b></p>
         </div>
       </div>
-    </b-col>
+    <!-- </b-col> -->
 </template>
 
 <script>

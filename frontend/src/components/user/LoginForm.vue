@@ -34,11 +34,9 @@
                     :type="passwordType"
                     placeholder="●●●●●●●●(8자 이상)"
                     class="form-control form-control-lg" name="password"/>
-                    <div class="input-group-append">
-                      <div class="input-group-text input-group-button" @click="viewPassword">
+                      <!-- <div class="input-group-text input-group-button" @click="viewPassword">
                         <font-awesome-icon :icon="['far', fwName]" :style="{ color: '#495057' }"/>
-                      </div>
-                    </div>
+                      </div> -->
                   </div>
                   <div>
                     <label class="form-check">
@@ -51,7 +49,7 @@
                   <div class="text-center mt-3">
                     <button 
                     :disabled="isLoginValid"
-                    type="submit" class="btn btn-lg btn-primary">로그인</button>
+                    type="submit" class="btn btn-lg btn-main">로그인</button>
                   </div>
                 </form>
                 <div class="sign-setting">

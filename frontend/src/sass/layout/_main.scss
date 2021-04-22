@@ -10,7 +10,7 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   
-  // @include media-breakpoint-up("small-screen-3") {
-  //   box-shadow: $main-box-shadow;
-  // }
+  @include media-breakpoint-up(lg) {
+    box-shadow: $main-box-shadow;
+  }
 }

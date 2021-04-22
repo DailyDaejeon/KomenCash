@@ -5,16 +5,16 @@
 
 @each $color, $value in $theme-colors {
   .btn-#{$color} {
-  //   @include button-color($white);
-  //   @include button-color-hover($white);
+    @include button-color($white);
+    @include button-color-hover($white);
   }
 }
 
 @each $color, $value in $social-colors {
   .btn-#{$color} {
-    // @include button-variant($value, $value);
-    // @include button-color($white);
-    // @include button-color-hover($white);
+    @include button-variant($value, $value);
+    @include button-color($white);
+    @include button-color-hover($white);
   }
 }
 

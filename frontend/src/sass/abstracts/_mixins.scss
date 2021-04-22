@@ -41,25 +41,3 @@
   }
 }
 
-
-@mixin media-breakpoint-down($screen-width) {
-    @if $screen-width == lg {
-        // 900~1200px 사이 (노트북)
-        @media screen and (min-width: 900px) and (max-width: 1200px) {
-            @content;
-        }
-    }
-    @else if $screen-width == 'md' {
-        // 701~899px사이 (태블릿)
-        @media screen and (min-width: 701px) and (max-width: 899px) {
-            @content;
-        }
-    }
-    @else if $screen-width == 'sm' {
-        // 700px이하 (휴대폰)
-        @media screen and (max-width: 700px) {
-            @content;
-        }
-    }
-
-}

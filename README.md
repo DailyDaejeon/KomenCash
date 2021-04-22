@@ -12,7 +12,7 @@
 
 ## ✔ 대상
 
-- 초등학교 고학년(5~6학년?) : 어느 정도 경제 활동에 이해가 가능한 나이
+- 초등학교 고학년(5~6학년) : 어느 정도 경제 활동에 이해가 가능한 나이
 
 - 초등학교 고학년 담임 선생님
 
@@ -36,23 +36,23 @@
 
 ## ✔ 팀원
 
-| 이름   | 직책 | 역할       |
-| ------ | ---- | ---------- |
-| 배상웅 | 팀장 | 백엔드, 유니티 개발 |
-| 고재석 | 팀원 | 백엔드     |
-| 박수아 | 팀원 | 프론트엔드 |
+| 이름   | 직책 | 역할                    |
+| ------ | ---- | ----------------------- |
+| 배상웅 | 팀장 | 백엔드, 유니티 개발     |
+| 고재석 | 팀원 | 백엔드                  |
+| 박수아 | 팀원 | 프론트엔드              |
 | 정혜림 | 팀원 | 프론트엔드, 유니티 개발 |
 
 ---
 
 ## ✔ 기술 스택
 
-
 - Back-end
-    - SpringBoot, JPA, MySQL, Docker
+
+  - SpringBoot, JPA, MySQL, Docker
 
 - Front-end
-    - HTML, vue.js, CSS, SCSS, Unity
+  - HTML, vue.js, CSS, SCSS, Unity
 
 <img src="https://img.shields.io/badge/Spring-success?style=flat-square&logo=Spring&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/IntelliJ-9cf?style=flat-square&logo=intelliJ IDEA&logoColor=white"/></a>

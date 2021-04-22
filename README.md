@@ -33,3 +33,41 @@
 [KomenCash 기획서](https://www.notion.so/KomenCash-5e432ac66c964c74ae48d71b82ef8246#632443c7a6594c32a58fc1b8a0d4fc03)
 
 ---
+
+## ✔ 팀원
+
+| 이름   | 직책 | 역할       |
+| ------ | ---- | ---------- |
+| 배상웅 | 팀장 | 백엔드, 유니티 개발 |
+| 고재석 | 팀원 | 백엔드     |
+| 박수아 | 팀원 | 프론트엔드 |
+| 정혜림 | 팀원 | 프론트엔드, 유니티 개발 |
+
+---
+
+## ✔ 기술 스택
+
+
+- Back-end
+    - SpringBoot, JPA, MySQL, Docker
+
+- Front-end
+    - HTML, vue.js, CSS, SCSS, Unity
+
+<img src="https://img.shields.io/badge/Spring-success?style=flat-square&logo=Spring&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/IntelliJ-9cf?style=flat-square&logo=intelliJ IDEA&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Gradle-inactive?style=flat-square&logo=Gradle&logoColor=white"/></a>
+
+<img src="https://img.shields.io/badge/Vue.js-green?style=flat-square&logo=Vue.js&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/VSCode-informational?style=flat-square&logo=Visual Studio Code&logoColor=white"/></a>
+
+<img src="https://img.shields.io/badge/MySQL-informational?style=flat-square&logo=MySQL&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Docker-informational?style=flat-square&logo=Docker&logoColor=white"/></a>
+
+---
+
+## ERD
+
+![komencash-erd](README.assets/komencash-erd.png)
+
+---

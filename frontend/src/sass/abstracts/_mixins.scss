@@ -1,0 +1,70 @@
+@mixin button-color($color) {
+  &,
+  &:focus,
+  &.focus,
+  &.disabled,
+  &:disabled,
+  .show > &.dropdown-toggle {
+    color: $color;
+  }
+}
+
+@mixin button-color-hover($color) {
+  &:hover:not(:disabled):not(.disabled),
+  &.hover:not(:disabled):not(.disabled) {
+    color: $color;
+  }
+}
+
+@mixin button-color-active($color) {
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    color: $color;
+  }
+}
+
+@mixin modal-variant($color) {
+  .modal-content {
+    background: $color;
+    color: color-yiq($color);
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: $white;
+  }
+}
+
+@mixin switch-variant($color) {
+  input:checked + label::before {
+    background-color: $color;
+  }
+}
+
+
+@mixin media-breakpoint-down($screen-width) {
+    @if $screen-width == 'small-screen-1' {
+        // 900~1200px 사이 (노트북)
+        @media screen and (min-width: 900px) and (max-width: 1200px) {
+            @content;
+        }
+    }
+    @else if $screen-width == 'small-screen-2' {
+        // 701~899px사이 (태블릿)
+        @media screen and (min-width: 701px) and (max-width: 899px) {
+            @content;
+        }
+    }
+    @else if $screen-width == 'small-screen-3' {
+        // 700px이하 (휴대폰)
+        @media screen and (max-width: 700px) {
+            @content;
+        }
+    }
+    @else if $screen-width == 'small-screen-4' {
+        @media screen and (min-width:1201px) {
+            @content;            
+        }
+    }
+
+}

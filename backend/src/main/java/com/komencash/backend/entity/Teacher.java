@@ -3,9 +3,7 @@ package com.komencash.backend.entity;
 import com.komencash.backend.dto.TeacherInsertUpdateRequest;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -14,7 +12,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Table(name = "teacher")
 public class Teacher {
-
+    @Id
     @Column(name = "id")
     private int id;
 

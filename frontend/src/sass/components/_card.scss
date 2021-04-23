@@ -70,6 +70,12 @@
   cursor: pointer;
 }
 
+.not-group {
+  text-align: center;
+  display: block;
+  margin-top: 5rem;
+}
+
 .add-group-card {
   cursor: pointer;
   & .card{

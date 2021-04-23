@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <!-- 1. OOO선생님의 그룹 리스트 입니다 -->
     <div style="margin-top:13px;">
-      <span><h2 style="display:inline-block">박싸피</h2> 선생님의 그룹 리스트 입니다.</span>
+      <span><h2 style="display:inline-block">{{userName}}</h2> 선생님의 그룹 리스트 입니다.</span>
       <p>
         관리를 원하는 그룹을 선택해서 해당 그룹을 관리하세요.
       </p>
@@ -22,8 +22,8 @@
               <font-awesome-icon :icon="['fas', 'ellipsis-v']" />
             </div> -->
             <div class="card-body" style="padding-top:60px;padding-bottom:60px;text-align:center">
-              <h1 class="mt-1 mb-3">그룹명</h1> <!--  style="display:inline-block;margin-right:10px" -->
-              <span class="text-danger">25명</span><br>
+              <h1 class="mt-1 mb-3">{{groupName}}</h1> <!--  style="display:inline-block;margin-right:10px" -->
+              <span class="text-danger">{{totalCnt}}명</span><br>
               <!-- <button>관리하기</button> -->
             </div>
           </div>
@@ -51,7 +51,19 @@
 
 <script>
 export default {
+  data() {
+    return {
+      userName:"박싸피",
+      groupName:"그룹명",
+      totalCnt:25,
+    }
+  },
+  created() {
+    featchGroupInfo();
+  },
   methods: {
+    featchGroupInfo(){
+    },
     addGroup(){
       // this.$router.push('/group/addGroup');
     }

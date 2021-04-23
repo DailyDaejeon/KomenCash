@@ -5,7 +5,7 @@ Vue.use(Router);
 const router =  new Router({
   mode: 'history',
   routes: [
-      {
+    {
       path: '/member/join',
       name: 'Signup',
       component: () => import('@/views/user/Signup.vue'),
@@ -26,6 +26,11 @@ const router =  new Router({
           component: () => import('@/components/user/FindPw.vue')
         },
       ]
+    },
+    {
+      path: '/group/list',
+      name: 'GroupList',
+      component: () => import('@/views/group/GroupList.vue'),
     },
   ],
 });

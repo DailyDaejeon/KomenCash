@@ -56,3 +56,28 @@
     height: 100%;
   }
 }
+
+.group-list-card, .add-group-card {
+  flex: 0 0 15rem;
+  max-width: 15rem;
+  position: relative;
+  width: 100%;
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.group-list-card:hover{
+  cursor: pointer;
+}
+
+.add-group-card {
+  cursor: pointer;
+  & .card{
+    & .card-body {
+      &:hover {
+        background-color: $komencash-color;
+        border-radius: 0.25rem;
+      }
+    }
+  }
+}

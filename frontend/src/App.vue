@@ -1,15 +1,22 @@
 <template>
   <div id="app">
-    <router-link :to="{name:'Signup'}">SIGNUP</router-link>
-    |
-    <router-link :to="{name:'Login'}">Login</router-link>
-    <router-view></router-view>
+    <div class="wrapper">
+      <Sidebar/>
+      <div class="main">
+        <Navbar/>
+        <div class="main">
+          <router-view></router-view>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-
+import Navbar from './components/common/Navbar.vue'
+import Sidebar from './components/common/Sidebar.vue'
 export default {
+  components: { Sidebar, Navbar },
   name: 'App',
 }
 </script>

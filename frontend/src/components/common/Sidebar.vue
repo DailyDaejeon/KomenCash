@@ -11,8 +11,8 @@
 					</li>
 
 					<li class="sidebar-item active">
-						<router-link class="sidebar-link">
-              <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">메인</span>
+						<router-link class="sidebar-link" :to="{name:'MainPage'}">
+              <i class="align-middle" data-feather="main"></i> <span class="align-middle">메인</span>
             </router-link>
 					</li>
 

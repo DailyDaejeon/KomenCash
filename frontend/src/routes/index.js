@@ -6,6 +6,10 @@ const router =  new Router({
   mode: 'history',
   routes: [
     {
+      path: '/',
+      redirect:{ name: 'MainPage' },
+    },
+    {
       path: '/member/join',
       name: 'Signup',
       component: () => import('@/views/user/Signup.vue'),
@@ -26,6 +30,11 @@ const router =  new Router({
           component: () => import('@/components/user/FindPw.vue')
         },
       ]
+    },
+    {
+      path: '/group/main',
+      name: 'MainPage',
+      component: () => import('@/views/group/MainPage.vue'),
     },
     {
       path: '/group/list',

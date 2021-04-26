@@ -109,7 +109,16 @@ export default {
   },
   methods: {
     onComplete() {
-      alert('그룹이 생성되었습니다!');
+      // alert('그룹이 생성되었습니다!');
+      this.$swal({
+        customClass: {
+          container: 'swal2-container'
+        },
+        text: '그룹이 생성되었습니다!',
+        icon: 'success',
+        timer: 1300,
+        showConfirmButton: false,
+      })
     //   this.$refs.formwizard.changeStatus();
     // 그룹 리스트로 돌아가는 코드 추가
     },

@@ -1,9 +1,6 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.TeacherDupCheckByEmailResponse;
-import com.komencash.backend.dto.TeacherInsertUpdateRequest;
-import com.komencash.backend.dto.TeacherLoginRequest;
-import com.komencash.backend.dto.TeacherSelectResponse;
+import com.komencash.backend.dto.*;
 import com.komencash.backend.entity.Teacher;
 import com.komencash.backend.service.JwtService;
 import com.komencash.backend.service.TeacherService;
@@ -76,6 +73,20 @@ public class TeacherController {
     @DeleteMapping("/{teacher_id}")
     public boolean deleteTeacher(@PathVariable("teacher_id") int teacher_id) {
         return teacherService.deleteTeacher(teacher_id);
+    }
+
+
+    @ApiOperation(value = "선생님 정보 수정", notes = "선생님 정보를 받아서 update 후 결과 반환")
+    @PutMapping("/change_pw")
+    public boolean updateTeacherPassword(@RequestBody TeacherPasswordUpdateRequest teacherPasswordUpdateRequest) {
+        return teacherService.updateTeacherPassword(teacherPasswordUpdateRequest);
+    }
+
+    @ApiOperation(value = "휴대폰 인증", notes = "휴대전화 번호를 입력하면 이메일과 인증번호를 반환")
+    @ApiImplicitParam(name = "phoneNumber", value = "phone_number(휴대전화 번호)", dataType = "String", required = true)
+    @GetMapping("/phone_auth")
+    public TeacherAuthByPhoneResponse authTeacherByPhone(String phoneNumber){
+        return teacherService.authTeacherByPhone(phoneNumber);
     }
     
 

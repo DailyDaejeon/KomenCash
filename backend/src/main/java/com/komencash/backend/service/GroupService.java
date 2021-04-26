@@ -8,7 +8,9 @@ import com.komencash.backend.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GroupService {
@@ -27,7 +29,13 @@ public class GroupService {
     }
 
     public GroupResponseDto getGroup(int id){       // 선생님 id를 가지고 group 리스트 보여주기
-        Group group = groupRepository.findByTeacherId(id).get();
-        return new GroupResponseDto((List<Group>) group);
+        List<Group> group = groupRepository.findByTeacherId(id);
+        return new GroupResponseDto(group);
+    }
+
+    public boolean updateGroup(int group_id, GroupInsertUpdateRequest groupInsertUpdateRequest) {
+        Group group = groupRepository.findById(group_id).orElse(null);
+        group.updateGroup(groupInsertUpdateRequest.getName(), groupInsertUpdateRequest.getMonetary_unit_name(), groupInsertUpdateRequest.getTax_rate());
+        return true;
     }
 }

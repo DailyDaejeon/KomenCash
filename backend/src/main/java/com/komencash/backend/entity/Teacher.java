@@ -3,18 +3,17 @@ package com.komencash.backend.entity;
 import com.komencash.backend.dto.TeacherInsertUpdateRequest;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "teacher")
 public class Teacher {
 
+    @Id
+    @GeneratedValue
     @Column(name = "id")
     private int id;
 
@@ -38,15 +37,4 @@ public class Teacher {
         this.nickname = teacherInsertUpdateRequest.getNickname();
         this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber();
     }
-
-    public void updateTeacheer(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
-        this.email = teacherInsertUpdateRequest.getEmail();
-        this.password = teacherInsertUpdateRequest.getPassword();
-        this.nickname = teacherInsertUpdateRequest.getNickname();
-        this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber();
-    }
-
-
-
-
 }

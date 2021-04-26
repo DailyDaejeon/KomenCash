@@ -2,6 +2,7 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.TeacherInsertUpdateRequest;
 import com.komencash.backend.dto.TeacherSelectResponse;
+import com.komencash.backend.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

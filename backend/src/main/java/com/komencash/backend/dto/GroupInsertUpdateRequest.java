@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GroupInsertUpdateRequest {
+    private int id;
     private String code;
     private String name;
     private String monetary_unit_name;

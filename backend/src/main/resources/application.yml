@@ -4,6 +4,6 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: b101root
+    username: b203
+    password: ^b203root
     url: jdbc:mysql://localhost:3306/komencash?characterEncoding=UTF-8&serverTimezone=UTC

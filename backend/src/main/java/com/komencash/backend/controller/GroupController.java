@@ -39,8 +39,13 @@ public class GroupController {
     public ResponseEntity<GroupResponseDto> getGroup(@PathVariable("teacher_id") int tid,  HttpServletRequest request){
 //        int id = jwtService.getIdFromJwt(request.getHeader("auth-token"));
         GroupResponseDto result = groupService.getGroup(tid);
-        System.out.println(1111);
-        System.out.println(result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @PutMapping("{group_id}/name")
+    public ResponseEntity<Void> updateGroupName(@PathVariable("group_id") int group_id, @RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest, HttpServletRequest request){
+        groupService.updateGroup(group_id, groupInsertUpdateRequest);
+        return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
+    }
+
 }

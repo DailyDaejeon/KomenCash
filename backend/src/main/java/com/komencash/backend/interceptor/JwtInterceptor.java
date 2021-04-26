@@ -33,7 +33,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         else {
             System.out.println("토큰없습니다.");
 //            throw new RuntimeException("인증 토큰이 없습니다.");
-            return false;
+            return true;
         }
     }
 

@@ -44,6 +44,11 @@ public class Group {
         this.tax_rate = groupInsertUpdateRequest.getTax_rate();
     }
 
+    public void updateGroup(String name, String monetary_unit_name, double tax_rate){
+        this.setName(name);
+        this.setMonetary_unit_name(monetary_unit_name);
+        this.setTax_rate(tax_rate);
+    }
 
 
 //    public static Group createGroup(GroupResponseDto groupResponseDto, Teacher teacher) {

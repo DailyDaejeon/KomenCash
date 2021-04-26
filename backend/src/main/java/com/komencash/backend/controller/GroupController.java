@@ -42,7 +42,7 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PutMapping("{group_id}/name")
+    @PutMapping("{group_id}")
     public ResponseEntity<Void> updateGroupName(@PathVariable("group_id") int group_id, @RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest, HttpServletRequest request){
         groupService.updateGroup(group_id, groupInsertUpdateRequest);
         return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);

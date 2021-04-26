@@ -9,6 +9,8 @@ const state = {
     isLoginError: false,
     userInfo: sessionStorage.getItem('auth-token') === null ? null : jwtDecode(sessionStorage.getItem('auth-token')),
     isPasswordConfirmed: false,
+    currentTab: 0,
+    v: {},
 };
 
 const mutations = {
@@ -49,6 +51,12 @@ const mutations = {
         state.userInfo.u_phone_number = userData.u_phone_number
         state.userInfo.u_profile_pic = userData.u_profile_pic
     },
+    setCurrentTab (newValue) {
+        this.state.currentTab = newValue;
+    },
+    setValidation(newValue){
+      this.state.v = newValue;
+    }
 }
 
 const actions = {

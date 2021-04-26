@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.TeacherDupCheckByEmailResponse;
 import com.komencash.backend.dto.TeacherInsertUpdateRequest;
 import com.komencash.backend.dto.TeacherSelectResponse;
 import com.komencash.backend.entity.Teacher;
@@ -19,8 +20,16 @@ public class TeacherService{
         return true;
     }
 
+    public TeacherDupCheckByEmailResponse dupCheckByEmail(String email){
+        return new TeacherDupCheckByEmailResponse(teacherRepository.findByEmail(email).orElseGet(Teacher::new));
+    }
+
+    public boolean dupCheckByNickname(String nickname){
+        return teacherRepository.findByNickname(nickname).orElse(null) == null ? true : false;
+    }
+
     public TeacherSelectResponse findTeacher(int teacher_id) {
-        return new TeacherSelectResponse(teacherRepository.findById(teacher_id).get());
+        return new TeacherSelectResponse(teacherRepository.findById(teacher_id).orElseGet(Teacher::new));
     }
 
     public boolean updateTeacher(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {

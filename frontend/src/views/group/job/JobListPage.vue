@@ -10,7 +10,10 @@
       <div class="row mb-2 mb-xl-3">
         <div class="col-auto d-none d-sm-block">
           <h3><strong>Job</strong> Dashboard</h3>
-        </div>  
+        </div>
+        <div class="col-auto justify-content-">
+          <button class="btn btn-main">직업추가</button>
+        </div>
       </div>
       <JobList/>
     </div>

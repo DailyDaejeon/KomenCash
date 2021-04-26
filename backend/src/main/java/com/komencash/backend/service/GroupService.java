@@ -4,23 +4,25 @@ import com.komencash.backend.dto.GroupInsertUpdateRequest;
 import com.komencash.backend.dto.GroupResponseDto;
 import com.komencash.backend.entity.Group;
 import com.komencash.backend.repository.GroupRepository;
-import lombok.RequiredArgsConstructor;
+import com.komencash.backend.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
-@Transactional(readOnly = true)
-@RequiredArgsConstructor
 public class GroupService {
+
     @Autowired
-    private final GroupRepository groupRepository;
+    TeacherRepository teacherRepository;
+
+    @Autowired
+    GroupRepository groupRepository;
 
     public boolean saveGroup(GroupInsertUpdateRequest groupInsertUpdateRequest){
-        groupRepository.save(new Group(groupInsertUpdateRequest));
+        Group savedGroup = new Group(groupInsertUpdateRequest);
+        savedGroup.setTeacher(teacherRepository.findById(groupInsertUpdateRequest.getTeacher_id()).get());
+        groupRepository.save(savedGroup);
         return true;
     }
 

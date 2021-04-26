@@ -1,20 +1,15 @@
 package com.komencash.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.komencash.backend.dto.GroupInsertUpdateRequest;
-import com.komencash.backend.dto.GroupResponseDto;
 import lombok.*;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "group")
+@Table(name = "`group`")
 public class Group {
 
     @Id
@@ -43,6 +38,7 @@ public class Group {
     private Teacher teacher;
 
     public Group(GroupInsertUpdateRequest groupInsertUpdateRequest) {
+        this.code = "1";
         this.name = groupInsertUpdateRequest.getName();
         this.monetary_unit_name = groupInsertUpdateRequest.getMonetary_unit_name();
         this.tax_rate = groupInsertUpdateRequest.getTax_rate();

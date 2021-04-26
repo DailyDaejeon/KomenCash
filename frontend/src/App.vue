@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div class="wrapper">
-      <Sidebar/>
+      <Sidebar :istoggleNav="istoggleNav"/>
       <div class="main">
-        <Navbar/>
+        <Navbar @toggleNav="toggleNav"/>
         <div class="main">
           <router-view></router-view>
         </div>
@@ -18,6 +18,16 @@ import Sidebar from './components/common/Sidebar.vue'
 export default {
   components: { Sidebar, Navbar },
   name: 'App',
+  data() {
+    return {
+      istoggleNav:false,
+    }
+  },  
+  methods: {
+    toggleNav() {
+      this.istoggleNav = !this.istoggleNav;
+    }
+  }
 }
 </script>
 

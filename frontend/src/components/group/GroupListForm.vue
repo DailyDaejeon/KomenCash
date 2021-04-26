@@ -46,7 +46,7 @@ export default {
   props:['userInfo', 'groupList'],
   methods: {
     addGroup(){
-      // this.$router.push('/group/addGroup');
+      this.$router.push('/group/add');
     }
   },
 }

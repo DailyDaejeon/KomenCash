@@ -7,12 +7,13 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "teacher")
 public class Teacher {
+
     @Id
+    @GeneratedValue
     @Column(name = "id")
     private int id;
 
@@ -36,15 +37,4 @@ public class Teacher {
         this.nickname = teacherInsertUpdateRequest.getNickname();
         this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber();
     }
-
-    public void updateTeacheer(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
-        this.email = teacherInsertUpdateRequest.getEmail();
-        this.password = teacherInsertUpdateRequest.getPassword();
-        this.nickname = teacherInsertUpdateRequest.getNickname();
-        this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber();
-    }
-
-
-
-
 }

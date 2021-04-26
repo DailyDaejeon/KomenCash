@@ -47,6 +47,17 @@ const router =  new Router({
       component: () => import('@/views/group/job/JobListPage.vue'),
     },
     {
+      path: '/group/job/resume',
+      name: 'JobResumeRequest',
+      component: () => import('@/components/group/job/JobRequestList.vue'),
+    },
+    {
+      path: '/group/job/resume/detail',
+      name: 'JobResumeDetail',
+      props:true,
+      component: () => import('@/components/group/job/Resume.vue'),
+    },
+    {
       path: '/group/law',
       name: 'LawPage',
       component: () => import('@/views/group/law/LawPage.vue'),

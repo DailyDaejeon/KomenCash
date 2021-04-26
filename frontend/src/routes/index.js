@@ -5,7 +5,11 @@ Vue.use(Router);
 const router =  new Router({
   mode: 'history',
   routes: [
-      {
+    {
+      path: '/',
+      redirect:{ name: 'MainPage' },
+    },
+    {
       path: '/member/join',
       name: 'Signup',
       component: () => import('@/views/user/Signup.vue'),
@@ -26,6 +30,56 @@ const router =  new Router({
           component: () => import('@/components/user/FindPw.vue')
         },
       ]
+    },
+    {
+      path: '/group/main',
+      name: 'MainPage',
+      component: () => import('@/views/group/MainPage.vue'),
+    },
+    {
+      path: '/group/list',
+      name: 'GroupList',
+      component: () => import('@/views/group/GroupList.vue'),
+    },
+    {
+      path: '/group/job',
+      name: 'JobPage',
+      component: () => import('@/views/group/job/JobListPage.vue'),
+    },
+    {
+      path: '/group/law',
+      name: 'LawPage',
+      component: () => import('@/views/group/law/LawPage.vue'),
+    },
+    {
+      path: '/group/tax',
+      name: 'TaxPage',
+      component: () => import('@/views/group/tax/TaxPage.vue'),
+    },
+    {
+      path: '/group/bank',
+      name: 'BankPage',
+      component: () => import('@/views/group/bank/BankPage.vue'),
+    },
+    {
+      path: '/group/bank/stock',
+      name: 'StockPage',
+      component: () => import('@/views/group/bank/StockPage.vue'),
+    },
+    {
+      path: '/group/credit',
+      name: 'CreditPage',
+      component: () => import('@/views/group/credit/CreditPage.vue'),
+    },
+    {
+      path: '/group/store',
+      name: 'StorePage',
+      component: () => import('@/views/group/store/StorePage.vue'),
+    },
+    {
+      path: '/group/setting',
+      name: 'GroupSettingPage',
+      component: () => import('@/views/group/GroupSettingPage.vue'),
     },
   ],
 });

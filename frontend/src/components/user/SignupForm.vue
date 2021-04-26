@@ -1,142 +1,138 @@
 <template>
-  <b-container class="container-setting">
+  <main class="d-flex w-100">
+		<div class="container d-flex flex-column">
+			<div class="row vh-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
 
-    <b-form @submit.prevent="submitSignup" style="margin-left:7rem">
-      <b-row style="width:40rem">
-        <b-col class="col-setting">
-          <h2 class="title-text">WELCOME TO KOMENCASH</h2>
-            <div>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <!-- 메일아이콘 -->
-                    <font-awesome-icon :icon="['far', 'envelope' ]" :style="{color:'#495057'}" />
-                  </div>
-                </div>
-                <input
-                  v-model="userId"
-                  class="form-control form-control-lg"
-                  placeholder="example@example.com"
-                  type="text"
-                  autocapitalize="off"
-                />
-              </div>
-              <!-- 중복 아이디가 아닐 때 표출 -->
-              <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && !idCheck">
-              <!-- 체크표시 아이콘 -->
-                <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
-              </p>
-              <!-- 중복 아이디일 때 표출 -->
-              <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && idCheck">
-              <!-- 엑스표시 아이콘 -->
-                <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
-              </p>
-            </div>
-            <p class="warning-form warning-signup">
-              <span class="warning-text" v-if="!isUserIdValid">
-                id를 이메일형식으로 입력하세요.
-              </span>
-            </p>
+						<div class="text-center mt-4">
+							<h1 class="h2">WELCOME TO KOMENCASH</h1>
+						</div>
 
-            <div>
-              <div class="input-group">
-                <input
-                  v-model="password"
-                  class="form-control form-control-lg"
-                  :type="passwordType"
-                  placeholder="8자 이상 입력"
-                />
-                <!-- 눈 모양 클릭하면 아이콘 바뀌면서 비밀번호 표출 -->
-                <div class="input-group-append">
-                  <div class="input-group-text input-group-button" @click="viewPassword">
-                    <font-awesome-icon :icon="['far', fwName ]" :style="{color:'#495057'}" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class="warning-form warning-signup">
-              <span class="warning-text" v-if="!isPasswordValid">
-                password를 8자 이상 입력하세요.
-              </span>
-            </p>
+						<div class="card">
+							<div class="card-body">
+								<div class="m-sm-4">
+									<form @submit.prevent="submitSignup">
+										<div class="mb-3">
+											<label class="form-label">Name</label>
+											<input 
+                      v-model="username"
+                      class="form-control form-control-lg" type="text" name="name" placeholder="이름을 입력하세요." />
+                      <!-- 중복 닉네임이 아닐 때 표출 -->
+                      <p class="icon-inline-block" v-show="!isUserNickNameEmpty && !nickCheck">
+                      <!-- 체크표시 아이콘 -->
+                        <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
+                      </p>
+                      <!-- 중복 닉네임일 때 표출 -->
+                      <p class="icon-inline-block" v-show="!isUserNickNameEmpty && nickCheck">
+                      <!-- 엑스표시 아이콘 -->
+                        <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
+                      </p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Job</label>
+											<input class="form-control form-control-lg" type="text" name="company" placeholder="소속을 입력하세요." />
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Email</label>
+											<input 
+                      v-model="userId"
+                      autocapitalize="off"
+                      class="form-control form-control-lg" type="email" name="email" placeholder="komencash@komencash.com" />
+                      <!-- 중복 아이디가 아닐 때 표출 -->
+                      <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && !idCheck">
+                      <!-- 체크표시 아이콘 -->
+                        <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
+                      </p>
+                      <!-- 중복 아이디일 때 표출 -->
+                      <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && idCheck">
+                      <!-- 엑스표시 아이콘 -->
+                        <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
+                      </p>
+										</div>
+                    <p class="warning-form warning-signup">
+                      <span class="warning-text" v-if="!isUserIdValid">
+                        id를 이메일형식으로 입력하세요.
+                      </span>
+                    </p>
+										<div class="mb-3">
+											<label class="form-label">Password</label>
+											<input 
+                      class="form-control form-control-lg"
+                      name="password" 
+                      v-model="password"
+                      :type="passwordType"
+                      placeholder="8자 이상 입력해주세요." />
+                    <!-- 눈 모양 클릭하면 아이콘 바뀌면서 비밀번호 표출 -->
+                      <div class="input-group-append">
+                        <div class="input-group-text input-group-button" @click="viewPassword">
+                          <font-awesome-icon :icon="['far', fwName ]" :style="{color:'#495057'}" />
+                        </div>
+                      </div>
+										</div>
+                    <div>
+                      <input
+                        v-model="passwordConfirm"
+                        class="form-control form-control-lg"
+                        type="password"
+                        placeholder="비밀번호를 다시 한번 입력하세요."
+                      />
+                    </div>
+                    <p class="warning-form warning-signup">
+                      <span class="warning-text" v-if="!isPasswordConfirmValid">
+                        password가 일치하지 않습니다.
+                      </span>
+                    </p>
+                    <div class="mb-3">
+                    <PhoneCertification class="join-authentic" @checkCertification="checkCertification"/>
+                    </div>
+                    <div class="fw-checkbox">
+                        <input type="checkbox" id="term1" value="term1" v-model="isTerm.term1"
+                        class="check-input-none"
+                        />
+                        <label for="term1"><font-awesome-icon class="chk-label" :icon="[isTerm.icon1, 'check-circle']" /></label>
+                        <label for="term1">회원약관(필수)</label>
+                        <span class="termView">약관보기</span>
+                    </div>
+                    <div class="fw-checkbox">
+                      <input type="checkbox" id="term2" value="term2" v-model="isTerm.term2"
+                      class="check-input-none"
+                      />
+                      <label for="term2"><font-awesome-icon class="chk-label" :icon="[isTerm.icon2, 'check-circle']" /></label>
+                      <label for="term2">개인정보 수집 및 이용 동의(필수)</label>
+                      <span class="termView">약관보기</span>
+                    </div>
+                    <div class="fw-checkbox">
+                      <input type="checkbox" id="term3" value="term3" v-model="isTerm.term3"
+                      class="check-input-none"/>
+                      <label for="term3"><font-awesome-icon class="chk-label" :icon="[isTerm.icon3, 'check-circle']" /></label>
+                      <label for="term3">마케팅/홍보의 수집 및 이용 동의(선택)</label>
+                      <span class="termView">약관보기</span>
+                    </div>
+                    <div class="fw-checkbox">
+                      <input type="checkbox" id="allTerm" value="allTerm" v-model="allTerm" @click="allTermcheck"
+                      class="check-input-none"
+                      />
+                      <label for="allTerm"><font-awesome-icon class="chk-label" :icon="[isTerm.icon4, 'check-circle']" /></label>
+                      <label for="allTerm">전체 동의</label>
+                    </div>
+										<div 
+                    @click="signupComplete"
+                    class="text-center mt-3">
+											<button 
+                      :disabled="isSignupDisabled"
+                      type="submit" class="btn btn-lg btn-main">가입하기</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
 
-            <div>
-              <input
-                v-model="passwordConfirm"
-                class="form-control form-control-lg"
-                type="password"
-                placeholder="비밀번호를 다시 한번 입력하세요."
-              />
-            </div>
-            <p class="warning-form warning-signup">
-              <span class="warning-text" v-if="!isPasswordConfirmValid">
-                password가 일치하지 않습니다.
-              </span>
-            </p>
-
-            <div>
-              <input
-                v-model="username"
-                class="form-control form-control-lg form-inline-block"
-                placeholder="이름을 입력하세요."
-                type="text"
-              />
-              <!-- 중복 닉네임이 아닐 때 표출 -->
-              <p class="icon-inline-block" v-show="!isUserNickNameEmpty && !nickCheck">
-              <!-- 체크표시 아이콘 -->
-                <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
-              </p>
-              <!-- 중복 닉네임일 때 표출 -->
-              <p class="icon-inline-block" v-show="!isUserNickNameEmpty && nickCheck">
-              <!-- 엑스표시 아이콘 -->
-                <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
-              </p>
-            </div>
-            <div>
-              <span>소속 : </span>
-              <input type="text">
-            </div>
-            <phone-certification class="join-authentic" @checkCertification="checkCertification"></phone-certification>
-
-          <div class="fw-checkbox">
-              <input type="checkbox" id="term1" value="term1" v-model="isTerm.term1"/>
-              <label for="term1"><font-awesome-icon class="chk-label" :icon="[isTerm.icon1, 'check-circle']" /></label>
-              <label for="term1">회원약관(필수)</label>
-              <span class="termView">약관보기</span>
-          </div>
-          <div class="fw-checkbox">
-            <input type="checkbox" id="term2" value="term2" v-model="isTerm.term2"/>
-            <label for="term2"><font-awesome-icon class="chk-label" :icon="[isTerm.icon2, 'check-circle']" /></label>
-            <label for="term2">개인정보 수집 및 이용 동의(필수)</label>
-            <span class="termView">약관보기</span>
-          </div>
-          <div class="fw-checkbox">
-            <input type="checkbox" id="term3" value="term3" v-model="isTerm.term3"/>
-            <label for="term3"><font-awesome-icon class="chk-label" :icon="[isTerm.icon3, 'check-circle']" /></label>
-            <label for="term3">마케팅/홍보의 수집 및 이용 동의(선택)</label>
-            <span class="termView">약관보기</span>
-          </div>
-          <div class="fw-checkbox">
-            <input type="checkbox" id="allTerm" value="allTerm" v-model="allTerm" @click="allTermcheck"/>
-            <label for="allTerm"><font-awesome-icon class="chk-label" :icon="[isTerm.icon4, 'check-circle']" /></label>
-            <label for="allTerm">전체 동의</label>
-          </div>
-        </b-col>
-      </b-row>
-      <button
-        class="btn btn-normal btn-middle"
-        :disabled="isSignupDisabled"
-        type="submit"
-        @click="signupComplete"
-        style="margin-left: -12rem; width: 262.31px; height: 40.4px; 
-    font-size: 1.075rem; 
-    padding: 0.4rem 5.3rem;
-    cursor: pointer;"
-      >
-        가입하기
-      </button>
-    </b-form>
-  </b-container>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
 </template>
 
 <script>

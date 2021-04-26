@@ -33,9 +33,12 @@ public class GroupService {
         return new GroupResponseDto(group);
     }
 
-    public boolean updateGroup(int group_id, GroupInsertUpdateRequest groupInsertUpdateRequest) {
-        Group group = groupRepository.findById(group_id).orElse(null);
+    public void updateGroup(GroupInsertUpdateRequest groupInsertUpdateRequest) {
+        Group group = groupRepository.findById(groupInsertUpdateRequest.getId()).orElse(null);
         group.updateGroup(groupInsertUpdateRequest.getName(), groupInsertUpdateRequest.getMonetary_unit_name(), groupInsertUpdateRequest.getTax_rate());
-        return true;
+    }
+
+    public void deleteGroup(int group_id) {
+        groupRepository.deleteById(group_id);
     }
 }

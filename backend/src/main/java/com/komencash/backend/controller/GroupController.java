@@ -42,9 +42,14 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PutMapping("{group_id}")
-    public ResponseEntity<Void> updateGroupName(@PathVariable("group_id") int group_id, @RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest, HttpServletRequest request){
-        groupService.updateGroup(group_id, groupInsertUpdateRequest);
+    @PutMapping("")
+    public ResponseEntity<Void> updateGroup(@RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest, HttpServletRequest request){
+        groupService.updateGroup(groupInsertUpdateRequest);
+        return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
+    }
+    @DeleteMapping("{group_id}")
+    public ResponseEntity<Void> deleteGroup(@PathVariable("group_id") int group_id, HttpServletRequest request){
+        groupService.deleteGroup(group_id);
         return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
     }
 

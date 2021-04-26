@@ -2,17 +2,25 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.TeacherDupCheckByEmailResponse;
 import com.komencash.backend.dto.TeacherInsertUpdateRequest;
+import com.komencash.backend.dto.TeacherLoginRequest;
 import com.komencash.backend.dto.TeacherSelectResponse;
+import com.komencash.backend.entity.Teacher;
+import com.komencash.backend.service.JwtService;
 import com.komencash.backend.service.TeacherService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/teacher")
 public class TeacherController {
+
+    @Autowired
+    JwtService jwtService;
 
     @Autowired
     TeacherService teacherService;
@@ -38,6 +46,13 @@ public class TeacherController {
     @GetMapping("dup_chk_nickname/{nickname}")
     public boolean dupCheckByNickname(@PathVariable("nickname") String nickname) {
         return teacherService.dupCheckByNickname(nickname);
+    }
+
+
+    @ApiOperation(value = "선생님 로그인", notes = "선생님 email, password를 받아서 로그인이 매치되는 정보가 있으면 JWT 토큰 발급하고 결과 반환")
+    @PostMapping("/login")
+    public boolean loginTeacher(@RequestBody TeacherLoginRequest teacherLoginRequest, HttpServletResponse response) {
+        return teacherService.loginTeacher(teacherLoginRequest, response);
     }
 
 

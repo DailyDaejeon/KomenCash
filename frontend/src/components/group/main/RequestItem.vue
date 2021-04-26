@@ -7,8 +7,8 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th class="d-none d-xl-table-cell">Date</th>
-          <!-- <th>Status</th> -->
+          <!-- <th class="d-none d-xl-table-cell">Date</th> -->
+          <th>Date</th>
           <th class="d-none d-md-table-cell">Assignee</th>
         </tr>
       </thead>

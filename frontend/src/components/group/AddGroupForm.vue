@@ -6,106 +6,73 @@
     @onPreviousStep="previousStep"
     @onReset="reset"
   >
-    <tab-content title="About You" :selected="true">
+    <tab-content title="Intro" :selected="true">
       <div class="form-group">
-        <label for="fullName">Full Name</label>
+            <p>새로운 그룹을 생성하고, 아이들을 추가하여 경제 학습을 시작하세요.</p>
+            <br />
+            <p>모범TaxI는 아이들에게 건강한 경제 지식을 길러주기위한 롤플레이형 활동 지원 서비스 입니다.</p>
+            <p>선생님(또는 학부모님)께서는 해당 관리자 페이지에서 그룹을 생성하시고, 관리자로써 경제 활동을 지도해주세요.</p>
+            <br />
+            <p>그룹 생성하기:</p>
+            <p>
+                <ul>
+                    <li class="intro-step">그룹 명을 정해주세요.</li>
+                    <ol>(OO초등학교 O학년 O반, 행복한 우리 집 등 어떤 형태든 좋습니다.)</ol>
+                    <li class="intro-step">그룹에서 사용할 화폐 단위를 정해주세요(ex. 원, 미소, 꿈 등)</li>
+                    <li class="intro-step">그룹 추가하기 버튼을 누르면 그룹이 생성됩니다.</li>
+                </ul>
+            </p>
+      </div>
+    </tab-content>
+    <tab-content title="그룹 생성하기">
+      <div class="form-group">
+        <label for="groupName">그룹명</label>
         <input
           type="text"
           class="form-control"
-          :class="hasError('fullName') ? 'is-invalid' : ''"
-          placeholder="Enter your name"
-          v-model="formData.fullName"
+          :class="hasError('groupName') ? 'is-invalid' : ''"
+          placeholder="ex) 햇반나라, OO초등학교 O학년 O반"
+          v-model="formData.groupName"
         />
-        <div v-if="hasError('fullName')" class="invalid-feedback">
-          <div class="error" v-if="!$v.formData.fullName.required">
-            Please provide a valid name.
+        <div v-if="hasError('groupName')" class="invalid-feedback">
+          <div class="error" v-if="!$v.formData.groupName.required">
+            그룹명을 입력해주세요.
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="email">Your Email</label>
+        <label for="monetaryUnitName">화폐단위</label>
         <input
-          type="email"
+          type="text"
           class="form-control"
-          :class="hasError('email') ? 'is-invalid' : ''"
-          placeholder="Enter your email"
-          v-model="formData.email"
+          :class="hasError('monetaryUnitName') ? 'is-invalid' : ''"
+          placeholder="ex) 원, 꿈, 미소"
+          v-model="formData.monetaryUnitName"
         />
-        <div v-if="hasError('email')" class="invalid-feedback">
-          <div class="error" v-if="!$v.formData.email.required">
-            Email field is required
-          </div>
-          <div class="error" v-if="!$v.formData.email.email">
-            Should be in email format
+        <div v-if="hasError('monetaryUnitName')" class="invalid-feedback">
+          <div class="error" v-if="!$v.formData.monetaryUnitName.required">
+            화폐단위를 정해주세요.
           </div>
         </div>
       </div>
     </tab-content>
-    <tab-content title="About your Company">
+    <tab-content title="최종 확인">
       <div class="form-group">
-        <label for="companyName">Your Company Name</label>
-        <input
-          type="text"
-          class="form-control"
-          :class="hasError('companyName') ? 'is-invalid' : ''"
-          placeholder="Enter your Company / Organization name"
-          v-model="formData.companyName"
-        />
-        <div v-if="hasError('companyName')" class="invalid-feedback">
-          <div class="error" v-if="!$v.formData.companyName.required">
-            Please provide a valid company name.
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="numberOfEmployees">Number of Employees</label>
-        <input
-          type="text"
-          class="form-control"
-          :class="hasError('numberOfEmployees') ? 'is-invalid' : ''"
-          placeholder="Enter Total Number of Employees"
-          v-model="formData.numberOfEmployees"
-        />
-        <div v-if="hasError('numberOfEmployees')" class="invalid-feedback">
-          <div class="error" v-if="!$v.formData.numberOfEmployees.required">
-            Please provide number of employees in your company.
-          </div>
-          <div class="error" v-if="!$v.formData.numberOfEmployees.numeric">
-            Should be a valid value.
-          </div>
-        </div>
-      </div>
-    </tab-content>
-    <tab-content title="Finishing Up">
-      <div class="form-group">
-        <label for="referral">From Where did you hear about us</label>
-        <select
-          :class="hasError('referral') ? 'is-invalid' : ''"
-          class="form-control"
-          v-model="formData.referral"
-        >
-          <option>Newspaper</option>
-          <option>Online Ad</option>
-          <option>Friend</option>
-          <option>Other</option>
-        </select>
-        <div v-if="hasError('referral')" class="invalid-feedback">
-          <div class="error" v-if="!$v.formData.referral.required">
-            Please select on of the fields.
-          </div>
-        </div>
+        <p>그룹 명   : {{formData.groupName}}</p>
+        <p>화폐 단위 : {{formData.monetaryUnitName}}</p>
       </div>
       <div class="form-group form-check">
         <input
+          id="chk"
           type="checkbox"
           :class="hasError('terms') ? 'is-invalid' : ''"
           class="form-check-input"
           v-model="formData.terms"
         />
-        <label class="form-check-label">I accpet terms & conditions</label>
+        <label for="chk" class="form-check-label">그룹 명과 화폐 단위를 확인했습니다.</label>
         <div v-if="hasError('terms')" class="invalid-feedback">
           <div class="error" v-if="!$v.formData.terms.required">
-            Please select terms and conditions.
+            최종 확인 체크를 해주세요.
           </div>
         </div>
       </div>
@@ -118,8 +85,6 @@ import FormWizard from '@/components/group/addGroup/FormWizard.vue';
 import TabContent from '@/components/group/addGroup/TabContent.vue';
 import ValidationHelper from '@/components/group/addGroup/ValidationHelper.vue';
 import { required } from 'vuelidate/lib/validators';
-import { email } from 'vuelidate/lib/validators';
-import { numeric } from 'vuelidate/lib/validators';
 const checked = (value) => value === true;
 
 export default {
@@ -132,26 +97,22 @@ export default {
   data() {
     return {
       formData: {
-        fullName: '',
-        email: null,
-        companyName: null,
-        numberOfEmployees: null,
-        referral: null,
+        groupName: '',
+        monetaryUnitName: null,
         terms: false,
       },
       validationRules: [
-        { fullName: { required }, email: { required, email } },
-        { companyName: { required }, numberOfEmployees: { required, numeric } },
-        { referral: { required }, terms: { checked } },
+        { groupName: { required }, monetaryUnitName: { required } },
+        { terms: { checked } },
       ],
     };
   },
   methods: {
     onComplete() {
-      alert('Submitting Form ! Rock On');
-      this.$refs.formwizard.changeStatus();
+      alert('그룹이 생성되었습니다!');
+    //   this.$refs.formwizard.changeStatus();
+    // 그룹 리스트로 돌아가는 코드 추가
     },
-
     reset() {
       for (let field in this.formData) {
         this.formData[field] = null;
@@ -169,4 +130,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+    ul {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        padding-left: 1.5rem;
+    }
+
+    p {
+        margin-top: 0.2rem;
+    }
+
+    .intro-step{
+        margin-top:0.3rem;
+    }
+
+    .form-group {
+        padding: 2rem;
+    }
+</style>

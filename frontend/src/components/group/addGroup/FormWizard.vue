@@ -148,7 +148,7 @@ export default {
   } 
 
   .vue-step-wizard{
-    background-color: #F7F8FC;
+    background-color: #fcfcf7;
     width: 900px;
     margin: auto;
     padding: 40px;
@@ -235,15 +235,15 @@ export default {
   }
 
   .step-button-next{
-    background-color: #126fde;
+    background-color: #fad287;
   }
 
   .step-button-previous{
-    background-color: #3deaba;
+    background-color: gray;
   }
 
   .step-button-submit{
-    background-color: #4fa203;
+    background-color: #e7ab3c;
   }
 
   .step-button-reset{

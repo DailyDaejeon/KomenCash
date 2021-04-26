@@ -27,20 +27,52 @@ export default {
   components: { JobList, JobRequestList },
   methods: {
     addJob() {
-      this.$swal({
-          customClass: {
-          container: 'swal2-container'
-        },
-        title: '직업을 추가해주세요.',
+      this.$swal.queue([
+      {
+        title: '직업추가 1단계',
         input: 'text',
-        inputLabel: '직업 이름',
-        // inputValue: inputValue,
-        showCancelButton: true,
-        inputValidator: (value) => {
-          if (!value) {
-            return 'You need to write something!'
-          }
-        }
+        text: '직업명을 지정해주세요.',
+        confirmButtonText: 'Next &rarr;',
+      showCancelButton: true,
+      progressSteps: ['1', '2', '3','4']
+        
+      },
+      {
+        title: '직업추가 2단계',
+        input: 'text',
+        text: '월급을 책정해주세요',
+        confirmButtonText: 'Next &rarr;',
+      showCancelButton: true,
+      progressSteps: ['1', '2', '3','4']
+      },
+      {
+        title: '직업추가 3단계',
+        input: 'text',
+        text: '역할을 적어주세요.',
+        confirmButtonText: 'Next &rarr;',
+      showCancelButton: true,
+      progressSteps: ['1', '2', '3','4']
+      },
+      {
+        title: '직업추가 4단계',
+        input: 'text',
+        text: '자격조건을 적어주세요.',
+        confirmButtonText: 'Next &rarr;',
+      showCancelButton: true,
+      progressSteps: ['1', '2', '3','4']
+      }
+      ]).then((result) => {
+      if (result.value) {
+        const answers = JSON.stringify(result.value)
+      this.$swal({
+          title: '직업이 생성됐어요!',
+          html: `
+            Your answers:
+            <pre><code>${answers}</code></pre>
+          `,
+          confirmButtonText: 'Lovely!'
+        })
+      }
       })
     }
   },

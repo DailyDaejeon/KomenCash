@@ -35,7 +35,7 @@ public class Job {
     @Column(name = "recruit_type")
     private RecruitType recruitType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 }

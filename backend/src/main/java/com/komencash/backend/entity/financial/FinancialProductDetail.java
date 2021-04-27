@@ -29,7 +29,7 @@ public class FinancialProductDetail {
     @Column(name = "rate")
     private double rate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "financial_product_id")
     private FinancialProduct financialProduct;
 }

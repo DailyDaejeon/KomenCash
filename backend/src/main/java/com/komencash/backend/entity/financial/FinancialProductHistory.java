@@ -33,7 +33,7 @@ public class FinancialProductHistory {
     @Column(name = "status")
     private Status status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "financial_product_id")
     private FinancialProduct financialProduct;
 }

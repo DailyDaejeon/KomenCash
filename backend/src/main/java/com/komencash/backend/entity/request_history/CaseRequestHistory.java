@@ -31,11 +31,11 @@ public class CaseRequestHistory {
     @Column(name = "accpet")
     private Accept accept;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "police_id")
     private Student police;
 }

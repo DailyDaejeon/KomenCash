@@ -27,11 +27,11 @@ public class StatisticListDetail {
     @Column(name = "is_submission")
     private boolean isSubmission;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "statistic_list_id")
     private StatisticList statisticList;
 }

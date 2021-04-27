@@ -1,7 +1,8 @@
 <template>
   <main class="content">
-    <div @click="addData">
-      <button class="btn btn-main">데이터추가</button>
+    <div class="mb-3">
+      <button class="mr-3 btn btn-main"  @click="addData">데이터추가</button>
+      <button class="btn btn-main" @click="addHintData">힌트추가</button>
     </div>
     <div class="container-fluid p-0">
       <h1 class="h3 mb-3">주식이름</h1>
@@ -87,6 +88,7 @@ export default {
     addData() {
       this.$swal({
         title: '오늘의 주가를 입력해주세요.',
+        inputPlaceholder: '1000',
         input: 'text'        
       }).then((result) => {
       if (result.value) {
@@ -107,6 +109,25 @@ export default {
         this.myChart.data.datasets[0].data.push(Number(result.value));
         this.myChart.update();
         console.log(this.myChart)
+      }
+      })
+    },
+    addHintData() {
+      this.$swal({
+        title: '주식 힌트를 입력해주세요.',
+        inputPlaceholder: '오늘 저녁에 배드민턴을 칩니다.',
+        input: 'text'        
+      }).then((result) => {
+      if (result.value) {
+        const answers = JSON.stringify(result.value)
+        this.$swal({
+          title: '주식 힌트가 갱신됐어요!',
+          html: `
+            Your answers:
+            <pre><code>${answers}</code></pre>
+          `,
+          confirmButtonText: 'Lovely!'
+        })
       }
       })
     }

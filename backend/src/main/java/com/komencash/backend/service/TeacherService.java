@@ -26,13 +26,16 @@ public class TeacherService{
         return true;
     }
 
+
     public TeacherDupCheckByEmailResponse dupCheckByEmail(String email){
         return new TeacherDupCheckByEmailResponse(teacherRepository.findByEmail(email).orElseGet(Teacher::new));
     }
 
+
     public boolean dupCheckByNickname(String nickname){
         return teacherRepository.findByNickname(nickname).orElse(null) == null ? true : false;
     }
+
 
     public boolean loginTeacher(TeacherLoginRequest teacherLoginRequest, HttpServletResponse response) {
         Teacher loginResult = teacherRepository.findByEmailAndPassword(teacherLoginRequest.getEmail(), teacherLoginRequest.getPassword()).orElseGet(Teacher::new);
@@ -44,19 +47,23 @@ public class TeacherService{
 
     }
 
+
     public TeacherSelectResponse findTeacher(int teacher_id) {
         return new TeacherSelectResponse(teacherRepository.findById(teacher_id).orElseGet(Teacher::new));
     }
 
     public boolean updateTeacher(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
-        teacherRepository.save(new Teacher(teacherInsertUpdateRequest));
+        Teacher teacher = teacherRepository.findById(teacherInsertUpdateRequest.getId()).orElseGet(Teacher::new);
+        teacherRepository.save(new Teacher(teacher, teacherInsertUpdateRequest));
         return true;
     }
+
 
     public boolean deleteTeacher(int teacher_id) {
         teacherRepository.deleteById(teacher_id);
         return true;
     }
+
 
     public boolean updateTeacherPassword(TeacherPasswordUpdateRequest teacherPasswordUpdateRequest) {
         Teacher updateTeacher = teacherRepository.findById(teacherPasswordUpdateRequest.getId()).orElse(null);
@@ -67,6 +74,7 @@ public class TeacherService{
         teacherRepository.save(updateTeacher);
         return true;
     }
+
 
     public TeacherAuthByPhoneResponse authTeacherByPhone(String phoneNum){
 

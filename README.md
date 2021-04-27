@@ -68,6 +68,6 @@
 
 ## ERD
 
-![komencash-erd](README.assets/komencash-erd.png)
+![komencash-erd](README.assets/erd-komencash.png)
 
 ---

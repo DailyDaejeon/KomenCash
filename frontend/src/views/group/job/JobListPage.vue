@@ -32,15 +32,16 @@ export default {
         title: '직업추가 1단계',
         input: 'text',
         text: '직업명을 지정해주세요.',
+        inputPlaceholder: '은행원',
         confirmButtonText: 'Next &rarr;',
-      showCancelButton: true,
-      progressSteps: ['1', '2', '3','4']
-        
+        showCancelButton: true,
+        progressSteps: ['1', '2', '3','4'],
       },
       {
         title: '직업추가 2단계',
         input: 'text',
         text: '월급을 책정해주세요',
+        inputPlaceholder: '100미소',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
       progressSteps: ['1', '2', '3','4']
@@ -49,6 +50,7 @@ export default {
         title: '직업추가 3단계',
         input: 'text',
         text: '역할을 적어주세요.',
+        inputPlaceholder: '그룹원의 월급을 담당합니다.',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
       progressSteps: ['1', '2', '3','4']
@@ -57,6 +59,7 @@ export default {
         title: '직업추가 4단계',
         input: 'text',
         text: '자격조건을 적어주세요.',
+        inputPlaceholder: '수학 자격증 4급 이상',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
       progressSteps: ['1', '2', '3','4']
@@ -79,6 +82,38 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {
+  background: #e7ab3c;
+}
 
+.swal2-progress-steps .swal2-progress-step {
+    z-index: 20;
+    flex-shrink: 0;
+    width: 2em;
+    height: 2em;
+    border-radius: 2em;
+    background: #e7ab3c;
+    color: #fff;
+    line-height: 2em;
+    text-align: center;
+}
+
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line {
+    background: #e7e7e7;
+}
+
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step {
+    background: #bebebe;
+    color: #fff;
+}
+
+.swal2-progress-steps .swal2-progress-step-line {
+    z-index: 10;
+    flex-shrink: 0;
+    width: 2.5em;
+    height: .4em;
+    margin: 0 -1px;
+    background: #757575;
+}
 </style>

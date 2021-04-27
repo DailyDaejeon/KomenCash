@@ -10,17 +10,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>김싸피</td>
+        <tr @click="goDetail()">
+          <td>국무총리</td>
           <td class="d-none d-md-table-cell">100미소</td>
           <td class="d-none d-md-table-cell">1</td>
           <td class="d-none d-md-table-cell">박싸피</td>
         </tr>
         <tr>
-          <td>박싸피</td>
+          <td>은행원</td>
           <td class="d-none d-md-table-cell">90미소</td>
           <td class="d-none d-md-table-cell">2</td>
-          <td class="d-none d-md-table-cell">은행원</td>
+          <td class="d-none d-md-table-cell">박싸피</td>
         </tr>
       </tbody>
     </table>
@@ -32,6 +32,11 @@ export default {
   props: {
     JobType: {
       type: String
+    }
+  },
+  methods: {
+    goDetail() {
+      this.$router.push(`/group/job/detail`)
     }
   }
 }

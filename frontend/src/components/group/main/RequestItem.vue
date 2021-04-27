@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr @click="goDetail()">
           <td>요청내용 title</td>
           <!-- <td class="d-none d-xl-table-cell">날짜</td> -->
           <td><span class="badge bg-success">날짜</span></td>
@@ -42,6 +42,10 @@ export default {
   methods : {
     fetchRequest() {
       this.RequestName = this.RequestType;
+    },
+    goDetail() {
+      // 각요청별로 detail 보내는것 다르게 표시
+      this.$router.push(`/`)
     }
   }
 }

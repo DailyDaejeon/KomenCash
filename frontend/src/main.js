@@ -13,10 +13,17 @@ import '@/css/index.css'
 import VueSweetalert2 from "vue-sweetalert2";
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+
 Vue.config.productionTip = false
 
+// sweetalert2 옵션
+const options = {
+  confirmButtonColor: '#e7ab3c',
+  cancelButtonColor: '#757575',
+};
 
-Vue.use(VueSweetalert2);
+Vue.use(VueSweetalert2,options);
+
 Vue.use(BootstrapVue);
 
 

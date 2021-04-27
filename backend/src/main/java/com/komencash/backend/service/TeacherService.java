@@ -71,15 +71,9 @@ public class TeacherService{
 
         if(teacher == null) return false;
 
-        Teacher updateTeacher = Teacher.builder()
-                .id(teacher.getId())
-                .email(teacher.getEmail())
-                .password(teacherPasswordUpdateRequest.getPassword())
-                .nickname(teacher.getNickname())
-                .phoneNumber(teacher.getPhoneNumber())
-                .build();
+        teacher.updatePasswordTeacher(teacherPasswordUpdateRequest);
 
-        teacherRepository.save(updateTeacher);
+        teacherRepository.save(teacher);
         return true;
     }
 

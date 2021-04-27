@@ -1,4 +1,4 @@
-package com.komencash.backend.entity.financial;
+package com.komencash.backend.entity.request_history;
 
 import com.komencash.backend.entity.Student;
 import lombok.AllArgsConstructor;
@@ -13,19 +13,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "financial_product_purchase")
-public class FinancialProductPurchase {
+@Table(name = "group_member_add_request_history")
+public class GroupMemberAddRequestHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "financial_product_history_id")
-    private FinancialProductHistory financialProductHistory;
+    @Enumerated
+    @Column(name = "accept")
+    private Accept accept;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name="student_id")
     private Student student;
 }

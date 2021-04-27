@@ -1,33 +1,35 @@
-package com.komencash.backend.entity.credit;
+package com.komencash.backend.entity.request_history;
 
 import com.komencash.backend.entity.Student;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "credit_history")
-public class CreditHistory {
+@Table(name = "job_add_request_history")
+public class JobAddRequestHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "content")
     private String content;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "datetime")
-    private Date datetime;
-
-    @Column(name = "point_change")
-    private int pointChange;
+    @Enumerated
+    @Column(name = "accept")
+    private Accept accept;
 
     @ManyToOne
     @JoinColumn(name = "student_id")

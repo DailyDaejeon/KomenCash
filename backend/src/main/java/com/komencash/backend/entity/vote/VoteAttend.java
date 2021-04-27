@@ -1,4 +1,4 @@
-package com.komencash.backend.entity.financial;
+package com.komencash.backend.entity.vote;
 
 import com.komencash.backend.entity.Student;
 import lombok.AllArgsConstructor;
@@ -13,19 +13,22 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "financial_product_purchase")
-public class FinancialProductPurchase {
+@Table(name = "`vote_attend`")
+public class VoteAttend {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "financial_product_history_id")
-    private FinancialProductHistory financialProductHistory;
+    @Column(name = "choice_item_num")
+    private int choiceItemNum;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    @ManyToOne
+    @JoinColumn(name = "vote_id")
+    private Vote vote;
 }

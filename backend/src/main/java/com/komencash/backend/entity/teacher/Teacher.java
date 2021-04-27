@@ -39,11 +39,11 @@ public class Teacher {
         this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber();
     }
 
-    public Teacher(Teacher teacher, TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
-        this.id = teacherInsertUpdateRequest.getId() == 0 ? teacher.getId() : teacherInsertUpdateRequest.getId();
-        this.email = teacherInsertUpdateRequest.getEmail() == null ? teacher.getEmail() : teacherInsertUpdateRequest.getEmail();
-        this.password = teacherInsertUpdateRequest.getPassword() == null ? teacher.getPassword() : teacherInsertUpdateRequest.getPassword();
-        this.nickname = teacherInsertUpdateRequest.getNickname() == null ? teacher.getNickname() : teacherInsertUpdateRequest.getNickname();
-        this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber() == null ? teacher.getPhoneNumber() : teacherInsertUpdateRequest.getPhoneNumber();
+    public void updateTeacher(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
+        if(teacherInsertUpdateRequest.getId() != 0) this.id = teacherInsertUpdateRequest.getId();
+        if(teacherInsertUpdateRequest.getEmail() != null) this.email = teacherInsertUpdateRequest.getEmail();
+        if(teacherInsertUpdateRequest.getPassword() != null) this.password = teacherInsertUpdateRequest.getPassword();
+        if(teacherInsertUpdateRequest.getNickname() != null) this.nickname = teacherInsertUpdateRequest.getNickname();
+        if(teacherInsertUpdateRequest.getPhoneNumber() != null) this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber();
     }
 }

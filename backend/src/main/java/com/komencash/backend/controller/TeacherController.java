@@ -75,7 +75,7 @@ public class TeacherController {
     }
 
 
-    @ApiOperation(value = "선생님 정보 수정", notes = "선생님 정보를 받아서 update 후 결과 반환")
+    @ApiOperation(value = "선생님 비밀번호 수정", notes = "선생님 아이디와 비밀번호를 받아서 update 후 결과 반환")
     @PutMapping("/change_pw")
     public boolean updateTeacherPassword(@RequestBody TeacherPasswordUpdateRequest teacherPasswordUpdateRequest) {
         return teacherService.updateTeacherPassword(teacherPasswordUpdateRequest);
@@ -87,6 +87,4 @@ public class TeacherController {
     public TeacherAuthByPhoneResponse authTeacherByPhone(String phoneNumber){
         return teacherService.authTeacherByPhone(phoneNumber);
     }
-    
-
 }

@@ -54,7 +54,8 @@ public class TeacherService{
 
     public boolean updateTeacher(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
         Teacher teacher = teacherRepository.findById(teacherInsertUpdateRequest.getId()).orElseGet(Teacher::new);
-        teacherRepository.save(new Teacher(teacher, teacherInsertUpdateRequest));
+        teacher.updateTeacher(teacherInsertUpdateRequest);
+        teacherRepository.save(teacher);
         return true;
     }
 
@@ -66,11 +67,18 @@ public class TeacherService{
 
 
     public boolean updateTeacherPassword(TeacherPasswordUpdateRequest teacherPasswordUpdateRequest) {
-        Teacher updateTeacher = teacherRepository.findById(teacherPasswordUpdateRequest.getId()).orElse(null);
+        Teacher teacher = teacherRepository.findById(teacherPasswordUpdateRequest.getId()).orElse(null);
 
-        if(updateTeacher == null) return false;
+        if(teacher == null) return false;
 
-        updateTeacher.setPassword(teacherPasswordUpdateRequest.getPassword());
+        Teacher updateTeacher = Teacher.builder()
+                .id(teacher.getId())
+                .email(teacher.getEmail())
+                .password(teacherPasswordUpdateRequest.getPassword())
+                .nickname(teacher.getNickname())
+                .phoneNumber(teacher.getPhoneNumber())
+                .build();
+
         teacherRepository.save(updateTeacher);
         return true;
     }

@@ -11,7 +11,7 @@
         <div class="col-auto d-none d-sm-block">
           <h3><strong>Job</strong> Dashboard</h3>
         </div>
-        <div class="col-auto" @click="addJob">
+        <div class="col-auto near-title-btn" @click="addJob">
           <button class="btn btn-main">직업추가</button>
         </div>
       </div>

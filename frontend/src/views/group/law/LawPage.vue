@@ -52,22 +52,45 @@ export default {
   components: { LawList, RequestItem },
   methods: {
     createVote(){
-      this.$swal.queue([
+      // var voteName = '';
+      // var voteItemCnt = 0;
+      // var voteItem = [];
+
+      this.$swal.queue(
       {
         title: '투표 생성 1단계',
         input: 'text',
         text: '투표 주제를 정해주세요.',
         inputPlaceholder: '2021 반장 선거',
-        confirmButtonText: 'Next &rarr;',
+        // confirmButtonText: 'Next &rarr;',
         showCancelButton: true,
         progressSteps: ['1', '2', '3', '4'],
         inputValidator: (result) => {
           return !result && '투표 주제를 작성해주세요!'
+        },
+        preConfirm: (result) => {
+          // voteName = result;
+
+          if(result) {
+            this.$swal.insertQueueStep({
+              title: '투표 생성 2단계',
+              input: 'text',
+              text: '화폐 단위를 정해주세요.',
+              inputPlaceholder: '원, 꿈, 미소',
+              confirmButtonText: 'Next &rarr;',
+              showCancelButton: true,
+              progressSteps: ['1', '2'],
+              inputValidator: (result) => {
+                return !result && '화폐 단위를 작성해주세요!'
+              }
+            })
+          }
         }
-      },
-      {
+      })
+
+      this.$swal.fire({
         title: '투표 생성 2단계',
-        input: 'text',
+        input: 'select',
         text: '화폐 단위를 정해주세요.',
         inputPlaceholder: '원, 꿈, 미소',
         confirmButtonText: 'Next &rarr;',

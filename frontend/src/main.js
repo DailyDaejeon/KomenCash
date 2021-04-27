@@ -13,6 +13,8 @@ import '@/css/index.css'
 import VueSweetalert2 from "vue-sweetalert2";
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import ChartPlugin from '@/plugins/ChartPlugin';
+Vue.use(ChartPlugin);
 
 Vue.config.productionTip = false
 

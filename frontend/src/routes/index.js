@@ -96,6 +96,12 @@ const router =  new Router({
       component: () => import('@/views/group/bank/StockPage.vue'),
     },
     {
+      path: '/group/bank/stock/detail',
+      name: 'StockDetailPage',
+      component: () => import('@/views/group/bank/StockDetailPage.vue'),
+      props: true
+    },
+    {
       path: '/group/credit',
       name: 'CreditPage',
       component: () => import('@/views/group/credit/CreditPage.vue'),

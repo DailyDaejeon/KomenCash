@@ -46,7 +46,46 @@ export default {
   props:['userInfo', 'groupList'],
   methods: {
     addGroup(){
-      this.$router.push('/group/add');
+      // this.$router.push('/group/add');
+      this.$swal.queue([
+      {
+        title: '그룹 생성 1단계',
+        input: 'text',
+        text: '그룹명을 정해주세요.',
+        inputPlaceholder: '햇반, OO초등학교 O학년 O반',
+        confirmButtonText: 'Next &rarr;',
+        showCancelButton: true,
+        progressSteps: ['1', '2'],
+        inputValidator: (result) => {
+          return !result && '그룹명을 작성해주세요!'
+        }
+      },
+      {
+        title: '그룹 생성 2단계',
+        input: 'text',
+        text: '화폐 단위를 정해주세요.',
+        inputPlaceholder: '원, 꿈, 미소',
+        confirmButtonText: 'Next &rarr;',
+        showCancelButton: true,
+        progressSteps: ['1', '2'],
+        inputValidator: (result) => {
+          return !result && '화폐 단위를 작성해주세요!'
+        }
+      }
+      ]).then((result) => {
+      if (result.value) {
+        const answers = JSON.stringify(result.value)
+        //서버로 넘기는 api 추가
+        this.$swal({
+            title: '그룹 생성 전, 정보를 확인해주세요!',
+            html: `
+              Your answers:
+              <pre><code>${answers}</code></pre>
+            `,
+            confirmButtonText: 'Lovely!'
+          })
+        }
+      })
     }
   },
 }

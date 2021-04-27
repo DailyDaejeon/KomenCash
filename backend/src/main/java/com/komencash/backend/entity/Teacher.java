@@ -38,4 +38,12 @@ public class Teacher {
         this.nickname = teacherInsertUpdateRequest.getNickname();
         this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber();
     }
+
+    public Teacher(Teacher teacher, TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
+        this.id = teacherInsertUpdateRequest.getId() == 0 ? teacher.getId() : teacherInsertUpdateRequest.getId();
+        this.email = teacherInsertUpdateRequest.getEmail() == null ? teacher.getEmail() : teacherInsertUpdateRequest.getEmail();
+        this.password = teacherInsertUpdateRequest.getPassword() == null ? teacher.getPassword() : teacherInsertUpdateRequest.getPassword();
+        this.nickname = teacherInsertUpdateRequest.getNickname() == null ? teacher.getNickname() : teacherInsertUpdateRequest.getNickname();
+        this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber() == null ? teacher.getPhoneNumber() : teacherInsertUpdateRequest.getPhoneNumber();
+    }
 }

@@ -82,10 +82,10 @@ public class TeacherService{
 
         Teacher resultTeacher = teacherRepository.findByPhoneNumber(phoneNum).orElseGet(Teacher::new);
 
-        if(resultTeacher.getId() == 0) return new TeacherAuthByPhoneResponse(0, null);
+        if(resultTeacher.getId() == 0) return new TeacherAuthByPhoneResponse(null, null);
 
         // 인증 번호 생성
-       int authNum = makeAuthNumber();
+       String authNum = makeAuthNumber();
 
         // 메세지 전송
         sendMessage(authNum, phoneNum);
@@ -93,17 +93,17 @@ public class TeacherService{
         return new TeacherAuthByPhoneResponse(authNum, resultTeacher.getEmail());
     }
 
-    public int makeAuthNumber(){
+    public String makeAuthNumber(){
         Random rand = new Random();
         String authNumber = "";
         for(int i=0; i<4; i++){
             String ran = Integer.toString(rand.nextInt(10));
             authNumber += ran;
         }
-        return Integer.parseInt(authNumber);
+        return authNumber;
     }
 
-    public void sendMessage(int authNum, String phoneNum) {
+    public void sendMessage(String authNum, String phoneNum) {
 //        String api_key = "NCSBCNFO2FFJM0BV";
 //        String api_secret = "B1FFZEW61CGA5LW8MYV35WM7XYXZJNCB";
         String api_key = "";

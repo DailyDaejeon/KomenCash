@@ -29,7 +29,7 @@ public class CreditHistory {
     @Column(name = "point_change")
     private int pointChange;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 }

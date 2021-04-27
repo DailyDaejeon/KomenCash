@@ -28,7 +28,7 @@ public class StockHistory {
     @Column(name = "created_date")
     private Date createdDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id")
     private Stock stock;
 }

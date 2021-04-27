@@ -28,7 +28,7 @@ public class PartTimeJob {
     @Column(name = "salary")
     private int salary;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 }

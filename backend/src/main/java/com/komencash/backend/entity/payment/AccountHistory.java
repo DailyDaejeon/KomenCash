@@ -27,7 +27,7 @@ public class AccountHistory {
     @Column(name = "content")
     private String content;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 }

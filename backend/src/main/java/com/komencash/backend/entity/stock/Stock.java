@@ -27,7 +27,7 @@ public class Stock {
     @Column(name = "hint")
     private String hint;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 }

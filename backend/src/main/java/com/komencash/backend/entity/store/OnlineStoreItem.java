@@ -27,7 +27,7 @@ public class OnlineStoreItem {
     @Column(name = "price")
     private int price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 

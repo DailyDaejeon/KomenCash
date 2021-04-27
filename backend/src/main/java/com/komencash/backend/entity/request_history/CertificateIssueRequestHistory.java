@@ -26,11 +26,11 @@ public class CertificateIssueRequestHistory {
     @Column(name = "accpet")
     private Accept accept;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "certificate_id")
     private Certificate certificate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 }

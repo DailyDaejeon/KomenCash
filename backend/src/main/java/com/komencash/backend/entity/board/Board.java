@@ -29,7 +29,7 @@ public class Board {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 }

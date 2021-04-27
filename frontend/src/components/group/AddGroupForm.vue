@@ -1,5 +1,5 @@
 <template>
-  <form-wizard
+  <!-- <form-wizard
     ref="formwizard"
     @onComplete="onComplete"
     @onNextStep="nextStep"
@@ -77,70 +77,73 @@
         </div>
       </div>
     </tab-content>
-  </form-wizard>
+  </form-wizard> -->
+  <div>
+    
+  </div>
 </template>
 
 <script>
-import FormWizard from '@/components/group/addGroup/FormWizard.vue';
-import TabContent from '@/components/group/addGroup/TabContent.vue';
-import ValidationHelper from '@/components/group/addGroup/ValidationHelper.vue';
-import { required } from 'vuelidate/lib/validators';
-const checked = (value) => value === true;
+// import FormWizard from '@/components/group/addGroup/FormWizard.vue';
+// import TabContent from '@/components/group/addGroup/TabContent.vue';
+// import ValidationHelper from '@/components/group/addGroup/ValidationHelper.vue';
+// import { required } from 'vuelidate/lib/validators';
+// const checked = (value) => value === true;
 
-export default {
-  name: 'SimpleStepper',
-  components: {
-    FormWizard,
-    TabContent,
-  },
-  mixins: [ValidationHelper],
-  data() {
-    return {
-      formData: {
-        groupName: '',
-        monetaryUnitName: null,
-        terms: false,
-      },
-      validationRules: [
-        { groupName: { required }, monetaryUnitName: { required } },
-        { terms: { checked } },
-      ],
-    };
-  },
-  methods: {
-    onComplete() {
-      // alert('그룹이 생성되었습니다!');
-      this.$swal({
-        customClass: {
-          container: 'swal2-container'
-        },
-        text: '그룹이 생성되었습니다!',
-        icon: 'success',
-        timer: 1300,
-        showConfirmButton: false,
-      })
-    //   this.$refs.formwizard.changeStatus();
-    // 그룹 리스트로 돌아가는 코드 추가
-    },
-    reset() {
-      for (let field in this.formData) {
-        this.formData[field] = null;
-      }
-    },
+// export default {
+//   name: 'SimpleStepper',
+//   components: {
+//     FormWizard,
+//     TabContent,
+//   },
+//   mixins: [ValidationHelper],
+//   data() {
+//     return {
+//       formData: {
+//         groupName: '',
+//         monetaryUnitName: null,
+//         terms: false,
+//       },
+//       validationRules: [
+//         { groupName: { required }, monetaryUnitName: { required } },
+//         { terms: { checked } },
+//       ],
+//     };
+//   },
+//   methods: {
+//     onComplete() {
+//       // alert('그룹이 생성되었습니다!');
+//       this.$swal({
+//         customClass: {
+//           container: 'swal2-container'
+//         },
+//         text: '그룹이 생성되었습니다!',
+//         icon: 'success',
+//         timer: 1300,
+//         showConfirmButton: false,
+//       })
+//     //   this.$refs.formwizard.changeStatus();
+//     // 그룹 리스트로 돌아가는 코드 추가
+//     },
+//     reset() {
+//       for (let field in this.formData) {
+//         this.formData[field] = null;
+//       }
+//     },
 
-    nextStep() {
-      //alert("On Next Step");
-    },
+//     nextStep() {
+//       //alert("On Next Step");
+//     },
 
-    previousStep() {
-      //alert("On Previous Step");
-    },
-  },
-};
+//     previousStep() {
+//       //alert("On Previous Step");
+//     },
+//   },
+// };
 </script>
 
 <style>
-    ul {
+    /* ul {
         margin-top: 0;
         margin-bottom: 1rem;
         padding-left: 1.5rem;
@@ -156,5 +159,5 @@ export default {
 
     .form-group {
         padding: 2rem;
-    }
+    } */
 </style>

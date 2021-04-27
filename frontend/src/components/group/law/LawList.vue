@@ -7,37 +7,38 @@
         <!-- 2. 해당 헌법 또는 조항에 맞는 내용으로 이동 -->
         <div id="tabs" class="container">
           <div class="tabs">
-            <a v-on:click="activetab=1" v-bind:class="[ activetab === 1 ? 'active' : '' ]">도로법</a>
-            <a v-on:click="activetab=2" v-bind:class="[ activetab === 2 ? 'active' : '' ]">질서법</a>
-            <a v-on:click="activetab=3" v-bind:class="[ activetab === 3 ? 'active' : '' ]">교육법</a>
-            <a v-on:click="activetab=4" v-bind:class="[ activetab === 4 ? 'active' : '' ]">형사법</a>
-            <a v-on:click="activetab=5" v-bind:class="[ activetab === 5 ? 'active' : '' ]">환경법</a>
-            <a v-on:click="activetab=6" v-bind:class="[ activetab === 6 ? 'active' : '' ]">금융법</a>
+          <!-- <div class="tabs" v-for="(law, index) in lawList" :key="index"> -->
+            <!-- <a @click="activetab=(index+1)" :class="[ activetab === (index+1) ? 'active' : '' ]">{{law.law_type}}</a> -->
+            <a @click="activetab=1" :class="[ activetab === 1 ? 'active' : '' ]">교통법</a>
+            <a @click="activetab=2" :class="[ activetab === 2 ? 'active' : '' ]">질서법</a>
+            <a @click="activetab=3" :class="[ activetab === 3 ? 'active' : '' ]">교육법</a>
+            <a @click="activetab=4" :class="[ activetab === 4 ? 'active' : '' ]">형사법</a>
+            <a @click="activetab=5" :class="[ activetab === 5 ? 'active' : '' ]">환경법</a>
+            <a @click="activetab=6" :class="[ activetab === 6 ? 'active' : '' ]">금융법</a>
           </div>
           <div>
+          <!-- <div v-for="(law, index) in lawList" :key="index"> -->
+            <!-- <div v-if="activetab === (index+1)" class="tabcontent"> -->
+                <!-- 도로법 관련 조항! -->
+                <!-- <LawType /> :articles="" -->
+            <!-- </div> -->
             <div v-if="activetab === 1" class="tabcontent">
-                도로법 관련 조항!
-                <!-- <LawItem /> -->
+                교통법 관련 조항!
             </div>
             <div v-if="activetab === 2" class="tabcontent">
                 질서법 관련 조항!
-                <!-- <LawItem /> -->
             </div>
             <div v-if="activetab === 3" class="tabcontent">
                 교육법 관련 조항!
-                <!-- <LawItem /> -->
             </div>
             <div v-if="activetab === 4" class="tabcontent">
                 형사법 관련 조항!
-                <!-- <LawItem /> -->
             </div>
             <div v-if="activetab === 5" class="tabcontent">
                 환경법 관련 조항!
-                <!-- <LawItem /> -->
             </div>
             <div v-if="activetab === 6" class="tabcontent">
                 금융법 관련 조항!
-                <!-- <LawItem /> -->
             </div>
           </div>
         </div>
@@ -51,7 +52,10 @@ export default {
   el:"#tabs",
   data() {
     return {
-      activetab: 1 
+      activetab: 1,
+      lawList: [
+        //이걸 어떻게 넣어야할까................
+      ],
     }
   },
 }

@@ -81,6 +81,14 @@ const router =  new Router({
       path: '/group/bank',
       name: 'BankPage',
       component: () => import('@/views/group/bank/BankPage.vue'),
+      children: [
+        { 
+        path: ':memberName',
+        name: 'BankMemberDetail',
+        component: () => import('@/components/group/bank/BankMemberDetail.vue'),
+        props: true
+        }
+      ]
     },
     {
       path: '/group/bank/stock',

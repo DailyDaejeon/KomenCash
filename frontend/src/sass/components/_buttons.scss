@@ -23,3 +23,7 @@
   @include button-color($gray-800);
   @include button-color-hover($gray-800);
 }
+
+.near-title-btn {
+  top: -3px;
+}

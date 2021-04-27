@@ -21,6 +21,8 @@
     "flatpickr": "^4.6.9",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.1",
     "simplebar": "^5.3.2",
     "vue": "^2.6.11",
     "vue-router": "^3.5.1",

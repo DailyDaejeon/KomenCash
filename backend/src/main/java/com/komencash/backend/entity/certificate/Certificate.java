@@ -1,7 +1,8 @@
-package com.komencash.backend.entity.job;
+package com.komencash.backend.entity.certificate;
 
 import com.komencash.backend.entity.Group;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +12,9 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "part_time_job")
-public class PartTimeJob {
+@Builder
+@Table(name = "certificate")
+public class Certificate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +24,8 @@ public class PartTimeJob {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "role")
-    private String role;
-
-    @Column(name = "salary")
-    private int salary;
+    @Column(name = "acquisition_condition")
+    private String acquisitionCondition;
 
     @ManyToOne
     @JoinColumn(name = "group_id")

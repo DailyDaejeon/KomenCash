@@ -1,42 +1,43 @@
-package com.komencash.backend.entity.law;
+package com.komencash.backend.entity.stock;
 
-import com.komencash.backend.entity.Group;
 import com.komencash.backend.entity.Student;
-import com.komencash.backend.entity.job.Job;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "law_add_request_history")
-public class LawAddRequestHistory {
+@Table(name = "stock_deal_history")
+public class StockDealHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "price")
+    private int price;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "amount")
+    private int amount;
 
-    @Column(name = "accept")
-    private Accept accpet;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date")
+    private Date createdDate;
 
-    @OneToOne
-    @JoinColumn(name = "vote_id")
-    private Vote vote;
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
 }

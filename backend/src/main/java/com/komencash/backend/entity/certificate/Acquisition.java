@@ -1,4 +1,4 @@
-package com.komencash.backend.entity.financial;
+package com.komencash.backend.entity.certificate;
 
 import com.komencash.backend.entity.Student;
 import lombok.AllArgsConstructor;
@@ -13,8 +13,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "financial_product_purchase")
-public class FinancialProductPurchase {
+@Table(name = "acquisition")
+public class Acquisition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,10 @@ public class FinancialProductPurchase {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "financial_product_history_id")
-    private FinancialProductHistory financialProductHistory;
-
-    @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    @ManyToOne
+    @JoinColumn(name = "certificate_id")
+    private Certificate certificate;
 }

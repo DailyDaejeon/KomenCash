@@ -36,5 +36,4 @@ public class FinancialProductHistory {
     @ManyToOne
     @JoinColumn(name = "financial_product_id")
     private FinancialProduct financialProduct;
-
 }

@@ -1,6 +1,5 @@
-package com.komencash.backend.entity.payment;
+package com.komencash.backend.entity.stock;
 
-import com.komencash.backend.entity.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,26 +13,22 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "tax_history")
-public class TaxHistory {
+@Table(name = "stock_history")
+public class StockHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "balance_change")
-    private int balanceChange;
-
-    @Column(name = "content")
-    private String content;
+    @Column(name = "price")
+    private int price;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date")
     private Date createdDate;
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group group;
-
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
 }

@@ -1,6 +1,7 @@
 package com.komencash.backend.entity.teacher;
 
 import com.komencash.backend.dto.teacher.TeacherInsertUpdateRequest;
+import com.komencash.backend.dto.teacher.TeacherPasswordUpdateRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,10 +41,13 @@ public class Teacher {
     }
 
     public void updateTeacher(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
-        if(teacherInsertUpdateRequest.getId() != 0) this.id = teacherInsertUpdateRequest.getId();
-        if(teacherInsertUpdateRequest.getEmail() != null) this.email = teacherInsertUpdateRequest.getEmail();
-        if(teacherInsertUpdateRequest.getPassword() != null) this.password = teacherInsertUpdateRequest.getPassword();
-        if(teacherInsertUpdateRequest.getNickname() != null) this.nickname = teacherInsertUpdateRequest.getNickname();
-        if(teacherInsertUpdateRequest.getPhoneNumber() != null) this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber();
+        this.email = teacherInsertUpdateRequest.getEmail();
+        this.password = teacherInsertUpdateRequest.getPassword();
+        this.nickname = teacherInsertUpdateRequest.getNickname();
+        this.phoneNumber = teacherInsertUpdateRequest.getPhoneNumber();
+    }
+
+    public void updatePasswordTeacher(TeacherPasswordUpdateRequest teacherPasswordUpdateRequest) {
+        this.password = teacherPasswordUpdateRequest.getPassword();
     }
 }

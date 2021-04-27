@@ -1,7 +1,9 @@
-package com.komencash.backend.entity.job;
+package com.komencash.backend.entity.vote;
 
 import com.komencash.backend.entity.Group;
+import com.komencash.backend.entity.Student;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,24 +13,23 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "part_time_job")
-public class PartTimeJob {
+@Builder
+@Table(name = "`vote`")
+public class Vote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
-    @Column(name = "role")
-    private String role;
-
-    @Column(name = "salary")
-    private int salary;
+    @Column(name = "content")
+    private String content;
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "student_id")
+    private Student student;
+
 }

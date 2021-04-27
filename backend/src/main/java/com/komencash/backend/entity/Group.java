@@ -1,6 +1,7 @@
 package com.komencash.backend.entity;
 
 import com.komencash.backend.dto.GroupInsertUpdateRequest;
+import com.komencash.backend.entity.teacher.Teacher;
 import lombok.*;
 import javax.persistence.*;
 

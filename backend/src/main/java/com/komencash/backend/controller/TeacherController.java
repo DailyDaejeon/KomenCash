@@ -1,7 +1,6 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.*;
-import com.komencash.backend.entity.Teacher;
+import com.komencash.backend.dto.teacher.*;
 import com.komencash.backend.service.JwtService;
 import com.komencash.backend.service.TeacherService;
 import io.swagger.annotations.ApiImplicitParam;

@@ -1,15 +1,10 @@
 package com.komencash.backend.dto;
 
 import com.komencash.backend.entity.Group;
-import com.komencash.backend.entity.Teacher;
-import com.komencash.backend.repository.GroupRepository;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Optional;
 
 @Data
 @NoArgsConstructor

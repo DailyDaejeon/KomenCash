@@ -1,6 +1,6 @@
 package com.komencash.backend.repository;
 
-import com.komencash.backend.entity.Teacher;
+import com.komencash.backend.entity.teacher.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

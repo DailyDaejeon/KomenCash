@@ -1,6 +1,6 @@
-package com.komencash.backend.dto;
+package com.komencash.backend.dto.teacher;
 
-import com.komencash.backend.entity.Teacher;
+import com.komencash.backend.entity.teacher.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

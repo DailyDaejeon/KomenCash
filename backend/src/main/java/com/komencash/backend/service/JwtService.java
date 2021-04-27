@@ -2,7 +2,7 @@ package com.komencash.backend.service;
 
 import java.util.Date;
 import java.util.Map;
-import com.komencash.backend.entity.Teacher;
+import com.komencash.backend.entity.teacher.Teacher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.jsonwebtoken.*;

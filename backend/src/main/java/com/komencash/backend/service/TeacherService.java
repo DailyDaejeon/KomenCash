@@ -1,7 +1,7 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.*;
-import com.komencash.backend.entity.Teacher;
+import com.komencash.backend.dto.teacher.*;
+import com.komencash.backend.entity.teacher.Teacher;
 import com.komencash.backend.repository.TeacherRepository;
 import net.nurigo.java_sdk.api.Message;
 import org.springframework.beans.factory.annotation.Autowired;

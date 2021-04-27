@@ -7,7 +7,13 @@ const state = {
     token: sessionStorage.getItem('auth-token'),
     isLogin: sessionStorage.getItem('auth-token') === null ? false : true,
     isLoginError: false,
-    userInfo: sessionStorage.getItem('auth-token') === null ? null : jwtDecode(sessionStorage.getItem('auth-token')),
+    userInfo: sessionStorage.getItem('auth-token') === null ? {
+    "email": null,
+    "id": null,
+    "nickname": null,
+    "password": null,
+    "phoneNumber": null
+    } : jwtDecode(sessionStorage.getItem('auth-token')),
     isPasswordConfirmed: false,
     currentTab: 0,
     v: {},

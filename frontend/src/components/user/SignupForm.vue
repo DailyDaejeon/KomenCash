@@ -137,7 +137,7 @@
 
 <script>
 import PhoneCertification from './PhoneCertification.vue';
-import { registerUser, dupIdChk, dupNickNameChk } from '@/api/user'; 
+import { registerUser, userIdChk, dupNickNameChk } from '@/api/user'; 
 import { validateEmail, validatePassword, validatePhoneNum } from '@/utils/validations';
 import store from '@/stores/modules/user'
 
@@ -271,7 +271,7 @@ export default {
   methods: {
     async isDupIdCheck() {
       try{
-        const response = await dupIdChk(this.userId);
+        const response = await userIdChk(this.userId);
         this.idCheck = response.data;
       }catch(err) {
         console.log(err);

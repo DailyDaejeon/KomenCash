@@ -1,4 +1,4 @@
-package com.komencash.backend.dto;
+package com.komencash.backend.dto.student;
 
 import com.komencash.backend.entity.Group;
 import com.komencash.backend.entity.Student;

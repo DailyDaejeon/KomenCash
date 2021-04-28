@@ -1,5 +1,6 @@
 package com.komencash.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.komencash.backend.dto.group.GroupInsertUpdateRequest;
 import com.komencash.backend.entity.teacher.Teacher;
 import lombok.*;

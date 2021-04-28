@@ -1,5 +1,6 @@
 package com.komencash.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.GroupMemberAddRequestHistory;
 import lombok.AllArgsConstructor;

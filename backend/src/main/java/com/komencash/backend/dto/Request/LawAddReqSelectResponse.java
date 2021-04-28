@@ -1,5 +1,7 @@
-package com.komencash.backend.dto.law;
+package com.komencash.backend.dto.Request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.komencash.backend.dto.vote.VoteResultResponse;
 import com.komencash.backend.entity.Student;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.LawAddRequestHistory;
@@ -19,15 +21,15 @@ public class LawAddReqSelectResponse {
     private Accept accpet;
     private int student_id;
     private String student_nickname;
-    private Vote vote;
+    private VoteResultResponse voteResultResponse;
 
-    public LawAddReqSelectResponse(LawAddRequestHistory lawAddRequestHistory) {
+    public LawAddReqSelectResponse(LawAddRequestHistory lawAddRequestHistory, VoteResultResponse voteResultResponse) {
         this.id = lawAddRequestHistory.getId();
         this.title = lawAddRequestHistory.getTitle();
         this.content = lawAddRequestHistory.getContent();
         this.accpet = lawAddRequestHistory.getAccpet();
         this.student_id = lawAddRequestHistory.getStudent().getId();
         this.student_nickname = lawAddRequestHistory.getStudent().getNickname();
-        this.vote = lawAddRequestHistory.getVote();
+        this.voteResultResponse = voteResultResponse;
     }
 }

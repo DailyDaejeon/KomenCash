@@ -1,17 +1,15 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.law.LawAddReqSelectListResponse;
-import com.komencash.backend.dto.law.LawAddReqSelectResponse;
+import com.komencash.backend.dto.Request.LawAddReqSelectListResponse;
+import com.komencash.backend.dto.Request.LawAddReqSelectResponse;
 import com.komencash.backend.dto.law.LawInsertUpdateRequest;
 import com.komencash.backend.dto.law.LawSelectResponse;
+import com.komencash.backend.dto.vote.VoteResultResponse;
 import com.komencash.backend.entity.Group;
 import com.komencash.backend.entity.Student;
 import com.komencash.backend.entity.law.Law;
 import com.komencash.backend.entity.request_history.LawAddRequestHistory;
-import com.komencash.backend.repository.GroupRepository;
-import com.komencash.backend.repository.LawAddRequestHistoryRepository;
-import com.komencash.backend.repository.LawRepository;
-import com.komencash.backend.repository.StudentRepository;
+import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +21,17 @@ public class LawService {
 
     @Autowired
     LawRepository lawRepository;
-
     @Autowired
     LawAddRequestHistoryRepository lawAddRequestHistoryRepository;
-
+    @Autowired
+    VoteRepository voteRepository;
     @Autowired
     StudentRepository studentRepository;
-
     @Autowired
     GroupRepository groupRepository;
 
+    @Autowired
+    VoteService voteService;
 
     public List<LawSelectResponse> findLawByGroupId(int groupId) {
         List<Law> lawList =  lawRepository.findByGroup_Id(groupId).orElseGet(ArrayList::new);
@@ -68,12 +67,14 @@ public class LawService {
                 resList.add(new LawAddReqSelectListResponse(request));
             }
         }
-
         return resList;
     }
 
+
     public LawAddReqSelectResponse findLawRequestByReqId(int requestId) {
         LawAddRequestHistory request = lawAddRequestHistoryRepository.findById(requestId).orElse(null);
-        return new LawAddReqSelectResponse(request);
+        VoteResultResponse result = voteService.findCntByVote_Id(request.getVote().getId());
+
+        return new LawAddReqSelectResponse(request, result);
     }
 }

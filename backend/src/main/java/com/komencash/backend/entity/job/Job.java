@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.job;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.komencash.backend.entity.Group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class Job {
     @Column(name = "recruit_type")
     private RecruitType recruitType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 }

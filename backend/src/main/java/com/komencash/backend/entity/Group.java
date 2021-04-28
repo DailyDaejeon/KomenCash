@@ -1,6 +1,6 @@
 package com.komencash.backend.entity;
 
-import com.komencash.backend.dto.GroupInsertUpdateRequest;
+import com.komencash.backend.dto.group.GroupInsertUpdateRequest;
 import com.komencash.backend.entity.teacher.Teacher;
 import lombok.*;
 import javax.persistence.*;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "`group`")
-public class Group {
+public class Group{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,11 +38,12 @@ public class Group {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    public Group(GroupInsertUpdateRequest groupInsertUpdateRequest) {
+    public Group(GroupInsertUpdateRequest groupInsertUpdateRequest, Teacher teacher) {
         this.code = "1";
         this.name = groupInsertUpdateRequest.getName();
         this.monetary_unit_name = groupInsertUpdateRequest.getMonetary_unit_name();
         this.tax_rate = groupInsertUpdateRequest.getTax_rate();
+        this.teacher = teacher;
     }
 
     public void updateGroup(String name, String monetary_unit_name, double tax_rate){
@@ -52,7 +53,7 @@ public class Group {
     }
 
 
-//    public static Group createGroup(GroupResponseDto groupResponseDto, Teacher teacher) {
+//     public static Group createGroup(GroupResponseDto groupResponseDto, Teacher teacher) {
 //        Group group = new Group();
 //        group.id = groupResponseDto.getId();
 //        group.code = groupResponseDto.getCode();

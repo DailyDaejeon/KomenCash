@@ -1,7 +1,8 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.StudentResponseDto;
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.dto.Request.GroupMemberAddRequestDto;
+import com.komencash.backend.dto.student.StudentDetailResponseDto;
+import com.komencash.backend.dto.student.StudentResponseDto;
 import com.komencash.backend.service.StudentService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.Response;
@@ -27,5 +28,17 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @ApiOperation(value="그룹원 상세 조회", notes = "한 학생의 정보 보기")
+    @GetMapping("/{student_id}")
+    public ResponseEntity<StudentDetailResponseDto> getStudentDetail(@PathVariable("student_id") int student_id){
+        StudentDetailResponseDto result =studentService.getStudentDetail(student_id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/{group_id}/add_request")
+    public ResponseEntity<List<GroupMemberAddRequestDto>> getStudentJoinRequest(@PathVariable("group_id") int group_id){
+        List<GroupMemberAddRequestDto> resultList = studentService.getStudentJoinRequest(group_id);
+        return ResponseEntity.status(HttpStatus.OK).body(resultList);
+    }
 
 }

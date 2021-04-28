@@ -1,4 +1,4 @@
-package com.komencash.backend.dto;
+package com.komencash.backend.dto.group;
 
 import com.komencash.backend.entity.Group;
 import lombok.Data;

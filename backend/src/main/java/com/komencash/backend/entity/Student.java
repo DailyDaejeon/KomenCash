@@ -1,5 +1,7 @@
 package com.komencash.backend.entity;
 
+import com.komencash.backend.entity.job.Job;
+import com.komencash.backend.entity.request_history.GroupMemberAddRequestHistory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,12 +28,14 @@ public class Student {
     @Column(name ="password")
     private String password;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 //
-//    @OneToOne
-//    @JoinColumn(name ="job_id")
-//    private Job job;
+    @OneToOne
+    @JoinColumn(name ="job_id")
+    private Job job;
+
+
 
 }

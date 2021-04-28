@@ -1,14 +1,14 @@
 <template>
   <main class="content">
     <button class="mr-3 btn btn-main"  @click="addFinancial">예금상품추가</button>
-    <BankItem bankType="financial" :propsData="financialData"/>
+    <ListItem listType="financial" :propsData="financialData"/>
   </main>
 </template>
 
 <script>
-import BankItem from '@/components/group/bank/BankItem.vue';
+import ListItem from '@/components/group/ListItem.vue';
 export default {
-  components: { BankItem },
+  components: { ListItem },
   data() {
     return {
       financialData : [

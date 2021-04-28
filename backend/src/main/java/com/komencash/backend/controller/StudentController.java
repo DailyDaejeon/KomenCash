@@ -37,21 +37,33 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @ApiOperation(value="그룹원 추가 요청 리스트 보기", notes = "그룹원 추가 요청 온 리스트 보기")
     @GetMapping("/{group_id}/add-request")
     public ResponseEntity<List<GroupMemberAddRequestDto>> getStudentJoinRequest(@PathVariable("group_id") int groupId){
         List<GroupMemberAddRequestDto> resultList = studentService.getStudentJoinRequest(groupId);
         return ResponseEntity.status(HttpStatus.OK).body(resultList);
     }
 
-    @PostMapping
+    @ApiOperation(value="그룹원 추가 요청 수락하기", notes = "그룹원 추가 요청 수락하기")
+    @PutMapping("/accept")
     public ResponseEntity<Void> addStudent(@RequestBody int studentId){
         studentService.addStudent(studentId);
         return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
     }
 
-    @PutMapping
+    @ApiOperation(value="그룹원 추가 요청 수락하기", notes = "그룹원 추가 요청 수락하기")
+    @PutMapping("/reject")
+    public ResponseEntity<Void> rejectStudent(@RequestBody int studentId){
+        studentService.rejectStudent(studentId);
+        return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
+    }
+
+    @ApiOperation(value="그룹원 자격증 변경 수락하기", notes = "그룹원 자격증 변경 수락하기")
+    @PutMapping("certificate")
     public boolean updateCertificate(@RequestBody CertificateRequestDto dto){
         studentService.updateCertificate(dto);
         return true;
     }
+
+
 }

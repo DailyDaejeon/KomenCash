@@ -30,4 +30,7 @@ public class GroupMemberAddRequestHistory {
     public void updateAccept(){
         this.accept = Accept.accept;
     }
+
+    public void updateReject() { this.accept = Accept.reject;
+    }
 }

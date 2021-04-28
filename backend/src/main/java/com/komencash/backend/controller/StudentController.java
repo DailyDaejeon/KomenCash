@@ -71,4 +71,12 @@ public class StudentController {
         studentService.resetPw(studentId);
         return true;
     }
+
+
+    @ApiOperation(value="그룹원 삭제", notes = "그룹원 삭제")
+    @DeleteMapping("/{studentId}")
+    public boolean deleteStudent(@PathVariable("studentId") int id){
+        studentService.deleteStudent(id);
+        return true;
+    }
 }

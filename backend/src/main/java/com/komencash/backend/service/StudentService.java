@@ -81,4 +81,8 @@ public class StudentService {
         stu.get().updatePw();
         studentRepository.save(stu.get());
     }
+
+    public void deleteStudent(int studentId) {
+        studentRepository.deleteById(studentId);
+    }
 }

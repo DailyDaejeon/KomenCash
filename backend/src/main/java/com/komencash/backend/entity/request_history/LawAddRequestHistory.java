@@ -28,6 +28,7 @@ public class LawAddRequestHistory {
     @Column(name = "content")
     private String content;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "accept")
     private Accept accpet;
 

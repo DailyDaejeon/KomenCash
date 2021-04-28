@@ -1,10 +1,8 @@
 package com.komencash.backend.entity.request_history;
 
+import com.komencash.backend.dto.Request.GroupMemberAddRequestDto;
 import com.komencash.backend.entity.Student;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,11 +19,15 @@ public class GroupMemberAddRequestHistory {
     @Column(name = "id")
     private int id;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "accept")
     private Accept accept;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="student_id")
     private Student student;
+
+    public void updateAccept(){
+        this.accept = Accept.accept;
+    }
 }

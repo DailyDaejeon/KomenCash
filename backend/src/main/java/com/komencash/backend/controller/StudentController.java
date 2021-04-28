@@ -41,4 +41,9 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(resultList);
     }
 
+    @PostMapping
+    public ResponseEntity<Void> addStudent(@RequestBody int student_id){
+        studentService.addStudent(student_id);
+        return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
+    }
 }

@@ -3,6 +3,7 @@ package com.komencash.backend.service;
 import com.komencash.backend.dto.Request.GroupMemberAddRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentResponseDto;
+import com.komencash.backend.entity.Group;
 import com.komencash.backend.entity.Student;
 import com.komencash.backend.entity.request_history.GroupMemberAddRequestHistory;
 import com.komencash.backend.repository.GroupMemberAddRequestHistoryRepository;
@@ -42,5 +43,11 @@ public class StudentService {
             }
         }
         return list;
+    }
+
+    public void addStudent(int student_id) {
+        GroupMemberAddRequestHistory addrequest = groupMemberAddRequestHistoryRepository.findByStudentId(student_id);
+        addrequest.updateAccept();
+        groupMemberAddRequestHistoryRepository.save(addrequest);
     }
 }

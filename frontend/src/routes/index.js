@@ -125,6 +125,16 @@ const router =  new Router({
       component: () => import('@/views/group/store/StorePage.vue'),
     },
     {
+      path: '/group/store/product',
+      name: 'StoreListPage',
+      component: () => import('@/views/group/store/StoreListPage.vue'),
+    },
+    {
+      path: '/group/store/history',
+      name: 'StoreHistoryPage',
+      component: () => import('@/views/group/store/StoreHistoryPage.vue'),
+    },
+    {
       path: '/group/setting',
       name: 'GroupSettingPage',
       component: () => import('@/views/group/GroupSettingPage.vue'),

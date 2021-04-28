@@ -2,15 +2,15 @@
   <main class="content">
     <div class="container-fluid p-0">
       <h1 class="h3 mb-3">그룹원 전체 계좌</h1>
-      <BankItem bankType="account" :propsData="students"/>
+      <ListItem listType="account" :propsData="students"/>
     </div>
   </main>
 </template>
 
 <script>
-import BankItem from '@/components/group/bank/BankItem.vue'
+import ListItem from '@/components/group/ListItem.vue'
 export default {
-  components: { BankItem },
+  components: { ListItem },
   data() {
     return {
       students : [

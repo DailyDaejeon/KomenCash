@@ -3,12 +3,12 @@
     <div class="col-md-3 col-xl-2">
       <div class="card">
         <div class="card-header">
-          <h5 class="card-title mb-0">{{bankTypeName}} 조회</h5>
+          <h5 class="card-title mb-0">{{listTypeName}} 조회</h5>
         </div>
         <div class="pointer list-group list-group-flush" role="tablist" v-for="(data,index) in propsData" :key="index"> 
           <router-link 
           :id="data.name"
-          class="list-group-item list-group-item-action" :to="{name:`${bankTypeRouteName}`, params: { id:`${data.id}`, propsData:data,dataName:data.name}}"
+          class="list-group-item list-group-item-action" :to="{name:`${listTypeRouteName}`, params: { id:`${data.id}`, propsData:data,dataName:data.name}}"
           v-slot="{ href, navigate, isActive}" custom
           >
           <span  :active="isActive" :href="href" @click="navigate"
@@ -27,7 +27,7 @@
           <div class="card">
             <div class="card-header">
 
-              <h5 class="card-title mb-0">{{bankTypeName}}리스트</h5>
+              <h5 class="card-title mb-0">{{listTypeName}}리스트</h5>
             </div>
             <div class="card-body">
               <router-view></router-view>
@@ -44,13 +44,13 @@
 <script>
 export default {
   props: {
-    bankType:String,
+    listType:String,
     propsData:Array
   },
   data() {
     return {
-      bankTypeName:"",
-      bankTypeRouteName:"",
+      listTypeName:"",
+      listTypeRouteName:"",
     };
   },
   created() {
@@ -58,12 +58,15 @@ export default {
   },
   methods: {
     fetchTypeName() {
-      if (this.bankType === "account") {
-        this.bankTypeName = "계좌"
-        this.bankTypeRouteName = "BankMemberDetail"
-      } else if (this.bankType === "financial") {
-        this.bankTypeName = "예적금 상품"
-        this.bankTypeRouteName = "BankFinancialDetail"
+      if (this.listType === "account") {
+        this.listTypeName = "계좌"
+        this.listTypeRouteName = "BankMemberDetail"
+      } else if (this.listType === "financial") {
+        this.listTypeName = "예적금 상품"
+        this.listTypeRouteName = "BankFinancialDetail"
+      } else if (this.listType === "store") {
+        this.listTypeName = "온라인 상품"
+        this.listTypeRouteName = "StoreDetail"
       }
     }
   },

@@ -21,7 +21,7 @@ public class StudentService {
     @Autowired
     GroupMemberAddRequestHistoryRepository groupMemberAddRequestHistoryRepository;
     public StudentResponseDto getStudent(int group_id){
-        List<Student> student = studentRepository.findAllByGroupId(group_id);
+        List<Student> student = studentRepository.findAllByJobGroup_Id(group_id);
         return new StudentResponseDto(student);
     }
 
@@ -33,7 +33,7 @@ public class StudentService {
 
 
     public List<GroupMemberAddRequestDto> getStudentJoinRequest(int group_id) {
-        List<Student> tst = studentRepository.findAllByGroupId(group_id);
+        List<Student> tst = studentRepository.findAllByJobGroup_Id(group_id);
         List<GroupMemberAddRequestDto> list = new ArrayList<>();
         for(Student s : tst){
             GroupMemberAddRequestHistory dto = groupMemberAddRequestHistoryRepository.findByStudentId(s.getId());

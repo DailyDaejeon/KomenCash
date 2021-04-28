@@ -32,7 +32,7 @@ public class LawAddRequestHistory {
     @Column(name = "accept")
     private Accept accpet;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "vote_id")
     private Vote vote;
 

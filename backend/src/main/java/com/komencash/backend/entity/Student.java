@@ -29,10 +29,6 @@ public class Student {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group group;
-//
-    @OneToOne
     @JoinColumn(name ="job_id")
     private Job job;
 

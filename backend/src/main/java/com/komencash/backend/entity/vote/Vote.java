@@ -1,6 +1,5 @@
 package com.komencash.backend.entity.vote;
 
-import com.komencash.backend.entity.Group;
 import com.komencash.backend.entity.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +27,7 @@ public class Vote {
     @Column(name = "content")
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
 

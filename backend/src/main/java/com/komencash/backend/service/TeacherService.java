@@ -48,8 +48,8 @@ public class TeacherService{
     }
 
 
-    public TeacherSelectResponse findTeacher(int teacher_id) {
-        return new TeacherSelectResponse(teacherRepository.findById(teacher_id).orElseGet(Teacher::new));
+    public TeacherSelectResponse findTeacher(int teacherId) {
+        return new TeacherSelectResponse(teacherRepository.findById(teacherId).orElseGet(Teacher::new));
     }
 
     public boolean updateTeacher(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
@@ -60,8 +60,8 @@ public class TeacherService{
     }
 
 
-    public boolean deleteTeacher(int teacher_id) {
-        teacherRepository.deleteById(teacher_id);
+    public boolean deleteTeacher(int teacherId) {
+        teacherRepository.deleteById(teacherId);
         return true;
     }
 

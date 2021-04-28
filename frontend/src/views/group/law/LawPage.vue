@@ -99,8 +99,7 @@ export default {
         inputValidator: (result) => {
           return !result && '화폐 단위를 작성해주세요!'
         }
-      }
-      ]).then((result) => {
+      }).then((result) => {
       if (result.value) {
         const answers = JSON.stringify(result.value)
         //서버로 넘기는 api 추가

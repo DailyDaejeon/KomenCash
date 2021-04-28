@@ -53,7 +53,7 @@
           <div class="vote-body-item">
             <p>투표 항목 추가</p>
             <VoteItemInput @addItem="addOneItem" />
-            <VoteList :voteList="voteItemList" @removeItem="removeOneItem" @toggleItem="toggleOneItem" />
+            <VoteItemList :voteList="voteItemList" @removeItem="removeOneItem" @toggleItem="toggleOneItem" />
           </div>
           <div class="vote-body-item createVote">
             <button class="btn btn-main" @click="createVote">투표 등록</button>
@@ -69,7 +69,7 @@ import LawList from '@/components/group/law/LawList.vue'
 import RequestItem from '@/components/group/main/RequestItem.vue'
 import Modal from '@/components/common/Modal.vue'
 import VoteItemInput from '@/components/group/vote/VoteItemInput.vue'
-import VoteList from '@/components/group/vote/VoteList.vue'
+import VoteItemList from '@/components/group/vote/VoteItemList.vue'
 
 export default {
   data() {
@@ -80,7 +80,7 @@ export default {
       voteContent:'',
     }
   },
-  components: { LawList, RequestItem, Modal, VoteItemInput, VoteList },
+  components: { LawList, RequestItem, Modal, VoteItemInput, VoteItemList },
   methods: {
     addVote() {
       this.showModal = true;

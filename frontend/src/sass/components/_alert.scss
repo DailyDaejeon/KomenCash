@@ -40,3 +40,53 @@
   box-sizing: border-box;
 }
 
+
+//swal2 class 커스텀
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {
+  background: $main !important;
+}
+
+.swal2-progress-steps .swal2-progress-step {
+    z-index: 20;
+    flex-shrink: 0;
+    width: 2em;
+    height: 2em;
+    border-radius: 2em;
+    background: $main !important;
+    color: $white;
+    line-height: 2em;
+    text-align: center;
+}
+
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line {
+    background: $gray-200 !important;
+}
+
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step {
+    background: $gray-500 !important;
+    color: $white;
+}
+
+.swal2-progress-steps .swal2-progress-step-line {
+    z-index: 10;
+    flex-shrink: 0;
+    width: 2.5em;
+    height: .4em;
+    margin: 0 -1px;
+    background: $gray-700 !important;
+}
+
+.swal2-input-custom {
+  box-sizing: border-box;
+  width: 40%;
+  transition: border-color .3s,box-shadow .3s;
+  border: 1px solid #d9d9d9;
+  border-radius: .1875em;
+  background: inherit;
+  box-shadow: inset 0 1px 1px 0000006;
+  color: inherit;
+  font-size: 1.125em;
+  margin: 5px;
+  height: 2.625em;
+  text-align: center;
+}

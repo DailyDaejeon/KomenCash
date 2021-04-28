@@ -83,37 +83,4 @@ export default {
 </script>
 
 <style lang="scss">
-.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {
-  background: #e7ab3c;
-}
-
-.swal2-progress-steps .swal2-progress-step {
-    z-index: 20;
-    flex-shrink: 0;
-    width: 2em;
-    height: 2em;
-    border-radius: 2em;
-    background: #e7ab3c;
-    color: #fff;
-    line-height: 2em;
-    text-align: center;
-}
-
-.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line {
-    background: #e7e7e7;
-}
-
-.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step {
-    background: #bebebe;
-    color: #fff;
-}
-
-.swal2-progress-steps .swal2-progress-step-line {
-    z-index: 10;
-    flex-shrink: 0;
-    width: 2.5em;
-    height: .4em;
-    margin: 0 -1px;
-    background: #757575;
-}
 </style>

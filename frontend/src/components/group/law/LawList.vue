@@ -5,7 +5,7 @@
         <h4 class="card-title mb-0">헌법 리스트</h4>
         <!-- 1. nav(헌법 종류에 따라, 각 헌법의 조항에 따라) -->
         <!-- 2. 해당 헌법 또는 조항에 맞는 내용으로 이동 -->
-        <div id="tabs" class="container">
+        <div id="tab" class="container">
           <div class="tabs">
           <!-- <div class="tabs" v-for="(law, index) in lawList" :key="index"> -->
             <!-- <a @click="activetab=(index+1)" :class="[ activetab === (index+1) ? 'active' : '' ]">{{law.law_type}}</a> -->
@@ -49,7 +49,6 @@
 
 <script>
 export default {
-  el:"#tabs",
   data() {
     return {
       activetab: 1,

@@ -1,7 +1,7 @@
 <template>
   <div class="card flex-fill">
     <div class="card-header">
-      <h5 class="card-title mb-0">{{studentName}}님의 은행거래내역</h5>
+      <h5 class="card-title mb-0">{{propsData.name}}님의 은행거래내역</h5>
     </div>
     <table class="table table-hover my-0">
       <thead>
@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>월급</td>
+          <td>{{propsData.name}}의 월급</td>
           <td><span class="badge bg-success">입금</span></td>
           <td class="d-none d-md-table-cell">100</td>
         </tr>
@@ -24,11 +24,11 @@
 
 <script>
 export default {
-  props:['studentData','memberName'],
+  props:['propsData','dataName'],
   data() {
     return {
-      studentList : this.studentData,
-      studentName: this.memberName
+      studentList : this.propsData,
+      studentName: this.dataName
     }
   }
 }

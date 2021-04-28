@@ -78,15 +78,28 @@ const router =  new Router({
       component: () => import('@/views/group/tax/TaxPage.vue'),
     },
     {
-      path: '/group/bank',
-      name: 'BankPage',
-      component: () => import('@/views/group/bank/BankPage.vue'),
+      path: '/group/bank/account',
+      name: 'BankAccountPage',
+      component: () => import('@/views/group/bank/BankAccountPage.vue'),
       children: [
         { 
-        path: ':memberName',
+        path: ':id',
         name: 'BankMemberDetail',
         component: () => import('@/components/group/bank/BankMemberDetail.vue'),
         props: true
+        }
+      ]
+    },
+    {
+      path: '/group/bank/financial',
+      name: 'BankFinancialPage',
+      component: () => import('@/views/group/bank/BankFinancialList.vue'),
+      children: [
+        {
+          path: ':id',
+          name: 'BankFinancialDetail',
+          component: () => import('@/components/group/bank/BankFinancialItem.vue'),
+          props: true
         }
       ]
     },

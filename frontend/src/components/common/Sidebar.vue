@@ -11,62 +11,84 @@
 				</li>
 
 				<li class="sidebar-item active" id="MainPage"  @click="toggleMenu">
-					<router-link class="sidebar-link" :to="{name:'MainPage'}">
-						<i class="align-middle" data-feather="main"></i> <span class="align-middle">메인</span>
+					<router-link class="sidebar-link" :to="{name:'MainPage'}"
+					v-slot="{ href, navigate, isActive}" custom
+					>
+						<i class="align-middle" data-feather="main"></i> <span class="align-middle" :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">메인</span>
 					</router-link>
 				</li>
 
 				<li class="sidebar-item" id="JobPage"
 				@click="toggleMenu"
 				>
-					<router-link class="sidebar-link" :to="{name:'JobPage'}">
-						<i class="align-middle" data-feather="job"></i> <span class="align-middle">직업</span>
+					<router-link class="sidebar-link" :to="{name:'JobPage'}" v-slot="{ href, navigate, isActive}" custom>
+						<i class="align-middle" data-feather="job"></i> <span class="align-middle" :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">직업</span>
 					</router-link>
 				</li>
 
 				<li class="sidebar-item" id="LawPage"
 				@click="toggleMenu"
 				>
-					<router-link class="sidebar-link" :to="{name:'LawPage'}">
-						<i class="align-middle" data-feather="law"></i> <span class="align-middle">국회</span>
+					<router-link class="sidebar-link" :to="{name:'LawPage'}" v-slot="{ href, navigate, isActive}" custom>
+						<i class="align-middle" data-feather="law"></i> <span class="align-middle" :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">국회</span>
 					</router-link>
 				</li>
 
 				<li class="sidebar-item" id="TaxPage"
 				@click="toggleMenu"
 				>
-					<router-link class="sidebar-link" :to="{name:'TaxPage'}">
-						<i class="align-middle" data-feather="tax"></i> <span class="align-middle">국세청</span>
+					<router-link class="sidebar-link" :to="{name:'TaxPage'}" v-slot="{ href, navigate, isActive}" custom>
+						<i class="align-middle" data-feather="tax"></i> <span class="align-middle" :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">국세청</span>
 					</router-link>
 				</li>
 
-				<li class="sidebar-item" id="BankPage" @click="toggleMenu">
-					<router-link class="sidebar-link" :to="{name:'BankPage'}">
+				<li class="sidebar-item" id="BankPage"> 
+					<span data-bs-toggle="collapse" class="sidebar-link collapsed">
 						<i class="align-middle" data-feather="bank"></i> <span class="align-middle">은행</span>
-					</router-link>
+					</span>
+					<ul id="bank" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
+						<!-- collapse -->
+						<li class="sidebar-item" @click="toggleMenu"><router-link :to="{name:'BankAccountPage'}" class="sidebar-link" v-slot="{ href, navigate, isActive}" custom>
+							<span :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">그룹원 계좌조회</span> </router-link></li>
+						<li class="sidebar-item" @click="toggleMenu"><router-link class="sidebar-link" :to="{name:'BankFinancialPage'}" v-slot="{ href, navigate, isActive}" custom><span :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">예적금 상품관리</span></router-link></li>	
+						</ul>
 				</li>
 
 				<li class="sidebar-item" id="StockPage" @click="toggleMenu">
-					<router-link class="sidebar-link" :to="{name:'StockPage'}">
-						<i class="align-middle" data-feather="stock"></i> <span class="align-middle">증권</span>
+					<router-link class="sidebar-link" :to="{name:'StockPage'}" v-slot="{ href, navigate, isActive}">
+						<!-- <i class="align-middle" data-feather="stock"></i> -->
+						<span class="align-middle" :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">증권</span>
 					</router-link>
 				</li>
 
 				<li class="sidebar-item" id="CreditPage" @click="toggleMenu">
-					<router-link class="sidebar-link" :to="{name:'CreditPage'}">
-						<i class="align-middle" data-feather="credit"></i> <span class="align-middle">신용</span>
+					<router-link class="sidebar-link" :to="{name:'CreditPage'}" v-slot="{ href, navigate, isActive}" custom>
+						<!-- <i class="align-middle" data-feather="credit"></i> -->
+						<span class="align-middle" :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">신용</span>
 					</router-link>
 				</li>
 
 				<li class="sidebar-item" id="StorePage" @click="toggleMenu">
-					<router-link class="sidebar-link" :to="{name:'StorePage'}">
-						<i class="align-middle" data-feather="store"></i> <span class="align-middle">상점</span>
+					<router-link class="sidebar-link" :to="{name:'StorePage'}" v-slot="{ href, navigate, isActive}" custom>
+					<!-- <i class="align-middle" data-feather="store"></i>  -->
+						<span class="align-middle" :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']"> 상점</span>
 					</router-link>
 				</li>
 
 				<li class="sidebar-item" id="GroupSettingPage" @click="toggleMenu">
-					<router-link class="sidebar-link" :to="{name:'GroupSettingPage'}">
-						<i class="align-middle" data-feather="setting"></i> <span class="align-middle">그룹관리</span>
+					<router-link class="sidebar-link" :to="{name:'GroupSettingPage'}"  v-slot="{ href, navigate, isActive}" custom>
+						<!-- <i class="align-middle" data-feather="setting"></i> -->
+						<span class="align-middle" :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">그룹관리</span>
 					</router-link>
 				</li>
 

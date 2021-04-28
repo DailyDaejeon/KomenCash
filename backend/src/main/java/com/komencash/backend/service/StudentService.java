@@ -57,8 +57,8 @@ public class StudentService {
         return list;
     }
 
-    public void addStudent(int student_id) {
-        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudentId(student_id);
+    public void addStudent(int studentId) {
+        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudentId(studentId);
         addRequest.updateAccept();
         groupMemberAddRequestHistoryRepository.save(addRequest);
     }
@@ -68,5 +68,11 @@ public class StudentService {
         CertificateIssueRequestHistory updateRequest = certificateIssueRequestHistoryRepository.findByStudentId(dto.getStudentId());
         updateRequest.updateCertificate(getCertificate.get());
         certificateIssueRequestHistoryRepository.save(updateRequest);
+    }
+
+    public void rejectStudent(int studentId) {
+        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudentId(studentId);
+        addRequest.updateReject();
+        groupMemberAddRequestHistoryRepository.save(addRequest);
     }
 }

@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.law.LawAddReqSelectListResponse;
 import com.komencash.backend.dto.law.LawAddReqSelectResponse;
 import com.komencash.backend.dto.law.LawInsertUpdateRequest;
 import com.komencash.backend.dto.law.LawSelectResponse;
@@ -56,19 +57,23 @@ public class LawService {
     }
 
 
-    // Stream, Map
-    public List<LawAddReqSelectResponse> findLawRequestByGroupId(int groupId) {
+    public List<LawAddReqSelectListResponse> findLawRequestByGroupId(int groupId) {
 
-        List<LawAddReqSelectResponse> resList = new ArrayList();
+        List<LawAddReqSelectListResponse> resList = new ArrayList();
 
-        List<Student> students = studentRepository.findAllByGroupId(groupId);
+        List<Student> students = studentRepository.findAllByJobGroup_Id(groupId);
         for(Student student : students) {
             List<LawAddRequestHistory> reqList = lawAddRequestHistoryRepository.findByStudent_Id(student.getId());
             for(LawAddRequestHistory request : reqList) {
-                resList.add(new LawAddReqSelectResponse(request));
+                resList.add(new LawAddReqSelectListResponse(request));
             }
         }
 
         return resList;
+    }
+
+    public LawAddReqSelectResponse findLawRequestByReqId(int requestId) {
+        LawAddRequestHistory request = lawAddRequestHistoryRepository.findById(requestId).orElse(null);
+        return new LawAddReqSelectResponse(request);
     }
 }

@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.law.LawAddReqSelectListResponse;
 import com.komencash.backend.dto.law.LawAddReqSelectResponse;
 import com.komencash.backend.dto.law.LawInsertUpdateRequest;
 import com.komencash.backend.dto.law.LawSelectResponse;
@@ -20,10 +21,10 @@ public class LawController {
     LawService lawService;
 
     @ApiOperation(value = "헌법 리스트 조회", notes = "그룹 아이디를 받아 해당 그룹의 헌법 리스트를 조회")
-    @ApiImplicitParam(name = "group_id", value = "group_id(그룹 아이디)", dataType = "int", required = true)
-    @GetMapping("/{group_id}")
-    public List<LawSelectResponse> findLawByGroupId(@PathVariable("group_id") int group_id) {
-        return lawService.findLawByGroupId(group_id);
+    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/{group-id}")
+    public List<LawSelectResponse> findLawByGroupId(@PathVariable("group-id") int groupId) {
+        return lawService.findLawByGroupId(groupId);
     }
 
 
@@ -34,10 +35,18 @@ public class LawController {
     }
 
     @ApiOperation(value = "법률 추가/수정 요청 리스트 조회", notes = "그룹 아이디를 받아 해당 그룹의 헌법 추가/수정 요청 리스트를 조회")
-    @ApiImplicitParam(name = "group_id", value = "group_id(그룹 아이디)", dataType = "int", required = true)
-    @GetMapping("/add_request/{group_id}")
-    public List<LawAddReqSelectResponse> findLawRequestByGroupId(@PathVariable("group_id") int group_id) {
-        return lawService.findLawRequestByGroupId(group_id);
+    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/add_request_list/{group-id}")
+    public List<LawAddReqSelectListResponse> findLawRequestByGroupId(@PathVariable("group-id") int groupId) {
+        return lawService.findLawRequestByGroupId(groupId);
+    }
+
+
+    @ApiOperation(value = "법률 추가/수정 요청 상세 조회", notes = "요청 아이디를 받아 해당 요청의 상세 정보를 조회")
+    @ApiImplicitParam(name = "request-id", value = "request-id(요청 아이디)", dataType = "int", required = true)
+    @GetMapping("/add_request/{request-id}")
+    public LawAddReqSelectResponse findLawRequestByReqId(@PathVariable("request-id") int requestId) {
+        return lawService.findLawRequestByReqId(requestId);
     }
 
 

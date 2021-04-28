@@ -31,7 +31,7 @@ public class Job {
     @Column(name = "personnel")
     private int personnel;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "recruit_type")
     private RecruitType recruitType;
 

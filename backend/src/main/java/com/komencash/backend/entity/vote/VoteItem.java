@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.vote;
 
+import com.komencash.backend.dto.vote.VoteItemInsertUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,4 +30,10 @@ public class VoteItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vote_id")
     private Vote vote;
+
+    public VoteItem(VoteItemInsertUpdateRequest voteItemInsertUpdateRequest, Vote vote){
+        this.itemNum = voteItemInsertUpdateRequest.getItemNum();
+        this.content = voteItemInsertUpdateRequest.getContent();
+        this.vote = vote;
+    }
 }

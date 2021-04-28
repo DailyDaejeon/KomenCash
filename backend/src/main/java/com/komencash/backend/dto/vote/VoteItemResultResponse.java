@@ -14,5 +14,10 @@ public class VoteItemResultResponse implements VoteItemResultInterface{
     private String content;
     private int resultCnt;
 
-
+    public VoteItemResultResponse(VoteItemResultInterface voteItemResultInterface) {
+        this.id = voteItemResultInterface.getId();
+        this.itemNum = voteItemResultInterface.getItemNum();
+        this.content = voteItemResultInterface.getContent();
+        this.resultCnt = voteItemResultInterface.getResultCnt();
+    }
 }

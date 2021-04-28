@@ -4,4 +4,5 @@ import com.komencash.backend.entity.request_history.CertificateIssueRequestHisto
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CertificateIssueRequestHistoryRepository extends JpaRepository<CertificateIssueRequestHistory, Integer> {
+    CertificateIssueRequestHistory findByStudentId(int studentId);
 }

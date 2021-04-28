@@ -59,11 +59,16 @@ public class StudentController {
     }
 
     @ApiOperation(value="그룹원 자격증 변경 수락하기", notes = "그룹원 자격증 변경 수락하기")
-    @PutMapping("certificate")
+    @PutMapping("/certificate")
     public boolean updateCertificate(@RequestBody CertificateRequestDto dto){
         studentService.updateCertificate(dto);
         return true;
     }
 
-
+    @ApiOperation(value="그룹원 비밀번호 초기화", notes = "그룹원 비밀번호 초기화")
+    @PutMapping("reset-pw")
+    public boolean resetStudentPW(@RequestBody int studentId){
+        studentService.resetPw(studentId);
+        return true;
+    }
 }

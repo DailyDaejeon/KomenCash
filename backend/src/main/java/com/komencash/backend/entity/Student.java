@@ -32,6 +32,9 @@ public class Student {
     @JoinColumn(name ="job_id")
     private Job job;
 
+    public void updatePw(){
+        this.password ="1234";
+    }
 
 
 }

@@ -75,4 +75,10 @@ public class StudentService {
         addRequest.updateReject();
         groupMemberAddRequestHistoryRepository.save(addRequest);
     }
+
+    public void resetPw(int studentId) {
+        Optional<Student> stu = studentRepository.findById(studentId);
+        stu.get().updatePw();
+        studentRepository.save(stu.get());
+    }
 }

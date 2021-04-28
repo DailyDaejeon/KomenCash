@@ -11,14 +11,6 @@
       <LawList />
     </div>
 
-    <!-- 2. 헌법 준수 서약서 관리 -->
-    <div class="row mb-2 mb-xl-3">
-      <div class="col-auto d-none d-sm-block">
-        <h3><strong>헌법 준수 서약서</strong> 관리</h3>
-      </div>
-      
-    </div>
-
     <!-- 2. 법률 제안 요청 관리 -->
     <div class="row mb-2 mb-xl-3">
       <div class="col-auto d-none d-sm-block">
@@ -36,6 +28,38 @@
       <div class="col-auto near-title-btn">
         <button class="btn btn-main" @click="addVote">투표 생성하기</button>
       </div>
+      <Modal v-if="showModal" @close="showModal = false">
+        <h3 slot="header">
+          <div class="modal-head">
+            투표 생성하기
+            <div class="modal-cancel-btn" @click="showModal = !showModal">
+              <i class="closeModalBtn fa fa-times"
+                aria-hidden="true"
+              ></i>
+            </div>
+          </div>
+        </h3>
+        <div slot="body">
+          <div class="vote-body-item">
+            <p>투표 주제</p> 
+            <div>
+              <input type="text" v-model="this.voteTitle" class="voteTitle" placeholder="ex) 2021년 1학기 국무총리 선거"/>
+            </div>
+          </div>
+          <div class="vote-body-item">
+            <p>투표 내용</p> 
+            <textarea v-model="this.voteContent" placeholder="2021년도 1학기 국무총리를 뽑는 투표입니다. 우리 모두 투표권을 행사하여...."></textarea>
+          </div>
+          <div class="vote-body-item">
+            <p>투표 항목 추가</p>
+            <VoteItemInput @addItem="addOneItem" />
+            <VoteList :voteList="voteItemList" @removeItem="removeOneItem" @toggleItem="toggleOneItem" />
+          </div>
+          <div class="vote-body-item createVote">
+            <button class="btn btn-main" @click="createVote">투표 등록</button>
+          </div>
+        </div>
+      </Modal>
     </div>
   </main>
 </template>
@@ -43,81 +67,110 @@
 <script>
 import LawList from '@/components/group/law/LawList.vue'
 import RequestItem from '@/components/group/main/RequestItem.vue'
+import Modal from '@/components/common/Modal.vue'
+import VoteItemInput from '@/components/group/vote/VoteItemInput.vue'
+import VoteList from '@/components/group/vote/VoteList.vue'
+
 export default {
   data() {
     return {
-      
+      showModal:false,
+      voteItemList:[],
+      voteTitle:'',
+      voteContent:'',
     }
   },
-  components: { LawList, RequestItem },
+  components: { LawList, RequestItem, Modal, VoteItemInput, VoteList },
   methods: {
+    addVote() {
+      this.showModal = true;
+    },
+    addOneItem(item) {
+      console.log("이거 실행 됨?",item)
+      const obj = {completed: false, item: item};
+      // localStorage.setItem(Item, JSON.stringify(obj));
+      this.voteItemList.push(obj);
+      console.log("this is new item : ",obj);
+    },
+    removeOneItem(item, index) {
+      this.voteItemList.splice(index, 1);
+      // localStorage.removeItem(todoItem.item);
+    },
+    toggleOneItem(item, index) {
+      this.voteItemList[index].completed = !this.voteItemList[index].completed;
+      // localStorage.removeItem(todoItem.item);
+      // localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    },
     createVote(){
-      // var voteName = '';
-      // var voteItemCnt = 0;
-      // var voteItem = [];
+      const iList = [];
 
-      this.$swal.queue(
-      {
-        title: '투표 생성 1단계',
-        input: 'text',
-        text: '투표 주제를 정해주세요.',
-        inputPlaceholder: '2021 반장 선거',
-        // confirmButtonText: 'Next &rarr;',
-        showCancelButton: true,
-        progressSteps: ['1', '2', '3', '4'],
-        inputValidator: (result) => {
-          return !result && '투표 주제를 작성해주세요!'
-        },
-        preConfirm: (result) => {
-          // voteName = result;
+      for(let i = 1; i<=this.voteItemList.length; i++){
+        iList.push({item_num: i, content: this.voteItemList[i-1].item});
+      }
 
-          if(result) {
-            this.$swal.insertQueueStep({
-              title: '투표 생성 2단계',
-              input: 'text',
-              text: '화폐 단위를 정해주세요.',
-              inputPlaceholder: '원, 꿈, 미소',
-              confirmButtonText: 'Next &rarr;',
-              showCancelButton: true,
-              progressSteps: ['1', '2'],
-              inputValidator: (result) => {
-                return !result && '화폐 단위를 작성해주세요!'
-              }
-            })
-          }
-        }
-      })
+      const list = [];
+      list.push({title: this.voteTitle, content: this.voteContent, voteItemList: iList});
 
-      this.$swal.fire({
-        title: '투표 생성 2단계',
-        input: 'select',
-        text: '화폐 단위를 정해주세요.',
-        inputPlaceholder: '원, 꿈, 미소',
-        confirmButtonText: 'Next &rarr;',
-        showCancelButton: true,
-        progressSteps: ['1', '2'],
-        inputValidator: (result) => {
-          return !result && '화폐 단위를 작성해주세요!'
-        }
-      }).then((result) => {
-      if (result.value) {
-        const answers = JSON.stringify(result.value)
-        //서버로 넘기는 api 추가
-        this.$swal({
-            title: '그룹 생성 전, 정보를 확인해주세요!',
-            html: `
-              Your answers:
-              <pre><code>${answers}</code></pre>
-            `,
-            confirmButtonText: 'Lovely!'
-          })
-        }
-      })
+      //list 서버에 넘겨주는 api 추가
     }
   },
 }
 </script>
 
 <style>
+.modal-head{
+  width: 100%;
+}
 
+.modal-header h3{
+  width: 100%;
+  text-align: initial;
+}
+
+.modal-cancel-btn {
+  display: inline-block;
+  float: right;
+  cursor: pointer;
+}
+
+.vote-body-item textarea {
+  display: block;
+  resize: none;
+  width: 22.1rem;
+  height: 5rem;
+}
+
+.vote-body-item input[type=text] {
+  width: 60%;
+}
+
+.voteTitle{
+  width: 22.1rem !important;
+}
+
+.vote-body-item textarea,
+.vote-body-item input[type=text] {
+  border: 1px solid #d9d9d9;
+  border-radius: .1875em;
+  background: inherit;
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 6%);
+  color: inherit;
+  font-size: 1.125em;
+  padding: 2px;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  transition: border-color .3s,box-shadow .3s;
+}
+
+.vote-body-item p {
+  color: #545454;
+  font-size: 1.125em;
+  font-weight: 400;
+  line-height: normal;
+  margin : 0;
+}
+
+.createVote {
+  text-align: center;
+}
 </style>

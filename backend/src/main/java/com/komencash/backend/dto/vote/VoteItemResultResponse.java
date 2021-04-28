@@ -7,8 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoteItemResultResponse {
+public class VoteItemResultResponse implements VoteItemResultInterface{
 
     private int id;
-    
+    private int itemNum;
+    private String content;
+    private int resultCnt;
+
+
 }

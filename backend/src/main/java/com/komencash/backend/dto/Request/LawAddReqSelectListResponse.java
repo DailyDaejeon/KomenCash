@@ -1,4 +1,4 @@
-package com.komencash.backend.dto.law;
+package com.komencash.backend.dto.Request;
 
 import com.komencash.backend.entity.Student;
 import com.komencash.backend.entity.request_history.Accept;

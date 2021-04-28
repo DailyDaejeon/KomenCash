@@ -1,9 +1,10 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.law.LawAddReqSelectListResponse;
-import com.komencash.backend.dto.law.LawAddReqSelectResponse;
+import com.komencash.backend.dto.Request.LawAddReqSelectListResponse;
+import com.komencash.backend.dto.Request.LawAddReqSelectResponse;
 import com.komencash.backend.dto.law.LawInsertUpdateRequest;
 import com.komencash.backend.dto.law.LawSelectResponse;
+import com.komencash.backend.dto.vote.VoteResultResponse;
 import com.komencash.backend.service.LawService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

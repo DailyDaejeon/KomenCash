@@ -33,4 +33,10 @@ public class CertificateIssueRequestHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public void updateCertificate(Certificate cert){
+        this.certificate = cert;
+
+    }
+
 }

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="w-100">
       <div class="card-header">
-        <h4 class="card-title mb-0">헌법 리스트</h4>
+        <!-- <h4 class="card-title mb-0">헌법 리스트</h4> -->
         <!-- 1. nav(헌법 종류에 따라, 각 헌법의 조항에 따라) -->
         <!-- 2. 해당 헌법 또는 조항에 맞는 내용으로 이동 -->
         <div id="tab" class="container">

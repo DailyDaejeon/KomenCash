@@ -9,5 +9,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 
     List<Student> findAllByJob_Group_Id(int group_id);
 
+    List<Student> findByJob_Id(int jobId);
 
 }

@@ -1,7 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.vote.*;
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.vote.Vote;
 import com.komencash.backend.entity.vote.VoteAttend;
 import com.komencash.backend.entity.vote.VoteItem;

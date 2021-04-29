@@ -3,7 +3,6 @@ package com.komencash.backend.controller;
 import com.komencash.backend.dto.job.JobDetailResponse;
 import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.job.JobSelectResponse;
-import com.komencash.backend.dto.teacher.TeacherInsertUpdateRequest;
 import com.komencash.backend.service.JobService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -44,5 +43,12 @@ public class JobController {
     @PutMapping("")
     public boolean updateJob(@RequestBody JobInsertUpdateRequest jobInsertUpdateRequest) {
         return jobService.updateJob(jobInsertUpdateRequest);
+    }
+
+    @ApiOperation(value = "직업 정보 삭제", notes = "job-id를 받아서 delete 후 결과 반환")
+    @ApiImplicitParam(name = "job-id", value = "job-id(직업 아이디)", dataType = "int", required = true)
+    @DeleteMapping("/{job-id}")
+    public boolean deleteJob(@PathVariable("job-id") int jobId) {
+        return jobService.deleteJob(jobId);
     }
 }

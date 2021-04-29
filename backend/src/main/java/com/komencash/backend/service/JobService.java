@@ -5,15 +5,14 @@ import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.job.JobSelectResponse;
 import com.komencash.backend.dto.job.JobStudentResponse;
 import com.komencash.backend.dto.request.JobAddReqSelectResponse;
+import com.komencash.backend.dto.request.ResumeSelectResponse;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.JobAddRequestHistory;
+import com.komencash.backend.entity.request_history.ResumeRequestHistory;
 import com.komencash.backend.entity.student.Student;
-import com.komencash.backend.repository.GroupRepository;
-import com.komencash.backend.repository.JobAddRequestHistoryRepository;
-import com.komencash.backend.repository.JobRepository;
-import com.komencash.backend.repository.StudentRepository;
+import com.komencash.backend.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,8 @@ public class JobService {
     GroupRepository groupRepository;
     @Autowired
     JobAddRequestHistoryRepository jobAddRequestHistoryRepository;
+    @Autowired
+    ResumeRequestHistoryRepository resumeRequestHistoryRepository;
 
     public List<JobSelectResponse> findJobByGroupId(int groupId){
         List<JobSelectResponse> jobSelectResponses = new ArrayList<>();
@@ -93,7 +94,6 @@ public class JobService {
 
 
     public List<JobAddReqSelectResponse> findJobAddRequestByGroupId (int groupId) {
-
         List<JobAddReqSelectResponse> jobAddReqSelectResponses = new ArrayList<>();
 
         List<JobAddRequestHistory> jobAddRequestHistories = jobAddRequestHistoryRepository.findByStudent_Job_Group_Id(groupId);
@@ -101,7 +101,18 @@ public class JobService {
             if(!jobAddRequestHistory.getAccept().equals(Accept.before_confirm)) continue;
             jobAddReqSelectResponses.add(new JobAddReqSelectResponse(jobAddRequestHistory));
         }
-
         return jobAddReqSelectResponses;
+    }
+
+
+    public List<ResumeSelectResponse> findResumeListByGroupId(int groupId) {
+        List<ResumeSelectResponse> resumeSelectResponses = new ArrayList<>();
+
+        List<ResumeRequestHistory> resumeRequestHistories = resumeRequestHistoryRepository.findByStudent_Job_Group_Id(groupId);
+        for (ResumeRequestHistory resumeRequestHistory : resumeRequestHistories) {
+            if(!resumeRequestHistory.getAccept().equals(Accept.before_confirm)) continue;
+            resumeSelectResponses.add(new ResumeSelectResponse(resumeRequestHistory));
+        }
+        return resumeSelectResponses;
     }
 }

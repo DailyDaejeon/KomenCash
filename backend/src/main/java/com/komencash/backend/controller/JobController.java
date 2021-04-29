@@ -1,6 +1,8 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.job.JobSelectResponse;
+import com.komencash.backend.dto.teacher.TeacherInsertUpdateRequest;
 import com.komencash.backend.dto.teacher.TeacherSelectResponse;
 import com.komencash.backend.service.JobService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -23,5 +25,11 @@ public class JobController {
     @GetMapping("/{group-id}")
     public List<JobSelectResponse> findJobByGroupId(@PathVariable("group-id") int groupId){
         return jobService.findJobByGroupId(groupId);
+    }
+
+    @ApiOperation(value = "직업 추가", notes = "직업 정보를 받아서 추가")
+    @PostMapping("")
+    public boolean saveJob(@RequestBody JobInsertUpdateRequest jobInsertUpdateRequest) {
+        return jobService.saveJob(jobInsertUpdateRequest);
     }
 }

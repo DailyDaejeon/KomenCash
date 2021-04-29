@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.job;
 
+import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,4 +39,15 @@ public class Job {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
+
+
+    public Job(JobInsertUpdateRequest jobInsertUpdateRequest, Group group) {
+        this.id = jobInsertUpdateRequest.getId();
+        this.name = jobInsertUpdateRequest.getName();
+        this.salary = jobInsertUpdateRequest.getSalary();
+        this.role = jobInsertUpdateRequest.getRole();
+        this.personnel = jobInsertUpdateRequest.getPersonnel();
+        this.recruitType = jobInsertUpdateRequest.getRecruitType();
+        this.group = group;
+    }
 }

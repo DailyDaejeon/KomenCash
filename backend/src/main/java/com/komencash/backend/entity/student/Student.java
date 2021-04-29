@@ -37,5 +37,8 @@ public class Student {
         this.password ="1234";
     }
 
+    public void updateJob(Job job){
+        this.job = job;
+    }
 
 }

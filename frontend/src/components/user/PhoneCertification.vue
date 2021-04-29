@@ -35,7 +35,7 @@ export default {
             authenDisplay: 'none',
             idDisplay: 'none',
             resetBtnDisplay: 'none',
-            authenNum: '',
+            authenNum: '0000',
             confirmNum: '0000',
         };
     },
@@ -76,10 +76,14 @@ export default {
         }
       }
     },
-    async sendCertificationNumber() {
-      const response = await phoneAuth(this.userPhoneNum)
-      this.userId = response.data.u_email;
-      this.confirmNum = response.data.auth_number;
+    sendCertificationNumber() {
+      console.log(this.userPhoneNum)
+      const response = phoneAuth({
+        phone_number : this.userPhoneNum
+        })
+      console.log('휴대폰인증',response)
+      // this.userId = response.data.u_email;
+      // this.confirmNum = response.data.auth_number;
       this.$swal({
         customClass: {
           container: 'swal2-container'
@@ -92,7 +96,7 @@ export default {
       this.start();
       this.authenDisplay = 'block';
     },
-    async checkCertification() {
+    checkCertification() {
       if (this.confirmNum === this.authenNum) {
         this.$swal({
           customClass: {

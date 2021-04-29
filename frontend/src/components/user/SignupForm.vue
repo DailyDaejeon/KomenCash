@@ -1,12 +1,11 @@
 <template>
   <main class="d-flex w-100">
 		<div class="container d-flex flex-column">
-			<div class="row vh-100">
+			<div class="row ">
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
 					<div class="d-table-cell align-middle">
-
 						<div class="text-center mt-4">
-							<h1 class="h2">WELCOME TO KOMENCASH</h1>
+							<h1 class="h2">WELCOME TO 몽글몽글혜림이네</h1>
 						</div>
 
 						<div class="card">
@@ -19,12 +18,12 @@
                       v-model="username"
                       class="form-control form-control-lg" type="text" name="name" placeholder="이름을 입력하세요." />
                       <!-- 중복 닉네임이 아닐 때 표출 -->
-                      <p class="icon-inline-block" v-show="!isUserNickNameEmpty && !nickCheck">
+                      <p class="icon-inline-block" v-show="!isUserNickNameEmpty && nickCheck">
                       <!-- 체크표시 아이콘 -->
                         <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
                       </p>
                       <!-- 중복 닉네임일 때 표출 -->
-                      <p class="icon-inline-block" v-show="!isUserNickNameEmpty && nickCheck">
+                      <p class="icon-inline-block" v-show="!isUserNickNameEmpty && !nickCheck">
                       <!-- 엑스표시 아이콘 -->
                         <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
                       </p>
@@ -40,12 +39,12 @@
                       autocapitalize="off"
                       class="form-control form-control-lg" type="email" name="email" placeholder="komencash@komencash.com" />
                       <!-- 중복 아이디가 아닐 때 표출 -->
-                      <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && !idCheck">
+                      <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && idCheck">
                       <!-- 체크표시 아이콘 -->
                         <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
                       </p>
                       <!-- 중복 아이디일 때 표출 -->
-                      <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && idCheck">
+                      <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && !idCheck">
                       <!-- 엑스표시 아이콘 -->
                         <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
                       </p>
@@ -273,6 +272,7 @@ export default {
       try{
         const response = await userIdChk(this.userId);
         this.idCheck = response.data;
+        console.log('아이디체크?',response,this.idCheck)
       }catch(err) {
         console.log(err);
       }
@@ -282,6 +282,7 @@ export default {
       try{
         const result = await dupNickNameChk(this.username);
         this.nickCheck = result.data;
+        console.log('닉네임체크?',result,this.nickCheck)
       }catch(err) {
         console.log(err);
       }
@@ -326,7 +327,7 @@ export default {
     },
     // 우리서버이용
     async submitSignup() {
-      if(this.idCheck){
+      if(!this.idCheck){
         this.$swal({
         text: "이미 사용중인 아이디입니다.",
         icon: 'info',
@@ -335,7 +336,7 @@ export default {
       })
         return;
       }
-      if(this.nickCheck) {
+      if(!this.nickCheck) {
         this.$swal({
         text: "이미 사용중인 닉네임입니다.",
         icon: 'info',

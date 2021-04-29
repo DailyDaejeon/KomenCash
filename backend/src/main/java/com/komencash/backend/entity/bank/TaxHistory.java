@@ -1,4 +1,4 @@
-package com.komencash.backend.entity.payment;
+package com.komencash.backend.entity.bank;
 
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;

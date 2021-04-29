@@ -82,4 +82,13 @@ public class VoteService {
 
         return voteDetailResultResponse;
     }
+
+
+    public boolean deleteVote(int voteId){
+        Vote vote = voteRepository.findById(voteId).orElse(null);
+        if(vote == null) return false;
+
+        voteRepository.delete(vote);
+        return true;
+    }
 }

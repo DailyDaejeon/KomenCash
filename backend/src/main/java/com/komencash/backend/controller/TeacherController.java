@@ -81,6 +81,7 @@ public class TeacherController {
         return teacherService.updateTeacherPassword(teacherPasswordUpdateRequest);
     }
 
+    
     @ApiOperation(value = "휴대폰 인증", notes = "휴대전화 번호를 입력하면 이메일과 인증번호를 반환")
     @ApiImplicitParam(name = "phoneNumber", value = "phoneNumber(휴대전화 번호)", dataType = "String", required = true)
     @GetMapping("/phone-auth")

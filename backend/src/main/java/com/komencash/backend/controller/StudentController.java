@@ -4,8 +4,11 @@ import com.komencash.backend.dto.Request.GroupMemberAddRequestDto;
 import com.komencash.backend.dto.certificate.CertificateRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentResponseDto;
+import com.komencash.backend.dto.student.StudentUpdateJobRequest;
 import com.komencash.backend.repository.CertificateIssueRequestHistoryRepository;
 import com.komencash.backend.service.StudentService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +73,12 @@ public class StudentController {
     public ResponseEntity resetStudentPW(@RequestBody int studentId){
         studentService.resetPw(studentId);
         return ResponseEntity.status(HttpStatus.OK).body(1);
+    }
+
+    @ApiOperation(value="그룹원 직업 변경", notes = "student-id, job-id 입력받아 직업 변경")
+    @PutMapping("/job")
+    public boolean updateStudentJob(@RequestBody StudentUpdateJobRequest studentUpdateJobRequest){
+        return studentService.updateStudentJob(studentUpdateJobRequest);
     }
 
 

@@ -28,15 +28,15 @@ public class ResumeRequestHistory {
     @Column(name = "content")
     private String content;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "accept")
     private Accept accept;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "job_id")
     private Job job;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
 }

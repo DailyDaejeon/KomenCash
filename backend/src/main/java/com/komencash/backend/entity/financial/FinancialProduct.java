@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.financial;
 
-import com.komencash.backend.entity.Group;
+import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

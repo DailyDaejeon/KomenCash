@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.credit;
 
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.student.Student;
 import lombok.*;
 
 import javax.persistence.*;

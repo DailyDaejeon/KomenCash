@@ -1,6 +1,6 @@
 package com.komencash.backend.repository;
 
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.student.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

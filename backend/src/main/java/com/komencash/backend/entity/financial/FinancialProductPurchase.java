@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.financial;
 
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

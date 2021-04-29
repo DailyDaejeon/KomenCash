@@ -1,19 +1,16 @@
 package com.komencash.backend.dto.student;
 
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.job.Job;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class StudentResponseDto {
-
-    private List<Student> student;
-    public StudentResponseDto(List<Student> students){
-        this.student = students;
-    }
+    private String nickname;
+    private Job job;
 
 
 }

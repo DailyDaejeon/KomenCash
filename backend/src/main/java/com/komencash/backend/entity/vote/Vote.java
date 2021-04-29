@@ -1,7 +1,7 @@
 package com.komencash.backend.entity.vote;
 
 import com.komencash.backend.dto.vote.VoteInsertUpdateRequest;
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

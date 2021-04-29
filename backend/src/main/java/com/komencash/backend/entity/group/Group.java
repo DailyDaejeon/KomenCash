@@ -1,4 +1,4 @@
-package com.komencash.backend.entity;
+package com.komencash.backend.entity.group;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.komencash.backend.dto.group.GroupInsertUpdateRequest;
@@ -40,7 +40,7 @@ public class Group{
     private Teacher teacher;
 
     public Group(GroupInsertUpdateRequest groupInsertUpdateRequest, Teacher teacher) {
-        this.code = "1";
+        this.code = teacher.getNickname()+teacher.getId();
         this.name = groupInsertUpdateRequest.getName();
         this.monetary_unit_name = groupInsertUpdateRequest.getMonetary_unit_name();
         this.tax_rate = groupInsertUpdateRequest.getTax_rate();

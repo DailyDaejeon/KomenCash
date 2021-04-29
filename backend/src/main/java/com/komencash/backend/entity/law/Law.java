@@ -1,7 +1,7 @@
 package com.komencash.backend.entity.law;
 
 import com.komencash.backend.dto.law.LawInsertUpdateRequest;
-import com.komencash.backend.entity.Group;
+import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

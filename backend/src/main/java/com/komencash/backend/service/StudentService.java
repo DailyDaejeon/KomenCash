@@ -4,8 +4,7 @@ import com.komencash.backend.dto.Request.GroupMemberAddRequestDto;
 import com.komencash.backend.dto.certificate.CertificateRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentResponseDto;
-import com.komencash.backend.entity.Group;
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.certificate.Certificate;
 import com.komencash.backend.entity.request_history.CertificateIssueRequestHistory;
 import com.komencash.backend.entity.request_history.GroupMemberAddRequestHistory;
@@ -33,9 +32,16 @@ public class StudentService {
     @Autowired
     CertificateRepository certificateRepository;
 
-    public StudentResponseDto getStudent(int group_id){
+    public List<StudentResponseDto> getStudent(int group_id){
+        System.out.println("service");
         List<Student> student = studentRepository.findAllByJobGroup_Id(group_id);
-        return new StudentResponseDto(student);
+        List<StudentResponseDto> students = new ArrayList<>();
+        student.forEach(s ->{
+            StudentResponseDto dto = new StudentResponseDto(s.getNickname(), s.getJob());
+            students.add(dto);
+            System.out.println(dto);
+        });
+        return students;
     }
 
     public StudentDetailResponseDto getStudentDetail(int student_id) {

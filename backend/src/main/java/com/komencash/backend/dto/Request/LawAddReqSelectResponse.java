@@ -1,11 +1,8 @@
 package com.komencash.backend.dto.Request;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.komencash.backend.dto.vote.VoteResultResponse;
-import com.komencash.backend.entity.Student;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.LawAddRequestHistory;
-import com.komencash.backend.entity.vote.Vote;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

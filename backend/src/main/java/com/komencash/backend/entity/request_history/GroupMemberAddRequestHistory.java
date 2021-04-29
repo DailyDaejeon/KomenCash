@@ -1,7 +1,6 @@
 package com.komencash.backend.entity.request_history;
 
-import com.komencash.backend.dto.Request.GroupMemberAddRequestDto;
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.student.Student;
 import lombok.*;
 
 import javax.persistence.*;

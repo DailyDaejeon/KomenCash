@@ -283,9 +283,9 @@ $sidebar-link-hover-color: #{rgba($gray-200, 0.75)} !default;
 $sidebar-link-hover-border-left-color: transparent !default;
 
 $sidebar-link-active-font-weight: $font-weight-normal !default;
-$sidebar-link-active-bg: #{linear-gradient(90deg, rgba($primary,0.1) 0%, rgba($primary,0.0875) 50%, rgba($black, 0) 100%)} !default;
+$sidebar-link-active-bg: #{linear-gradient(90deg, rgba($main,0.1) 0%, rgba($main,0.0875) 50%, rgba($black, 0) 100%)} !default;
 $sidebar-link-active-color: $gray-200 !default;
-$sidebar-link-active-border-left-color: $primary !default;
+$sidebar-link-active-border-left-color: $main !default;
 
 // Sidebar child link
 $sidebar-link-child-padding: .625rem 1.5rem .625rem 3.25rem !default;
@@ -296,7 +296,7 @@ $sidebar-link-child-color: $gray-500 !default;
 $sidebar-link-child-bg: transparent !default;
 $sidebar-link-child-hover-color: $gray-200 !default;
 $sidebar-link-child-hover-bg: transparent !default;
-$sidebar-link-child-active-color: #{lighten($primary, 5)} !default;
+$sidebar-link-child-active-color: #{lighten($main, 5)} !default;
 $sidebar-link-child-active-bg: transparent !default;
 
 // Sidebar link icon
@@ -359,7 +359,7 @@ $content-padding-desktop: 2.5rem 2.5rem 1rem !default;
 $content-padding-mobile: 1.5rem 1.5rem .75rem !default;
 
 // Datetimepicker
-$bs-datetimepicker-active-bg: $primary !default;
+$bs-datetimepicker-active-bg: $main !default;
 
 // Simplebar
 $simplebar-scrollbar-bg: $white !default;

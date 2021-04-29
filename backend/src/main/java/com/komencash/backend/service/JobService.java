@@ -57,4 +57,14 @@ public class JobService {
 
         return new JobDetailResponse(job, jobStudentResponses);
     }
+
+
+    public boolean updateJob(JobInsertUpdateRequest jobInsertUpdateRequest) {
+        Job job = jobRepository.findById(jobInsertUpdateRequest.getId()).orElse(null);
+        if(job == null) return false;
+
+        job.updateJob(jobInsertUpdateRequest);
+        jobRepository.save(job);
+        return true;
+    }
 }

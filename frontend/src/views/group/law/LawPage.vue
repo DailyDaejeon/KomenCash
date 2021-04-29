@@ -28,11 +28,11 @@
       <div class="col-auto near-title-btn">
         <button class="btn btn-main" @click="addVote">투표 생성하기</button>
       </div>
-      <Modal v-if="showModal" @close="showModal = false">
+      <Modal v-if="showModal" @close="showModal = false" class="addVoteModal">
         <h3 slot="header">
           <div class="modal-head">
             투표 생성하기
-            <div class="modal-cancel-btn" @click="showModal = !showModal">
+            <div class="modal-cancel-btn" @click="closeModal">
               <i class="closeModalBtn fa fa-times"
                 aria-hidden="true"
               ></i>
@@ -43,12 +43,12 @@
           <div class="vote-body-item">
             <p>투표 주제</p> 
             <div>
-              <input type="text" v-model="this.voteTitle" class="voteTitle" placeholder="ex) 2021년 1학기 국무총리 선거"/>
+              <input type="text" v-model="voteTitle" class="voteTitle" placeholder="ex) 2021년 1학기 국무총리 선거"/>
             </div>
           </div>
           <div class="vote-body-item">
             <p>투표 내용</p> 
-            <textarea v-model="this.voteContent" placeholder="2021년도 1학기 국무총리를 뽑는 투표입니다. 우리 모두 투표권을 행사하여...."></textarea>
+            <textarea v-model="voteContent" placeholder="2021년도 1학기 국무총리를 뽑는 투표입니다. 우리 모두 투표권을 행사하여...."></textarea>
           </div>
           <div class="vote-body-item">
             <p>투표 항목 추가</p>
@@ -111,7 +111,15 @@ export default {
       const list = [];
       list.push({title: this.voteTitle, content: this.voteContent, voteItemList: iList});
 
+      console.log(list)
       //list 서버에 넘겨주는 api 추가
+    },
+    closeModal() {
+      this.showModal = !this.showModal;
+      this.voteItemList = [];
+      this.voteTitle = '';
+      this.voteContent = '';
+
     }
   },
 }
@@ -141,7 +149,7 @@ export default {
 }
 
 .vote-body-item input[type=text] {
-  width: 60%;
+  width: 19.1rem;
 }
 
 .voteTitle{
@@ -172,5 +180,10 @@ export default {
 
 .createVote {
   text-align: center;
+}
+
+.addVoteModal .modal-container{
+  width: 500px;
+  height: 500px;
 }
 </style>

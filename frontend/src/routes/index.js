@@ -42,11 +42,6 @@ const router =  new Router({
       component: () => import('@/views/group/GroupList.vue'),
     },
     {
-      path: '/group/add',
-      name: 'AddGroup',
-      component: () => import('@/views/group/AddGroup.vue'),
-    },
-    {
       path: '/group/job',
       name: 'JobPage',
       component: () => import('@/views/group/job/JobListPage.vue'),

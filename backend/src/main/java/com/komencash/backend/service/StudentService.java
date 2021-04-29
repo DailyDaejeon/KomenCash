@@ -4,6 +4,7 @@ import com.komencash.backend.dto.Request.GroupMemberAddRequestDto;
 import com.komencash.backend.dto.certificate.CertificateRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentResponseDto;
+import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.certificate.Certificate;
 import com.komencash.backend.entity.request_history.CertificateIssueRequestHistory;
@@ -54,12 +55,16 @@ public class StudentService {
     public List<GroupMemberAddRequestDto> getStudentJoinRequest(int group_id) {
         List<Student> tst = studentRepository.findAllByJob_Group_Id(group_id);
         List<GroupMemberAddRequestDto> list = new ArrayList<>();
-        for(Student s : tst){
+        tst.forEach(s ->{
             GroupMemberAddRequestHistory dto = groupMemberAddRequestHistoryRepository.findByStudentId(s.getId());
-            if(dto.getAccept().equals("before_confirm")){
-                list.add(new GroupMemberAddRequestDto(dto.getId(), "before_confirm", dto.getStudent().getId(), dto.getStudent().getNickname()));
+            System.out.println(dto.getStudent().getNickname()+" , "+dto.getAccept());
+
+            if(dto.getAccept()==Accept.before_confirm){
+                list.add(new GroupMemberAddRequestDto(dto.getId(), dto.getAccept().toString(), dto.getStudent().getId(), dto.getStudent().getNickname()));
             }
-        }
+        });
+
+
         return list;
     }
 
@@ -68,18 +73,18 @@ public class StudentService {
         addRequest.updateAccept();
         groupMemberAddRequestHistoryRepository.save(addRequest);
     }
+    public void rejectStudent(int studentId) {
+        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudentId(studentId);
+        addRequest.updateReject();
+        groupMemberAddRequestHistoryRepository.save(addRequest);
+    }
+
 
     public void updateCertificate(CertificateRequestDto dto) {
         Optional<Certificate> getCertificate = certificateRepository.findById(dto.getCertificateId());
         CertificateIssueRequestHistory updateRequest = certificateIssueRequestHistoryRepository.findByStudentId(dto.getStudentId());
         updateRequest.updateCertificate(getCertificate.get());
         certificateIssueRequestHistoryRepository.save(updateRequest);
-    }
-
-    public void rejectStudent(int studentId) {
-        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudentId(studentId);
-        addRequest.updateReject();
-        groupMemberAddRequestHistoryRepository.save(addRequest);
     }
 
     public void resetPw(int studentId) {

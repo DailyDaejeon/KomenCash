@@ -46,16 +46,16 @@ public class StudentController {
 
     @ApiOperation(value="그룹원 추가 요청 수락하기", notes = "그룹원 추가 요청 수락하기")
     @PutMapping("/accept")
-    public ResponseEntity<Void> addStudent(@RequestBody int studentId){
+    public ResponseEntity addStudent(@RequestBody int studentId){
         studentService.addStudent(studentId);
-        return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(1);
     }
 
-    @ApiOperation(value="그룹원 추가 요청 수락하기", notes = "그룹원 추가 요청 수락하기")
+    @ApiOperation(value="그룹원 추가 요청 거절하기", notes = "그룹원 추가 요청 거절하기")
     @PutMapping("/reject")
-    public ResponseEntity<Void> rejectStudent(@RequestBody int studentId){
+    public ResponseEntity rejectStudent(@RequestBody int studentId){
         studentService.rejectStudent(studentId);
-        return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(1);
     }
 
     @ApiOperation(value="그룹원 자격증 변경 수락하기", notes = "그룹원 자격증 변경 수락하기")
@@ -67,9 +67,9 @@ public class StudentController {
 
     @ApiOperation(value="그룹원 비밀번호 초기화", notes = "그룹원 비밀번호 초기화")
     @PutMapping("reset-pw")
-    public boolean resetStudentPW(@RequestBody int studentId){
+    public ResponseEntity resetStudentPW(@RequestBody int studentId){
         studentService.resetPw(studentId);
-        return true;
+        return ResponseEntity.status(HttpStatus.OK).body(1);
     }
 
 

@@ -60,7 +60,7 @@ public class LawService {
 
         List<LawAddReqSelectListResponse> resList = new ArrayList();
 
-        List<Student> students = studentRepository.findAllByJobGroup_Id(groupId);
+        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
         for(Student student : students) {
             List<LawAddRequestHistory> reqList = lawAddRequestHistoryRepository.findByStudent_Id(student.getId());
             for(LawAddRequestHistory request : reqList) {

@@ -66,7 +66,7 @@ export default {
         this.listTypeRouteName = "BankFinancialDetail"
       } else if (this.listType === "store") {
         this.listTypeName = "온라인 상품"
-        this.listTypeRouteName = "StoreDetail"
+        this.listTypeRouteName = "StorePage"
       }
     }
   },

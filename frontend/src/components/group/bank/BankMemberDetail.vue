@@ -9,6 +9,7 @@
           <th>거래내역</th>
           <th>입출금</th>
           <th class="d-none d-md-table-cell">금액(단위:미소)</th>
+          <th>잔액</th>
         </tr>
       </thead>
       <tbody>
@@ -16,6 +17,7 @@
           <td>{{propsData.name}}의 월급</td>
           <td><span class="badge bg-success">입금</span></td>
           <td class="d-none d-md-table-cell">100</td>
+          <td class="d-none d-md-table-cell">1000000</td>
         </tr>
       </tbody>
     </table>

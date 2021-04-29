@@ -76,12 +76,18 @@
 					</router-link>
 				</li>
 
-				<li class="sidebar-item" id="StorePage" @click="toggleMenu">
-					<router-link class="sidebar-link" :to="{name:'StorePage'}" v-slot="{ href, navigate, isActive}" custom>
-					<!-- <i class="align-middle" data-feather="store"></i>  -->
-						<span class="align-middle" :active="isActive" :href="href" @click="navigate"
-          :class="[isActive && 'active']"> 상점</span>
-					</router-link>
+				<li class="sidebar-item" id="StorePage"> 
+					<span data-bs-toggle="collapse" class="sidebar-link collapsed">
+						<i class="align-middle" data-feather="store"></i> <span class="align-middle">상점</span>
+					</span>
+					<ul id="store" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
+						<!-- collapse -->
+						<li class="sidebar-item" @click="toggleMenu"><router-link :to="{name:'StoreListPage'}" class="sidebar-link" v-slot="{ href, navigate, isActive}" custom>
+							<span :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">상품리스트</span> </router-link></li>
+						<li class="sidebar-item" @click="toggleMenu"><router-link class="sidebar-link" :to="{name:'StoreHistoryPage'}" v-slot="{ href, navigate, isActive}" custom><span :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']">상품 거래내역</span></router-link></li>	
+						</ul>
 				</li>
 
 				<li class="sidebar-item" id="GroupSettingPage" @click="toggleMenu">

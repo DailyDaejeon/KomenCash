@@ -3,8 +3,10 @@ package com.komencash.backend.service;
 import com.komencash.backend.dto.vote.*;
 import com.komencash.backend.entity.Student;
 import com.komencash.backend.entity.vote.Vote;
+import com.komencash.backend.entity.vote.VoteAttend;
 import com.komencash.backend.entity.vote.VoteItem;
 import com.komencash.backend.repository.StudentRepository;
+import com.komencash.backend.repository.VoteAttendRepository;
 import com.komencash.backend.repository.VoteItemRepository;
 import com.komencash.backend.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class VoteService {
     @Autowired
     VoteItemRepository voteItemRepository;
     @Autowired
+    VoteAttendRepository voteAttendRepository;
+    @Autowired
     StudentRepository studentRepository;
 
     public VoteResultResponse findCntByVote_Id(int voteId){
@@ -36,7 +40,8 @@ public class VoteService {
         return new VoteResultResponse(vote, voteItemResultResponses);
     }
 
-    public List<VoteResultResponse> findByGroupId(int groupId){
+
+    public List<VoteResultResponse> findVoteListByGroupId(int groupId){
         List<VoteResultResponse> voteResultResponses = new ArrayList<>();
 
         List<Vote> voteList = voteRepository.findByStudent_Job_Group_Id(groupId);
@@ -47,6 +52,7 @@ public class VoteService {
 
         return voteResultResponses;
     }
+
 
     public boolean saveVote(VoteInsertUpdateRequest voteInsertUpdateRequest) {
 
@@ -61,5 +67,19 @@ public class VoteService {
         }
 
         return true;
+    }
+
+    public VoteDetailResultResponse findVoteByVoteId(int voteId){
+        VoteResultResponse voteResultResponse = findCntByVote_Id(voteId);
+
+        List<VoteAttend> voteAttends = voteAttendRepository.findByVote_Id(voteId);
+        List<VoteAttendResponse> voteAttendResponses = new ArrayList<>();
+        for(VoteAttend voteAttend : voteAttends) {
+            voteAttendResponses.add(new VoteAttendResponse(voteAttend));
+        }
+
+        VoteDetailResultResponse voteDetailResultResponse = new VoteDetailResultResponse(voteResultResponse, voteAttendResponses);
+
+        return voteDetailResultResponse;
     }
 }

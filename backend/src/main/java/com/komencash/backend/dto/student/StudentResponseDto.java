@@ -12,6 +12,5 @@ public class StudentResponseDto {
     private String nickname;
     private Job job;
 
-
 }
 

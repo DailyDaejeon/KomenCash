@@ -3,6 +3,7 @@ package com.komencash.backend.controller;
 import com.komencash.backend.dto.job.JobDetailResponse;
 import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.job.JobSelectResponse;
+import com.komencash.backend.dto.teacher.TeacherInsertUpdateRequest;
 import com.komencash.backend.service.JobService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -37,5 +38,11 @@ public class JobController {
     @GetMapping("/detail/{job-id}")
     public JobDetailResponse findJobDetailById(@PathVariable("job-id") int jobId){
         return jobService.findJobDetailById(jobId);
+    }
+
+    @ApiOperation(value = "직업 정보 수정", notes = "직업 정보를 받아서 update후 반환")
+    @PutMapping("")
+    public boolean updateJob(@RequestBody JobInsertUpdateRequest jobInsertUpdateRequest) {
+        return jobService.updateJob(jobInsertUpdateRequest);
     }
 }

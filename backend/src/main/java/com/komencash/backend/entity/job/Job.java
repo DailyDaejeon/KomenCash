@@ -50,4 +50,12 @@ public class Job {
         this.recruitType = jobInsertUpdateRequest.getRecruitType();
         this.group = group;
     }
+
+    public void updateJob(JobInsertUpdateRequest jobInsertUpdateRequest) {
+        this.name = jobInsertUpdateRequest.getName();
+        this.salary = jobInsertUpdateRequest.getSalary();
+        this.role = jobInsertUpdateRequest.getRole();
+        this.personnel = jobInsertUpdateRequest.getPersonnel();
+        this.recruitType = jobInsertUpdateRequest.getRecruitType();
+    }
 }

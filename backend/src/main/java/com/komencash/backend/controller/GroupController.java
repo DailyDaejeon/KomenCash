@@ -25,7 +25,7 @@ public class GroupController {
 
     @ApiOperation(value = "그룹생성", notes = "그룹 생성")
     @PostMapping
-    public boolean saveGroup(@RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest){
+    public int saveGroup(@RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest){
         return groupService.saveGroup(groupInsertUpdateRequest);
     }
 

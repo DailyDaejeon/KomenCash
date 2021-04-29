@@ -2,7 +2,7 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.group.GroupInsertUpdateRequest;
 import com.komencash.backend.dto.group.GroupResponseDto;
-import com.komencash.backend.entity.Group;
+import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.repository.GroupRepository;
 import com.komencash.backend.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,13 @@ public class GroupService {
     @Autowired
     GroupRepository groupRepository;
 
-    public boolean saveGroup(GroupInsertUpdateRequest groupInsertUpdateRequest){
+    public int saveGroup(GroupInsertUpdateRequest groupInsertUpdateRequest){
         Group savedGroup = new Group(groupInsertUpdateRequest, teacherRepository.findById(groupInsertUpdateRequest.getTeacher_id()).get());
 //        savedGroup.setTeacher(teacherRepository.findById(groupInsertUpdateRequest.getTeacher_id()).get());
-        groupRepository.save(savedGroup);
-        return true;
+        Group group = groupRepository.save(savedGroup);
+        int groupId = group.getId();
+
+        return groupId;
     }
 
     public GroupResponseDto getGroup(int id){       // 선생님 id를 가지고 group 리스트 보여주기

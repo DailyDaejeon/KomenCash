@@ -1,11 +1,12 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.Request.LawAddReqSelectListResponse;
-import com.komencash.backend.dto.Request.LawAddReqSelectResponse;
+import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
+import com.komencash.backend.dto.request.LawAddReqSelectResponse;
 import com.komencash.backend.dto.law.LawInsertUpdateRequest;
 import com.komencash.backend.dto.law.LawSelectResponse;
 import com.komencash.backend.dto.vote.VoteResultResponse;
 import com.komencash.backend.entity.group.Group;
+import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.law.Law;
 import com.komencash.backend.entity.request_history.LawAddRequestHistory;
@@ -64,6 +65,7 @@ public class LawService {
         for(Student student : students) {
             List<LawAddRequestHistory> reqList = lawAddRequestHistoryRepository.findByStudent_Id(student.getId());
             for(LawAddRequestHistory request : reqList) {
+                if(!request.getAccpet().equals(Accept.before_confirm)) continue;
                 resList.add(new LawAddReqSelectListResponse(request));
             }
         }

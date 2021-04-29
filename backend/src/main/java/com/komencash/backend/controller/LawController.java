@@ -1,7 +1,7 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.Request.LawAddReqSelectListResponse;
-import com.komencash.backend.dto.Request.LawAddReqSelectResponse;
+import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
+import com.komencash.backend.dto.request.LawAddReqSelectResponse;
 import com.komencash.backend.dto.law.LawInsertUpdateRequest;
 import com.komencash.backend.dto.law.LawSelectResponse;
 import com.komencash.backend.service.LawService;
@@ -34,7 +34,7 @@ public class LawController {
         return lawService.updateLaw(lawInsertUpdateRequest);
     }
 
-    @ApiOperation(value = "법률 추가/수정 요청 리스트 조회", notes = "그룹 아이디를 받아 해당 그룹의 헌법 추가/수정 요청 리스트를 조회")
+    @ApiOperation(value = "미확인 법률 추가/수정 요청 리스트 조회", notes = "그룹 아이디를 받아 미확인된 해당 그룹의 헌법 추가/수정 요청 리스트를 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/add_request_list/{group-id}")
     public List<LawAddReqSelectListResponse> findLawRequestByGroupId(@PathVariable("group-id") int groupId) {

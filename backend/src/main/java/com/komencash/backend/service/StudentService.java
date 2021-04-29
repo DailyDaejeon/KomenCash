@@ -1,6 +1,6 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.Request.GroupMemberAddRequestDto;
+import com.komencash.backend.dto.request.GroupMemberAddRequestDto;
 import com.komencash.backend.dto.certificate.CertificateRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentResponseDto;

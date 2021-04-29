@@ -3,14 +3,16 @@ import App from './App.vue'
 import router from '@/routes/index';
 import store from '@/stores/index';
 import BootstrapVue from 'bootstrap-vue';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faEye, faEyeSlash, faEnvelope, faCheckCircle as farCheckC, faStar as farStar, faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 import { faCheckCircle as fasCheckC, faCheck, faTimes, faThumbsUp, faStar, faAngleRight, faAngleLeft, faUserCog, faUpload, faTv, faEllipsisV} from "@fortawesome/free-solid-svg-icons";
-import '@/css/index.css'
 import VueSweetalert2 from "vue-sweetalert2";
+import KProgress from 'k-progress';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import '@/css/index.css'
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 import ChartPlugin from '@/plugins/ChartPlugin';
@@ -33,6 +35,7 @@ library.add(fasCheckC, faCheck, faTimes, faThumbsUp, faStar, faAngleLeft, faAngl
 library.add(faEye, faEyeSlash, faEnvelope, farCheckC, farStar, faQuestionCircle) //far lib
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
+Vue.component('k-progress', KProgress);
 
 new Vue({
   router,

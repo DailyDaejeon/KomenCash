@@ -5,6 +5,7 @@ import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
 import com.komencash.backend.dto.job.JobDetailResponse;
 import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.job.JobSelectResponse;
+import com.komencash.backend.dto.request.ResumeDetailSelectResponse;
 import com.komencash.backend.dto.request.ResumeSelectResponse;
 import com.komencash.backend.service.JobService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -74,6 +75,13 @@ public class JobController {
     @GetMapping("/resume-list/{group-id}")
     public List<ResumeSelectResponse> findResumeListByGroupId(@PathVariable("group-id") int groupId) {
         return jobService.findResumeListByGroupId(groupId);
+    }
+
+    @ApiOperation(value = "이력서 상세 정보 조회", notes = "이력서 아이디를 받아 이력서 상세 정보를 조회")
+    @ApiImplicitParam(name = "resume-id", value = "resume-id(이력서 아이디)", dataType = "int", required = true)
+    @GetMapping("/resume-detail/{resume-id}")
+    public ResumeDetailSelectResponse findResumeById(@PathVariable("resume-id") int resumeId) {
+        return jobService.findResumeById(resumeId);
     }
 
 }

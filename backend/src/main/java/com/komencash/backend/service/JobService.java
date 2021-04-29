@@ -5,6 +5,7 @@ import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.job.JobSelectResponse;
 import com.komencash.backend.dto.job.JobStudentResponse;
 import com.komencash.backend.dto.request.JobAddReqSelectResponse;
+import com.komencash.backend.dto.request.ResumeDetailSelectResponse;
 import com.komencash.backend.dto.request.ResumeSelectResponse;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
@@ -17,8 +18,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobService {
@@ -114,5 +117,11 @@ public class JobService {
             resumeSelectResponses.add(new ResumeSelectResponse(resumeRequestHistory));
         }
         return resumeSelectResponses;
+    }
+
+
+    public ResumeDetailSelectResponse findResumeById(int resumeId) {
+        ResumeRequestHistory resumeRequestHistory = resumeRequestHistoryRepository.findById(resumeId).orElseGet(ResumeRequestHistory::new);
+        return new ResumeDetailSelectResponse(resumeRequestHistory);
     }
 }

@@ -26,11 +26,16 @@ function fetchGroup(teacherId) {
     return instance.get(`group/group_list/${teacherId}`) 
 }
 
+//그룹원 상세 조회
+function fetchGroupMember(groupId) {
+    return instance.get(`student/${groupId}`)
+}
 
 export {
   saveGroup,
   modifyGroup,
   deleteGroup,
   fetchGroupList,
-  fetchGroup
+  fetchGroup,
+  fetchGroupMember
 }

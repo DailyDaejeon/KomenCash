@@ -24,9 +24,9 @@ public class StudentController {
     StudentService studentService;
 
     @ApiOperation(value = "그룹원 목록 조회", notes = "그룹 id 입력 후 그룹원 목록 조회")
-    @GetMapping("/{group_id}")
-    public ResponseEntity<StudentResponseDto> getStudentList(@PathVariable("group_id") int groupId){
-        StudentResponseDto result = studentService.getStudent(groupId);
+    @GetMapping("/group/{group_id}")
+    public ResponseEntity<List<StudentResponseDto>> getStudentList(@PathVariable("group_id") int groupId){
+        List<StudentResponseDto> result = studentService.getStudent(groupId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

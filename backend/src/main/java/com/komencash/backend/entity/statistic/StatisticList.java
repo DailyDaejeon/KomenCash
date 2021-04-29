@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.statistic;
 
-import com.komencash.backend.entity.Group;
+import com.komencash.backend.entity.group.Group;
 import lombok.*;
 
 import javax.persistence.*;

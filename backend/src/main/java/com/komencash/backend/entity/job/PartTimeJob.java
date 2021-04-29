@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.job;
 
-import com.komencash.backend.entity.Group;
+import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

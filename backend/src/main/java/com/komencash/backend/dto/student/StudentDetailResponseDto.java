@@ -1,7 +1,6 @@
 package com.komencash.backend.dto.student;
 
-import com.komencash.backend.entity.Group;
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.student.Student;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

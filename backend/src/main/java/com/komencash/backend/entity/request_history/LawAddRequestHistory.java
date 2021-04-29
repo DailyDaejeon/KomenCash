@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.request_history;
 
-import com.komencash.backend.entity.Student;
+import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.vote.Vote;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

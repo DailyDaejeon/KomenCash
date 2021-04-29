@@ -1,4 +1,4 @@
-package com.komencash.backend.entity;
+package com.komencash.backend.entity.student;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.komencash.backend.entity.job.Job;

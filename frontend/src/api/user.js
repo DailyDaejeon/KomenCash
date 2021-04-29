@@ -44,7 +44,7 @@ function changePw(teacherData) {
 // 휴대폰 인증
 function phoneAuth(userPhonenum) {
     // 이메일과 인증번호를 반환
-    return instance.get(`teacger/phone_auth`, userPhonenum) 
+    return instance.get(`teacher/phone_auth`, userPhonenum) 
 }
 
 

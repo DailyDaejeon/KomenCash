@@ -28,7 +28,7 @@
       <div class="col-auto near-title-btn">
         <button class="btn btn-main" @click="addVote">투표 생성하기</button>
       </div>
-      <Modal v-if="showModal" @close="showModal = false" class="addVoteModal">
+      <!-- <Modal v-if="showModal" @close="showModal = false" class="addVoteModal">
         <h3 slot="header">
           <div class="modal-head">
             투표 생성하기
@@ -59,7 +59,8 @@
             <button class="btn btn-main" @click="createVote">투표 등록</button>
           </div>
         </div>
-      </Modal>
+      </Modal> -->
+      <VoteList />
     </div>
   </main>
 </template>
@@ -67,9 +68,11 @@
 <script>
 import LawList from '@/components/group/law/LawList.vue'
 import RequestItem from '@/components/group/main/RequestItem.vue'
-import Modal from '@/components/common/Modal.vue'
-import VoteItemInput from '@/components/group/vote/VoteItemInput.vue'
-import VoteItemList from '@/components/group/vote/VoteItemList.vue'
+// import Modal from '@/components/common/Modal.vue'
+// import VoteItemInput from '@/components/group/vote/VoteItemInput.vue'
+// import VoteItemList from '@/components/group/vote/VoteItemList.vue'
+import VoteList from '@/components/group/vote/VoteList.vue'
+// import VoteList from '../../../components/group/vote/VoteList.vue'
 
 export default {
   data() {
@@ -80,47 +83,46 @@ export default {
       voteContent:'',
     }
   },
-  components: { LawList, RequestItem, Modal, VoteItemInput, VoteItemList },
+  components: { LawList, RequestItem, VoteList }, //Modal, VoteItemInput, VoteItemList, 
   methods: {
     addVote() {
-      this.showModal = true;
+      // this.showModal = true;
+      this.$swal({
+        text: '투표 생성은 게임에서 진행할 수 있습니다!'
+      })
     },
-    addOneItem(item) {
-      console.log("이거 실행 됨?",item)
-      const obj = {completed: false, item: item};
-      // localStorage.setItem(Item, JSON.stringify(obj));
-      this.voteItemList.push(obj);
-      console.log("this is new item : ",obj);
-    },
-    removeOneItem(item, index) {
-      this.voteItemList.splice(index, 1);
-      // localStorage.removeItem(todoItem.item);
-    },
-    toggleOneItem(item, index) {
-      this.voteItemList[index].completed = !this.voteItemList[index].completed;
-      // localStorage.removeItem(todoItem.item);
-      // localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
-    },
-    createVote(){
-      const iList = [];
+    // addOneItem(item) {
+    //   console.log("이거 실행 됨?",item)
+    //   const obj = {completed: false, item: item};
+    //   this.voteItemList.push(obj);
+    //   console.log("this is new item : ",obj);
+    // },
+    // removeOneItem(item, index) {
+    //   this.voteItemList.splice(index, 1);
+    // },
+    // toggleOneItem(item, index) {
+    //   this.voteItemList[index].completed = !this.voteItemList[index].completed;
+    // },
+    // createVote(){
+    //   const iList = [];
 
-      for(let i = 1; i<=this.voteItemList.length; i++){
-        iList.push({item_num: i, content: this.voteItemList[i-1].item});
-      }
+    //   for(let i = 1; i<=this.voteItemList.length; i++){
+    //     iList.push({item_num: i, content: this.voteItemList[i-1].item});
+    //   }
 
-      const list = [];
-      list.push({title: this.voteTitle, content: this.voteContent, voteItemList: iList});
+    //   const list = [];
+    //   list.push({title: this.voteTitle, content: this.voteContent, voteItemList: iList});
 
-      console.log(list)
-      //list 서버에 넘겨주는 api 추가
-    },
-    closeModal() {
-      this.showModal = !this.showModal;
-      this.voteItemList = [];
-      this.voteTitle = '';
-      this.voteContent = '';
+    //   console.log(list)
+    //   //list 서버에 넘겨주는 api 추가
+    // },
+    // closeModal() {
+    //   this.showModal = !this.showModal;
+    //   this.voteItemList = [];
+    //   this.voteTitle = '';
+    //   this.voteContent = '';
 
-    }
+    // }
   },
 }
 </script>

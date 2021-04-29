@@ -68,6 +68,12 @@ const router =  new Router({
       component: () => import('@/views/group/law/LawPage.vue'),
     },
     {
+      path: '/group/vote/:id',
+      name: 'VoteDetail',
+      component: () => import('@/components/group/vote/VoteDetail.vue'),
+      props: true
+    },
+    {
       path: '/group/tax',
       name: 'TaxPage',
       component: () => import('@/views/group/tax/TaxPage.vue'),

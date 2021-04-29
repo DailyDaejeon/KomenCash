@@ -115,19 +115,16 @@ const router =  new Router({
       component: () => import('@/views/group/credit/CreditPage.vue'),
     },
     {
-      path: '/group/store',
-      name: 'StorePage',
-      component: () => import('@/views/group/store/StorePage.vue'),
-    },
-    {
-      path: '/group/store/product',
+      path: '/group/store/products',
       name: 'StoreListPage',
       component: () => import('@/views/group/store/StoreListPage.vue'),
+      props: true
     },
     {
       path: '/group/store/history',
       name: 'StoreHistoryPage',
       component: () => import('@/views/group/store/StoreHistoryPage.vue'),
+      props: true
     },
     {
       path: '/group/setting',

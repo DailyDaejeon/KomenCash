@@ -52,12 +52,13 @@
 .card-img-bottom {
   @include img-fluid;
 
-  @media all and (-ms-high-contrast:none) {
+  @media all and (-ms-high-contrast: none) {
     height: 100%;
   }
 }
 
-.group-list-card, .add-group-card {
+.group-list-card,
+.add-group-card {
   flex: 0 0 15rem;
   max-width: 15rem;
   position: relative;
@@ -66,7 +67,7 @@
   padding-left: 12px;
 }
 
-.group-list-card:hover{
+.group-list-card:hover {
   cursor: pointer;
 }
 
@@ -78,7 +79,7 @@
 
 .add-group-card {
   cursor: pointer;
-  & .card{
+  & .card {
     & .card-body {
       &:hover {
         background-color: $komencash-color;
@@ -86,4 +87,9 @@
       }
     }
   }
+}
+
+.vl-width {
+  width: 94.2%;
+  margin: auto;
 }

@@ -33,8 +33,8 @@ public class StudentService {
     CertificateRepository certificateRepository;
 
     public List<StudentResponseDto> getStudent(int group_id){
-        System.out.println("service");
-        List<Student> student = studentRepository.findAllByJobGroup_Id(group_id);
+        System.out.println(studentRepository.findById(2).get().getNickname());
+        List<Student> student = studentRepository.findAllByJob_Group_Id(group_id);
         List<StudentResponseDto> students = new ArrayList<>();
         student.forEach(s ->{
             StudentResponseDto dto = new StudentResponseDto(s.getNickname(), s.getJob());
@@ -52,7 +52,7 @@ public class StudentService {
 
 
     public List<GroupMemberAddRequestDto> getStudentJoinRequest(int group_id) {
-        List<Student> tst = studentRepository.findAllByJobGroup_Id(group_id);
+        List<Student> tst = studentRepository.findAllByJob_Group_Id(group_id);
         List<GroupMemberAddRequestDto> list = new ArrayList<>();
         for(Student s : tst){
             GroupMemberAddRequestHistory dto = groupMemberAddRequestHistoryRepository.findByStudentId(s.getId());

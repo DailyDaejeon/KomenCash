@@ -1,4 +1,4 @@
-package com.komencash.backend.entity.payment;
+package com.komencash.backend.entity.bank;
 
 import com.komencash.backend.entity.student.Student;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class AccountHistory {
     @Column(name = "content")
     private String content;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 }

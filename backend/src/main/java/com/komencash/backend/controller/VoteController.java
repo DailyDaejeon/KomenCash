@@ -40,4 +40,11 @@ public class VoteController {
     public VoteDetailResultResponse findVoteByVoteId(@PathVariable("vote-id") int voteId) {
         return voteService.findVoteByVoteId(voteId);
     }
+
+    @ApiOperation(value = "투표 삭제", notes = "투표 아이디를 받아 해당 투표를 삭제")
+    @ApiImplicitParam(name = "vote-id", value = "vote-id(투표 아이디)", dataType = "int", required = true)
+    @DeleteMapping("/{vote-id}")
+    public boolean deleteVote(@PathVariable("vote-id") int voteId) {
+        return voteService.deleteVote(voteId);
+    }
 }

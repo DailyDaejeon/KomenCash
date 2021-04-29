@@ -27,11 +27,12 @@ public class JobAddRequestHistory {
     @Column(name = "content")
     private String content;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "accept")
     private Accept accept;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
+    
 }

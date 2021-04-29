@@ -4,10 +4,14 @@ import com.komencash.backend.dto.job.JobDetailResponse;
 import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.job.JobSelectResponse;
 import com.komencash.backend.dto.job.JobStudentResponse;
+import com.komencash.backend.dto.request.JobAddReqSelectResponse;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
+import com.komencash.backend.entity.request_history.Accept;
+import com.komencash.backend.entity.request_history.JobAddRequestHistory;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.GroupRepository;
+import com.komencash.backend.repository.JobAddRequestHistoryRepository;
 import com.komencash.backend.repository.JobRepository;
 import com.komencash.backend.repository.StudentRepository;
 import lombok.AllArgsConstructor;
@@ -26,6 +30,8 @@ public class JobService {
     StudentRepository studentRepository;
     @Autowired
     GroupRepository groupRepository;
+    @Autowired
+    JobAddRequestHistoryRepository jobAddRequestHistoryRepository;
 
     public List<JobSelectResponse> findJobByGroupId(int groupId){
         List<JobSelectResponse> jobSelectResponses = new ArrayList<>();
@@ -83,5 +89,19 @@ public class JobService {
 
         jobRepository.delete(job);
         return true;
+    }
+
+
+    public List<JobAddReqSelectResponse> findJobAddRequestByGroupId (int groupId) {
+
+        List<JobAddReqSelectResponse> jobAddReqSelectResponses = new ArrayList<>();
+
+        List<JobAddRequestHistory> jobAddRequestHistories = jobAddRequestHistoryRepository.findByStudent_Job_Group_Id(groupId);
+        for(JobAddRequestHistory jobAddRequestHistory : jobAddRequestHistories) {
+            if(!jobAddRequestHistory.getAccept().equals(Accept.before_confirm)) continue;
+            jobAddReqSelectResponses.add(new JobAddReqSelectResponse(jobAddRequestHistory));
+        }
+
+        return jobAddReqSelectResponses;
     }
 }

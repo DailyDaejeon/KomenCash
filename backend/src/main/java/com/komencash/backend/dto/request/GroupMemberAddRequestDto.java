@@ -1,4 +1,4 @@
-package com.komencash.backend.dto.Request;
+package com.komencash.backend.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

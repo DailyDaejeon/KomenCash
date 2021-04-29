@@ -1,5 +1,7 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.request.JobAddReqSelectResponse;
+import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
 import com.komencash.backend.dto.job.JobDetailResponse;
 import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.job.JobSelectResponse;
@@ -51,4 +53,12 @@ public class JobController {
     public boolean deleteJob(@PathVariable("job-id") int jobId) {
         return jobService.deleteJob(jobId);
     }
+
+    @ApiOperation(value = "미확인 직업 추가 요청 리스트 조회", notes = "그룹 아이디를 받아 미확인된 해당 그룹의 직업 추가 요청 리스트를 조회")
+    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/add-request-list/{group-id}")
+    public List<JobAddReqSelectResponse> findJobAddRequestByGroupId(@PathVariable("group-id") int groupId) {
+        return jobService.findJobAddRequestByGroupId(groupId);
+    }
+
 }

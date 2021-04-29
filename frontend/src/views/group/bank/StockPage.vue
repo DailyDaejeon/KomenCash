@@ -22,6 +22,9 @@ export default {
         confirmButtonText: 'Next &rarr;',
         showCancelButton: true,
         progressSteps: ['1', '2'],
+        inputValidator: (result) => {
+          return !result && '종목을 지정해주세요!'
+        }
       },
       {
         title: '주식추가 2단계',
@@ -30,7 +33,10 @@ export default {
         inputPlaceholder: '오늘 저녁에 치킨먹어요.',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
-      progressSteps:['1', '2']
+      progressSteps:['1', '2'],
+      inputValidator: (result) => {
+          return !result && '주가힌트를 지정해주세요!'
+        }
       },
       ]).then((result) => {
       if (result.value) {

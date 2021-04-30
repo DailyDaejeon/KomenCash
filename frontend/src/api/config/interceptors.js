@@ -16,13 +16,13 @@ export function setInterceptors() {
   });
   instance.interceptors.request.use(
     (config) => {
-      console.log('request Config',config)
+      // console.log('request Config',config)
       let token = store.state.user.token;
       if (token) {
         var expire_date =store.state.user.userInfo['token_expired'];
         if(expire_date < Date.now()){
           store.commit('logout')
-          router.push('/member/login');
+          router.push("{name:'Login'}");
         }
         else{
         config.headers['auth-token'] = token;
@@ -34,6 +34,7 @@ export function setInterceptors() {
   );
   instance.interceptors.response.use(
     (config) => {
+      // console.log('response Config',config)
       return config;
     },
     (error) => Promise.reject(error.response)

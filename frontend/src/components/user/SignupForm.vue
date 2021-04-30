@@ -350,10 +350,10 @@ export default {
       }
       try {
         const userData = {
-            u_email:this.userId,
-            u_pw: this.password,
-            u_phone_number : this.userPhoneNumber,
-            u_nickname : this.username,
+            email:this.userId,
+            password: this.password,
+            phone_number : this.userPhoneNumber,
+            nickname : this.username,
         };
         await registerUser(userData);
         this.$router.push({name:'Login'});

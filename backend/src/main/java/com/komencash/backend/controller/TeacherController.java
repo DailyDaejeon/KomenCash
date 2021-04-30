@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
@@ -49,9 +51,14 @@ public class TeacherController {
 
     @ApiOperation(value = "선생님 로그인", notes = "선생님 email, password를 받아서 로그인이 매치되는 정보가 있으면 JWT 토큰 발급하고 결과 반환")
     @PostMapping("/login")
-    public ResponseEntity loginTeacher(@RequestBody TeacherLoginRequest teacherLoginRequest, HttpServletResponse response) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(teacherService.loginTeacher(teacherLoginRequest, response));
+    public ResponseEntity<Map<String, Object>> loginTeacher(@RequestBody TeacherLoginRequest teacherLoginRequest, HttpServletResponse response) {
+        TeacherSelectResponse result = teacherService.loginTeacher(teacherLoginRequest);
+        if(result == null) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("auth-token", jwtService.create(result));
+        return ResponseEntity.status(HttpStatus.OK).body(resultMap);
     }
 
 

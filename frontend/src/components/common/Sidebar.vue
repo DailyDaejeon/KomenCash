@@ -10,15 +10,17 @@
 					GroupName
 				</li>
 
-				<li class="sidebar-item active" id="MainPage"  @click="toggleMenu">
-					<router-link class="sidebar-link" :to="{name:'MainPage'}"
+				<li class="sidebar-item" id="MainPage"
+				:class="[toActive === 'MainPage'? 'active' : '']">
+					<router-link 
+					class="sidebar-link" :to="{name:'MainPage'}"
 					>
 						<i class="fas fa-home align-middle"></i><span class="align-middle">메인</span>
 					</router-link>
 				</li>
-
+				
 				<li class="sidebar-item" id="JobPage"
-				@click="toggleMenu"
+				:class="[toActive === 'JobPage'? 'active' : '']"
 				>
 					<router-link class="sidebar-link" :to="{name:'JobPage'}" >
 						<i class="fas fa-user-tag align-middle"></i> <span class="align-middle" >직업</span>
@@ -26,7 +28,7 @@
 				</li>
 
 				<li class="sidebar-item" id="LawPage"
-				@click="toggleMenu"
+				:class="[toActive === 'LawPage'? 'active' : '']"
 				>
 					<router-link class="sidebar-link" :to="{name:'LawPage'}" >
 						<i class="fas fa-balance-scale align-middle"></i><span class="align-middle" >국회</span>
@@ -34,7 +36,7 @@
 				</li>
 
 				<li class="sidebar-item" id="TaxPage"
-				@click="toggleMenu"
+				:class="[toActive === 'TaxPage'? 'active' : '']"
 				>
 					<router-link class="sidebar-link" :to="{name:'TaxPage'}" >
 						<i class="fas fa-tenge align-middle"></i> <span class="align-middle" >국세청</span>
@@ -47,19 +49,23 @@
 					</span>
 					<ul id="bank" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
 						<!-- collapse -->
-						<li class="sidebar-item" @click="toggleMenu"><router-link :to="{name:'BankAccountPage'}" class="sidebar-link">
+						<li class="sidebar-item" 
+						id="BankAccountPage"
+				:class="[toActive === 'BankAccountPage'? 'active' : '']"><router-link :to="{name:'BankAccountPage'}" class="sidebar-link">
 							그룹원 계좌조회 </router-link></li>
-						<li class="sidebar-item" @click="toggleMenu"><router-link class="sidebar-link" :to="{name:'BankFinancialPage'}" >예적금 상품관리</router-link></li>	
+						<li class="sidebar-item" 
+						id="BankFinancialPage"
+					:class="[toActive === 'BankFinancialPage'? 'active' : '']"><router-link class="sidebar-link" :to="{name:'BankFinancialPage'}" >예적금 상품관리</router-link></li>	
 						</ul>
 				</li>
 
-				<li class="sidebar-item" id="StockPage" @click="toggleMenu">
+				<li class="sidebar-item" id="StockPage" :class="[toActive === 'StockPage'? 'active' : '']">
 					<router-link class="sidebar-link" :to="{name:'StockPage'}" >
 						<i class="fas fa-chart-line align-middle"></i><span class="align-middle" >증권</span>
 					</router-link>
 				</li>
 
-				<li class="sidebar-item" id="CreditPage" @click="toggleMenu">
+				<li class="sidebar-item" id="CreditPage" :class="[toActive === 'CreditPage'? 'active' : '']">
 					<router-link class="sidebar-link" :to="{name:'CreditPage'}">
 						<i class="fas fa-chart-bar align-middle"></i> <span class="align-middle" >신용</span>
 					</router-link>
@@ -69,17 +75,22 @@
 					<span data-bs-toggle="collapse" class="sidebar-link collapsed">
 						<i class="fas fa-store align-middle"></i><span class="align-middle">상점</span>
 					</span>
-					<ul id="bank" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
+					<ul id="store" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
 						<!-- collapse -->
-						<li class="sidebar-item" @click="toggleMenu"><router-link :to="{name:'StoreListPage'}" class="sidebar-link">
+						<li class="sidebar-item"
+						id="StoreListPage"
+						:class="[toActive === 'StoreListPage'? 'active' : '']"><router-link :to="{name:'StoreListPage'}" class="sidebar-link">
 							상품리스트 조회 </router-link></li>
-						<li class="sidebar-item" @click="toggleMenu"><router-link class="sidebar-link" :to="{name:'StoreHistoryPage'}" >상품 거래내역 관리</router-link></li>	
+						<li class="sidebar-item" 
+						id="StoreHistoryPage"
+						:class="[toActive === 'StoreHistoryPage'? 'active' : '']"><router-link class="sidebar-link" :to="{name:'StoreHistoryPage'}" >상품 거래내역 관리</router-link></li>	
 						</ul>
 				</li>
 
-				<li class="sidebar-item" id="GroupSettingPage" @click="toggleMenu">
+				<li class="sidebar-item" id="GroupSettingPage" :class="[toActive === 'GroupSettingPage'? 'active' : '']">
 					<router-link class="sidebar-link" :to="{name:'GroupSettingPage'}"  >
-						<i class="align-middle" data-feather="setting"></i> <span class="align-middle" >그룹관리</span>
+						<i class="fas fa-cog align-middle"></i>
+						<span class="align-middle" >그룹관리</span>
 					</router-link>
 				</li>
 
@@ -107,21 +118,28 @@ export default {
 			type:Boolean
 		}
 	},
+	data() {
+		return {
+			fromActive:"",
+			toActive:""
+		}
+	},
+	created() {
+		this.firstActive();
+	},
 	watch: {
 		istoggleNav: function() {
 			this.toggleSidebar()
+		},
+		$route(to,from) {
+			this.fromActive = from.name;
+			this.toActive = to.name;
 		}
 	},
 	methods : {
 		toggleSidebar() {
 			const e = document.getElementsByClassName("sidebar")[0];
 			e.classList.toggle("collapsed");
-		},
-		toggleMenu() {
-			// const remove = document.querySelector(".active");
-			// remove.classList.remove('active');
-			// const add = document.getElementById(this.$route.name);
-			// add.classList.add('active');
 		},
 	},
 }

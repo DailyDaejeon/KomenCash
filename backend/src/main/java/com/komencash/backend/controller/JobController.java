@@ -1,11 +1,8 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.job.PartTimeSelectResponse;
+import com.komencash.backend.dto.job.*;
 import com.komencash.backend.dto.request.JobAddReqSelectResponse;
 import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
-import com.komencash.backend.dto.job.JobDetailResponse;
-import com.komencash.backend.dto.job.JobInsertUpdateRequest;
-import com.komencash.backend.dto.job.JobSelectResponse;
 import com.komencash.backend.dto.request.ResumeDetailSelectResponse;
 import com.komencash.backend.dto.request.ResumeSelectResponse;
 import com.komencash.backend.service.JobService;
@@ -94,4 +91,18 @@ public class JobController {
         return jobService.findPartTimeByGroupId(groupId);
     }
 
+
+    @ApiOperation(value = "아르바이트 정보 추가", notes = "아르바이트 정보를 받아서 추가")
+    @PostMapping("part-time")
+    public boolean savePartTime(@RequestBody PartTimeInsertUpdateRequest partTimeInsertUpdateRequest) {
+        return jobService.savePartTime(partTimeInsertUpdateRequest);
+    }
+
+
+    @ApiOperation(value = "아르바이트 정보 삭제", notes = "part-time-id를 받아서 delete 후 결과 반환")
+    @ApiImplicitParam(name = "part-time-id", value = "part-time-id(아르바이트 아이디)", dataType = "int", required = true)
+    @DeleteMapping("/part-time/{part-time-id}")
+    public boolean deletePartTime(@PathVariable("part-time-id") int partTimeId) {
+        return jobService.deletePartTime(partTimeId);
+    }
 }

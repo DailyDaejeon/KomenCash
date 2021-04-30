@@ -113,6 +113,7 @@ export default {
           password:this.password
         })
         console.log('로그인 RESPONSE',response)
+        console.log('로그인 response.headers["auth-token"]', response.headers.authToken)
         this.initForm()
         this.$router.push({name:"GroupList"})
       } catch (error) {

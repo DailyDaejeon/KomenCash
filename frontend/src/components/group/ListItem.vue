@@ -8,13 +8,14 @@
         <div class="pointer list-group list-group-flush" role="tablist" v-for="(data,index) in propsData" :key="index"> 
           <router-link 
           :id="data.name"
+          active-class="active"
           class="list-group-item list-group-item-action" :to="{name:`${listTypeRouteName}`, params: { id:`${data.id}`, propsData:data,dataName:data.name}}"
-          v-slot="{ href, navigate, isActive}" custom
+          
           >
-          <span  :active="isActive" :href="href" @click="navigate"
-          :class="[isActive && 'active']"
-          >{{data.name}}</span
-        >
+          <!-- v-slot="{ href, navigate, isActive}" custom -->
+          <!-- :active="isActive" :href="href" @click="navigate"
+          :class="[isActive && 'active']" -->
+        {{data.name}}
           </router-link>
         </div>
       </div>

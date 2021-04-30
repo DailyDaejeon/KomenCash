@@ -1,6 +1,5 @@
 package com.komencash.backend.dto.request;
 
-import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.ResumeRequestHistory;
 import lombok.AllArgsConstructor;

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@CrossOrigin(origins = "*", exposedHeaders = {"auth-token"})
 @RequestMapping("/teacher")
 public class TeacherController {
 

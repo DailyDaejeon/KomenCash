@@ -108,11 +108,13 @@ export default {
     },
     async loginComplete() {
        try {
-        await this.$store.dispatch('LOGIN', {
-          u_email:this.userId,
-          u_pw:this.password
+        const response = await this.$store.dispatch('LOGIN', {
+          email:this.userId,
+          password:this.password
         })
+        console.log('로그인 RESPONSE',response)
         this.initForm()
+        this.$router.push({name:"GroupList"})
       } catch (error) {
         if(error.status === 500) {
           this.loginError();

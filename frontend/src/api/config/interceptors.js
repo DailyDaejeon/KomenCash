@@ -16,6 +16,7 @@ export function setInterceptors() {
   });
   instance.interceptors.request.use(
     (config) => {
+      console.log('request Config',config)
       let token = store.state.user.token;
       if (token) {
         var expire_date =store.state.user.userInfo['token_expired'];

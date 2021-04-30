@@ -28,23 +28,23 @@ function deleteMyInfo(teacherId) {
 
 //아이디 가입 여부 확인 선생님 회원정보에 존재하는 경우 그 id와 email을 반환
 function userIdChk(email) {
-    return instance.get(`teacher/dup_chk_email/${email}`)
+    return instance.get(`teacher/dup-chk-email/${email}`)
 }
 
 //닉네임 중복 확인
 function dupNickNameChk(nickname) {
-    return instance.get(`teacher/dup_chk_nickname/${nickname}`)
+    return instance.get(`teacher/dup-chk-nickname/${nickname}`)
 }
 
 //비밀번호 찾기 - 새 비밀번호 변경
 function changePw(teacherData) {
-    return instance.put(`teacher/change_pw`,teacherData)
+    return instance.put(`teacher/change-pw`,teacherData)
 }
 
 // 휴대폰 인증
 function phoneAuth(userPhonenum) {
     // 이메일과 인증번호를 반환
-    return instance.get(`teacher/phone_auth`, userPhonenum) 
+    return instance.get(`teacher/phone-auth`, userPhonenum) 
 }
 
 

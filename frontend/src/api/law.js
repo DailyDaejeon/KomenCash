@@ -16,9 +16,15 @@ function fetchLawRequest(groupId) {
   return instance.get(`law/add_request/${groupId}`)
 }
 
+// 법률추가/수정 요청 상세조회
+function fetchLawRequestDetail(requestId) {
+  return instance.get(`law/add_request/${requestId}`)
+}
+
 
 export {
   fetchLawList,
   modifyLawItem,
-  fetchLawRequest
+  fetchLawRequest,
+  fetchLawRequestDetail
 }

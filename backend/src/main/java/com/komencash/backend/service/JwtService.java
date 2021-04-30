@@ -2,6 +2,8 @@ package com.komencash.backend.service;
 
 import java.util.Date;
 import java.util.Map;
+
+import com.komencash.backend.dto.teacher.TeacherSelectResponse;
 import com.komencash.backend.entity.teacher.Teacher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +19,7 @@ public class JwtService {
     private Long expireMin = 5L;
 
     //	로그인 성공시 사용자 정보를 기반으로 JWTToken을 생성하여 반환.
-    public String create(Teacher teacher) {
+    public String create(TeacherSelectResponse teacher) {
 
 //		JWT Token = Header + Payload + Signature
         JwtBuilder jwtBuilder = Jwts.builder();

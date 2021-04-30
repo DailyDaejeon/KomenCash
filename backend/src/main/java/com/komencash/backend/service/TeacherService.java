@@ -37,14 +37,12 @@ public class TeacherService{
     }
 
 
-    public boolean loginTeacher(TeacherLoginRequest teacherLoginRequest, HttpServletResponse response) {
+    public TeacherSelectResponse loginTeacher(TeacherLoginRequest teacherLoginRequest) {
         Teacher loginResult = teacherRepository.findByEmailAndPassword(teacherLoginRequest.getEmail(), teacherLoginRequest.getPassword()).orElseGet(Teacher::new);
 
-        if(loginResult.getId() == 0) return false;
-
-        response.setHeader("auth-token", jwtService.create(loginResult));
-        return true;
-
+        if(loginResult.getId() == 0) return null;
+        TeacherSelectResponse teacherDto = new TeacherSelectResponse(loginResult);
+        return teacherDto;
     }
 
 

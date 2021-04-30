@@ -297,7 +297,7 @@ export default {
       this.phonebtn = !this.phonebtn
     },
     viewPassword() {
-      // tupe이 password가 tureaus text, false라면 type이 password
+      // type이 password가 true면 text, false라면 type이 password
       this.passwordType = this.passwordType==="password" ? "text" : "password";
       if(this.passwordType === "text") {
         this.fwName = "eye-slash"

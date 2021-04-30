@@ -6,6 +6,8 @@ import com.komencash.backend.service.TeacherService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -46,8 +48,9 @@ public class TeacherController {
 
     @ApiOperation(value = "선생님 로그인", notes = "선생님 email, password를 받아서 로그인이 매치되는 정보가 있으면 JWT 토큰 발급하고 결과 반환")
     @PostMapping("/login")
-    public boolean loginTeacher(@RequestBody TeacherLoginRequest teacherLoginRequest, HttpServletResponse response) {
-        return teacherService.loginTeacher(teacherLoginRequest, response);
+    public ResponseEntity loginTeacher(@RequestBody TeacherLoginRequest teacherLoginRequest, HttpServletResponse response) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(teacherService.loginTeacher(teacherLoginRequest, response));
     }
 
 

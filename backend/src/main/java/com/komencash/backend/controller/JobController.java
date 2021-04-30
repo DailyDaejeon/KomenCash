@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.job.PartTimeSelectResponse;
 import com.komencash.backend.dto.request.JobAddReqSelectResponse;
 import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
 import com.komencash.backend.dto.job.JobDetailResponse;
@@ -70,6 +71,7 @@ public class JobController {
         return jobService.findJobAddRequestByGroupId(groupId);
     }
 
+
     @ApiOperation(value = "미확인 이력서 리스트 조회", notes = "그룹 아이디를 받아 미확인된 해당 그룹의 이력서 리스트를 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/resume-list/{group-id}")
@@ -77,11 +79,20 @@ public class JobController {
         return jobService.findResumeListByGroupId(groupId);
     }
 
+
     @ApiOperation(value = "이력서 상세 정보 조회", notes = "이력서 아이디를 받아 이력서 상세 정보를 조회")
     @ApiImplicitParam(name = "resume-id", value = "resume-id(이력서 아이디)", dataType = "int", required = true)
     @GetMapping("/resume-detail/{resume-id}")
     public ResumeDetailSelectResponse findResumeById(@PathVariable("resume-id") int resumeId) {
         return jobService.findResumeById(resumeId);
+    }
+
+
+    @ApiOperation(value = "아르바이트 정보 조회", notes = "입력받은 그룹 아이디로 그룹 내의 모든 아르바이트 정보를 반환")
+    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/part-time-list/{group-id}")
+    public List<PartTimeSelectResponse> findPartTimeByGroupId(@PathVariable("group-id") int groupId){
+        return jobService.findPartTimeByGroupId(groupId);
     }
 
 }

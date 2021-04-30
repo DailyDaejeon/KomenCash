@@ -1,14 +1,12 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.job.JobDetailResponse;
-import com.komencash.backend.dto.job.JobInsertUpdateRequest;
-import com.komencash.backend.dto.job.JobSelectResponse;
-import com.komencash.backend.dto.job.JobStudentResponse;
+import com.komencash.backend.dto.job.*;
 import com.komencash.backend.dto.request.JobAddReqSelectResponse;
 import com.komencash.backend.dto.request.ResumeDetailSelectResponse;
 import com.komencash.backend.dto.request.ResumeSelectResponse;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
+import com.komencash.backend.entity.job.PartTimeJob;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.JobAddRequestHistory;
 import com.komencash.backend.entity.request_history.ResumeRequestHistory;
@@ -28,6 +26,8 @@ public class JobService {
 
     @Autowired
     JobRepository jobRepository;
+    @Autowired
+    PartTimeJobRepository partTimeJobRepository;
     @Autowired
     StudentRepository studentRepository;
     @Autowired
@@ -123,5 +123,15 @@ public class JobService {
     public ResumeDetailSelectResponse findResumeById(int resumeId) {
         ResumeRequestHistory resumeRequestHistory = resumeRequestHistoryRepository.findById(resumeId).orElseGet(ResumeRequestHistory::new);
         return new ResumeDetailSelectResponse(resumeRequestHistory);
+    }
+
+
+    public List<PartTimeSelectResponse> findPartTimeByGroupId(int groupId) {
+        List<PartTimeJob> partTimeJobs = partTimeJobRepository.findByGroup_Id(groupId);
+
+        List<PartTimeSelectResponse> partTimeSelectResponses = new ArrayList<>();
+        for(PartTimeJob partTimeJob : partTimeJobs) partTimeSelectResponses.add(new PartTimeSelectResponse(partTimeJob));
+
+        return partTimeSelectResponses;
     }
 }

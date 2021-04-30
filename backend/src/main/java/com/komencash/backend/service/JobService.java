@@ -134,4 +134,23 @@ public class JobService {
 
         return partTimeSelectResponses;
     }
+
+
+    public boolean savePartTime(PartTimeInsertUpdateRequest partTimeInsertUpdateRequest) {
+        Group group = groupRepository.findById(partTimeInsertUpdateRequest.getGroupId()).orElse(null);
+        if(group == null) return false;
+
+        PartTimeJob partTimeJob = new PartTimeJob(partTimeInsertUpdateRequest, group);
+        partTimeJobRepository.save(partTimeJob);
+        return true;
+    }
+
+
+    public boolean deletePartTime(int partTimeId){
+        PartTimeJob partTimeJob = partTimeJobRepository.findById(partTimeId).orElse(null);
+        if(partTimeJob == null) return false;
+
+        partTimeJobRepository.delete(partTimeJob);
+        return true;
+    }
 }

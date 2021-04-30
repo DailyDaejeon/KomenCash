@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.job;
 
+import com.komencash.backend.dto.job.PartTimeInsertUpdateRequest;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,4 +32,13 @@ public class PartTimeJob {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
+
+
+    public PartTimeJob(PartTimeInsertUpdateRequest partTimeInsertUpdateRequest, Group group) {
+        this.id = partTimeInsertUpdateRequest.getId();
+        this.name = partTimeInsertUpdateRequest.getName();
+        this.role = partTimeInsertUpdateRequest.getRole();
+        this.salary = partTimeInsertUpdateRequest.getSalary();
+        this.group = group;
+    }
 }

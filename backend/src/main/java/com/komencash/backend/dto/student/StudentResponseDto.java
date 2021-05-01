@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentResponseDto {
+    private int id;
     private String nickname;
     private Job job;
 

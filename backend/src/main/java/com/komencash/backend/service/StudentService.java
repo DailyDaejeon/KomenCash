@@ -40,7 +40,7 @@ public class StudentService {
         List<Student> student = studentRepository.findAllByJob_Group_Id(group_id);
         List<StudentResponseDto> students = new ArrayList<>();
         student.forEach(s ->{
-            StudentResponseDto dto = new StudentResponseDto(s.getNickname(), s.getJob());
+            StudentResponseDto dto = new StudentResponseDto(s.getId(), s.getNickname(), s.getJob());
             students.add(dto);
             System.out.println(dto);
         });

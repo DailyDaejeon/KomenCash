@@ -14,27 +14,11 @@
             <k-progress 
               status="success" 
               type="line"
-              :percent="Number(getPercent(index))"
+              :percent="getPercent(index)"
             ></k-progress>
           </div>
         </div>
       </div>
-      <!-- <div class="row">
-        <div class="w-100">
-          <table>
-            <tr>
-              <th>No.</th>
-              <th>항목</th>
-              <th>득표 수</th>
-            </tr>
-            <tr v-for="voteItem in voteInfo.voteItemResultResponses" :key="voteItem.id">
-              <td>{{voteItem.itemNum}}</td>
-              <td>{{voteItem.content}}</td>
-              <td>{{voteItem.resultCnt}}</td>
-            </tr>
-          </table>
-        </div>
-      </div> -->
     </div>
   </main>
 </template>

@@ -41,6 +41,13 @@ public class BankController {
         return true;
     }
 
+    @ApiOperation(value="은행 금융상품 삭제", notes = "금융 상품 삭제")
+    @DeleteMapping("/financial_product/{product_id}")
+    public ResponseEntity<Boolean> deleteFinancialProduct(@PathVariable("product_id") int productId){
+        bankService.deleteFinancialProduct(productId);
+        return ResponseEntity.status(HttpStatus.OK).body(Boolean.TRUE);
+    }
+
     @ApiOperation(value="은행 금융상품 조회", notes = "금융 상품 조회")
     @GetMapping("/{group_id}/financial_product")
     public ResponseEntity<List<FinancialProductDetailResponseDto>> getFinancialProduct(@PathVariable("group_id") int groupId){

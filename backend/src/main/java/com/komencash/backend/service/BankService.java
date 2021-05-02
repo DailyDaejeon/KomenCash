@@ -56,4 +56,15 @@ public class BankService {
         FinancialProductDetail financialProductDetail = new FinancialProductDetail(dto,financialProduct);
         financialProductDetailRepository.save(financialProductDetail);
     }
+
+
+    public List<FinancialProductDetailResponseDto> getFinancialProductDetail(int groupId) {
+        List<FinancialProductDetail> f = financialProductDetailRepository.findByFinancialProduct_Group_Id(groupId);
+        List<FinancialProductDetailResponseDto> result = new ArrayList<>();
+        f.forEach(s -> {
+            result.add(new FinancialProductDetailResponseDto(s.getId(), s.getPeriod(), s.getCreditGrade(), s.getRate(), s.getFinancialProduct()));
+        });
+        return result;
+
+    }
 }

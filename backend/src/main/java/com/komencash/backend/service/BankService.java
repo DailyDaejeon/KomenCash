@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.bank.AccountHistoryDto;
 import com.komencash.backend.dto.bank.AccountResponseDto;
 import com.komencash.backend.dto.bank.FinancialProductDetailResponseDto;
 import com.komencash.backend.entity.bank.AccountHistory;
@@ -39,7 +40,12 @@ public class BankService {
         List<AccountResponseDto> accounts = new ArrayList<>();
         students.forEach(s ->{
             List<AccountHistory> history = accountHistoryRepository.findAllByStudent_Id(s.getId());
-            AccountResponseDto dto = new AccountResponseDto(s.getId(), s.getNickname(), history);
+            List<AccountHistoryDto> historyList = new ArrayList<>();
+            history.forEach(ss -> {
+                AccountHistoryDto a = new AccountHistoryDto(ss.getBalanceChange(), ss.getContent());
+                historyList.add(a);
+            });
+            AccountResponseDto dto = new AccountResponseDto(s.getId(), s.getNickname(), historyList);
             accounts.add(dto);
         });
         return accounts;

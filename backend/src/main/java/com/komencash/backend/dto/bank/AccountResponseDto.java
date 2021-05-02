@@ -11,11 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountResponseDto {
+    private int id;
     private String nickname;
     private int student_id;
-    private List<AccountHistory> accountHistory;
+    private List<AccountHistoryDto> accountHistory;
 
-    public AccountResponseDto(int student_id, String nickname, List<AccountHistory> accountHistory) {
-
+    public AccountResponseDto(int student_id, String nickname, List<AccountHistoryDto> accountHistory) {
+        this.student_id = student_id;
+        this.nickname = nickname;
+        this.accountHistory = accountHistory;
     }
 }

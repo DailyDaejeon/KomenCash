@@ -67,4 +67,8 @@ public class BankService {
         return result;
 
     }
+
+    public void deleteFinancialProduct(int productId) {
+        financialProuctRepository.deleteById(productId);
+    }
 }

@@ -27,4 +27,10 @@ public class FinancialProduct {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
+
+    public FinancialProduct(String name, Group g) {
+        this.name = name;
+        this.group = g;
+    }
+
 }

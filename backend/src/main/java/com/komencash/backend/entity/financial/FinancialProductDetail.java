@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.financial;
 
+import com.komencash.backend.dto.bank.FinancialProductDetailResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,4 +33,11 @@ public class FinancialProductDetail {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "financial_product_id")
     private FinancialProduct financialProduct;
+
+    public FinancialProductDetail(FinancialProductDetailResponseDto dto, FinancialProduct financialProduct) {
+        this.period = dto.getPeriod();
+        this.creditGrade = dto.getCreditGrade();
+        this.rate = dto.getRate();
+        this.financialProduct = financialProduct;
+    }
 }

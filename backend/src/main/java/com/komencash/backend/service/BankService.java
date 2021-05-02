@@ -1,14 +1,13 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.bank.AccountResponseDto;
+import com.komencash.backend.dto.bank.FinancialProductDetailResponseDto;
 import com.komencash.backend.entity.bank.AccountHistory;
 import com.komencash.backend.entity.financial.FinancialProduct;
+import com.komencash.backend.entity.financial.FinancialProductDetail;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.student.Student;
-import com.komencash.backend.repository.AccountHistoryRepository;
-import com.komencash.backend.repository.FinancialProuctRepository;
-import com.komencash.backend.repository.GroupRepository;
-import com.komencash.backend.repository.StudentRepository;
+import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +25,14 @@ public class BankService {
     FinancialProuctRepository financialProuctRepository;
 
     @Autowired
+    FinancialProductDetailRepository financialProductDetailRepository;
+
+    @Autowired
     StudentRepository studentRepository;
 
     @Autowired
     GroupRepository groupRepository;
+
 
     public List<AccountResponseDto> getAccounts(int groupId) {
         List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
@@ -46,5 +49,11 @@ public class BankService {
         Group g = groupRepository.findById(groupId).orElse(null);
         FinancialProduct financialProduct = new FinancialProduct(name, g);
         financialProuctRepository.save(financialProduct);
+    }
+
+    public void createFinancialProductDetail(int financialProductId, FinancialProductDetailResponseDto dto) {
+        FinancialProduct financialProduct = financialProuctRepository.findById(financialProductId).orElse(null);
+        FinancialProductDetail financialProductDetail = new FinancialProductDetail(dto,financialProduct);
+        financialProductDetailRepository.save(financialProductDetail);
     }
 }

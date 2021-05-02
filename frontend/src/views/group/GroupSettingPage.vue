@@ -22,11 +22,7 @@
         <div class="col-md-9 col-xl-10">
           <div class="tab-content">
             <div class="tab-pane fade show active" role="tabpanel"> <!--  :id="data.name" -->
-              <div class="card">
-                <div class="card-body">
-                  <router-view></router-view>
-                </div>
-              </div>
+              <router-view></router-view>
             </div>
           </div>
         </div>

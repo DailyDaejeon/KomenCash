@@ -124,9 +124,6 @@ export default {
 			toActive:""
 		}
 	},
-	created() {
-		this.firstActive();
-	},
 	watch: {
 		istoggleNav: function() {
 			this.toggleSidebar()

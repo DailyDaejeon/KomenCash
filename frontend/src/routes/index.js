@@ -136,6 +136,27 @@ const router =  new Router({
       path: '/group/setting',
       name: 'GroupSettingPage',
       component: () => import('@/views/group/GroupSettingPage.vue'),
+      redirect: '/group/setting/groupInfo',
+      children: [
+        {
+          path: 'groupInfo',
+          name: 'groupInfo',
+          component: () => import('@/components/group/settings/GroupInfoForm.vue'),
+          props: true
+        },
+        {
+          path: 'groupMemberList',
+          name: 'groupMemberList',
+          component: () => import('@/components/group/settings/GroupMemberListForm.vue'),
+          props: true
+        },
+        {
+          path: 'addMemberRequest',
+          name: 'addMemberRequest',
+          component: () => import('@/components/group/settings/AddMemberRequestForm.vue'),
+          props: true
+        }
+      ]
     },
   ],
 });

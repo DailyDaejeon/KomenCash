@@ -1,23 +1,27 @@
 <template>
-  <div class="flex-fill">
-    <h5 class="card-title mb-0">Group Member Info</h5>
+  <div class="card">
     <div class="card-body">
-      <div class="row">
-        <div class="col">
-          <table class="table table-hover text-center">
-            <tr>
-              <th>No.</th>
-              <th>닉네임</th>
-              <th>직업</th>
-              <th>비밀번호 초기화</th>
-            </tr>
-            <tr v-for="(student, index) in studentList" :key="index">
-              <td>{{studentList.length-index}}</td>
-              <td class="cursor-pointer" @click="goDetail(student.id)">{{student.nickname}}</td>
-              <td>{{student.job.name}}</td>
-              <td><button class="btn btn-main" @click="resetPW(student.id)">초기화하기</button></td>
-            </tr>
-          </table>
+      <div class="flex-fill">
+        <h5 class="card-title mb-0">Group Member Info</h5>
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <table class="table table-hover text-center">
+                <tr>
+                  <th>No.</th>
+                  <th>닉네임</th>
+                  <th>직업</th>
+                  <th>비밀번호 초기화</th>
+                </tr>
+                <tr v-for="(student, index) in studentList" :key="index">
+                  <td>{{studentList.length-index}}</td>
+                  <td class="cursor-pointer" @click="goDetail(student.id)">{{student.nickname}}</td>
+                  <td>{{student.job.name}}</td>
+                  <td><button class="btn btn-main" @click="resetPW(student.id)">초기화하기</button></td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>

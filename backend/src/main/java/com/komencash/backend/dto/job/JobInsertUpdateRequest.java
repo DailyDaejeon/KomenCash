@@ -18,5 +18,12 @@ public class JobInsertUpdateRequest {
     private RecruitType recruitType;
     private int groupId;
 
-
+    public JobInsertUpdateRequest(String name, int salary, String role, int personnel, RecruitType recruitType, int groupId) {
+        this.name = name;
+        this.salary = salary;
+        this.role = role;
+        this.personnel = personnel;
+        this.recruitType = recruitType;
+        this.groupId = groupId;
+    }
 }

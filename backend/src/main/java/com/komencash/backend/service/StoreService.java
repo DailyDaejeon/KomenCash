@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
 import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
 import com.komencash.backend.dto.store.StoreItemResponse;
@@ -75,4 +76,9 @@ public class StoreService {
         return itemAddReqSelectResponses;
     }
 
+    public ItemAddReqDetailResponse selectItemAddReq(int requestId){
+        OnlineStoreItemAddRequestHistory onlineStoreItemAddRequestHistory = onlineStoreItemAddRequestHistoryRepository.findById(requestId).orElse(null);
+        if(onlineStoreItemAddRequestHistory == null) return null;
+        return new ItemAddReqDetailResponse(onlineStoreItemAddRequestHistory);
+    }
 }

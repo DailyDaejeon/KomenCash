@@ -1,7 +1,8 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.IO;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -9,41 +10,48 @@ using UnityEngine.Networking;
 [System.Serializable]
 public class UserData
 {
-    public string userId;
-    public string userPw;
+    /*public string nickname;*/
+    public string email;
+    public string password;
+
+    public void print()
+    {
+        Debug.Log("email : " + email);
+        Debug.Log("password : " + password);
+    }
 }
 
 public class LoginController : MonoBehaviour
 {
     public string baseURL = "http://k4b203.p.ssafy.io:8081/api/";
-    public string nickname;
-    public string password;
+    public string userId;
+    public string userPw;
 
     public void getNickName(InputField inputNickName)
     {
-        nickname = inputNickName.text;
+        userId = inputNickName.text;
     }
 
     public void getPassWord(InputField inputPassWord)
     {
-        password = inputPassWord.text;
+        userPw = inputPassWord.text;
     }
 
     public void OnClickButton()
     {
-        Debug.Log("¹öÆ° Å¬¸¯ÇßÀ½");
-        Debug.Log("´Ð³×ÀÓ : "+ nickname);
-        Debug.Log("ºñ¹Ð¹øÈ£ : "+ password);
+        Debug.Log("ë²„íŠ¼ í´ë¦­í–ˆìŒ");
+        Debug.Log("ë‹‰ë„¤ìž„ : "+ userId);
+        Debug.Log("ë¹„ë°€ë²ˆí˜¸ : "+ userPw);
 
-        if (nickname.Length != 0 && password.Length != 0)
+        if (userId.Length != 0 && userPw.Length != 0)
         {
-            Debug.Log("µÑ ´Ù ÀÔ·Â¹ÞÀ½!");
+            Debug.Log("ë‘˜ ë‹¤ ìž…ë ¥ë°›ìŒ!");
             /*StartCoroutine(GetRequest());*/
-            StartCoroutine(GetUserData());
+            StartCoroutine(Login());
         }
-        else if(nickname.Length == 0 || password.Length == 0)
+        else if(userId.Length == 0 || userPw.Length == 0)
         {
-            Debug.Log("´Ð³×ÀÓ ¶Ç´Â ºñ¹Ð¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+            Debug.Log("ë‹‰ë„¤ìž„ ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ë¥¼ ìž…ë ¥í•˜ì„¸ìš”.");
         }
 
     }
@@ -60,44 +68,48 @@ public class LoginController : MonoBehaviour
         else
         {
             // Response can be accessed through: request.downloadHandler.text
-            Debug.Log("ÀÀ ½ÇÇàµÊ");
+            Debug.Log("ì‘ ì‹¤í–‰ë¨");
             Debug.Log(request.downloadHandler.text);
         }
     }
 
-    private string GetUserData()
+    private IEnumerator Login()
     {
+        
         UserData data = new UserData();
-        data.userId = nickname;
-        data.userPw = password;
+        data.email = userId;
+        data.password = userPw;
 
-        //JsonUtility »ç¿ë -> string, byte[]·Î º¯È¯
-        string str = JsonUtility.ToJson(data);
-        var bytes = System.Text.Encoding.UTF8.GetBytes(str);
+        string json = JsonUtility.ToJson(data);
+        /*byte[] bytes = System.Text.Encoding.UTF8.GetBytes(json);*/
+        Debug.Log("{0}" + json);
 
-        //¿äÃ» º¸³¾ ÁÖ¼Ò¿Í ¼¼ÆÃ
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(baseURL + "group/group-list/1");
-        request.Method = "GET";
-        request.ContentType = "application/json";
-        request.ContentLength = bytes.Length;
+        /*UserData test = JsonUtility.FromJson<UserData>(str); //json -> Object í˜•ë³€í™˜*/
 
-        //Stream Çü½ÄÀ¸·Î µ¥ÀÌÅÍ¸¦ º¸³¿
-        using(var stream = request.GetRequestStream())
+
+        using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "teacher/login", json))
         {
-            stream.Write(bytes, 0, bytes.Length);
-            stream.Flush();
-            stream.Close();
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            
+            request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
+            request.SetRequestHeader("Accept", "application/json, text/plain, */*");
+
+            yield return request.SendWebRequest();
+
+            if (request.error != null)
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                Debug.Log("response : " + request.downloadHandler.text);
+            }
         }
 
-        //ÀÀ´ä µ¥ÀÌÅÍ¸¦ StreamReader·Î ¹ÞÀ½
-        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-        StreamReader reader = new StreamReader(response.GetResponseStream());
-        string json = reader.ReadToEnd();
+            
 
-        //string°ªÀ» JsonUtility·Î Ä¿½ºÅÒ Å¬·¡½º
-        string info = JsonUtility.FromJson<string>(json);
-        Debug.Log(info);
 
-        yield return info;
     }
 }

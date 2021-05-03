@@ -47,7 +47,8 @@ public class GroupService {
 
     public void updateGroup(GroupInsertUpdateRequest groupInsertUpdateRequest) {
         Group group = groupRepository.findById(groupInsertUpdateRequest.getId()).orElse(null);
-        group.updateGroup(groupInsertUpdateRequest.getName(), groupInsertUpdateRequest.getMonetaryUnitName(), groupInsertUpdateRequest.getTaxRate());
+        group.updateGroup(groupInsertUpdateRequest.getName(), groupInsertUpdateRequest.getMonetaryUnitName(),
+                groupInsertUpdateRequest.getTaxRate(), groupInsertUpdateRequest.getInflationRate());
         groupRepository.save(group);
     }
 

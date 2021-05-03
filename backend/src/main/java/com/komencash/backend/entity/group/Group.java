@@ -1,6 +1,5 @@
 package com.komencash.backend.entity.group;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.komencash.backend.dto.group.GroupInsertUpdateRequest;
 import com.komencash.backend.entity.teacher.Teacher;
 import lombok.*;
@@ -34,6 +33,9 @@ public class Group{
     @Column(name = "tax")
     private int tax;
 
+    @Column(name = "inflation_rate")
+    private double inflationRate;
+
     // 여기부분 잘 모름
     @ManyToOne
     @JoinColumn(name = "teacher_id")
@@ -44,13 +46,15 @@ public class Group{
         this.name = groupInsertUpdateRequest.getName();
         this.monetary_unit_name = groupInsertUpdateRequest.getMonetaryUnitName();
         this.tax_rate = groupInsertUpdateRequest.getTaxRate();
+        this.inflationRate = groupInsertUpdateRequest.getInflationRate();
         this.teacher = teacher;
     }
 
-    public void updateGroup(String name, String monetary_unit_name, double tax_rate){
+    public void updateGroup(String name, String monetary_unit_name, double tax_rate, double inflationRate){
         this.setName(name);
         this.setMonetary_unit_name(monetary_unit_name);
         this.setTax_rate(tax_rate);
+        this.setInflationRate(inflationRate);
     }
 
 

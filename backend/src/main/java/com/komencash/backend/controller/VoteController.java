@@ -1,7 +1,5 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.law.LawSelectResponse;
-import com.komencash.backend.dto.teacher.TeacherInsertUpdateRequest;
 import com.komencash.backend.dto.vote.VoteDetailResultResponse;
 import com.komencash.backend.dto.vote.VoteInsertUpdateRequest;
 import com.komencash.backend.dto.vote.VoteResultResponse;

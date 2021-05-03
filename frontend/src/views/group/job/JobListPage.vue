@@ -24,10 +24,17 @@
 import JobList from '@/components/group/job/JobList.vue'
 import JobRequestList from '@/components/group/job/JobRequestList.vue'
 import { addJob } from '@/api/job'
+import { mapState } from 'vuex'
 export default {
   components: { JobList, JobRequestList },
+  computed : {
+    ...mapState({
+      groupInfo: state => state.group.groupInfo
+    })
+  },
   methods: {
     createJob() {
+      console.log(this.groupInfo,sessionStorage.getItem('groupInfo'))
       this.$swal.queue([
       {
         title: '직업추가 1단계',
@@ -88,8 +95,7 @@ export default {
       if (result.value) {
         const answers = JSON.stringify(result.value)
         const jobData = {
-          groupId: this.groupId,
-          id: null,
+          groupId: this.groupInfo.id,
           name: result.value[0],
           salary: Number(result.value[1]),
           role: result.value[2],
@@ -97,6 +103,7 @@ export default {
           // 자격도 추가
           recruitType: result.value[5],
         }
+        console.log(jobData)
       this.$swal({
           title: '직업 생성 전, 정보를 확인해주세요!',
           html: `

@@ -102,7 +102,7 @@
 					<div class="mb-3 text-sm">
 						로그아웃하시겠습니까?
 					</div>
-					<div class="d-grid">
+					<div class="d-grid" @click="logout">
 						<a target="_blank" class="btn btn-primary">Logout</a>
 					</div>
 				</div>
@@ -138,6 +138,9 @@ export default {
 			const e = document.getElementsByClassName("sidebar")[0];
 			e.classList.toggle("collapsed");
 		},
+		logout() {
+			this.$store.commit('logout')
+		}
 	},
 }
 </script>

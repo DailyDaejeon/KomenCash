@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
 import com.komencash.backend.dto.store.StoreItemResponse;
 import com.komencash.backend.entity.store.OnlineStoreItem;
 import com.komencash.backend.repository.OnlineStoreItemRepository;
@@ -23,5 +24,15 @@ public class StoreService {
         for(OnlineStoreItem onlineStoreItem : onlineStoreItems) storeItemResponses.add(new StoreItemResponse(onlineStoreItem));
 
         return storeItemResponses;
+    }
+
+
+    public boolean updateStoreItem(StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
+        OnlineStoreItem onlineStoreItem = onlineStoreItemRepository.findById(storeItemInsertUpdateRequest.getId()).orElse(null);
+        if(onlineStoreItem == null) return false;
+
+        onlineStoreItem.updateStoreItem(storeItemInsertUpdateRequest);
+        onlineStoreItemRepository.save(onlineStoreItem);
+        return true;
     }
 }

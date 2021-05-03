@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.store;
 
+import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,4 +32,9 @@ public class OnlineStoreItem {
     @JoinColumn(name = "group_id")
     private Group group;
 
+
+    public void updateStoreItem(StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
+        this.name = storeItemInsertUpdateRequest.getName();
+        this.price = storeItemInsertUpdateRequest.getPrice();
+    }
 }

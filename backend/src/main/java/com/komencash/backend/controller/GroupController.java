@@ -2,7 +2,10 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.group.GroupInsertUpdateRequest;
 import com.komencash.backend.dto.group.GroupResponseDto;
+import com.komencash.backend.dto.job.JobInsertUpdateRequest;
+import com.komencash.backend.entity.job.RecruitType;
 import com.komencash.backend.service.GroupService;
+import com.komencash.backend.service.JobService;
 import com.komencash.backend.service.JwtService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +28,15 @@ public class GroupController {
     @Autowired
     JwtService jwtService;
 
+    @Autowired
+    JobService jobService;
+
     @ApiOperation(value = "그룹생성", notes = "그룹 생성")
     @PostMapping
     public int saveGroup(@RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest){
-        return groupService.saveGroup(groupInsertUpdateRequest);
+        int groupId = groupService.saveGroup(groupInsertUpdateRequest);
+        jobService.saveJob(new JobInsertUpdateRequest("무직", 0, "무직", 1000, RecruitType.resume, groupId));
+        return groupId;
     }
 
     @ApiOperation(value = "그룹리스트 보기", notes = "그룹 리스트 보기")

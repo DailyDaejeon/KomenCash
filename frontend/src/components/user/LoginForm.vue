@@ -108,12 +108,10 @@ export default {
     },
     async loginComplete() {
        try {
-        const response = await this.$store.dispatch('LOGIN', {
+          await this.$store.dispatch('LOGIN', {
           email:this.userId,
           password:this.password
         })
-        console.log('로그인 RESPONSE',response)
-        console.log('로그인 response.headers["auth-token"]', response.headers.authToken)
         this.initForm()
         this.$router.push({name:"GroupList"})
       } catch (error) {

@@ -1,15 +1,17 @@
 <template>
   <div>
-    <GroupListForm :userInfo="userName" :groupList="groupList" />
+    <GroupListForm :userInfo="userInfo" :groupList="groupList" @createGroup="createGroup"/>
   </div>
 </template>
 
 <script>
 import GroupListForm from "@/components/group/GroupListForm"
+import { fetchGroupList } from '@/api/group';
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
-      userName:"박싸피",
       groupList:[],
     }
   },
@@ -17,14 +19,19 @@ export default {
   created() {
     this.featchGroupInfo();
   },
+  computed: {
+    ...mapState({
+      userInfo: state => state.user.userInfo,
+    }),
+  },
   methods: {
-    featchGroupInfo(){
-      this.groupList = [
-        {groupName:"그룹1", totalCnt:25},
-        {groupName:"그룹2", totalCnt:36},
-        {groupName:"그룹3", totalCnt:17}
-      ];
+    async featchGroupInfo(){
+      const res = await fetchGroupList();
+      this.groupList = res.data.group
     },
+    createGroup(groupData) {
+      this.groupList.push(groupData)
+    }
   },
 }
 </script>

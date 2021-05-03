@@ -35,6 +35,7 @@ const router =  new Router({
       path: '/group/main',
       name: 'MainPage',
       component: () => import('@/views/group/MainPage.vue'),
+      props:true
     },
     {
       path: '/group/list',

@@ -10,13 +10,13 @@ using UnityEngine.Networking;
 [System.Serializable]
 public class UserData
 {
-    /*public string nickname;*/
-    public string email;
+    public string nickname;
+    /*public string email;*/
     public string password;
 
     public void print()
     {
-        Debug.Log("email : " + email);
+        Debug.Log("nickname : " + nickname);
         Debug.Log("password : " + password);
     }
 }
@@ -56,42 +56,23 @@ public class LoginController : MonoBehaviour
 
     }
 
-    public IEnumerator GetRequest()
-    {
-        UnityWebRequest request = UnityWebRequest.Get(baseURL+"group/group-list/1");
-        yield return request.SendWebRequest();
-        if (request.error != null)
-        {
-            Debug.Log(request.error);
-        } 
-        
-        else
-        {
-            // Response can be accessed through: request.downloadHandler.text
-            Debug.Log("응 실행됨");
-            Debug.Log(request.downloadHandler.text);
-        }
-    }
-
     private IEnumerator Login()
     {
         
         UserData data = new UserData();
-        data.email = userId;
+        data.nickname = userId;
         data.password = userPw;
 
         string json = JsonUtility.ToJson(data);
-        /*byte[] bytes = System.Text.Encoding.UTF8.GetBytes(json);*/
-        Debug.Log("{0}" + json);
+        Debug.Log("json : " + json);
 
         /*UserData test = JsonUtility.FromJson<UserData>(str); //json -> Object 형변환*/
-
 
         using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "teacher/login", json))
         {
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
             request.uploadHandler = new UploadHandlerRaw(jsonToSend);
-            request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            /*request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();*/
             
             request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
             request.SetRequestHeader("Accept", "application/json, text/plain, */*");
@@ -104,12 +85,14 @@ public class LoginController : MonoBehaviour
             }
             else
             {
-                Debug.Log("response : " + request.downloadHandler.text);
+                if(request.downloadHandler.text == "")
+                {
+                    Debug.Log("회원가입을 진행해주세요.");
+                }else
+                {
+                    Debug.Log("response : " + request.downloadHandler.text);
+                }
             }
         }
-
-            
-
-
     }
 }

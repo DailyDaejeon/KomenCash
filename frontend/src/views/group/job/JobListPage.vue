@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     createJob() {
-      console.log(this.groupInfo,sessionStorage.getItem('groupInfo'))
       this.$swal.queue([
       {
         title: '직업추가 1단계',
@@ -101,6 +100,7 @@ export default {
           role: result.value[2],
           personnel: Number(result.value[3]),
           // 자격도 추가
+          qualification: result.value[4],
           recruitType: result.value[5],
         }
         console.log(jobData)

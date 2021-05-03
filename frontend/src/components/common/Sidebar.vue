@@ -112,6 +112,7 @@
 </template>
 
 <script>
+
 export default {
 	props: {
 		istoggleNav: {
@@ -138,9 +139,35 @@ export default {
 			const e = document.getElementsByClassName("sidebar")[0];
 			e.classList.toggle("collapsed");
 		},
-		logout() {
-			this.$store.commit('logout')
-		}
+    logout() {
+        this.$swal({
+        icon:'question',
+        text: '로그아웃 하시겠습니까?',
+        showCancelButton: true,
+        customClass: {
+          container: 'swal2-container'
+        },
+        confirmButtonText: '로그아웃',
+        confirmButtonColor: "#fc3c44",
+      }).then((result) => {
+        if(result.value) {
+          this.$swal({
+            text: '로그아웃했습니다.',
+            icon: 'success',
+            timer: 1300,
+            customClass: {
+          container: 'swal2-container'
+        },
+            showConfirmButton: false,
+          }).then(()=>{
+            this.$store.commit('user/logout')
+            // window.location.href = '/'
+
+          })
+        } 
+      })
+     
+    },
 	},
 }
 </script>

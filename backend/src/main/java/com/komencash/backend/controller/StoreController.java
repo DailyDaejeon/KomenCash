@@ -1,6 +1,6 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.law.LawInsertUpdateRequest;
+import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
 import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
 import com.komencash.backend.dto.store.StoreItemResponse;
@@ -49,12 +49,20 @@ public class StoreController {
         return storeService.insertStoreItem(storeItemInsertUpdateRequest);
     }
 
-    
+
     @ApiOperation(value = "미확인된 상품 추가 요청 목록 조회", notes = "입력받은 그룹 아이디로 그룹 내 미확인된 상품 추가 요청 목록을 반환")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/add-request-list/{group-id}")
     public List<ItemAddReqSelectResponse> selectItemAddReqList(@PathVariable("group-id") int groupId){
         return storeService.selectItemAddReqList(groupId);
+    }
+
+
+    @ApiOperation(value = "상품 추가 요청 상세정보 조회", notes = "입력받은 상품 추가 요청 아이디로 상세정보 반환")
+    @ApiImplicitParam(name = "request-id", value = "request-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/add-request/{request-id}")
+    public ItemAddReqDetailResponse selectItemAddReq(@PathVariable("request-id") int requestId){
+        return storeService.selectItemAddReq(requestId);
     }
 
 

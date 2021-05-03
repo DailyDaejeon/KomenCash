@@ -31,10 +31,10 @@ const mutations = {
         state.userInfo = userData
     },
     setEmail(state, email) {
-        state.userInfo.u_email = email
+        state.userInfo.email = email
     },
     setPhonenum(state, phone) {
-        state.userInfo.u_phone_number = phone
+        state.userInfo.phoneNumber = phone
 
     },
     logout(state) {
@@ -53,9 +53,8 @@ const mutations = {
         state.isPasswordConfirmed = false
     },
     setModifyUserInfo(state, userData) {
-        state.userInfo.u_nickname = userData.u_nickname
-        state.userInfo.u_phone_number = userData.u_phone_number
-        state.userInfo.u_profile_pic = userData.u_profile_pic
+        state.userInfo.nickname = userData.nickname
+        state.userInfo.phoneNumber = userData.phoneNumber
     },
     setCurrentTab (newValue) {
         this.state.currentTab = newValue;

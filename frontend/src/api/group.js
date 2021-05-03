@@ -3,7 +3,7 @@ const instance = setInterceptors()
 
 // 그룹생성
 function saveGroup(groupData) {
-    return instance.get(`group`, groupData) 
+    return instance.post(`group`, groupData) 
 }
 
 // 그룹 수정

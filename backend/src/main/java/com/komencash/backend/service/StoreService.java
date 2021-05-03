@@ -35,4 +35,13 @@ public class StoreService {
         onlineStoreItemRepository.save(onlineStoreItem);
         return true;
     }
+
+
+    public boolean deleteStoreItem(int storeItemId) {
+        OnlineStoreItem onlineStoreItem = onlineStoreItemRepository.findById(storeItemId).orElse(null);
+        if(onlineStoreItem == null) return false;
+
+        onlineStoreItemRepository.delete(onlineStoreItem);
+        return true;
+    }
 }

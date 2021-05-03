@@ -26,12 +26,17 @@ public class StoreController {
         return storeService.selectStoreItem(groupId);
     }
 
-    
+
     @ApiOperation(value = "온라인스토어 물품 정보 수정", notes = "입력받은 온라인스토어 물품 정보로 수정하고 결과를 반환")
     @PutMapping("")
     public boolean updateStoreItem(@RequestBody StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
         return storeService.updateStoreItem(storeItemInsertUpdateRequest);
     }
 
-
+    @ApiOperation(value = "온라인스토어 물품 정보 삭제", notes = "입력받은 store-item-id의 물품 정보를 삭제하고 결과를 반환")
+    @ApiImplicitParam(name = "store_item-id", value = "store_item-id(물품 아이디)", dataType = "int", required = true)
+    @DeleteMapping("/{store-item-id}")
+    public boolean deleteStoreItem(@PathVariable("store-item-id") int storeItemId) {
+        return storeService.deleteStoreItem(storeItemId);
+    }
 }

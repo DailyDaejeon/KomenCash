@@ -290,7 +290,7 @@ export default {
       
     },
     checkCertification() {
-      this.userPhoneNumber = store.state.userInfo.u_phone_number;
+      this.userPhoneNumber = store.state.userInfo.phoneNumber;
       this.showCertiForm = false;
     },
     clickphonebtn() {

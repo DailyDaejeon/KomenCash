@@ -3,8 +3,10 @@ package com.komencash.backend.service;
 import com.komencash.backend.dto.request.GroupMemberAddRequestDto;
 import com.komencash.backend.dto.certificate.CertificateRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
+import com.komencash.backend.dto.student.StudentJoinRequestDto;
 import com.komencash.backend.dto.student.StudentResponseDto;
 import com.komencash.backend.dto.student.StudentUpdateJobRequest;
+import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.student.Student;
@@ -20,6 +22,8 @@ import java.util.*;
 @Service
 public class StudentService {
 
+    @Autowired
+    GroupRepository groupRepository;
     @Autowired
     StudentRepository studentRepository;
 
@@ -62,7 +66,7 @@ public class StudentService {
             System.out.println(dto.getStudent().getNickname()+" , "+dto.getAccept());
 
             if(dto.getAccept()==Accept.before_confirm){
-                list.add(new GroupMemberAddRequestDto(dto.getId(), dto.getAccept().toString(), dto.getStudent().getId(), dto.getStudent().getNickname()));
+                list.add(new GroupMemberAddRequestDto(dto.getId(), dto.getAccept(), dto.getStudent().getId(), dto.getStudent().getNickname()));
             }
         });
 
@@ -110,4 +114,6 @@ public class StudentService {
     public void deleteStudent(int studentId) {
         studentRepository.deleteById(studentId);
     }
+
+
 }

@@ -12,7 +12,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "online_sotre_perchase_history")
+@Table(name = "online_store_perchase_history")
 public class OnlineStorePerchaseHistory {
 
     @Id

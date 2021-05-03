@@ -2,6 +2,7 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.job.JobSelectResponse;
 import com.komencash.backend.dto.student.StudentJoinRequestDto;
+import com.komencash.backend.dto.student.StudentLoginRequestDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
@@ -22,10 +23,10 @@ public class UStudentService {
     StudentRepository studentRepository;
     @Autowired
     GroupRepository groupRepository;
-    
+
     @Autowired
     GroupMemberAddRequestHistoryRepository groupMemberAddRequestHistoryRepository;
-    
+
     @Autowired
     JobService jobService;
     public Student joinStudent(StudentJoinRequestDto request) {
@@ -48,6 +49,19 @@ public class UStudentService {
 
     public void addJoinRequest(Student student) {
         groupMemberAddRequestHistoryRepository.save(new GroupMemberAddRequestHistory(Accept.before_confirm, student));
+    }
+
+    public boolean login(StudentLoginRequestDto dto) {
+        Student student = studentRepository.findByNickname(dto.getNickName());
+        if(student == null) return false;
+
+        if(groupMemberAddRequestHistoryRepository.findByStudentId(student.getId()).getAccept().equals(Accept.accept)) {
+            if (dto.getPassword().equals(student.getPassword())) {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
 }

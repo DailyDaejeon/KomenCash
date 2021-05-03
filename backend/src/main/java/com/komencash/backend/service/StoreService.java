@@ -3,14 +3,17 @@ package com.komencash.backend.service;
 import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
 import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
+import com.komencash.backend.dto.store.StoreItemPerchaseHistoryResponse;
 import com.komencash.backend.dto.store.StoreItemResponse;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.OnlineStoreItemAddRequestHistory;
 import com.komencash.backend.entity.store.OnlineStoreItem;
+import com.komencash.backend.entity.store.OnlineStorePerchaseHistory;
 import com.komencash.backend.repository.GroupRepository;
 import com.komencash.backend.repository.OnlineStoreItemAddRequestHistoryRepository;
 import com.komencash.backend.repository.OnlineStoreItemRepository;
+import com.komencash.backend.repository.OnlineStorePerchaseHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,8 @@ public class StoreService {
     GroupRepository groupRepository;
     @Autowired
     OnlineStoreItemAddRequestHistoryRepository onlineStoreItemAddRequestHistoryRepository;
+    @Autowired
+    OnlineStorePerchaseHistoryRepository onlineStorePerchaseHistoryRepository;
 
     public List<StoreItemResponse> selectStoreItem(int groupId){
         List<StoreItemResponse> storeItemResponses = new ArrayList<>();
@@ -80,5 +85,15 @@ public class StoreService {
         OnlineStoreItemAddRequestHistory onlineStoreItemAddRequestHistory = onlineStoreItemAddRequestHistoryRepository.findById(requestId).orElse(null);
         if(onlineStoreItemAddRequestHistory == null) return null;
         return new ItemAddReqDetailResponse(onlineStoreItemAddRequestHistory);
+    }
+
+
+    public List<StoreItemPerchaseHistoryResponse> selectPerchaseHistoryList(int groupId) {
+        List<StoreItemPerchaseHistoryResponse> responses = new ArrayList<>();
+
+        List<OnlineStorePerchaseHistory> onlineStorePerchaseHistories = onlineStorePerchaseHistoryRepository.findByStudent_Job_Group_Id(groupId);
+        for(OnlineStorePerchaseHistory history : onlineStorePerchaseHistories) responses.add(new StoreItemPerchaseHistoryResponse(history));
+
+        return responses;
     }
 }

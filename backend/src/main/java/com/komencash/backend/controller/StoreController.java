@@ -3,6 +3,7 @@ package com.komencash.backend.controller;
 import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
 import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
+import com.komencash.backend.dto.store.StoreItemPerchaseHistoryResponse;
 import com.komencash.backend.dto.store.StoreItemResponse;
 import com.komencash.backend.service.StoreService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -65,5 +66,11 @@ public class StoreController {
         return storeService.selectItemAddReq(requestId);
     }
 
+    @ApiOperation(value = "온라인 스토어 거래내역 조회", notes = "모든 거래 내역을 최신순으로 조회")
+    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/history/{group-id}")
+    public List<StoreItemPerchaseHistoryResponse> selectPerchaseHistoryList(@PathVariable("group-id") int groupId){
+        return storeService.selectPerchaseHistoryList(groupId);
+    }
 
 }

@@ -54,15 +54,19 @@
 </template>
 
 <script>
+import { fetchJobDetail } from '@/api/job';
 export default {
   props:{
     JobType:{
       type:String,
+    },
+    jobId:{
+      type:Number
     }
   },
   data() {
     return {
-      jobId : 1,
+      jobData:[],
       jobName: "은행원",
       jobSalary: "100미소",
       jobRole : "잡다한일..ㅎㅅㅎ",
@@ -80,6 +84,10 @@ export default {
     }
   },
   methods: {
+    async fetchDetail() {
+      const res = await fetchJobDetail(this.jobId);
+      this.jobData = res.data
+    },
     async modifyJobInfo(){
       if(!this.jobName) {
         this.$swal({
@@ -144,7 +152,7 @@ export default {
       }).then(()=>{
         // 정보갱신
               
-        window.location.reload();
+        // window.location.reload();
         
       })
       }catch(err) {

@@ -6,21 +6,15 @@
           <th>{{JobType}}</th>
           <th>급여</th>
           <th>인원수</th>
-          <th class="d-none d-md-table-cell">이름</th>
+          <th>역할</th>
         </tr>
       </thead>
       <tbody>
-        <tr @click="goDetail()">
-          <td>국무총리</td>
-          <td class="d-none d-md-table-cell">100미소</td>
-          <td class="d-none d-md-table-cell">1</td>
-          <td class="d-none d-md-table-cell">박싸피</td>
-        </tr>
-        <tr>
-          <td>은행원</td>
-          <td class="d-none d-md-table-cell">90미소</td>
-          <td class="d-none d-md-table-cell">2</td>
-          <td class="d-none d-md-table-cell">박싸피</td>
+        <tr v-for="(job,index) in jobData" :key="index" @click="goDetail(job.id)">
+          <td>{{job.name}}</td>
+          <td>{{job.salary}}</td>
+          <td>{{job.personnel}}</td>
+          <td>{{job.role}}</td>
         </tr>
       </tbody>
     </table>
@@ -32,11 +26,14 @@ export default {
   props: {
     JobType: {
       type: String
+    },
+    jobData: {
+      type: Array
     }
   },
   methods: {
-    goDetail() {
-      this.$router.push(`/group/job/detail`)
+    goDetail(id) {
+      this.$router.push({name:"JobDetail",params: {jobId:id}})
     }
   }
 }

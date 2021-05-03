@@ -14,6 +14,7 @@
 <script>
 import RequestItem from '../main/RequestItem.vue'
 import { fetchJobRequestList, fetchJobResumeList } from '@/api/job'
+import { mapState } from 'vuex';
 
 export default {
   components: { RequestItem },
@@ -23,13 +24,18 @@ export default {
       jobList : []
     }
   },
+  computed: {
+    ...mapState({
+      groupInfo: state => state.group.groupInfo,
+    }),
+  },
   created() {
     this.fetchRequestList()
   },
   methods: {
     async fetchRequestList() {
-      const resume = await fetchJobResumeList(1);
-      const job = await fetchJobRequestList(1);
+      const resume = await fetchJobResumeList(this.groupInfo.id);
+      const job = await fetchJobRequestList(this.groupInfo.id);
       this.resumeList = resume.data;
       this.jobList = job.data;
     }

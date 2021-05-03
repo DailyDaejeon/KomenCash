@@ -11,7 +11,14 @@ public class GroupInsertUpdateRequest {
     private int id;
     private String code;
     private String name;
-    private String monetary_unit_name;
-    private double tax_rate;
-    private int teacher_id;
+    private String monetaryUnitName;
+    private double taxRate;
+    private int teacherId;
+
+    public GroupInsertUpdateRequest(String name, String monetaryUnitName, double taxRate){
+        this.name = name;
+        this.monetaryUnitName = monetaryUnitName;
+        this.taxRate = taxRate;
+
+    }
 }

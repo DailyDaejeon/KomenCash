@@ -42,8 +42,8 @@ public class Group{
     public Group(GroupInsertUpdateRequest groupInsertUpdateRequest, Teacher teacher) {
         this.code = teacher.getNickname()+teacher.getId();
         this.name = groupInsertUpdateRequest.getName();
-        this.monetary_unit_name = groupInsertUpdateRequest.getMonetary_unit_name();
-        this.tax_rate = groupInsertUpdateRequest.getTax_rate();
+        this.monetary_unit_name = groupInsertUpdateRequest.getMonetaryUnitName();
+        this.tax_rate = groupInsertUpdateRequest.getTaxRate();
         this.teacher = teacher;
     }
 

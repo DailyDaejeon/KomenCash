@@ -49,6 +49,7 @@ public class Job {
         this.name = jobInsertUpdateRequest.getName();
         this.salary = jobInsertUpdateRequest.getSalary();
         this.role = jobInsertUpdateRequest.getRole();
+        this.qualification = jobInsertUpdateRequest.getQualification();
         this.personnel = jobInsertUpdateRequest.getPersonnel();
         this.recruitType = jobInsertUpdateRequest.getRecruitType();
         this.group = group;

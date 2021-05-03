@@ -14,9 +14,18 @@
 
 <script>
 import RequestList from '@/components/group/main/RequestList.vue'
+import  store  from '@/stores/modules/group'
+
 export default {
   components: { RequestList },
-  props:['id','groupData'],
+  props: {
+    id : {
+      default:store.state.groupInfo.id
+    },
+    groupData : {
+      default: store.state.groupInfo
+    }
+  },
   data() {
     return {
       groupName : this.groupData.name

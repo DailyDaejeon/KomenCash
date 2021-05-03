@@ -47,6 +47,7 @@ export default {
   props:['userInfo', 'groupList'],
   methods: {
     goDetail(group) {
+      this.$store.commit('setGroupInfo',group)
       this.$router.push({name:'MainPage',params:{id:group.id,groupData:group}})
     },
     addGroup(){

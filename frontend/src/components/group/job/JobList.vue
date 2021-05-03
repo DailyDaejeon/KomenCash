@@ -14,10 +14,21 @@
 </template>
 
 <script>
+import { fetchJobList } from '@/api/job';
 import JobItem from './JobItem.vue'
 export default {
   components: { JobItem },
-
+  data() {
+    return {
+      jobList :[]
+    }
+  },
+  methods: {
+    async fetchJob() {
+      const res = await fetchJobList();
+      this.jobList = res.data
+    }
+  },
 }
 </script>
 

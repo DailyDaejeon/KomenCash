@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/group")
@@ -30,21 +33,30 @@ public class GroupController {
 
     @ApiOperation(value = "그룹리스트 보기", notes = "그룹 리스트 보기")
     @GetMapping("/group_list")
-    public ResponseEntity<GroupResponseDto> getGroup(HttpServletRequest request){
+    public ResponseEntity<Map<String, Object>> getGroup(HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<>();
         int id = jwtService.getIdFromJwt(request.getHeader("auth-token"));
-        GroupResponseDto result = groupService.getGroup(id);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        List<GroupResponseDto> result = groupService.getGroup(id);
+
+        resultMap.put("result", result);
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(resultMap);
     }
 
     // test 용
     @ApiOperation(value = "[TEST]그룹리스트보기 선생님 아이디 넣어서 ", notes = "그룹 리스트 보기")
     @GetMapping("/group_list/{teacher_id}")
-    public ResponseEntity<GroupResponseDto> getGroup(@PathVariable("teacher_id") int tid,  HttpServletRequest request){
-//        int id = jwtService.getIdFromJwt(request.getHeader("auth-token"));
-        System.out.println("here");
-        GroupResponseDto result = groupService.getGroup(tid);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+    public ResponseEntity<Map<String, Object>> getGroup(@PathVariable("teacher_id") int id,  HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<>();
+        List<GroupResponseDto> result = groupService.getGroup(id);
+
+        resultMap.put("result", result);
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(resultMap);
     }
+
 
     @ApiOperation(value = "그룹 수정", notes = "그룹 수정")
     @PutMapping

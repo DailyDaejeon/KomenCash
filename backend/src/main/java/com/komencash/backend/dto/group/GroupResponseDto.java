@@ -15,9 +15,12 @@ public class GroupResponseDto {
 //    private String monetary_unit_name;
 //    private double tax_rate;
 //    private int tax;
-    private List<Group> group;
-    public GroupResponseDto(List<Group> group){
+    private Group group;
+    private int studentCnt;
+
+    public GroupResponseDto(Group group, int studentCnt){
         this.group = group;
+        this.studentCnt = studentCnt;
     }
 //    public GroupResponseDto(Group group){
 //        this.id = group.getId();

@@ -1,0 +1,17 @@
+# unity file
+*.unity
+*.meta
+
+#Assets folder
+POLYGON city pack/
+PolygonCity/
+Resources/
+Scenes/
+
+
+#etc folder
+Library/
+Logs/
+Packages/
+projectSettings/
+UserSettings/

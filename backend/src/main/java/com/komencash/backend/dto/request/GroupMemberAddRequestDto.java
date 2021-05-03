@@ -1,5 +1,6 @@
 package com.komencash.backend.dto.request;
 
+import com.komencash.backend.entity.request_history.Accept;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GroupMemberAddRequestDto {
     private int id;
-    private String accept;
+    private Accept accept;
     private int student_id;
     private String nickname;
 
+    public GroupMemberAddRequestDto(Accept accept, int student_id, String nickname) {
+        this.accept = accept;
+        this.student_id = student_id;
+        this.nickname = nickname;
+    }
 }

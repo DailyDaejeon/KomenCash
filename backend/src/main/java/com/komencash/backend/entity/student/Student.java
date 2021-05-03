@@ -33,6 +33,11 @@ public class Student {
     @JoinColumn(name ="job_id")
     private Job job;
 
+    public Student(String nickname, String password) {
+        this.nickname = nickname;
+        this.password = password;
+    }
+
     public void updatePw(){
         this.password ="1234";
     }

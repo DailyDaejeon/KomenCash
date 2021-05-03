@@ -26,6 +26,11 @@ public class GroupMemberAddRequestHistory {
     @JoinColumn(name="student_id")
     private Student student;
 
+    public GroupMemberAddRequestHistory(Accept accept, Student student) {
+        this.accept = accept;
+        this.student = student;
+    }
+
     public void updateAccept(){
         this.accept = Accept.accept;
     }

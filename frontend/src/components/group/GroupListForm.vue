@@ -16,10 +16,10 @@
     <div class="group-list" v-if="groupList.length != 0">
       <div class="row">
         <div class="group-list-card" v-for="(group,index) in groupList" :key="index">
-          <div class="card" @click="goDetail(group)">
+          <div class="card" @click="goDetail(group.group)">
             <div class="card-body" style="padding-top:60px;padding-bottom:60px;text-align:center">
-              <h3 class="mt-1 mb-3">{{group.name}}</h3>
-              <span class="text-danger">{{group.totalCnt}}명</span><br>
+              <h3 class="mt-1 mb-3">{{group.group.name}}</h3>
+              <span class="text-danger">{{group.studentCnt}}명</span><br>
             </div>
           </div>
         </div>

@@ -27,7 +27,7 @@ export default {
   methods: {
     async featchGroupInfo(){
       const res = await fetchGroupList();
-      this.groupList = res.data.group
+      this.groupList = res.data.result
     },
     createGroup(groupData) {
       this.groupList.push(groupData)

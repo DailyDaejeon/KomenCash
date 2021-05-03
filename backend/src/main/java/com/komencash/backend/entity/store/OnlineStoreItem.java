@@ -32,9 +32,14 @@ public class OnlineStoreItem {
     @JoinColumn(name = "group_id")
     private Group group;
 
-
     public void updateStoreItem(StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
         this.name = storeItemInsertUpdateRequest.getName();
         this.price = storeItemInsertUpdateRequest.getPrice();
+    }
+
+    public OnlineStoreItem(StoreItemInsertUpdateRequest storeItemInsertUpdateRequest, Group group) {
+        this.name = storeItemInsertUpdateRequest.getName();
+        this.price = storeItemInsertUpdateRequest.getPrice();
+        this.group = group;
     }
 }

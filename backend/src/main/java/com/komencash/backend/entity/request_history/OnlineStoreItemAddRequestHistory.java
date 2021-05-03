@@ -27,8 +27,8 @@ public class OnlineStoreItemAddRequestHistory {
     @Column(name = "content")
     private String content;
 
-    @Enumerated
-    @Column(name = "accpet")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "accept")
     private Accept accept;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,10 +1,14 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
 import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
 import com.komencash.backend.dto.store.StoreItemResponse;
 import com.komencash.backend.entity.group.Group;
+import com.komencash.backend.entity.request_history.Accept;
+import com.komencash.backend.entity.request_history.OnlineStoreItemAddRequestHistory;
 import com.komencash.backend.entity.store.OnlineStoreItem;
 import com.komencash.backend.repository.GroupRepository;
+import com.komencash.backend.repository.OnlineStoreItemAddRequestHistoryRepository;
 import com.komencash.backend.repository.OnlineStoreItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,8 @@ public class StoreService {
     OnlineStoreItemRepository onlineStoreItemRepository;
     @Autowired
     GroupRepository groupRepository;
+    @Autowired
+    OnlineStoreItemAddRequestHistoryRepository onlineStoreItemAddRequestHistoryRepository;
 
     public List<StoreItemResponse> selectStoreItem(int groupId){
         List<StoreItemResponse> storeItemResponses = new ArrayList<>();
@@ -57,4 +63,16 @@ public class StoreService {
         onlineStoreItemRepository.save(onlineStoreItem);
         return true;
     }
+
+    public List<ItemAddReqSelectResponse> selectItemAddReqList(int groupId) {
+        List<ItemAddReqSelectResponse> itemAddReqSelectResponses =  new ArrayList<>();
+        List<OnlineStoreItemAddRequestHistory> onlineStoreItemAddRequestHistories = onlineStoreItemAddRequestHistoryRepository.findByStudent_Job_Group_Id(groupId);
+
+        for(OnlineStoreItemAddRequestHistory onlineStoreItemAddRequestHistory : onlineStoreItemAddRequestHistories){
+            if(!onlineStoreItemAddRequestHistory.getAccept().equals(Accept.before_confirm)) continue;
+            itemAddReqSelectResponses.add(new ItemAddReqSelectResponse(onlineStoreItemAddRequestHistory));
+        }
+        return itemAddReqSelectResponses;
+    }
+
 }

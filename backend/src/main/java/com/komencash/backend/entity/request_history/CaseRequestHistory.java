@@ -27,7 +27,7 @@ public class CaseRequestHistory {
     @Column(name = "fine")
     private int fine;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "accpet")
     private Accept accept;
 

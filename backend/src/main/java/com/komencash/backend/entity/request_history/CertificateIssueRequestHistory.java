@@ -22,7 +22,7 @@ public class CertificateIssueRequestHistory {
     @Column(name = "id")
     private int id;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "accpet")
     private Accept accept;
 

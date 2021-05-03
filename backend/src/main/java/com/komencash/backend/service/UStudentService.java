@@ -35,6 +35,12 @@ public class UStudentService {
             System.out.println("그런 그룹 없습니다.");
             return null;
         }
+        if(studentRepository.findByNicknameAndJob_Group_Id(request.getNickname(), group.getId()) != null){
+            System.out.println("닉네임이 중복 되었습니다.");
+            return null;
+        }
+
+
         List<JobSelectResponse> list = jobService.findJobByGroupId(group.getId());
         Job findBaekSoo = null;
         for(JobSelectResponse j : list){

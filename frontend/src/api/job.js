@@ -41,6 +41,21 @@ function fetchJobResumeDetail(resumeId) {
   return instance.get(`job/resume-detail/${resumeId}`)
 }
 
+// 아르바이트추가
+function addPartTime(jobData) {
+  return instance.post(`job/part-time`,jobData)
+}
+
+// 아르바이트 정보조회
+function fetchPartTimeList(groupId) {
+  return instance.get(`job/part-time-list/${groupId}`)
+}
+
+// 아르바이트 정보 삭제
+function deletePartTime(partTimeId) {
+  return instance.delete(`job/part-time/${partTimeId}`)
+}
+
 export {
   fetchJobList,
   fetchJobDetail,
@@ -49,5 +64,8 @@ export {
   deleteJob,
   fetchJobRequestList,
   fetchJobResumeList,
-  fetchJobResumeDetail
+  fetchJobResumeDetail,
+  addPartTime,
+  fetchPartTimeList,
+  deletePartTime
 }

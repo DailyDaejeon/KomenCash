@@ -17,6 +17,7 @@ public class JobDetailResponse {
     private String name;
     private int salary;
     private String role;
+    private String qualification;
     private int personnel;
     private RecruitType recruitType;
     private List<JobStudentResponse> jobStudentResponses;
@@ -27,6 +28,7 @@ public class JobDetailResponse {
         this.name = job.getName();
         this.salary = job.getSalary();
         this.role = job.getRole();
+        this.qualification = job.getQualification();
         this.personnel = job.getPersonnel();
         this.recruitType = job.getRecruitType();
         this.jobStudentResponses = jobStudentResponses;

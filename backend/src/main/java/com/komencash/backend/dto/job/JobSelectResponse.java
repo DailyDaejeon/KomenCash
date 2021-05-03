@@ -14,6 +14,7 @@ public class JobSelectResponse {
     private int id;
     private String name;
     private String role;
+    private String qualification;
     private int salary;
     private int personnel;
     private RecruitType recruitType;
@@ -22,6 +23,7 @@ public class JobSelectResponse {
         this.id = job.getId();
         this.name = job.getName();
         this.role = job.getRole();
+        this.qualification = job.getQualification();
         this.salary = job.getSalary();
         this.personnel = job.getPersonnel();
         this.recruitType = job.getRecruitType();

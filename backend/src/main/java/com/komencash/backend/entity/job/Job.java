@@ -29,6 +29,9 @@ public class Job {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "qualification")
+    private String qualification;
+
     @Column(name = "personnel")
     private int personnel;
 

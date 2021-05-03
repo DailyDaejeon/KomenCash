@@ -1,7 +1,6 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.job.JobSelectResponse;
-import com.komencash.backend.dto.request.GroupMemberAddRequestDto;
 import com.komencash.backend.dto.student.StudentJoinRequestDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
@@ -39,7 +38,7 @@ public class UStudentService {
         Job findBaekSoo = null;
         for(JobSelectResponse j : list){
             if(j.getName().equals("무직")){
-                findBaekSoo = new Job(j.getId(), j.getName(), j.getSalary(), j.getRole(), j.getPersonnel(), j.getRecruitType(), group);
+                findBaekSoo = new Job(j.getId(), j.getName(), j.getSalary(), j.getRole(), j.getQualification(), j.getPersonnel(), j.getRecruitType(), group);
                 break;
             }
         }

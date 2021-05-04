@@ -51,4 +51,17 @@ public class StockService {
         return stockSelectResponses;
     }
 
+
+    public boolean updateStock (StockInsertUpdateRequest stockInsertUpdateRequest) {
+        Stock stock = stockRepository.findById(stockInsertUpdateRequest.getId()).orElse(null);
+        if(stock == null) return false;
+
+        Group group = groupRepository.findById(stockInsertUpdateRequest.getGroupId()).orElse(null);
+        if(group == null) return false;
+
+        stock.update(stockInsertUpdateRequest, group);
+        stockRepository.save(stock);
+        return true;
+    }
+
 }

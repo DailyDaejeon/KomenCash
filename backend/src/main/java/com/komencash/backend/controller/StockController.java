@@ -1,6 +1,7 @@
 package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.group.GroupResponseDto;
+import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.stock.StockInsertUpdateRequest;
 import com.komencash.backend.dto.stock.StockSelectResponse;
 import com.komencash.backend.service.StockService;
@@ -35,5 +36,11 @@ public class StockController {
     @GetMapping("/list/{group-id}")
     public List<StockSelectResponse> selectStockList(@PathVariable("group-id")int groupId){
         return stockService.selectStockList(groupId);
+    }
+
+    @ApiOperation(value = "주식 종목 정보 수정", notes = "주식 종목 정보를 받아서 정보를 수정")
+    @PutMapping("")
+    public boolean updateStock(@RequestBody StockInsertUpdateRequest stockInsertUpdateRequest) {
+        return stockService.updateStock(stockInsertUpdateRequest);
     }
 }

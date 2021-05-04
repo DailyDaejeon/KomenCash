@@ -47,6 +47,7 @@ public class StoreService {
         if(onlineStoreItem == null) return false;
 
         onlineStoreItem.updateStoreItem(storeItemInsertUpdateRequest);
+
         onlineStoreItemRepository.save(onlineStoreItem);
         return true;
     }

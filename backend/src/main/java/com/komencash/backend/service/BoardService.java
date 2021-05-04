@@ -55,4 +55,13 @@ public class BoardService {
         boardRepository.save(board);
         return true;
     }
+
+
+    public boolean deleteBoard(int boardId){
+        Board board = boardRepository.findById(boardId).orElse(null);
+        if(board == null) return false;
+
+        boardRepository.delete(board);
+        return true;
+    }
 }

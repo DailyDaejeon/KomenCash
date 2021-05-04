@@ -38,4 +38,12 @@ public class AccountHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public AccountHistory(int balanceChange, int balance, String content, Student student) {
+        this.balanceChange = balanceChange;
+        this.balance = balance;
+        this.createdDate = new Date();
+        this.content = content;
+        this.student = student;
+    }
 }

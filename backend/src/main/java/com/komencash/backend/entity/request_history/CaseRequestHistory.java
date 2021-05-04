@@ -38,4 +38,8 @@ public class CaseRequestHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "police_id")
     private Student police;
+
+    public void updateCaseAccept(Accept accept) {
+        this.accept = accept;
+    }
 }

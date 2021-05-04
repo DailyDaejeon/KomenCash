@@ -1,5 +1,6 @@
-package com.komencash.backend.entity.bank;
+package com.komencash.backend.entity.tax;
 
+import com.komencash.backend.dto.tax.TaxHistoryInsertUpdateRequest;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,4 +37,10 @@ public class TaxHistory {
     @JoinColumn(name = "group_id")
     private Group group;
 
+    public TaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest, Group group){
+        this.balanceChange = taxHistoryInsertUpdateRequest.getBalance_change();
+        this.content = taxHistoryInsertUpdateRequest.getContent();
+        this.createdDate = new Date();
+        this.group = group;
+    }
 }

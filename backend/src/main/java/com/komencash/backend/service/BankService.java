@@ -1,6 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.bank.AccountHistoryDto;
+import com.komencash.backend.dto.bank.AccountHistoryInsertUpdateRequest;
 import com.komencash.backend.dto.bank.AccountResponseDto;
 import com.komencash.backend.dto.bank.FinancialProductDetailResponseDto;
 import com.komencash.backend.entity.bank.AccountHistory;
@@ -76,5 +77,21 @@ public class BankService {
 
     public void deleteFinancialProduct(int productId) {
         financialProuctRepository.deleteById(productId);
+    }
+
+
+    public boolean insertAccountHistory(AccountHistoryInsertUpdateRequest accountHistoryInsertUpdateRequest) {
+        List<AccountHistory> accountHistories = accountHistoryRepository.findAll();
+        int preBalance = accountHistories.size() == 0 ? 0 : accountHistories.get(accountHistories.size() - 1).getBalance();
+
+        int balance_change = accountHistoryInsertUpdateRequest.getBalance_change();
+        int balance = preBalance + balance_change;
+        String content = accountHistoryInsertUpdateRequest.getContent();
+        Student student = studentRepository.findById(accountHistoryInsertUpdateRequest.getStudentId()).orElse(null);
+        if(student == null) return false;
+
+        AccountHistory accountHistory = new AccountHistory(balance_change, balance, content, student);
+        accountHistoryRepository.save(accountHistory);
+        return true;
     }
 }

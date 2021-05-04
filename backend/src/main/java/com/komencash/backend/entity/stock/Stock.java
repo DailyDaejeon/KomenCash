@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.stock;
 
+import com.komencash.backend.dto.stock.StockInsertUpdateRequest;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,4 +31,11 @@ public class Stock {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
+
+
+    public Stock(StockInsertUpdateRequest stockInsertUpdateRequest, Group group) {
+        this.name = stockInsertUpdateRequest.getName();
+        this.hint = stockInsertUpdateRequest.getHint();
+        this.group = group;
+    }
 }

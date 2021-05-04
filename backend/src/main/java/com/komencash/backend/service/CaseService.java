@@ -24,4 +24,12 @@ public class CaseService {
 
         return caseSelectResponses;
     }
+
+
+    public CaseSelectResponse selectCase(int caseId){
+        CaseRequestHistory caseRequestHistory = caseRequestHistoryRepository.findById(caseId).orElse(null);
+        if(caseRequestHistory == null) return null;
+
+        return new CaseSelectResponse(caseRequestHistory);
+    }
 }

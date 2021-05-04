@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -23,6 +24,13 @@ public class AccountHistory {
 
     @Column(name = "balance_change")
     private int balanceChange;
+
+    @Column(name = "balance")
+    private int balance;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date")
+    private Date createdDate;
 
     @Column(name = "content")
     private String content;

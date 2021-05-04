@@ -44,4 +44,12 @@ public class BoardController {
     public boolean updateBoard(@RequestBody BoardInsertUpdateRequest boardInsertUpdateRequest) {
         return boardService.updateBoard(boardInsertUpdateRequest);
     }
+
+    @ApiOperation(value = "공지사항 삭제", notes = "board-id를 받아서 delete 후 결과 반환")
+    @ApiImplicitParam(name = "board-id", value = "board-id(직업 아이디)", dataType = "int", required = true)
+    @DeleteMapping("/{board-id}")
+    public boolean deleteBoard(@PathVariable("board-id") int boardId) {
+        return boardService.deleteBoard(boardId);
+    }
+
 }

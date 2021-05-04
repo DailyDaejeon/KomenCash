@@ -1,17 +1,14 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.job.JobSelectResponse;
 import com.komencash.backend.dto.tax.TaxDetailResponse;
+import com.komencash.backend.dto.tax.TaxHistoryInsertUpdateRequest;
 import com.komencash.backend.service.TaxService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tax")
@@ -25,5 +22,17 @@ public class TaxController {
     @GetMapping("/detail/{group-id}")
     public TaxDetailResponse findTaxDetail(@PathVariable("group-id") int groupId){
         return taxService.findTaxDetail(groupId);
+    }
+
+    @ApiOperation(value = "세금 내역 추가", notes = "세금 내역 정보를 입력받아 insert후 그 결과를 반환")
+    @PostMapping("")
+    public boolean insertTaxHistory(@RequestBody TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest) {
+        return taxService.insertTaxHistory(taxHistoryInsertUpdateRequest);
+    }
+
+    @ApiOperation(value = "세금 내역 수정", notes = "세금 내역 정보를 입력받아 update후 그 결과를 반환")
+    @PutMapping("/history")
+    public boolean updateTaxHistory(@RequestBody TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest) {
+        return taxService.updateTaxHistory(taxHistoryInsertUpdateRequest);
     }
 }

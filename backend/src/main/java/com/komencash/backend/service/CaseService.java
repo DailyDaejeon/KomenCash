@@ -64,13 +64,10 @@ public class CaseService {
             if(!bankService.insertAccountHistory(new AccountHistoryInsertUpdateRequest(studentId, balance_change, content))) return false;
 
 
-            // 세금 히스토리에 세금 넣고 저장
+            // 세금 히스토리에 세금 넣고 그룹 전체 세금을 갱신하고 저장
             Group group = caseRequestHistory.getPolice().getJob().getGroup();
-            if(!taxService.insertTaxHistory(new TaxHistoryInsertUpdateRequest(-balance_change, content, group.getId()))) return false;
+            if(!taxService.insertTaxHistory(new TaxHistoryInsertUpdateRequest(0, -balance_change, content, group.getId()))) return false;
 
-            // 세금 잔액에 더해준다.
-            group.updateTaxBalance(-balance_change);
-            groupRepository.save(group);
             return true;
         }
 

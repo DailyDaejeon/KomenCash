@@ -37,8 +37,15 @@ public class TaxHistory {
     @JoinColumn(name = "group_id")
     private Group group;
 
+
+    public void updateTaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest, Group group){
+        this.balanceChange = taxHistoryInsertUpdateRequest.getBalanceChange();
+        this.content = taxHistoryInsertUpdateRequest.getContent();
+        this.group = group;
+    }
+
     public TaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest, Group group){
-        this.balanceChange = taxHistoryInsertUpdateRequest.getBalance_change();
+        this.balanceChange = taxHistoryInsertUpdateRequest.getBalanceChange();
         this.content = taxHistoryInsertUpdateRequest.getContent();
         this.createdDate = new Date();
         this.group = group;

@@ -38,7 +38,27 @@ public class TaxService {
         Group group = groupRepository.findById(taxHistoryInsertUpdateRequest.getGroupId()).orElse(null);
         if(group == null) return false;
 
+        group.updateTaxBalance(taxHistoryInsertUpdateRequest.getBalanceChange());
+        groupRepository.save(group);
+
         TaxHistory taxHistory = new TaxHistory(taxHistoryInsertUpdateRequest, group);
+        taxHistoryRepository.save(taxHistory);
+        return true;
+    }
+
+
+    public boolean updateTaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest){
+        TaxHistory taxHistory = taxHistoryRepository.findById(taxHistoryInsertUpdateRequest.getId()).orElse(null);
+        if(taxHistory == null) return false;
+
+        Group group = groupRepository.findById(taxHistoryInsertUpdateRequest.getGroupId()).orElse(null);
+        if(group == null) return false;
+
+        int updatedBalance = taxHistoryInsertUpdateRequest.getBalanceChange() - taxHistory.getBalanceChange();
+        group.updateTaxBalance(updatedBalance);
+        groupRepository.save(group);
+
+        taxHistory.updateTaxHistory(taxHistoryInsertUpdateRequest, group);
         taxHistoryRepository.save(taxHistory);
         return true;
     }

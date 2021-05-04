@@ -64,4 +64,12 @@ public class StockService {
         return true;
     }
 
+    public boolean deleteStock(int stockId){
+        Stock stock = stockRepository.findById(stockId).orElse(null);
+        if(stock == null) return false;
+
+        stockRepository.delete(stock);
+        return true;
+    }
+
 }

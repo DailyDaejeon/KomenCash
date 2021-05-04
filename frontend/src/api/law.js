@@ -13,7 +13,7 @@ function modifyLawItem(lawItemData) {
 
 // 법률추가/수정 요청리스트 조회
 function fetchLawRequest(groupId) {
-  return instance.get(`law/add_request/${groupId}`)
+  return instance.get(`law/add_request_list/${groupId}`)
 }
 
 // 법률추가/수정 요청 상세조회

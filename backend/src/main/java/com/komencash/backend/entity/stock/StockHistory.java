@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.stock;
 
+import com.komencash.backend.dto.stock.StockHistoryInsertRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,4 +32,9 @@ public class StockHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id")
     private Stock stock;
+
+    public StockHistory(int price, Stock stock) {
+        this.price = price;
+        this.stock = stock;
+    }
 }

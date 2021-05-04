@@ -5,21 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-
-[System.Serializable]
-public class UserData
-{
-    public string nickname;
-    public string password;
-    public string code;
-
-    public void print()
-    {
-        Debug.Log("nickname : " + nickname);
-        Debug.Log("password : " + password);
-        Debug.Log("code : " + code);
-    }
-}
+using SimpleJSON;
 
 public class LoginController : MonoBehaviour
 {
@@ -90,6 +76,10 @@ public class LoginController : MonoBehaviour
                 }else
                 {
                     Debug.Log("response : " + request.downloadHandler.text);
+                    string result = request.downloadHandler.text;
+                    JSONNode root = JSON.Parse(result);
+
+                    //DataController setStudnetInfo() 메소드 호출
                 }
             }
         }

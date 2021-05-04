@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr @click="goDetail()" v-for="(financial,index) in studentList" :key="index">
+        <tr @click="goDetail(financial.id)" v-for="(financial,index) in studentList" :key="index">
           <td>{{financial.name}}</td>
           <td class="d-none d-md-table-cell">{{financial.rate}}</td>
           <td class="d-none d-md-table-cell">100미소</td>

@@ -9,6 +9,9 @@
 
 <script>
 import ListItem from '@/components/group/ListItem.vue'
+import { fetchGroupMemberAccountList } from '@/api/bank'
+import { mapState } from 'vuex'
+
 export default {
   components: { ListItem },
   data() {
@@ -25,9 +28,23 @@ export default {
       ]
     }
   },
+  created() {
+    this.fetchAccountList()
+  },
   watch:{
     $route() {
       // window.location.reload();
+    }
+  },
+  computed:{
+    ...mapState({
+      groupInfo: state => state.group.groupInfo
+    })
+  },
+  methods : {
+    async fetchAccountList() {
+      const res = await fetchGroupMemberAccountList(this.groupInfo.id)
+      this.students = res.data
     }
   }
 }

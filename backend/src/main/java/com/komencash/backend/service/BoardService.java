@@ -23,4 +23,12 @@ public class BoardService {
 
         return boardSelectResponses;
     }
+
+    public BoardSelectResponse findBoard(int boardId){
+        Board board = boardRepository.findById(boardId).orElse(null);
+        if(board == null) return null;
+
+        BoardSelectResponse boardSelectResponse = new BoardSelectResponse(board);
+        return boardSelectResponse;
+    }
 }

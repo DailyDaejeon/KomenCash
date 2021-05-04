@@ -68,16 +68,16 @@ public class GroupController {
 
     @ApiOperation(value = "그룹 수정", notes = "그룹 수정")
     @PutMapping
-    public ResponseEntity<Void> updateGroup(@RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest, HttpServletRequest request){
+    public ResponseEntity<Boolean> updateGroup(@RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest, HttpServletRequest request){
         groupService.updateGroup(groupInsertUpdateRequest);
-        return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(Boolean.TRUE);
     }
 
     @ApiOperation(value = "그룹 삭제", notes = "그룹 삭제")
     @DeleteMapping("{group_id}")
-    public ResponseEntity<Void> deleteGroup(@PathVariable("group_id") int group_id, HttpServletRequest request){
+    public ResponseEntity<Boolean> deleteGroup(@PathVariable("group_id") int group_id, HttpServletRequest request){
         groupService.deleteGroup(group_id);
-        return (ResponseEntity<Void>) ResponseEntity.status(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(Boolean.TRUE);
     }
 
 }

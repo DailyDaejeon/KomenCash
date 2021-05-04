@@ -33,6 +33,13 @@ public class Stock {
     private Group group;
 
 
+    public void update(StockInsertUpdateRequest stockInsertUpdateRequest, Group group) {
+        this.name = stockInsertUpdateRequest.getName();
+        this.hint = stockInsertUpdateRequest.getHint();
+        this.group = group;
+    }
+
+
     public Stock(StockInsertUpdateRequest stockInsertUpdateRequest, Group group) {
         this.name = stockInsertUpdateRequest.getName();
         this.hint = stockInsertUpdateRequest.getHint();

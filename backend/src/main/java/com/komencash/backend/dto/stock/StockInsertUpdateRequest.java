@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StockInsertUpdateRequest {
 
+    private int id;
     private String name;
     private String hint;
     private int groupId;

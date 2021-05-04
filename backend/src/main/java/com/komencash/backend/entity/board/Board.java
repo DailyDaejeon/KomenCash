@@ -30,6 +30,11 @@ public class Board {
     @JoinColumn(name = "group_id")
     private Group group;
 
+    public void updateBoard(BoardInsertUpdateRequest boardInsertUpdateRequest) {
+        this.title = boardInsertUpdateRequest.getTitle();
+        this.content = boardInsertUpdateRequest.getContent();
+    }
+
 
     public Board(BoardInsertUpdateRequest boardInsertUpdateRequest, Group group){
         this.id = boardInsertUpdateRequest.getId();
@@ -37,4 +42,5 @@ public class Board {
         this.content = boardInsertUpdateRequest.getContent();
         this.group = group;
     }
+
 }

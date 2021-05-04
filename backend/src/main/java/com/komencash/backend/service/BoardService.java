@@ -45,4 +45,14 @@ public class BoardService {
         boardRepository.save(board);
         return true;
     }
+
+
+    public boolean updateBoard(BoardInsertUpdateRequest boardInsertUpdateRequest) {
+        Board board = boardRepository.findById(boardInsertUpdateRequest.getId()).orElse(null);
+        if(board == null) return false;
+
+        board.updateBoard(boardInsertUpdateRequest);
+        boardRepository.save(board);
+        return true;
+    }
 }

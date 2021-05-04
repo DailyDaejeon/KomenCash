@@ -38,4 +38,10 @@ public class BoardController {
     public boolean saveBoard(@RequestBody BoardInsertUpdateRequest boardInsertUpdateRequest) {
         return boardService.saveBoard(boardInsertUpdateRequest);
     }
+
+    @ApiOperation(value = "공지사항 수정", notes = "공지사항 정보를 받아서 update후 반환")
+    @PutMapping("")
+    public boolean updateBoard(@RequestBody BoardInsertUpdateRequest boardInsertUpdateRequest) {
+        return boardService.updateBoard(boardInsertUpdateRequest);
+    }
 }

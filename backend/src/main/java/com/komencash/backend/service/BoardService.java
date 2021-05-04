@@ -1,8 +1,11 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
 import com.komencash.backend.dto.board.BoardSelectResponse;
 import com.komencash.backend.entity.board.Board;
+import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.repository.BoardRepository;
+import com.komencash.backend.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,8 @@ public class BoardService {
 
     @Autowired
     BoardRepository boardRepository;
+    @Autowired
+    GroupRepository groupRepository;
 
     public List<BoardSelectResponse> findBoardList(int groupId){
         List<BoardSelectResponse> boardSelectResponses = new ArrayList<>();
@@ -30,5 +35,14 @@ public class BoardService {
 
         BoardSelectResponse boardSelectResponse = new BoardSelectResponse(board);
         return boardSelectResponse;
+    }
+
+    public boolean saveBoard(BoardInsertUpdateRequest boardInsertUpdateRequest){
+        Group group = groupRepository.findById(boardInsertUpdateRequest.getGroupId()).orElse(null);
+        if(group == null) return false;
+
+        Board board = new Board(boardInsertUpdateRequest, group);
+        boardRepository.save(board);
+        return true;
     }
 }

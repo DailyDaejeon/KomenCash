@@ -1,14 +1,13 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
 import com.komencash.backend.dto.board.BoardSelectResponse;
+import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.service.BoardService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +33,9 @@ public class BoardController {
         return boardService.findBoard(boardId);
     }
 
-
+    @ApiOperation(value = "공지사항 추가", notes = "공지사항 정보를 받아서 추가하고 결과를 반환")
+    @PostMapping("")
+    public boolean saveBoard(@RequestBody BoardInsertUpdateRequest boardInsertUpdateRequest) {
+        return boardService.saveBoard(boardInsertUpdateRequest);
+    }
 }

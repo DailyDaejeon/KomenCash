@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.board;
 
+import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,4 +29,12 @@ public class Board {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
+
+
+    public Board(BoardInsertUpdateRequest boardInsertUpdateRequest, Group group){
+        this.id = boardInsertUpdateRequest.getId();
+        this.title = boardInsertUpdateRequest.getTitle();
+        this.content = boardInsertUpdateRequest.getContent();
+        this.group = group;
+    }
 }

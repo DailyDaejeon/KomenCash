@@ -1,13 +1,20 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.group.GroupResponseDto;
 import com.komencash.backend.dto.stock.StockInsertUpdateRequest;
+import com.komencash.backend.dto.stock.StockSelectResponse;
 import com.komencash.backend.service.StockService;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/stock")
@@ -20,5 +27,13 @@ public class StockController {
     @PostMapping("")
     public boolean saveStock(@RequestBody StockInsertUpdateRequest stockInsertUpdateRequest) {
         return stockService.saveStock(stockInsertUpdateRequest);
+    }
+
+
+    @ApiOperation(value = "주식 종목 목록 조회", notes = "입력받은 group-id의 group 내 모든 주식 종목 목록을 조회")
+    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/list/{group-id}")
+    public List<StockSelectResponse> selectStockList(@PathVariable("group-id")int groupId){
+        return stockService.selectStockList(groupId);
     }
 }

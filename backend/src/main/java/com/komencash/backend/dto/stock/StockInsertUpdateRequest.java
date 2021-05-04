@@ -11,5 +11,5 @@ public class StockInsertUpdateRequest {
 
     private String name;
     private String hint;
-    private int group_id;
+    private int groupId;
 }

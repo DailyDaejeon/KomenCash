@@ -89,4 +89,14 @@ public class TaxService {
         return true;
     }
 
+
+    public boolean updateInflationRate(TaxRateUpdateRequest taxHistoryInsertUpdateRequest){
+        Group group = groupRepository.findById(taxHistoryInsertUpdateRequest.getGroupId()).orElse(null);
+        if(group == null) return false;
+
+        group.updateInflationRate(taxHistoryInsertUpdateRequest.getTaxRate());
+        groupRepository.save(group);
+        return true;
+    }
+
 }

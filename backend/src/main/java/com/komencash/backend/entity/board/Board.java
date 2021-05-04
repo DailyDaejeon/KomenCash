@@ -25,10 +25,6 @@ public class Board {
     @Column(name = "content")
     private String content;
 
-    @ManyToOne
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;

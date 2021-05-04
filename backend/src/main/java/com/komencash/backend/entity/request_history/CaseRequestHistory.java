@@ -28,7 +28,7 @@ public class CaseRequestHistory {
     private int fine;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "accpet")
+    @Column(name = "accept")
     private Accept accept;
 
     @ManyToOne(fetch = FetchType.LAZY)

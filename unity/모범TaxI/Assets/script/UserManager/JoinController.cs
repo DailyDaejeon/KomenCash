@@ -5,6 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using SimpleJSON;
 
+[System.Serializable]
+public class UserData
+{
+    public string nickname;
+    public string password;
+    public string code;
+}
+
 public class JoinController : MonoBehaviour
 {
     public string baseURL = "http://k4b203.p.ssafy.io:8081/api/";

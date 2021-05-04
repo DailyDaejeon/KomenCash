@@ -7,6 +7,9 @@
 
 <script>
 import ListItem from '@/components/group/ListItem.vue';
+import { fetchFinancialList } from '@/api/bank';
+import { mapState } from 'vuex';
+
 export default {
   components: { ListItem },
   data() {
@@ -43,7 +46,19 @@ export default {
       ]
     }
   },
+  created() {
+    this.fetchFinancialData()
+  },
+  computed: {
+    ...mapState({
+      groupInfo : state=> state.group.groupInfo
+    })
+  },
   methods: {
+    async fetchFinancialData() {
+      const res = await fetchFinancialList(this.groupInfo.id)
+      this.financialData = res.data
+    },
     addFinancial() {
       this.$swal.queue([
       {
@@ -117,6 +132,33 @@ export default {
       ]).then((result) => {
       if (result.value) {
         const answers = JSON.stringify(result.value)
+        // const item = addFinancial(result.value[0])
+        // const financialInfo = {
+        //     creditGrade: 0,
+        //     financialProduct: {
+        //       group: {
+        //         code: "string",
+        //         id: 0,
+        //         inflationRate: 0,
+        //         monetary_unit_name: "string",
+        //         name: "string",
+        //         tax: 0,
+        //         tax_rate: 0,
+        //         teacher: {
+        //           email: "string",
+        //           id: 0,
+        //           nickname: "string",
+        //           password: "string",
+        //           phoneNumber: "string"
+        //         }
+        //       },
+        //       id: 0,
+        //       name: "string"
+        //     },
+        //     "id": 0,
+        //     "period": 0,
+        //     "rate": 0
+        // }
       this.$swal({
           title: '직업이 생성됐어요!',
           html: `
@@ -124,6 +166,8 @@ export default {
             <pre><code>${answers}</code></pre>
           `,
           confirmButtonText: 'Lovely!'
+        }).then({
+          // addFinancial
         })
       }
       })

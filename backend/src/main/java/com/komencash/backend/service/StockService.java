@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.stock.StockHistoryInsertRequest;
 import com.komencash.backend.dto.stock.StockInsertUpdateRequest;
 import com.komencash.backend.dto.stock.StockSelectResponse;
 import com.komencash.backend.entity.group.Group;
@@ -69,6 +70,16 @@ public class StockService {
         if(stock == null) return false;
 
         stockRepository.delete(stock);
+        return true;
+    }
+
+
+    public boolean saveStockHistory(StockHistoryInsertRequest stockHistoryInsertRequest){
+        Stock stock = stockRepository.findById(stockHistoryInsertRequest.getStockId()).orElse(null);
+        if(stock == null) return false;
+
+        StockHistory stockHistory = new StockHistory(stockHistoryInsertRequest.getPrice(), stock);
+        stockHistoryRepository.save(stockHistory);
         return true;
     }
 

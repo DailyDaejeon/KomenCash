@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.stock.StockHistoryInsertRequest;
 import com.komencash.backend.dto.stock.StockInsertUpdateRequest;
 import com.komencash.backend.dto.stock.StockSelectResponse;
 import com.komencash.backend.service.StockService;
@@ -45,5 +46,12 @@ public class StockController {
     @DeleteMapping("/{stock-id}")
     public boolean deleteStock(@PathVariable("stock-id") int stockId) {
         return stockService.deleteStock(stockId);
+    }
+
+
+    @ApiOperation(value = "주식 세부 데이터 추가", notes = "주식 세부 데이터를 받아서 추가")
+    @PostMapping("/history")
+    public boolean saveStockHistory(@RequestBody StockHistoryInsertRequest stockInsertUpdateRequest) {
+        return stockService.saveStockHistory(stockInsertUpdateRequest);
     }
 }

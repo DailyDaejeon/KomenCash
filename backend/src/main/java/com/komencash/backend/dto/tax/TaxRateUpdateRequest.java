@@ -7,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaxHistoryInsertUpdateRequest {
-
-    private int id;
-    private int balanceChange;
-    private String content;
+public class TaxRateUpdateRequest {
+    private double taxRate;
     private int groupId;
-
 }

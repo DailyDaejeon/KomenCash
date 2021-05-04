@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaxHistoryInsertUpdateRequest {
+public class TaxDetailResponse {
 
-    private int id;
-    private int balanceChange;
-    private String content;
-    private int groupId;
+    private int tax;
+    private List<TaxHistoryResponse> taxHistoryResponses;
 
 }

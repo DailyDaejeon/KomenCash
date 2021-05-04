@@ -14,7 +14,9 @@ import com.komencash.backend.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UStudentService {
@@ -29,15 +31,18 @@ public class UStudentService {
 
     @Autowired
     JobService jobService;
-    public Student joinStudent(StudentJoinRequestDto request) {
+    public Map<String, Object> joinStudent(StudentJoinRequestDto request) {
+        Map<String, Object> resultMap = new HashMap<>();
         Group group = groupRepository.findByCode(request.getCode());
         if(group == null){
             System.out.println("그런 그룹 없습니다.");
-            return null;
+            resultMap.put("error", "그룹 코드가 잘 못 입력되었습니다.");
+            return resultMap;
         }
         if(studentRepository.findByNicknameAndJob_Group_Id(request.getNickname(), group.getId()) != null){
             System.out.println("닉네임이 중복 되었습니다.");
-            return null;
+            resultMap.put("error", "닉네임이 중복 되었습니다.");
+            return resultMap;
         }
 
 
@@ -50,7 +55,9 @@ public class UStudentService {
             }
         }
         Student student = new Student(request.getNickname(), request.getPassword(), findBaekSoo);
-        return studentRepository.save(student);
+        studentRepository.save(student);
+        resultMap.put("success", student);
+        return resultMap;
     }
 
     public void addJoinRequest(Student student) {

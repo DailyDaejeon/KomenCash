@@ -51,7 +51,6 @@ export default {
       this.$router.push({name:'MainPage',params:{id:group.id,groupData:group}})
     },
     addGroup(){
-      // this.$router.push('/group/add');
       this.$swal.queue([
       {
         title: '그룹 생성 1단계',
@@ -82,11 +81,12 @@ export default {
         const answers = JSON.stringify(result.value)
         const groupInfo = {
           name:result.value[0],
-          monetary_unit_name:result.value[1],
+          monetaryUnitName:result.value[1],
           code:null,
           id:null,
-          tax_rate:null,
-          teacher_id:this.userInfo.id,
+          taxRate:0,
+          inflationRate: 0,
+          teacherId:this.userInfo.id,
         }
         this.$swal({
             title: '그룹 생성 전, 정보를 확인해주세요!',
@@ -97,7 +97,7 @@ export default {
             confirmButtonText: 'Lovely!'
           }).then(()=>{
             saveGroup(groupInfo)
-            this.$emit('createGroup',groupInfo)
+            this.$emit('createGroup')
           })
         }
       })

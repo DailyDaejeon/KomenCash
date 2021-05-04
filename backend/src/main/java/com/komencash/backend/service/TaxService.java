@@ -1,12 +1,17 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.tax.TaxDetailResponse;
 import com.komencash.backend.dto.tax.TaxHistoryInsertUpdateRequest;
+import com.komencash.backend.dto.tax.TaxHistoryResponse;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.tax.TaxHistory;
 import com.komencash.backend.repository.GroupRepository;
 import com.komencash.backend.repository.TaxHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TaxService {
@@ -15,6 +20,18 @@ public class TaxService {
     TaxHistoryRepository taxHistoryRepository;
     @Autowired
     GroupRepository groupRepository;
+
+    public TaxDetailResponse findTaxDetail(int groupId){
+        Group group = groupRepository.findById(groupId).orElse(null);
+        if(group == null) return null;
+
+        List<TaxHistoryResponse> taxHistoryResponses = new ArrayList<>();
+        List<TaxHistory> taxHistories = taxHistoryRepository.findAll();
+        for(TaxHistory taxHistory : taxHistories) taxHistoryResponses.add(new TaxHistoryResponse(taxHistory));
+
+        TaxDetailResponse taxDetailResponse = new TaxDetailResponse(group.getTax(), taxHistoryResponses);
+        return taxDetailResponse;
+    }
 
 
     public boolean insertTaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest){

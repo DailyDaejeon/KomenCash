@@ -25,4 +25,14 @@ public class BoardController {
     public List<BoardSelectResponse> findBoardList(@PathVariable("group-id") int groupId){
         return boardService.findBoardList(groupId);
     }
+
+
+    @ApiOperation(value = "공지사항 세부내용 조회", notes = "입력받은 board-id의 공지사항 전체 목록을 조회")
+    @ApiImplicitParam(name = "board-id", value = "board-id(게시물 아이디)", dataType = "int", required = true)
+    @GetMapping("/{board-id}")
+    public BoardSelectResponse findBoard(@PathVariable("board-id") int boardId){
+        return boardService.findBoard(boardId);
+    }
+
+
 }

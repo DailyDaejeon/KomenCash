@@ -10,22 +10,31 @@
                 <table class="group-info-table">
                   <tr>
                     <th>그룹명</th>
-                    <td class="p-3" v-if="!this.mActive">{{groupInfo.groupName}}</td>
-                    <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputGroupname" v-model="groupInfo.groupName"></td>
+                    <td class="p-3" v-if="!this.mActive">{{groupInfo.name}}</td>
+                    <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputGroupname" v-model="groupName"></td>
                   </tr>
                   <tr>
                     <th>화폐단위</th>
-                    <td class="p-3" v-if="!this.mActive">{{groupInfo.monetaryUnitName}}</td>
-                    <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputMonetaryUnitName" v-model="groupInfo.monetaryUnitName"></td>
+                    <td class="p-3" v-if="!this.mActive">{{groupInfo.monetary_unit_name}}</td>
+                    <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputMonetaryUnitName" v-model="monetaryUnitName"></td>
                   </tr>
                   <tr>
                     <th>세율</th>
-                    <td class="p-3" v-if="!this.mActive">{{groupInfo.taxRate}}(%)</td>
-                    <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputTaxRate" v-model="groupInfo.taxRate"></td>
+                    <td class="p-3" v-if="!this.mActive">{{groupInfo.tax_rate}}(%)</td>
+                    <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputTaxRate" v-model="taxRate"></td>
+                  </tr>
+                  <tr>
+                    <th>물가상승율</th>
+                    <td class="p-3" v-if="!this.mActive">{{groupInfo.inflationRate}}(%)</td>
+                    <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputInflationRate" v-model="groupInflationRate"></td>
+                  </tr>
+                  <tr v-if="!this.mActive">
+                    <th>그룹코드</th>
+                    <td class="p-3">{{groupInfo.code}}</td>
                   </tr>
                   <tr v-if="!this.mActive">
                     <th>그룹원</th>
-                    <td class="p-3" @click="goMemberInfo">{{gCnt}} 명</td>
+                    <td class="p-3" @click="goMemberInfo">{{groupMemberCnt}} 명</td>
                   </tr>
                 </table>
               </div>
@@ -55,7 +64,7 @@
                   <input type="checkbox" id="acceptDelete" v-model="acceptChk">
                   <label for="acceptDelete">위 주의사항을 모두 확인하였으며, 이에 동의합니다.</label>
                 </div>
-                <button class="btn btn-secondary float-right" @click="deleteGroup">그룹 삭제</button>
+                <button class="btn btn-secondary float-right" @click="deleteGroupInfo">그룹 삭제</button>
               </div>
             </div>
           </div>
@@ -66,25 +75,41 @@
 </template>
 
 <script>
+import { deleteGroup, modifyGroup } from '@/api/group';
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
       mActive: false,
-      groupInfo:{},
-      acceptChk: false
+      acceptChk: false,
+      groupName:'',
+      groupInflationRate: '',
+      monetaryUnitName: '',
+      groupTax:'',
+      taxRate:'',
+      userInfo:'',
     }
   },
   created() {
     this.fetchInfo();
     this.getMemberCnt();
   },
+  computed: {
+    ...mapState({
+      groupInfo : state => state.group.groupInfo,
+      groupMemberCnt : state => state.group.groupMemberCnt
+    })
+  },
   methods: {
     fetchInfo(){
-      this.groupInfo = {
-        groupName: "햇반",
-        monetaryUnitName: "미소",
-        taxRate:0
-      }
+      console.log(this.groupInfo)
+      this.groupName = this.groupInfo.name
+      this.groupInflationRate= this.groupInfo.inflationRate,
+      this.monetaryUnitName= this.groupInfo.monetary_unit_name
+      this.groupTax=this.groupInfo.tax,
+      this.taxRate=this.groupInfo.tax_rate
+      this.userInfo=this.groupInfo.teacher
     },
     getMemberCnt(){
       //학생 조회 api 받고
@@ -95,12 +120,35 @@ export default {
     },
     submitModiInfo() {
       //modify api
+      const groupInfo = {
+        code: this.groupInfo.code,
+        id: this.groupInfo.id,
+        inflationRate: this.groupInflationRate,
+        monetaryUnitName: this.monetaryUnitName,
+        name: this.groupName,
+        taxRate: this.groupTax,
+        teacherId: this.userInfo.id
+      }
+      console.log(groupInfo)
+      modifyGroup(groupInfo)
+      const modifyGroupInfo = {
+        code: this.groupInfo.code,
+        id: this.groupInfo.id,
+        inflationRate: this.groupInflationRate,
+        monetary_unit_name: this.monetaryUnitName,
+        name: this.groupName,
+        tax:this.groupTax,
+        tax_rate: this.groupTax,
+        teacher: this.userInfo
+      }
+      this.$store.commit('setGroupInfo',modifyGroupInfo)
+      this.fetchInfo()
       this.mActive = !this.mActive;
     },
     goMemberInfo() {
       this.$router.push({ name:'groupMemberList' });
     },
-    deleteGroup(){
+    deleteGroupInfo(){
       if(!this.acceptChk) {
         this.$swal({
           icon: 'warning',
@@ -115,6 +163,7 @@ export default {
         }).then((result) => {
           if (result.isConfirmed) {
             //그룹 삭제 api
+            deleteGroup(this.groupInfo.id)
             this.$swal('그룹이 삭제되었습니다.', '', 'success');
             this.$router.push({name:'GroupList'});
           }

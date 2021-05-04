@@ -2,7 +2,6 @@
   <main class="content">
     <div class="container-fluid p-0">
       <h1 class="h3 mb-3">상품 거래내역</h1>
-      <!-- <BankMemberDetail propsData="storeHistoryList"/> -->
       <table class="table table-hover my-0">
       <thead>
         <tr>
@@ -26,9 +25,10 @@
 </template>
 
 <script>
-// import BankMemberDetail from '@/components/group/bank/BankMemberDetail.vue';
+import { fetchStoreHistory } from '@/api/store';
+import { mapState } from 'vuex';
+
 export default {
-  // components: { BankMemberDetail },
   data() {
     return {
       storeHistoryList : [
@@ -43,11 +43,19 @@ export default {
       ]
     };
   },
-  mounted() {
-    
+  created() {
+    this.fetchStoreHistoryList()
+  },
+  computed: {
+    ...mapState({
+      groupInfo: state=>state.group.groupInfo
+    })
   },
   methods: {
-    
+    fetchStoreHistoryList() {
+      const res = fetchStoreHistory(this.groupInfo.id)
+      this.storeHistoryList = res.data
+    }
   },
 };
 </script>

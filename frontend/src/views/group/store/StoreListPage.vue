@@ -6,8 +6,9 @@
         <button class="btn btn-main">상품추가</button>
       </div>
       <div class="row">
-      <div class="col-4" v-for="(product,index) in 10" :key="index" @click="goDetail()">
-        <StoreItem/>
+      <div class="col-4" v-for="(product,index) in productList" :key="index">
+        <StoreItem :product="product" :moneyUnit="groupInfo.monetary_unit_name"
+        />
         </div>
       </div>
     </div>
@@ -16,16 +17,31 @@
 
 <script>
 import StoreItem from '@/components/store/StoreItem.vue';
+import { mapState } from 'vuex';
+import { addStoreProduct, fetchStoreList } from '@/api/store'
+
 export default {
   components: { StoreItem },
   data() {
     return {
-      
-    };
+      productList : []
+    }
+  },
+  created() {
+    this.fetchStoreProducts()
+  },
+  computed: {
+    ...mapState({
+      groupInfo : state => state.group.groupInfo
+    })
   },
   methods: {
+    async fetchStoreProducts() {
+      const res = await fetchStoreList(this.groupInfo.id)
+      this.productList = res.data;
+    },
     addProduct() {
-          this.$swal.queue([
+      this.$swal.queue([
       {
         title: '상품추가 1단계',
         input: 'text',
@@ -53,6 +69,12 @@ export default {
       ]).then((result) => {
       if (result.value) {
         const answers = JSON.stringify(result.value)
+        const product = {
+          groupId: this.groupInfo.id,
+          id: null,
+          name: result.value[0],
+          price: result.value[1]
+        }
       this.$swal({
           title: '상품이 생성됐어요!',
           html: `
@@ -60,10 +82,13 @@ export default {
             <pre><code>${answers}</code></pre>
           `,
           confirmButtonText: 'Lovely!'
+        }).then(() => {
+          addStoreProduct(product)
+          this.productList.push(product)
         })
       }
       })
-    }
+    },
   },
 };
 </script>

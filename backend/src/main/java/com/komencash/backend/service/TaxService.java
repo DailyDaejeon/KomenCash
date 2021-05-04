@@ -3,6 +3,7 @@ package com.komencash.backend.service;
 import com.komencash.backend.dto.tax.TaxDetailResponse;
 import com.komencash.backend.dto.tax.TaxHistoryInsertUpdateRequest;
 import com.komencash.backend.dto.tax.TaxHistoryResponse;
+import com.komencash.backend.dto.tax.TaxRateUpdateRequest;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.tax.TaxHistory;
 import com.komencash.backend.repository.GroupRepository;
@@ -75,6 +76,16 @@ public class TaxService {
         groupRepository.save(group);
 
         taxHistoryRepository.delete(taxHistory);
+        return true;
+    }
+
+
+    public boolean updateTaxRate(TaxRateUpdateRequest taxHistoryInsertUpdateRequest){
+        Group group = groupRepository.findById(taxHistoryInsertUpdateRequest.getGroupId()).orElse(null);
+        if(group == null) return false;
+
+        group.updateTaxRate(taxHistoryInsertUpdateRequest.getTaxRate());
+        groupRepository.save(group);
         return true;
     }
 

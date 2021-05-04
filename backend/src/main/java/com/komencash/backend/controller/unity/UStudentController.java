@@ -3,6 +3,7 @@ package com.komencash.backend.controller.unity;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentJoinRequestDto;
 import com.komencash.backend.dto.student.StudentLoginRequestDto;
+import com.komencash.backend.dto.student.StudentState;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.service.JobService;
 import com.komencash.backend.service.UStudentService;
@@ -40,6 +41,14 @@ public class UStudentController {
     @PostMapping("/student/login")
     public boolean login(@RequestBody StudentLoginRequestDto dto){
         return ustudentService.login(dto);
+    }
+
+
+    @ApiOperation(value="", notes = "")
+    @GetMapping("/student/{student_id}")
+    public StudentState getStudentState(@PathVariable("student_id") int studentId){
+        return(ustudentService.getStudentState(studentId));
+
     }
 
 

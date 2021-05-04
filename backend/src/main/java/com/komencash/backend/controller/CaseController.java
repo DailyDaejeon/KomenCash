@@ -1,14 +1,13 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.request.CaseAcceptRequest;
 import com.komencash.backend.dto.request.CaseSelectResponse;
+import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
 import com.komencash.backend.service.CaseService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +30,12 @@ public class CaseController {
     @GetMapping("/{case-id}")
     public CaseSelectResponse selectCase(@PathVariable("case-id")int caseId){
         return caseService.selectCase(caseId);
+    }
+
+
+    @ApiOperation(value = "사건 처리", notes = "사건 처리 방식을 받아서 처리 결과를 반환")
+    @PutMapping("/accept")
+    public boolean updateCaseAccept(@RequestBody CaseAcceptRequest caseAcceptRequest) {
+        return caseService.updateCaseAccept(caseAcceptRequest);
     }
 }

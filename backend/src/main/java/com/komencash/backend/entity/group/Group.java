@@ -57,6 +57,10 @@ public class Group{
         this.setInflationRate(inflationRate);
     }
 
+    public void updateTaxBalance(int balance_change) {
+        this.tax += balance_change;
+    }
+
 
 //     public static Group createGroup(GroupResponseDto groupResponseDto, Teacher teacher) {
 //        Group group = new Group();

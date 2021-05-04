@@ -63,4 +63,19 @@ public class TaxService {
         return true;
     }
 
+
+    public boolean deleteTaxHistory(int taxHistoryId){
+        TaxHistory taxHistory = taxHistoryRepository.findById(taxHistoryId).orElse(null);
+        if(taxHistory == null) return false;
+
+        Group group = groupRepository.findById(taxHistory.getGroup().getId()).orElse(null);
+        if(group == null) return false;
+
+        group.updateTaxBalance(-taxHistory.getBalanceChange());
+        groupRepository.save(group);
+
+        taxHistoryRepository.delete(taxHistory);
+        return true;
+    }
+
 }

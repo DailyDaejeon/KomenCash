@@ -35,4 +35,11 @@ public class TaxController {
     public boolean updateTaxHistory(@RequestBody TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest) {
         return taxService.updateTaxHistory(taxHistoryInsertUpdateRequest);
     }
+
+    @ApiOperation(value = "세금 내역 삭제", notes = "tax-history-id를 받아서 delete 후 결과 반환")
+    @ApiImplicitParam(name = "tax-history-id", value = "tax-history-id(세금 내역 아이디)", dataType = "int", required = true)
+    @DeleteMapping("/{tax-history-id}")
+    public boolean deleteJob(@PathVariable("tax-history-id") int taxHistoryId) {
+        return taxService.deleteTaxHistory(taxHistoryId);
+    }
 }

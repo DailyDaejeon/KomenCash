@@ -44,9 +44,17 @@ public class TaxController {
         return taxService.deleteTaxHistory(taxHistoryId);
     }
 
+
+    @ApiOperation(value = "인플레이션 비율 수정", notes = "수정할 인플레이션 비율과 그룹 아이디를 입력받아 소득세율을 수정하고 그 결과를 반환")
+    @PutMapping("/inflation-rate")
+    public boolean updateInflationRate(@RequestBody TaxRateUpdateRequest taxRateUpdateRequest) {
+        return taxService.updateInflationRate(taxRateUpdateRequest);
+    }
+
+
     @ApiOperation(value = "소득세율 수정", notes = "수정할 소득세율과 그룹 아이디를 입력받아 소득세율을 수정하고 그 결과를 반환")
     @PutMapping("/rate")
-    public boolean updateTaxRate(@RequestBody TaxRateUpdateRequest taxHistoryInsertUpdateRequest) {
-        return taxService.updateTaxRate(taxHistoryInsertUpdateRequest);
+    public boolean updateTaxRate(@RequestBody TaxRateUpdateRequest taxRateUpdateRequest) {
+        return taxService.updateTaxRate(taxRateUpdateRequest);
     }
 }

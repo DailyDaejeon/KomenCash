@@ -63,6 +63,8 @@ public class Group{
 
     public void updateTaxRate(double taxRate){ this.tax_rate = taxRate; }
 
+    public void updateInflationRate(double inflationRate){ this.inflationRate = inflationRate; }
+
 
 //     public static Group createGroup(GroupResponseDto groupResponseDto, Teacher teacher) {
 //        Group group = new Group();

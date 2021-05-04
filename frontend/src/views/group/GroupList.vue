@@ -1,6 +1,6 @@
 <template>
   <div>
-    <GroupListForm :userInfo="userInfo" :groupList="groupList" @createGroup="createGroup"/>
+    <GroupListForm :userInfo="userInfo" :groupList="groupList" @createGroup="fetchGroupInfo"/>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   },
   components: { GroupListForm },
   created() {
-    this.featchGroupInfo();
+    this.fetchGroupInfo();
   },
   computed: {
     ...mapState({
@@ -25,13 +25,10 @@ export default {
     }),
   },
   methods: {
-    async featchGroupInfo(){
+    async fetchGroupInfo(){
       const res = await fetchGroupList();
       this.groupList = res.data.result
     },
-    createGroup(groupData) {
-      this.groupList.push(groupData)
-    }
   },
 }
 </script>

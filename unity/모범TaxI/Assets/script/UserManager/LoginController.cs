@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.IO;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -11,13 +10,14 @@ using UnityEngine.Networking;
 public class UserData
 {
     public string nickname;
-    /*public string email;*/
     public string password;
+    public string code;
 
     public void print()
     {
         Debug.Log("nickname : " + nickname);
         Debug.Log("password : " + password);
+        Debug.Log("code : " + code);
     }
 }
 
@@ -46,7 +46,6 @@ public class LoginController : MonoBehaviour
         if (userId.Length != 0 && userPw.Length != 0)
         {
             Debug.Log("둘 다 입력받음!");
-            /*StartCoroutine(GetRequest());*/
             StartCoroutine(Login());
         }
         else if(userId.Length == 0 || userPw.Length == 0)
@@ -68,7 +67,7 @@ public class LoginController : MonoBehaviour
 
         /*UserData test = JsonUtility.FromJson<UserData>(str); //json -> Object 형변환*/
 
-        using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "teacher/login", json))
+        using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "unity/student/login", json))
         {
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
             request.uploadHandler = new UploadHandlerRaw(jsonToSend);

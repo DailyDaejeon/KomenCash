@@ -33,4 +33,8 @@ public class FinancialProduct {
         this.group = g;
     }
 
+
+    public void updateName(String name){
+        this.name = name;
+    }
 }

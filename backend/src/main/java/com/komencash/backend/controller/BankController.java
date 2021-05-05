@@ -3,6 +3,8 @@ package com.komencash.backend.controller;
 import com.komencash.backend.dto.bank.AccountResponseDto;
 import com.komencash.backend.dto.bank.FinancialProductDetailRequest;
 import com.komencash.backend.dto.bank.FinancialProductResponse;
+import com.komencash.backend.dto.bank.FinancialProductUpdateRequest;
+import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
 import com.komencash.backend.service.BankService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -66,6 +68,13 @@ public class BankController {
     public ResponseEntity<FinancialProductResponse> getFinancialProduct(@PathVariable("product-id") int productId){
         FinancialProductResponse financialProductResponse = bankService.getFinancialProduct(productId);
         return ResponseEntity.status(HttpStatus.OK).body(financialProductResponse);
+    }
+
+
+    @ApiOperation(value = "금융상품 정보 수정", notes = "금융상품 정보를 받아서 update후 반환")
+    @PutMapping("")
+    public boolean updateFinancialProduct(@RequestBody FinancialProductUpdateRequest financialProductUpdateRequest) {
+        return bankService.updateFinancialProduct(financialProductUpdateRequest);
     }
 
 }

@@ -116,4 +116,13 @@ public class BankService {
 
         return new FinancialProductResponse(financialProduct, financialProductDetailResponses, studentInfoResponses);
     }
+
+    public boolean updateFinancialProduct (FinancialProductUpdateRequest financialProductUpdateRequest){
+        FinancialProduct financialProduct = financialProuctRepository.findById(financialProductUpdateRequest.getId()).orElse(null);
+        if(financialProduct == null) return false;
+
+        financialProduct.updateName(financialProductUpdateRequest.getName());
+        financialProuctRepository.save(financialProduct);
+        return true;
+    }
 }

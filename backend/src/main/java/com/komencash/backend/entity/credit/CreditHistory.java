@@ -23,11 +23,14 @@ public class CreditHistory {
     private String content;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "datetime")
+    @Column(name = "created_date")
     private Date datetime;
 
     @Column(name = "point_change")
     private int pointChange;
+
+    @Column(name = "point")
+    private int point;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")

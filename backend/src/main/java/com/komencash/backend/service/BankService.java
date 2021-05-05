@@ -1,12 +1,9 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.bank.AccountHistoryDto;
-import com.komencash.backend.dto.bank.AccountHistoryInsertUpdateRequest;
-import com.komencash.backend.dto.bank.AccountResponseDto;
-import com.komencash.backend.dto.bank.FinancialProductDetailResponseDto;
+import com.komencash.backend.dto.bank.*;
+import com.komencash.backend.dto.student.StudentInfoResponse;
 import com.komencash.backend.entity.bank.AccountHistory;
-import com.komencash.backend.entity.financial.FinancialProduct;
-import com.komencash.backend.entity.financial.FinancialProductDetail;
+import com.komencash.backend.entity.financial.*;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.*;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BankService {
@@ -28,6 +24,9 @@ public class BankService {
 
     @Autowired
     FinancialProductDetailRepository financialProductDetailRepository;
+
+    @Autowired
+    FinancialProductPurchaseRepository financialProductPurchaseRepository;
 
     @Autowired
     StudentRepository studentRepository;
@@ -58,18 +57,18 @@ public class BankService {
         financialProuctRepository.save(financialProduct);
     }
 
-    public void createFinancialProductDetail(int financialProductId, FinancialProductDetailResponseDto dto) {
+    public void createFinancialProductDetail(int financialProductId, FinancialProductDetailRequest dto) {
         FinancialProduct financialProduct = financialProuctRepository.findById(financialProductId).orElse(null);
         FinancialProductDetail financialProductDetail = new FinancialProductDetail(dto,financialProduct);
         financialProductDetailRepository.save(financialProductDetail);
     }
 
 
-    public List<FinancialProductDetailResponseDto> getFinancialProductDetail(int groupId) {
+    public List<FinancialProductDetailRequest> getFinancialProductDetail(int groupId) {
         List<FinancialProductDetail> f = financialProductDetailRepository.findByFinancialProduct_Group_Id(groupId);
-        List<FinancialProductDetailResponseDto> result = new ArrayList<>();
+        List<FinancialProductDetailRequest> result = new ArrayList<>();
         f.forEach(s -> {
-            result.add(new FinancialProductDetailResponseDto(s.getId(), s.getPeriod(), s.getCreditGrade(), s.getRate(), s.getFinancialProduct()));
+            result.add(new FinancialProductDetailRequest(s.getId(), s.getPeriod(), s.getCreditGrade(), s.getRate(), s.getFinancialProduct()));
         });
         return result;
 
@@ -92,6 +91,47 @@ public class BankService {
 
         AccountHistory accountHistory = new AccountHistory(balance_change, balance, content, student);
         accountHistoryRepository.save(accountHistory);
+        return true;
+    }
+
+
+    public FinancialProductResponse getFinancialProduct(int productId){
+
+        FinancialProduct financialProduct = financialProuctRepository.findById(productId).orElse(null);
+        if(financialProduct == null) return null;
+
+        List<FinancialProductDetailResponse> financialProductDetailResponses = new ArrayList<>();
+        List<FinancialProductDetail> financialProductDetails = financialProductDetailRepository.findByFinancialProduct_Id(productId);
+        for(FinancialProductDetail financialProductDetail : financialProductDetails)
+            financialProductDetailResponses.add(new FinancialProductDetailResponse(financialProductDetail));
+
+        List<StudentInfoResponse> studentInfoResponses = new ArrayList<>();
+        List<FinancialProductPurchase> financialProductPurchases =
+                financialProductPurchaseRepository.findByFinancialProductHistory_FinancialProduct_Id(productId);
+        for(FinancialProductPurchase financialProductPurchase : financialProductPurchases) {
+            if(!financialProductPurchase.getFinancialProductHistory().getStatus().equals(Status.deposit)) continue;
+            Student student = financialProductPurchase.getStudent();
+            studentInfoResponses.add(new StudentInfoResponse(student.getId(), student.getNickname()));
+        }
+
+        return new FinancialProductResponse(financialProduct, financialProductDetailResponses, studentInfoResponses);
+    }
+
+    public boolean updateFinancialProduct (FinancialProductUpdateRequest financialProductUpdateRequest){
+        FinancialProduct financialProduct = financialProuctRepository.findById(financialProductUpdateRequest.getId()).orElse(null);
+        if(financialProduct == null) return false;
+
+        financialProduct.updateName(financialProductUpdateRequest.getName());
+        financialProuctRepository.save(financialProduct);
+        return true;
+    }
+
+    public boolean updateFinancialProductDetail (FinancialProductDetailUpdateRequest financialProductDetailUpdateRequest) {
+        FinancialProductDetail financialProductDetail = financialProductDetailRepository.findById(financialProductDetailUpdateRequest.getId()).orElse(null);
+        if(financialProductDetail == null) return false;
+
+        financialProductDetail.updateFinancialProductDetail(financialProductDetailUpdateRequest);
+        financialProductDetailRepository.save(financialProductDetail);
         return true;
     }
 }

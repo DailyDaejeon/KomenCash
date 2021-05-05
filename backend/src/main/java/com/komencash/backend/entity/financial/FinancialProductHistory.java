@@ -29,7 +29,7 @@ public class FinancialProductHistory {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
 

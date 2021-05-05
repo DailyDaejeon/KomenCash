@@ -1,10 +1,8 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.bank.AccountResponseDto;
-import com.komencash.backend.dto.bank.FinancialProductDetailRequest;
-import com.komencash.backend.dto.bank.FinancialProductResponse;
-import com.komencash.backend.dto.bank.FinancialProductUpdateRequest;
+import com.komencash.backend.dto.bank.*;
 import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
+import com.komencash.backend.entity.financial.FinancialProductDetail;
 import com.komencash.backend.service.BankService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -72,9 +70,16 @@ public class BankController {
 
 
     @ApiOperation(value = "금융상품 정보 수정", notes = "금융상품 정보를 받아서 update후 반환")
-    @PutMapping("")
+    @PutMapping("/financial-product")
     public boolean updateFinancialProduct(@RequestBody FinancialProductUpdateRequest financialProductUpdateRequest) {
         return bankService.updateFinancialProduct(financialProductUpdateRequest);
+    }
+
+
+    @ApiOperation(value = "금융상품 상세정보 수정", notes = "금융상품 상세정보를 받아서 update후 반환")
+    @PutMapping("financial-product-detail")
+    public boolean updateFinancialProductDetail(@RequestBody FinancialProductDetailUpdateRequest financialProductDetailUpdateRequest) {
+        return bankService.updateFinancialProductDetail(financialProductDetailUpdateRequest);
     }
 
 }

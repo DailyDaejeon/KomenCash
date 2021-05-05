@@ -1,6 +1,7 @@
 package com.komencash.backend.entity.financial;
 
 import com.komencash.backend.dto.bank.FinancialProductDetailRequest;
+import com.komencash.backend.dto.bank.FinancialProductDetailUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,5 +40,11 @@ public class FinancialProductDetail {
         this.creditGrade = dto.getCreditGrade();
         this.rate = dto.getRate();
         this.financialProduct = financialProduct;
+    }
+
+    public void updateFinancialProductDetail(FinancialProductDetailUpdateRequest financialProductDetailUpdateRequest){
+        this.creditGrade = financialProductDetailUpdateRequest.getCreditGrade();
+        this.period = financialProductDetailUpdateRequest.getPeriod();
+        this.rate = financialProductDetailUpdateRequest.getRate();
     }
 }

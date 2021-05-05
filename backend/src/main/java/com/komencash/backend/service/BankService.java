@@ -125,4 +125,13 @@ public class BankService {
         financialProuctRepository.save(financialProduct);
         return true;
     }
+
+    public boolean updateFinancialProductDetail (FinancialProductDetailUpdateRequest financialProductDetailUpdateRequest) {
+        FinancialProductDetail financialProductDetail = financialProductDetailRepository.findById(financialProductDetailUpdateRequest.getId()).orElse(null);
+        if(financialProductDetail == null) return false;
+
+        financialProductDetail.updateFinancialProductDetail(financialProductDetailUpdateRequest);
+        financialProductDetailRepository.save(financialProductDetail);
+        return true;
+    }
 }

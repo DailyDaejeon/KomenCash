@@ -4,6 +4,7 @@
       <button class="mr-3 btn btn-main"  @click="addData">데이터추가</button>
       <button class="btn btn-main" @click="addHintData">힌트추가</button>
     </div>
+    <h1>오늘의 HINT : {{stockHint}}</h1>
     <div class="container-fluid p-0">
       <h1 class="h3 mb-3">주식이름</h1>
       <div class="row">
@@ -22,14 +23,19 @@
 </template>
 
 <script>
+import { addStockData, modifyStock } from '@/api/stock';
+import { mapState } from 'vuex';
+
 export default {
-  props:['propsdata'],
+  props:['propsdata','stockId','stockData'],
   data () {
     return {
-      myChart : ''
+      myChart : "",
+      stockHint:""
     }
   },
   mounted() {
+    this.stockHint = this.stockData.hint;
     const ctx = this.$refs.lineChart.getContext('2d');
     const myLineChart = new this.$_Chart(ctx, {
       type: 'line',
@@ -84,6 +90,11 @@ export default {
     }); 
     this.myChart = myLineChart
   },
+  computed:{
+    ...mapState({
+      groupInfo: state => state.group.groupInfo
+    })
+  },
   methods: {
     addData() {
       this.$swal({
@@ -92,13 +103,14 @@ export default {
         input: 'text'        
       }).then((result) => {
       if (result.value) {
-        const answers = JSON.stringify(result.value)
+        const data = {
+          price: result.value,
+          stockId: this.stockId
+        }
+        addStockData(data)
         this.$swal({
-          title: '주식이 생성됐어요!',
-          html: `
-            Your answers:
-            <pre><code>${answers}</code></pre>
-          `,
+          title: '오늘의 주가가 추가됐어요!',
+          info:"success",
           confirmButtonText: 'Lovely!'
         })
         const today = new Date();
@@ -108,7 +120,7 @@ export default {
         this.myChart.data.labels.push(year + '.' + month + '.' + date);
         this.myChart.data.datasets[0].data.push(Number(result.value));
         this.myChart.update();
-        console.log(this.myChart)
+        // console.log(this.myChart)
       }
       })
     },
@@ -119,14 +131,26 @@ export default {
         input: 'text'        
       }).then((result) => {
       if (result.value) {
-        const answers = JSON.stringify(result.value)
-        this.$swal({
-          title: '주식 힌트가 갱신됐어요!',
-          html: `
-            Your answers:
-            <pre><code>${answers}</code></pre>
-          `,
-          confirmButtonText: 'Lovely!'
+        const answers = {
+          groupId: this.groupInfo.id,
+          hint: result.value,
+          id: this.stockId,
+          name: this.stockData.name
+        }
+        modifyStock(answers).then(()=>{
+          this.$swal({
+            title: '주식 힌트가 갱신됐어요!',
+            icon:"success",
+            confirmButtonText: 'Lovely!'
+          })
+        this.stockHint = result.value
+
+        }).catch(()=>{
+          this.$swal({
+            title: '주식 힌트를 다시입력해주세요!',
+            icon:"info",
+            confirmButtonText: 'Lovely!'
+          })
         })
       }
       })

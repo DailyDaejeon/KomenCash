@@ -52,6 +52,26 @@ function resetGroupMemberPw(studentId) {
     })
 }
 
+// 그룹원 신용등급  조회
+function fetchMemberCredit(studentId) {
+  return instance.get(`credit/student/${studentId}`)
+}
+
+// 그룹원 잔액 조회 API
+function fetchMemberBalance(studentId) {
+  return instance.get(`bank/balance/${studentId}`)
+}
+	
+// 그룹원 금융상품 조회 API
+function fetchMemberFinancial(studentId) {
+  return instance.get(`bank/financial-product/student/${studentId}`)
+}
+
+// 그룹원 주식 구매내역 조회 API
+function fetchMemberStockDeal(studentId) {
+  return instance.get(`stock/deal/student/${studentId}`)
+}
+
 export {
   fetchGroupMemberList,
   fetchGroupRequest,
@@ -61,5 +81,9 @@ export {
   rejectGroupMember,
   modifyGroupMemberCertificate,
   modifyGroupMemberJob,
-  resetGroupMemberPw
+  resetGroupMemberPw,
+  fetchMemberCredit,
+  fetchMemberBalance,
+  fetchMemberFinancial,
+  fetchMemberStockDeal
 }

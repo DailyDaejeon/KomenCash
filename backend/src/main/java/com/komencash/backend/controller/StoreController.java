@@ -66,11 +66,19 @@ public class StoreController {
         return storeService.selectItemAddReq(requestId);
     }
 
-    @ApiOperation(value = "온라인 스토어 거래내역 조회", notes = "모든 거래 내역을 최신순으로 조회")
+    @ApiOperation(value = "온라인 스토어 거래내역 조회", notes = "입력받은 그룹아이디의 그룹 내 모든 거래 내역을 최신순으로 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/history/{group-id}")
     public List<StoreItemPerchaseHistoryResponse> selectPerchaseHistoryList(@PathVariable("group-id") int groupId){
         return storeService.selectPerchaseHistoryList(groupId);
+    }
+
+
+    @ApiOperation(value = "온라인 스토어 거래내역 조회", notes = "입력받은 학생아이디의 온라인스토어 거래 내역을 최신순으로 조회")
+    @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/history/student/{student-id}")
+    public List<StoreItemPerchaseHistoryResponse> selectPerchaseHistoryListByStudent(@PathVariable("student-id") int studentId){
+        return storeService.selectPerchaseHistoryListByStudent(studentId);
     }
 
 }

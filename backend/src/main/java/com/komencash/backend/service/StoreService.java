@@ -97,4 +97,13 @@ public class StoreService {
 
         return responses;
     }
+
+    public List<StoreItemPerchaseHistoryResponse> selectPerchaseHistoryListByStudent(int studentId) {
+        List<StoreItemPerchaseHistoryResponse> responses = new ArrayList<>();
+
+        List<OnlineStorePerchaseHistory> onlineStorePerchaseHistories = onlineStorePerchaseHistoryRepository.findByStudent_Id(studentId);
+        for(OnlineStorePerchaseHistory history : onlineStorePerchaseHistories) responses.add(new StoreItemPerchaseHistoryResponse(history));
+
+        return responses;
+    }
 }

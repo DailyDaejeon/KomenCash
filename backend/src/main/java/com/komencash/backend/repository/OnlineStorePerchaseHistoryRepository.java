@@ -8,4 +8,5 @@ import java.util.List;
 public interface OnlineStorePerchaseHistoryRepository extends JpaRepository<OnlineStorePerchaseHistory, Integer> {
 
     List<OnlineStorePerchaseHistory> findByStudent_Job_Group_Id(int groupId);
+    List<OnlineStorePerchaseHistory> findByStudent_Id(int studentId);
 }

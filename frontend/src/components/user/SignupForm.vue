@@ -29,10 +29,6 @@
                       </p>
 										</div>
 										<div class="mb-3">
-											<label class="form-label">Job</label>
-											<input class="form-control form-control-lg" type="text" name="company" placeholder="소속을 입력하세요." />
-										</div>
-										<div class="mb-3">
 											<label class="form-label">Email</label>
 											<input 
                       v-model="userId"
@@ -272,7 +268,7 @@ export default {
       try{
         const response = await userIdChk(this.userId);
         this.idCheck = response.data;
-        console.log('아이디체크?',response,this.idCheck)
+        // console.log('아이디체크?',response,this.idCheck)
       }catch(err) {
         console.log(err);
       }
@@ -282,7 +278,7 @@ export default {
       try{
         const result = await dupNickNameChk(this.username);
         this.nickCheck = result.data;
-        console.log('닉네임체크?',result,this.nickCheck)
+        // console.log('닉네임체크?',result,this.nickCheck)
       }catch(err) {
         console.log(err);
       }

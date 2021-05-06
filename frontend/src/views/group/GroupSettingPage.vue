@@ -45,54 +45,54 @@ export default {
         {
           name: "groupMemberList",
           title: "그룹원 정보",
-          // groupMember:[
-          //   {
-          //     job:{
-          //       group:{
-          //         code:"23133322",
-          //         id:1, //그룹 id
-          //         monetaryUnitName:"미소",
-          //         name:"햇반",
-          //         tax:1000,
-          //         tax_rate:0,
-          //         teacher:{
-          //           id:1, //선생님 id
-          //           email:"test@test.com",
-          //           nickname: "박싸피",
-          //           password: "test1234",
-          //           phoneNumber: "01012345678"
-          //         }
-          //       },
-          //       id:1, //직업 id
-          //       name:"은행원",
-          //       personnel: 2, //인원 수
-          //       recruitType: "resume",
-          //       role: "계좌 관리 및 금융 상품 판매",
-          //       salary: 100,
-          //     },
-          //     id:1, //학생 id
-          //     nickname: "김학생"
-          //   }
-          // ],
+          groupMember:[
+            {
+              job:{
+                group:{
+                  code:"23133322",
+                  id:1, //그룹 id
+                  monetaryUnitName:"미소",
+                  name:"햇반",
+                  tax:1000,
+                  tax_rate:0,
+                  teacher:{
+                    id:1, //선생님 id
+                    email:"test@test.com",
+                    nickname: "박싸피",
+                    password: "test1234",
+                    phoneNumber: "01012345678"
+                  }
+                },
+                id:1, //직업 id
+                name:"은행원",
+                personnel: 2, //인원 수
+                recruitType: "resume",
+                role: "계좌 관리 및 금융 상품 판매",
+                salary: 100,
+              },
+              id:1, //학생 id
+              nickname: "김학생"
+            }
+          ],
         },
         //그룹원 추가 요청 정보
         {
           name: "addMemberRequest",
           title: "그룹원 추가 요청",
-          // addMemberRequest:[
-          //   {
-          //     accept:"before_confirm",
-          //     id:1,
-          //     nickname:"박학생",
-          //     student_id:2,
-          //   },
-          //   {
-          //     accept:"before_confirm",
-          //     id:2,
-          //     nickname:"최학생",
-          //     student_id:3,
-          //   }
-          // ]
+          addMemberRequest:[
+            {
+              accept:"before_confirm",
+              id:1,
+              nickname:"박학생",
+              student_id:2,
+            },
+            {
+              accept:"before_confirm",
+              id:2,
+              nickname:"최학생",
+              student_id:3,
+            }
+          ]
         }
       ],
     }

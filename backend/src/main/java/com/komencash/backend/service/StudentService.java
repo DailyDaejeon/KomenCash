@@ -111,11 +111,11 @@ public class StudentService {
         studentRepository.save(stu.get());
     }
 
-    public boolean updateStudentJob(StudentUpdateJobRequest studentUpdateJobRequest) {
-        Student student = studentRepository.findById(studentUpdateJobRequest.getStudentId()).orElse(null);
+    public boolean updateStudentJobFire(int studentId) {
+        Student student = studentRepository.findById(studentId).orElse(null);
         if(student == null) return false;
 
-        Job job = jobRepository.findById(studentUpdateJobRequest.getJobId()).orElse(null);
+        Job job = jobRepository.findByName("무직");
         if(job == null) return false;
 
         student.updateJob(job);

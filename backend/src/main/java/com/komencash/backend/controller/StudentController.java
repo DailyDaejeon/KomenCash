@@ -70,10 +70,10 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(1);
     }
 
-    @ApiOperation(value="그룹원 직업 변경", notes = "student-id, job-id 입력받아 직업 변경")
-    @PutMapping("/job")
-    public boolean updateStudentJob(@RequestBody StudentUpdateJobRequest studentUpdateJobRequest){
-        return studentService.updateStudentJob(studentUpdateJobRequest);
+    @ApiOperation(value="그룹원 직업 무직으로 변경", notes = "입력받은 학생 아이디의 직업을 무직으로 변경")
+    @PutMapping("/job/fire")
+    public boolean updateStudentJobFire(@RequestBody int studentId){
+        return studentService.updateStudentJobFire(studentId);
     }
 
 

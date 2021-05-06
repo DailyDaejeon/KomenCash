@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.stock.StockDealHistoryResponse;
 import com.komencash.backend.dto.stock.StockHistoryInsertRequest;
 import com.komencash.backend.dto.stock.StockInsertUpdateRequest;
 import com.komencash.backend.dto.stock.StockSelectResponse;
@@ -31,6 +32,13 @@ public class StockController {
     @GetMapping("/list/{group-id}")
     public List<StockSelectResponse> selectStockList(@PathVariable("group-id")int groupId){
         return stockService.selectStockList(groupId);
+    }
+
+    @ApiOperation(value = "학생별 주식 거래내역 조회", notes = "입력받은 student-id의 모든 주식 거래 내역을 조회")
+    @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/deal/student/{student-id}")
+    public List<StockDealHistoryResponse> selectStockDealHistory(@PathVariable("student-id")int studentId){
+        return stockService.selectStockDealHistory(studentId);
     }
 
 

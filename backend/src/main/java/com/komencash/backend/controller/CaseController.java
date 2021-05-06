@@ -33,6 +33,15 @@ public class CaseController {
     }
 
 
+
+    @ApiOperation(value = "학생별 전과 조회", notes = "입력받은 student-id의 모든 사건 경위서 목록을 조회")
+    @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/student/{student-id}")
+    public List<CaseSelectResponse> selectCaseListByStudent(@PathVariable("student-id")int studentId){
+        return caseService.selectCaseListByStudent(studentId);
+    }
+
+
     @ApiOperation(value = "사건 처리", notes = "사건 처리 방식을 받아서 처리 결과를 반환")
     @PutMapping("/accept")
     public boolean updateCaseAccept(@RequestBody CaseAcceptRequest caseAcceptRequest) {

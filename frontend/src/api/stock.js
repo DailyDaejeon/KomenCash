@@ -26,11 +26,17 @@ function addStockData(stockData) {
   return instance.post(`stock/history`,stockData)
 }
 
+// 주식 종목 가격변동 내역 조회
+function fetchStockHistory(stockId) {
+  return instance.get(`stock/history/${stockId}`)
+}
+
 
 export {
   fetchStockList,
   addStock,
   modifyStock,
   deleteStock,
-  addStockData
+  addStockData,
+  fetchStockHistory
 }

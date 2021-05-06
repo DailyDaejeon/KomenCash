@@ -45,6 +45,13 @@ function modifyGroupMemberJob(studentData) {
     return instance.put(`student/job`, studentData)
 }
 
+// 그룹원 직업 무직으로 변경
+function modifyGroupMemberJobFire(studentId) {
+    return instance.put(`student/job/fire`, {
+        studentId :studentId
+    })
+}
+
 //그룹원 비밀번호초기화
 function resetGroupMemberPw(studentId) {
     return instance.put(`student/reset-pw`,  {
@@ -85,5 +92,6 @@ export {
   fetchMemberCredit,
   fetchMemberBalance,
   fetchMemberFinancial,
-  fetchMemberStockDeal
+  fetchMemberStockDeal,
+  modifyGroupMemberJobFire
 }

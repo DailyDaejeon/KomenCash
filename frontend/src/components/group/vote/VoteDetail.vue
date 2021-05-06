@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { fetchVoteDetail } from '@/api/vote';
 export default {
   data() {
     return {
@@ -89,11 +90,12 @@ export default {
     this.fetchVoteInfo();
   },
   methods: {
-    fetchVoteInfo() {
-      window.alert("voteInfo 불러오는 api 여기에 만들어조");
+    async fetchVoteInfo() {
+      const res = await fetchVoteDetail(this.id)
+      console.log(res)
+      // this.voteInfo = res.data
     },
     getPercent(idx){
-
       let totalNum = 0;
       for (let index = 0; index < this.voteInfo.voteItemResultResponses.length; index++) {
         totalNum += this.voteInfo.voteItemResultResponses[index].resultCnt;

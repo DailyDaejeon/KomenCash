@@ -12,7 +12,7 @@ function addVote(voteData) {
 }
 
 // 투표상세조회
-function fetchVoteList(voteId) {
+function fetchVoteDetail(voteId) {
   return instance.get(`vote/detail/${voteId}`)
 }
 
@@ -24,6 +24,6 @@ function deleteVote(voteId) {
 export {
   fetchVoteList,
   addVote,
-  fetchVoteList,
+  fetchVoteDetail,
   deleteVote
 }

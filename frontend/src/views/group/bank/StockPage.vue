@@ -1,6 +1,6 @@
 <template>
   <main class="content">
-    <div @click="addStock">
+    <div @click="createStock">
       <button class="btn btn-main">주식추가</button>
     </div>
     <StockList/>
@@ -9,10 +9,18 @@
 
 <script>
 import StockList from '@/components/group/stock/StockList.vue'
+import { mapState } from 'vuex'
+import {addStock} from '@/api/stock'
+
 export default {
   components: { StockList },
+  computed:{
+    ...mapState({
+      groupInfo: state => state.group.groupInfo
+    })
+  },
   methods :{
-  addStock() {
+  createStock() {
     this.$swal.queue([
       {
         title: '주식추가 1단계',
@@ -40,14 +48,22 @@ export default {
       },
       ]).then((result) => {
       if (result.value) {
-        const answers = JSON.stringify(result.value)
-      this.$swal({
-          title: '주식이 생성됐어요!',
-          html: `
-            Your answers:
-            <pre><code>${answers}</code></pre>
-          `,
-          confirmButtonText: 'Lovely!'
+        const stock = {
+          groupId: this.groupInfo.id,
+          name: result.value[0],
+          hint: result.value[1]
+        }
+        addStock(stock).then(()=>{
+          this.$swal({
+              title: '주식이 생성됐어요!',
+              icon:"success",
+              confirmButtonText: 'Lovely!'
+            })
+        }).catch(()=>{
+           this.$swal({
+              title: '주식 추가가 안됐어요!',
+              icon:"warning"
+            })
         })
       }
       })
@@ -56,40 +72,3 @@ export default {
 
 }
 </script>
-
-
-<style lang="scss">
-.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {
-  background: #e7ab3c;
-}
-
-.swal2-progress-steps .swal2-progress-step {
-    z-index: 20;
-    flex-shrink: 0;
-    width: 2em;
-    height: 2em;
-    border-radius: 2em;
-    background: #e7ab3c;
-    color: #fff;
-    line-height: 2em;
-    text-align: center;
-}
-
-.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line {
-    background: #e7e7e7;
-}
-
-.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step {
-    background: #bebebe;
-    color: #fff;
-}
-
-.swal2-progress-steps .swal2-progress-step-line {
-    z-index: 10;
-    flex-shrink: 0;
-    width: 2.5em;
-    height: .4em;
-    margin: 0 -1px;
-    background: #757575;
-}
-</style>

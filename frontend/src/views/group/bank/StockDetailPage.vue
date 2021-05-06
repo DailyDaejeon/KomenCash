@@ -1,6 +1,6 @@
 <template>
   <div>
-    <StockItemChart/>
+    <StockItemChart :stockId="stockId" :stockData="stockData"/>
   </div>
 </template>
 
@@ -8,6 +8,7 @@
 import StockItemChart from '@/components/group/stock/StockItemChart.vue'
 export default {
   components: { StockItemChart },
+  props: ['stockId','stockData']
 
 }
 </script>

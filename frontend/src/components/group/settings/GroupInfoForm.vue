@@ -10,29 +10,29 @@
                 <table class="group-info-table">
                   <tr>
                     <th>그룹명</th>
-                    <td class="p-3" v-if="!this.mActive">{{groupInfo.name}}</td>
+                    <td class="p-3" v-if="!mActive">{{groupInfo.name}}</td>
                     <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputGroupname" v-model="groupName"></td>
                   </tr>
                   <tr>
                     <th>화폐단위</th>
-                    <td class="p-3" v-if="!this.mActive">{{groupInfo.monetary_unit_name}}</td>
+                    <td class="p-3" v-if="!mActive">{{groupInfo.monetary_unit_name}}</td>
                     <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputMonetaryUnitName" v-model="monetaryUnitName"></td>
                   </tr>
                   <tr>
                     <th>세율</th>
-                    <td class="p-3" v-if="!this.mActive">{{groupInfo.tax_rate}}(%)</td>
+                    <td class="p-3" v-if="!mActive">{{groupInfo.tax_rate}}(%)</td>
                     <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputTaxRate" v-model="taxRate"></td>
                   </tr>
                   <tr>
                     <th>물가상승율</th>
-                    <td class="p-3" v-if="!this.mActive">{{groupInfo.inflationRate}}(%)</td>
+                    <td class="p-3" v-if="!mActive">{{groupInfo.inflationRate}}(%)</td>
                     <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputInflationRate" v-model="groupInflationRate"></td>
                   </tr>
-                  <tr v-if="!this.mActive">
+                  <tr v-if="!mActive">
                     <th>그룹코드</th>
                     <td class="p-3">{{groupInfo.code}}</td>
                   </tr>
-                  <tr v-if="!this.mActive">
+                  <tr v-if="!mActive">
                     <th>그룹원</th>
                     <td class="p-3" @click="goMemberInfo">{{groupMemberCnt}} 명</td>
                   </tr>

@@ -70,7 +70,7 @@ public class UStudentService {
     }
 
     public boolean login(StudentLoginRequestDto dto) {
-        Student student = studentRepository.findByNickname(dto.getNickName());
+        Student student = studentRepository.findByNickname(dto.getNickname());
         if(student == null) return false;
 
         if(groupMemberAddRequestHistoryRepository.findByStudentId(student.getId()).getAccept().equals(Accept.accept)) {

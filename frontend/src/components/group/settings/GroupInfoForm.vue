@@ -93,7 +93,6 @@ export default {
   },
   created() {
     this.fetchInfo();
-    this.getMemberCnt();
   },
   computed: {
     ...mapState({
@@ -110,10 +109,6 @@ export default {
       this.groupTax=this.groupInfo.tax,
       this.taxRate=this.groupInfo.tax_rate
       this.userInfo=this.groupInfo.teacher
-    },
-    getMemberCnt(){
-      //학생 조회 api 받고
-      this.gCnt = 1;
     },
     modiGroupInfo() {
       this.mActive = !this.mActive;

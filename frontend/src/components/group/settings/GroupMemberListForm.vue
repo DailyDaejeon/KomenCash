@@ -12,12 +12,14 @@
                   <th>닉네임</th>
                   <th>직업</th>
                   <th>비밀번호 초기화</th>
+                  <th>그룹원 탈퇴</th>
                 </tr>
                 <tr v-for="(student, index) in studentList" :key="index">
                   <td>{{studentList.length-index}}</td>
                   <td class="cursor-pointer" @click="goDetail(student.id)">{{student.nickname}}</td>
                   <td>{{student.job.name}}</td>
                   <td><button class="btn btn-main" @click="resetPW(student.id)">초기화하기</button></td>
+                  <td><button class="btn btn-main" @click="deleteMember(student.id)">탈퇴하기</button></td>
                 </tr>
               </table>
             </div>
@@ -29,6 +31,9 @@
 </template>
 
 <script>
+import { deleteGroupMember, fetchGroupMemberList, resetGroupMemberPw } from '@/api/student';
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
@@ -64,11 +69,18 @@ export default {
     }
   },
   created() {
-    //this.fetchMemberList();
+    this.fetchMemberList();
+  },
+  computed : {
+    ...mapState({
+      groupInfo : state => state.group.groupInfo
+    })
   },
   methods: {
-    fetchMemberList(){
+    async fetchMemberList(){
       //그룹원 리스트 조회 api
+      const res = await fetchGroupMemberList(this.groupInfo.id);
+      this.studentList = res.data
     },
     goDetail(sId){
       //학생 상세 정보 조회 api
@@ -99,6 +111,16 @@ export default {
         "<td>1000미소</td>"+
         "</tr>"+
         "</table>",
+      })
+    },
+    deleteMember(sId) {
+      deleteGroupMember(sId)
+    },
+    resetPW(sId) {
+      resetGroupMemberPw(sId)
+      this.$swal({
+        icon: 'info',
+        text: '비밀번호가 1234로 초기화 됐습니다!',
       })
     }
   }

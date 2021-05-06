@@ -24,7 +24,7 @@ public class BankService {
     @Autowired
     FinancialProductDetailRepository financialProductDetailRepository;
     @Autowired
-    FinancialProductPurchaseRepository financialProductPurchaseRepository;
+    FinancialProductHistoryRepository financialProductHistoryRepository;
     @Autowired
     StudentRepository studentRepository;
     @Autowired
@@ -104,11 +104,11 @@ public class BankService {
             financialProductDetailResponses.add(new FinancialProductDetailResponse(financialProductDetail));
 
         List<StudentInfoResponse> studentInfoResponses = new ArrayList<>();
-        List<FinancialProductPurchase> financialProductPurchases =
-                financialProductPurchaseRepository.findByFinancialProductHistory_FinancialProduct_Id(productId);
-        for(FinancialProductPurchase financialProductPurchase : financialProductPurchases) {
-            if(!financialProductPurchase.getFinancialProductHistory().getStatus().equals(Status.deposit)) continue;
-            Student student = financialProductPurchase.getStudent();
+        List<FinancialProductHistory> financialProductHistories =
+                financialProductHistoryRepository.findByFinancialProduct_Id(productId);
+        for(FinancialProductHistory financialProductHistory : financialProductHistories) {
+            if(!financialProductHistory.getStatus().equals(Status.deposit)) continue;
+            Student student = financialProductHistory.getStudent();
 
             CreditInfoResponse creditInfoResponse = creditService.findCreditGrade(student.getId());
             int grade = creditInfoResponse.getCreditGrade();
@@ -119,6 +119,17 @@ public class BankService {
 
         return new FinancialProductResponse(financialProduct, financialProductDetailResponses, studentInfoResponses);
     }
+
+
+    public List<FinancialProductHistorySelectResponse> getFinancialProductHistory(int studentId){
+        List<FinancialProductHistorySelectResponse> financialProductHistorySelectResponses = new ArrayList<>();
+        List<FinancialProductHistory> financialProductHistories = financialProductHistoryRepository.findByStudent_Id(studentId);
+        for(FinancialProductHistory financialProductHistory : financialProductHistories)
+            financialProductHistorySelectResponses.add(new FinancialProductHistorySelectResponse(financialProductHistory));
+        return financialProductHistorySelectResponses;
+    }
+
+
 
     public boolean updateFinancialProduct (FinancialProductUpdateRequest financialProductUpdateRequest){
         FinancialProduct financialProduct = financialProuctRepository.findById(financialProductUpdateRequest.getId()).orElse(null);

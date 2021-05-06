@@ -68,6 +68,7 @@
 
 <script>
 import { validateEmail } from '@/utils/validations';
+import { mapState } from 'vuex';
 
 export default {
   data() {
@@ -92,6 +93,9 @@ export default {
       }
       return false;
     },
+    ...mapState({
+      isLoginError : state => state.user.isLoginError
+    })
   },
   methods: {
     showModalForm() {
@@ -107,13 +111,23 @@ export default {
       }
     },
     async loginComplete() {
-       try {
+      try {
           await this.$store.dispatch('LOGIN', {
           email:this.userId,
           password:this.password
         })
-        this.initForm()
-        this.$router.push({name:"GroupList"})
+        if (this.isLoginError) {
+          this.$swal({
+          text: "로그인을 다시 해주세요!",
+          icon: 'info',
+          timer: 1300,
+          showConfirmButton: false,
+          })
+        } else {
+          this.initForm()
+          this.$router.push({name:"GroupList"})
+        }
+        
       } catch (error) {
         if(error.status === 500) {
           this.loginError();

@@ -46,6 +46,16 @@ public class CaseService {
     }
 
 
+    public List<CaseSelectResponse> selectCaseListByStudent (int studentId){
+        List<CaseSelectResponse> caseSelectResponses = new ArrayList<>();
+
+        List<CaseRequestHistory> caseRequestHistories = caseRequestHistoryRepository.findByStudent_Id(studentId);
+        for(CaseRequestHistory caseRequestHistory : caseRequestHistories) caseSelectResponses.add(new CaseSelectResponse(caseRequestHistory));
+
+        return caseSelectResponses;
+    }
+
+
     public boolean updateCaseAccept(CaseAcceptRequest caseAcceptRequest) {
         CaseRequestHistory caseRequestHistory = caseRequestHistoryRepository.findById(caseAcceptRequest.getCaseId()).orElse(null);
         if(caseRequestHistory == null) return false;

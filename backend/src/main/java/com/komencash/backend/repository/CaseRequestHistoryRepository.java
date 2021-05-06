@@ -8,4 +8,5 @@ import java.util.List;
 public interface CaseRequestHistoryRepository extends JpaRepository<CaseRequestHistory, Integer>{
 
     List<CaseRequestHistory> findByPolice_Job_Group_Id(int groupId);
+    List<CaseRequestHistory> findByStudent_Id(int studentId);
 }

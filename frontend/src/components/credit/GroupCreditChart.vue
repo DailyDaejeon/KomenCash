@@ -18,16 +18,17 @@
 </template>
 
 <script>
+
 export default {
   props:['propsdata'],
   data() {
     return {
-      mainColor :"#e7ab3c"
+      mainColor :"#e7ab3c",
     }
   },
   mounted() {
     const ctx = this.$refs.barChart.getContext('2d');
-    new this.$_Chart(ctx, {
+    const bar = new this.$_Chart(ctx, {
       type: 'bar',
       data: {
         labels: ["1등급", "2등급", "3등급", "4등급", "5등급", "6등급", "7등급", "8등급", "9등급", "10등급"],
@@ -52,7 +53,7 @@ export default {
           borderColor: this.mainColor,
           hoverBackgroundColor: this.mainColor,
           hoverBorderColor: this.mainColor,
-          data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
+          data: this.propsdata,
           barPercentage: .75,
           categoryPercentage: .5
         }]
@@ -81,7 +82,9 @@ export default {
         }
       }
     });
+    console.log('BAR차트',bar,bar.data)
   },
+  
 }
 </script>
 

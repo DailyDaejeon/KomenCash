@@ -61,7 +61,7 @@ public class UStudentService {
         }
         Student student = new Student(request.getNickname(), request.getPassword(), findBaekSoo);
         studentRepository.save(student);
-        resultMap.put("success", student);
+        resultMap.put("success", "회원가입이 완료되었습니다.");
         return resultMap;
     }
 
@@ -69,17 +69,24 @@ public class UStudentService {
         groupMemberAddRequestHistoryRepository.save(new GroupMemberAddRequestHistory(Accept.before_confirm, student));
     }
 
-    public boolean login(StudentLoginRequestDto dto) {
+    public Map<String,Object> login(StudentLoginRequestDto dto) {
+        Map<String, Object> resultMap = new HashMap<>();
         Student student = studentRepository.findByNickname(dto.getNickname());
-        if(student == null) return false;
+        if(student == null){
+            resultMap.put("fail", "존재하는 닉네임이 아닙니다.");
+            return resultMap;
+        }
 
         if(groupMemberAddRequestHistoryRepository.findByStudentId(student.getId()).getAccept().equals(Accept.accept)) {
             if (dto.getPassword().equals(student.getPassword())) {
-                return true;
+                resultMap.put("success", student);
+                return resultMap;
             }
-            return false;
+            resultMap.put("fail", "비밀번호가 틀립니다.");
+            return resultMap;
         }
-        return false;
+        resultMap.put("fail", "그룹에서 수락하지 않았습니다");
+        return resultMap;
     }
 
     public StudentState getStudentState(int studentId) {

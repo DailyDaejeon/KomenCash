@@ -39,8 +39,9 @@ public class UStudentController {
 
     @ApiOperation(value="로그인", notes = "학생 로그인")
     @PostMapping("/student/login")
-    public boolean login(@RequestBody StudentLoginRequestDto dto){
-        return ustudentService.login(dto);
+    public ResponseEntity<Map<String, Object>> login(@RequestBody StudentLoginRequestDto dto){
+
+        return ResponseEntity.status(HttpStatus.OK).body(ustudentService.login(dto));
     }
 
 

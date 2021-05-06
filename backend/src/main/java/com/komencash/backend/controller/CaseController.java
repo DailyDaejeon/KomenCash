@@ -2,7 +2,6 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.request.CaseAcceptRequest;
 import com.komencash.backend.dto.request.CaseSelectResponse;
-import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
 import com.komencash.backend.service.CaseService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

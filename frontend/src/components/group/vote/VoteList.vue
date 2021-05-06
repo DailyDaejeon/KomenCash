@@ -2,7 +2,7 @@
   <div class="row w-100">
     <div class="card vl-width">
       <div class="card-header">
-        <div v-if="this.voteList.length != 0">
+        <div v-if="voteList.length != 0">
           <table class="table table-hover my-0">
             <thead>
               <tr>
@@ -17,7 +17,7 @@
                 <td @click="goVoteDetail(vote.id)">{{vote.title}}</td> <!-- @click="goVoteDetail(vote.id)" -->
                 <td class="d-none d-table-cell">{{vote.studentNickname}}</td>
                 <td class="d-none d-table-cell">{{voteAttandRate}}%</td>
-                <td class="d-none d-table-cell ta-center" @click="removeVote"> <!-- remove(index) -->
+                <td class="d-none d-table-cell ta-center" @click="removeVote(index,vote)"> <!-- remove(index) -->
                   <i class="fas fa-trash-alt"></i>
                 </td>
               </tr>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import { deleteVote, fetchVoteList } from '@/api/vote';
 export default {
   data() {
     return {
@@ -130,20 +132,38 @@ export default {
     }
   },
   created() {
-    // fetchVoteList();
+    this.fetchVote();
+  },
+  computed: {
+    ...mapState({
+      groupInfo: state=>state.group.groupInfo
+    })
   },
   methods: {
-    // fetchVoteList() {
-
-    // },
+    async fetchVote() {
+      const res = await fetchVoteList(this.groupInfo.id)
+      console.log(res)
+      // this.voteList = res.data
+    },
     goVoteDetail(vid){ //vid
       this.$router.push({name: 'VoteDetail', params: {id:vid}});
     },
-    removeVote(index){
-      const vote = this.voteList[index];
-      this.voteList.slice(index, 1);
-      console.log(vote);
-      //해당 투표 삭제하는 api
+    removeVote(index,voteData){
+      this.$swal({
+        title: '삭제하시겠습니까?',
+        text:'해당 투표를 삭제하면 복구를 할 수 없습니다.',
+        icon:"warning",
+        confirmButtonText: '삭제',
+        showCancelButton:true,
+        cancelButtonText:'취소',
+      }).then((result)=>{
+        if(result.value) {
+        const vote = this.voteList[index];
+        this.voteList.slice(index, 1);
+        console.log(vote);
+        deleteVote(voteData.id)
+        }
+      })
     }
   },
 }

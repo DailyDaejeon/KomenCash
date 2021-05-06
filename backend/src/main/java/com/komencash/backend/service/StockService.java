@@ -46,7 +46,8 @@ public class StockService {
         for(Stock stock : stocks) {
             List<StockHistory> stockHistories = stockHistoryRepository.findByStock_Id(stock.getId());
             int price = stockHistories.size() == 0 ? 0 : stockHistories.get(stockHistories.size() - 1).getPrice();
-            stockSelectResponses.add(new StockSelectResponse(stock, price));
+            int prePrice = stockHistories.size() < 2 ? 0 : stockHistories.get(stockHistories.size() - 2).getPrice();
+            stockSelectResponses.add(new StockSelectResponse(stock, price, prePrice));
         }
 
         return stockSelectResponses;

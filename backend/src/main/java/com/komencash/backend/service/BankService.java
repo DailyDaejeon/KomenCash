@@ -1,6 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.bank.*;
+import com.komencash.backend.dto.credit.CreditInfoResponse;
 import com.komencash.backend.dto.student.StudentInfoResponse;
 import com.komencash.backend.entity.bank.AccountHistory;
 import com.komencash.backend.entity.financial.*;
@@ -18,21 +19,18 @@ public class BankService {
 
     @Autowired
     AccountHistoryRepository accountHistoryRepository;
-
     @Autowired
     FinancialProuctRepository financialProuctRepository;
-
     @Autowired
     FinancialProductDetailRepository financialProductDetailRepository;
-
     @Autowired
     FinancialProductPurchaseRepository financialProductPurchaseRepository;
-
     @Autowired
     StudentRepository studentRepository;
-
     @Autowired
     GroupRepository groupRepository;
+    @Autowired
+    CreditService creditService;
 
 
     public List<AccountResponseDto> getAccounts(int groupId) {
@@ -111,7 +109,12 @@ public class BankService {
         for(FinancialProductPurchase financialProductPurchase : financialProductPurchases) {
             if(!financialProductPurchase.getFinancialProductHistory().getStatus().equals(Status.deposit)) continue;
             Student student = financialProductPurchase.getStudent();
-            studentInfoResponses.add(new StudentInfoResponse(student.getId(), student.getNickname()));
+
+            CreditInfoResponse creditInfoResponse = creditService.findCreditGrade(student.getId());
+            int grade = creditInfoResponse.getCreditGrade();
+            int point = creditInfoResponse.getPoint();
+
+            studentInfoResponses.add(new StudentInfoResponse(student.getId(), student.getNickname(), grade, point));
         }
 
         return new FinancialProductResponse(financialProduct, financialProductDetailResponses, studentInfoResponses);

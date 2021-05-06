@@ -1,9 +1,6 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.stock.StockDealHistoryResponse;
-import com.komencash.backend.dto.stock.StockHistoryInsertRequest;
-import com.komencash.backend.dto.stock.StockInsertUpdateRequest;
-import com.komencash.backend.dto.stock.StockSelectResponse;
+import com.komencash.backend.dto.stock.*;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.stock.Stock;
 import com.komencash.backend.entity.stock.StockDealHistory;
@@ -53,6 +50,16 @@ public class StockService {
         }
 
         return stockSelectResponses;
+    }
+
+
+    public List<StockHistorySelectResponse> selectStockHistory(int stockId) {
+        List<StockHistorySelectResponse> stockHistorySelectResponses = new ArrayList<>();
+
+        List<StockHistory> stockHistories = stockHistoryRepository.findByStock_Id(stockId);
+        for(StockHistory stockHistory : stockHistories) stockHistorySelectResponses.add(new StockHistorySelectResponse(stockHistory));
+
+        return stockHistorySelectResponses;
     }
 
     public List<StockDealHistoryResponse> selectStockDealHistory(int studentId){

@@ -49,6 +49,13 @@ public class BankService {
         return accounts;
     }
 
+
+    public int getBalance(int studentId){
+        List<AccountHistory> accountHistories = accountHistoryRepository.findAllByStudent_Id(studentId);
+        int balance = accountHistories.size() == 0 ? 0 : accountHistories.get(accountHistories.size() - 1).getBalance();
+        return balance;
+    }
+
     public void createFinancialProduct(int groupId, String name) {
         Group g = groupRepository.findById(groupId).orElse(null);
         FinancialProduct financialProduct = new FinancialProduct(name, g);

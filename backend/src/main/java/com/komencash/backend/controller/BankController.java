@@ -27,6 +27,14 @@ public class BankController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @ApiOperation(value="학생별 잔액 조회", notes = "입력받은 학생 아이디로 학생의 계좌 잔액을 조회")
+    @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/balance/{student-id}")
+    public ResponseEntity<Integer> getBalance(@PathVariable("student-id") int studentId){
+        int result = bankService.getBalance(studentId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
 
     @ApiOperation(value="은행 금융상품 생성", notes = "금융 상품 만들기")
     @PostMapping("/{group_id}/financial_product")

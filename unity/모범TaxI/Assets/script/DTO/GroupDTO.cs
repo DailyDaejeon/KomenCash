@@ -9,13 +9,13 @@ public class GroupDTO
     public string code;
     public string name;
     public string monetary_unit_name;
-    public int tax_rate;
+    public double tax_rate;
     public int tax;
-    public int inflationRate;
+    public double inflationRate;
 
     public GroupDTO() { }
 
-    public GroupDTO(int id, string code, string name, string monetary_unit_name, int tax_rate, int tax, int inflationRate)
+    public GroupDTO(int id, string code, string name, string monetary_unit_name, double tax_rate, int tax, double inflationRate)
     {
         this.id = id;
         this.code = code;

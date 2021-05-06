@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.credit.CreditInfoResponse;
 import com.komencash.backend.dto.credit.CreditSelectResponse;
 import com.komencash.backend.service.CreditService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -25,5 +26,13 @@ public class CreditController {
     @GetMapping("/list/{group-id}")
     public List<CreditSelectResponse> findCreditList(@PathVariable("group-id") int groupId){
         return creditService.findCreditList(groupId);
+    }
+
+
+    @ApiOperation(value = "학생별 신용등급 조회", notes = "입력받은 학생 아이디로 해당 학생의 신용등급 정보를 반환")
+    @ApiImplicitParam(name = "student-id", value = "student-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/student/{student-id}")
+    public CreditInfoResponse findCreditGrade(@PathVariable("student-id") int studentId){
+        return creditService.findCreditGrade(studentId);
     }
 }

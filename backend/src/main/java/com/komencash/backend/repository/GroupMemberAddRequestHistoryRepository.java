@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GroupMemberAddRequestHistoryRepository extends JpaRepository<GroupMemberAddRequestHistory, Integer> {
 
-    GroupMemberAddRequestHistory findByStudentId(int id);
+    GroupMemberAddRequestHistory findByStudent_Id(int id);
 }

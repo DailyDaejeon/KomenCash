@@ -74,7 +74,7 @@ public class StudentService {
         List<Student> tst = studentRepository.findAllByJob_Group_Id(group_id);
         List<GroupMemberAddRequestDto> list = new ArrayList<>();
         tst.forEach(s ->{
-            GroupMemberAddRequestHistory dto = groupMemberAddRequestHistoryRepository.findByStudentId(s.getId());
+            GroupMemberAddRequestHistory dto = groupMemberAddRequestHistoryRepository.findByStudent_Id(s.getId());
             System.out.println(dto.getStudent().getNickname()+" , "+dto.getAccept());
 
             if(dto.getAccept()==Accept.before_confirm){
@@ -87,12 +87,12 @@ public class StudentService {
     }
 
     public void addStudent(int studentId) {
-        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudentId(studentId);
+        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudent_Id(studentId);
         addRequest.updateAccept();
         groupMemberAddRequestHistoryRepository.save(addRequest);
     }
     public void rejectStudent(int studentId) {
-        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudentId(studentId);
+        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudent_Id(studentId);
         addRequest.updateReject();
         groupMemberAddRequestHistoryRepository.save(addRequest);
     }

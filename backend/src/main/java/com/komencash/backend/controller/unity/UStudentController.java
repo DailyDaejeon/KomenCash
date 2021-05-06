@@ -28,7 +28,8 @@ public class UStudentController {
         Map<String, Object> resultMap = ustudentService.joinStudent(request);
         if(resultMap.containsKey("success")){           // 코드가 일치하는 그룹이 있고, 학생 가입이 완료 됐으면,
             ustudentService.addJoinRequest((Student) resultMap.get("success"));
-            System.out.println("회원가입 요청 완료");
+//            resultMap.remove("join");
+            resultMap.put("success", "회원가입요청 완료");
         }
         else{
             return ResponseEntity.status(HttpStatus.OK).body(resultMap);

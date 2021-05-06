@@ -1,10 +1,9 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.stock.StockHistoryInsertRequest;
-import com.komencash.backend.dto.stock.StockInsertUpdateRequest;
-import com.komencash.backend.dto.stock.StockSelectResponse;
+import com.komencash.backend.dto.stock.*;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.stock.Stock;
+import com.komencash.backend.entity.stock.StockDealHistory;
 import com.komencash.backend.entity.stock.StockHistory;
 import com.komencash.backend.repository.GroupRepository;
 import com.komencash.backend.repository.StockDealHistoryRepository;
@@ -46,10 +45,31 @@ public class StockService {
         for(Stock stock : stocks) {
             List<StockHistory> stockHistories = stockHistoryRepository.findByStock_Id(stock.getId());
             int price = stockHistories.size() == 0 ? 0 : stockHistories.get(stockHistories.size() - 1).getPrice();
-            stockSelectResponses.add(new StockSelectResponse(stock, price));
+            int prePrice = stockHistories.size() < 2 ? 0 : stockHistories.get(stockHistories.size() - 2).getPrice();
+            stockSelectResponses.add(new StockSelectResponse(stock, price, prePrice));
         }
 
         return stockSelectResponses;
+    }
+
+
+    public List<StockHistorySelectResponse> selectStockHistory(int stockId) {
+        List<StockHistorySelectResponse> stockHistorySelectResponses = new ArrayList<>();
+
+        List<StockHistory> stockHistories = stockHistoryRepository.findByStock_Id(stockId);
+        for(StockHistory stockHistory : stockHistories) stockHistorySelectResponses.add(new StockHistorySelectResponse(stockHistory));
+
+        return stockHistorySelectResponses;
+    }
+
+    public List<StockDealHistoryResponse> selectStockDealHistory(int studentId){
+        List<StockDealHistoryResponse> stockDealHistoryResponses = new ArrayList<>();
+
+        List<StockDealHistory> stockDealHistories = stockDealHistoryRepository.findByStudent_Id(studentId);
+        for(StockDealHistory stockDealHistory : stockDealHistories)
+            stockDealHistoryResponses.add(new StockDealHistoryResponse(stockDealHistory));
+
+        return stockDealHistoryResponses;
     }
 
 

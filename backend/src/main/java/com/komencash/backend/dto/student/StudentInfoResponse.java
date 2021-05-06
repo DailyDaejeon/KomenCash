@@ -10,4 +10,8 @@ import lombok.NoArgsConstructor;
 public class StudentInfoResponse {
     private int studentId;
     private String studentNickname;
+    private int studentCreditGrade;
+    private int studentCreditPoint;
+
+
 }

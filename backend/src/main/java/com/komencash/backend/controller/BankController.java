@@ -27,6 +27,14 @@ public class BankController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @ApiOperation(value="학생별 잔액 조회", notes = "입력받은 학생 아이디로 학생의 계좌 잔액을 조회")
+    @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/balance/{student-id}")
+    public ResponseEntity<Integer> getBalance(@PathVariable("student-id") int studentId){
+        int result = bankService.getBalance(studentId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
 
     @ApiOperation(value="은행 금융상품 생성", notes = "금융 상품 만들기")
     @PostMapping("/{group_id}/financial_product")
@@ -62,10 +70,19 @@ public class BankController {
 
     @ApiOperation(value="금융상품 상세정보 조회", notes = "입력받은 금융상품 아이디로 금융 상품 상세정보를 조회")
     @ApiImplicitParam(name = "product-id", value = "product-id(금융상품 아이디)", dataType = "int", required = true)
-    @GetMapping("/financial-product/{product-id}")
+    @GetMapping("/financial-product/product/{product-id}")
     public ResponseEntity<FinancialProductResponse> getFinancialProduct(@PathVariable("product-id") int productId){
         FinancialProductResponse financialProductResponse = bankService.getFinancialProduct(productId);
         return ResponseEntity.status(HttpStatus.OK).body(financialProductResponse);
+    }
+
+
+    @ApiOperation(value="학생별 금융상품 가입이력 조회", notes = "입력받은 학생 아이디로 학생이 가입했던 금융상품 이력을 조회")
+    @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/financial-product/student/{student-id}")
+    public ResponseEntity<List<FinancialProductHistorySelectResponse>> getFinancialProductHistory(@PathVariable("student-id") int studentId){
+        List<FinancialProductHistorySelectResponse> financialProductHistorySelectResponses = bankService.getFinancialProductHistory(studentId);
+        return ResponseEntity.status(HttpStatus.OK).body(financialProductHistorySelectResponses);
     }
 
 

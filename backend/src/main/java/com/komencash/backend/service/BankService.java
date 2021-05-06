@@ -1,6 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.bank.*;
+import com.komencash.backend.dto.credit.CreditInfoResponse;
 import com.komencash.backend.dto.student.StudentInfoResponse;
 import com.komencash.backend.entity.bank.AccountHistory;
 import com.komencash.backend.entity.financial.*;
@@ -18,21 +19,18 @@ public class BankService {
 
     @Autowired
     AccountHistoryRepository accountHistoryRepository;
-
     @Autowired
     FinancialProuctRepository financialProuctRepository;
-
     @Autowired
     FinancialProductDetailRepository financialProductDetailRepository;
-
     @Autowired
-    FinancialProductPurchaseRepository financialProductPurchaseRepository;
-
+    FinancialProductHistoryRepository financialProductHistoryRepository;
     @Autowired
     StudentRepository studentRepository;
-
     @Autowired
     GroupRepository groupRepository;
+    @Autowired
+    CreditService creditService;
 
 
     public List<AccountResponseDto> getAccounts(int groupId) {
@@ -49,6 +47,13 @@ public class BankService {
             accounts.add(dto);
         });
         return accounts;
+    }
+
+
+    public int getBalance(int studentId){
+        List<AccountHistory> accountHistories = accountHistoryRepository.findAllByStudent_Id(studentId);
+        int balance = accountHistories.size() == 0 ? 0 : accountHistories.get(accountHistories.size() - 1).getBalance();
+        return balance;
     }
 
     public void createFinancialProduct(int groupId, String name) {
@@ -106,16 +111,32 @@ public class BankService {
             financialProductDetailResponses.add(new FinancialProductDetailResponse(financialProductDetail));
 
         List<StudentInfoResponse> studentInfoResponses = new ArrayList<>();
-        List<FinancialProductPurchase> financialProductPurchases =
-                financialProductPurchaseRepository.findByFinancialProductHistory_FinancialProduct_Id(productId);
-        for(FinancialProductPurchase financialProductPurchase : financialProductPurchases) {
-            if(!financialProductPurchase.getFinancialProductHistory().getStatus().equals(Status.deposit)) continue;
-            Student student = financialProductPurchase.getStudent();
-            studentInfoResponses.add(new StudentInfoResponse(student.getId(), student.getNickname()));
+        List<FinancialProductHistory> financialProductHistories =
+                financialProductHistoryRepository.findByFinancialProduct_Id(productId);
+        for(FinancialProductHistory financialProductHistory : financialProductHistories) {
+            if(!financialProductHistory.getStatus().equals(Status.deposit)) continue;
+            Student student = financialProductHistory.getStudent();
+
+            CreditInfoResponse creditInfoResponse = creditService.findCreditGrade(student.getId());
+            int grade = creditInfoResponse.getCreditGrade();
+            int point = creditInfoResponse.getPoint();
+
+            studentInfoResponses.add(new StudentInfoResponse(student.getId(), student.getNickname(), grade, point));
         }
 
         return new FinancialProductResponse(financialProduct, financialProductDetailResponses, studentInfoResponses);
     }
+
+
+    public List<FinancialProductHistorySelectResponse> getFinancialProductHistory(int studentId){
+        List<FinancialProductHistorySelectResponse> financialProductHistorySelectResponses = new ArrayList<>();
+        List<FinancialProductHistory> financialProductHistories = financialProductHistoryRepository.findByStudent_Id(studentId);
+        for(FinancialProductHistory financialProductHistory : financialProductHistories)
+            financialProductHistorySelectResponses.add(new FinancialProductHistorySelectResponse(financialProductHistory));
+        return financialProductHistorySelectResponses;
+    }
+
+
 
     public boolean updateFinancialProduct (FinancialProductUpdateRequest financialProductUpdateRequest){
         FinancialProduct financialProduct = financialProuctRepository.findById(financialProductUpdateRequest.getId()).orElse(null);

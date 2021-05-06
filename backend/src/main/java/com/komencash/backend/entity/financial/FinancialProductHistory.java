@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.financial;
 
+import com.komencash.backend.entity.student.Student;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,7 +34,11 @@ public class FinancialProductHistory {
     @Column(name = "status")
     private Status status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+    @ManyToOne
     @JoinColumn(name = "financial_product_id")
     private FinancialProduct financialProduct;
 }

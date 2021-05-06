@@ -14,4 +14,9 @@ public class SceneChangeController : MonoBehaviour
     {
         SceneManager.LoadScene("LoginScene");
     }
+
+    public void GoToMainScene()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
 }

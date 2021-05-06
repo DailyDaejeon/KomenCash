@@ -45,8 +45,11 @@ public class StudentDTO
         Debug.Log("nickname : " + nickname);
         Debug.Log("password : " + password);
         Debug.Log("code : " + code);
-        Debug.Log("job info : " + job);
-        Debug.Log("group info : " + group);
-        Debug.Log("teacher info : " + teacher);
+        Debug.Log("--- job info ---");
+        job.print();
+        Debug.Log("--- group info ---"); 
+        group.print();
+        Debug.Log("--- teacher info ---");
+        teacher.print();
     }
 }

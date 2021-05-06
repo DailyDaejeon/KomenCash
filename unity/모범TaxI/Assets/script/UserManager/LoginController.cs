@@ -7,8 +7,12 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using SimpleJSON;
 
+
 public class LoginController : MonoBehaviour
 {
+    StudentDTO dataController;
+    private SceneChangeController mainScene;
+
     public string baseURL = "http://k4b203.p.ssafy.io:8081/api/";
     public string userId;
     public string userPw;
@@ -43,7 +47,6 @@ public class LoginController : MonoBehaviour
 
     private IEnumerator Login()
     {
-        
         UserData data = new UserData();
         data.nickname = userId;
         data.password = userPw;
@@ -57,7 +60,6 @@ public class LoginController : MonoBehaviour
         {
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
             request.uploadHandler = new UploadHandlerRaw(jsonToSend);
-            /*request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();*/
             
             request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
             request.SetRequestHeader("Accept", "application/json, text/plain, */*");
@@ -79,7 +81,13 @@ public class LoginController : MonoBehaviour
                     string result = request.downloadHandler.text;
                     JSONNode root = JSON.Parse(result);
 
-                    //DataController setStudnetInfo() 메소드 호출
+                    //DataController에 정보 저장
+                    //dataController = GameObject.Find("DataManager").GetComponent<DataController>();
+                    DataController.setStudentInfo(root["success"]);
+
+                    //메인 페이지로 이동
+                    mainScene = GameObject.Find("MoneyJamRestAPIRequester").GetComponent<SceneChangeController>();
+                    mainScene.GoToMainScene();
                 }
             }
         }

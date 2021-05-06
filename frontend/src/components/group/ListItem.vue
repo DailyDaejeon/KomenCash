@@ -15,7 +15,7 @@
           <!-- v-slot="{ href, navigate, isActive}" custom -->
           <!-- :active="isActive" :href="href" @click="navigate"
           :class="[isActive && 'active']" -->
-        {{data.name}}
+        {{data.nickname}}
           </router-link>
         </div>
       </div>
@@ -65,6 +65,9 @@ export default {
       } else if (this.listType === "financial") {
         this.listTypeName = "예적금 상품"
         this.listTypeRouteName = "BankFinancialDetail"
+      } else if (this.listType === "member") {
+        this.listTypeName = "그룹원"
+        this.listTypeRouteName = "GroupMemberInfo"
       } else if (this.listType === "store") {
         this.listTypeName = "온라인 상품"
         this.listTypeRouteName = "StorePage"

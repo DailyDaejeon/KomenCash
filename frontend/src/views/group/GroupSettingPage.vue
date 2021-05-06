@@ -38,12 +38,12 @@ export default {
       groupData:[
         //그룹 정보
         {
-          name: "groupInfo",
+          name: "GroupInfo",
           title: "그룹 정보",
         },
         //그룹원 정보
         {
-          name: "groupMemberList",
+          name: "GroupMemberList",
           title: "그룹원 정보",
           groupMember:[
             {
@@ -77,7 +77,7 @@ export default {
         },
         //그룹원 추가 요청 정보
         {
-          name: "addMemberRequest",
+          name: "AddMemberRequest",
           title: "그룹원 추가 요청",
           addMemberRequest:[
             {

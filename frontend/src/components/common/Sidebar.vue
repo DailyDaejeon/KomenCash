@@ -87,11 +87,20 @@
 						</ul>
 				</li>
 
-				<li class="sidebar-item" id="GroupSettingPage" :class="[toActive === 'GroupSettingPage'? 'active' : '']">
-					<router-link class="sidebar-link" :to="{name:'GroupSettingPage'}"  >
-						<i class="fas fa-cog align-middle"></i>
-						<span class="align-middle" >그룹관리</span>
-					</router-link>
+				<li class="sidebar-item" id="GroupSettingPage"> 
+					<span data-bs-toggle="collapse" class="sidebar-link collapsed">
+						<i class="fas fa-store align-middle"></i><span class="align-middle">그룹관리</span>
+					</span>
+					<ul class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
+						<!-- collapse -->
+						<li class="sidebar-item"
+						id="GroupInfo"
+						:class="[toActive === 'GroupInfo'? 'active' : '']"><router-link :to="{name:'GroupInfo'}" class="sidebar-link">
+							그룹 정보 </router-link></li>
+						<li class="sidebar-item" 
+						id="GroupMemberDetail"
+						:class="[toActive === 'GroupMemberDetail'? 'active' : '']"><router-link class="sidebar-link" :to="{name:'GroupMemberDetail'}" >그룹원 관리</router-link></li>	
+						</ul>
 				</li>
 
 			</ul>

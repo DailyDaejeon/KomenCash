@@ -39,6 +39,7 @@ public class GroupController {
         return groupId;
     }
 
+
     @ApiOperation(value = "그룹리스트 보기", notes = "그룹 리스트 보기")
     @GetMapping("/group_list")
     public ResponseEntity<Map<String, Object>> getGroup(HttpServletRequest request){
@@ -51,6 +52,7 @@ public class GroupController {
 
         return ResponseEntity.status(HttpStatus.OK).body(resultMap);
     }
+
 
     // test 용
     @ApiOperation(value = "[TEST]그룹리스트보기 선생님 아이디 넣어서 ", notes = "그룹 리스트 보기")

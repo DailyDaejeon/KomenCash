@@ -1,11 +1,13 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import com.komencash.backend.dto.request.GroupMemberAddRequestDto;
 import com.komencash.backend.dto.certificate.CertificateRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentJoinRequestDto;
 import com.komencash.backend.dto.student.StudentResponseDto;
 import com.komencash.backend.dto.student.StudentUpdateJobRequest;
+import com.komencash.backend.entity.certificate.Acquisition;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
@@ -39,6 +41,9 @@ public class StudentService {
     @Autowired
     JobRepository jobRepository;
 
+    @Autowired
+    AcquisitionRepository acquisitionRepository;
+
     public List<StudentResponseDto> getStudent(int group_id){
         System.out.println(studentRepository.findById(2).get().getNickname());
         List<Student> student = studentRepository.findAllByJob_Group_Id(group_id);
@@ -51,10 +56,17 @@ public class StudentService {
         return students;
     }
 
-    public StudentDetailResponseDto getStudentDetail(int student_id) {
-        Student student = studentRepository.findById(student_id).get();
+    public StudentDetailResponseDto getStudentDetail(int studentId) {
+        List<CertificateSelectResponse> certificateSelectResponseList = new ArrayList<>();
 
-        return new StudentDetailResponseDto(student);
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if(student == null) return null;
+
+        List<Acquisition> acquisitions = acquisitionRepository.findByStudent_Id(studentId);
+        for(Acquisition acquisition : acquisitions)
+            certificateSelectResponseList.add(new CertificateSelectResponse(acquisition.getCertificate()));
+
+        return new StudentDetailResponseDto(student, certificateSelectResponseList);
     }
 
 

@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.certificate.CertificateDetailSelectResponse;
 import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import com.komencash.backend.dto.job.JobInsertUpdateRequest;
@@ -30,6 +31,14 @@ public class CertificateController {
     @PutMapping("")
     public boolean updateCertificate(@RequestBody CertificateInsertUpdateRequest certificateInsertUpdateRequest) {
         return certificateService.updateCertificate(certificateInsertUpdateRequest);
+    }
+
+
+    @ApiOperation(value = "자격증 정보 목록 조회", notes = "입력받은 그룹 아이디로 자격증 취득 목록을 조회")
+    @ApiImplicitParam(name = "group-id", value = "group-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/group/{group-id}")
+    public List<CertificateDetailSelectResponse> findCertificateListByGroup(@PathVariable("group-id") int groupId){
+        return certificateService.findCertificateListByGroup(groupId);
     }
 
 

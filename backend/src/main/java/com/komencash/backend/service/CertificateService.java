@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.certificate.CertificateDetailSelectResponse;
 import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import com.komencash.backend.entity.certificate.Certificate;
@@ -45,6 +46,17 @@ public class CertificateService {
         certificate.updateCertificate(certificateInsertUpdateRequest);
         certificateRepository.save(certificate);
         return true;
+    }
+
+
+    public List<CertificateDetailSelectResponse> findCertificateListByGroup(int groupId){
+
+        List<CertificateDetailSelectResponse> certificateDetailSelectResponses = new ArrayList<>();
+
+        List<Certificate> certificates = certificateRepository.findAllByGroup_Id(groupId);
+        certificates.forEach(certificate -> certificateDetailSelectResponses.add(new CertificateDetailSelectResponse(certificate)));
+
+        return certificateDetailSelectResponses;
     }
 
 

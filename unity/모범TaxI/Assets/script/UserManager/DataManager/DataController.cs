@@ -7,7 +7,7 @@ public static class DataController
 {
     public static StudentDTO student = new StudentDTO();
 
-    //로그인 성공 시, 유저 정보 저장하는 메서드
+    //로그인 성공 시, 유저 정보(기본, 직업, 그룹, 선생님) 저장하는 메서드
     public static void setStudentInfo(JSONNode sInfo)
     {
         student.id = sInfo["id"].AsInt;
@@ -68,6 +68,27 @@ public static class DataController
 
         //잘 들어갔나 확인용 출력
         //student.print();
+    }
+
+    public static void setStudentStatInfo(JSONNode sInfo)
+    {
+        student.balance = sInfo["balance"].AsInt;
+        Debug.Log("통장 잔고 : " + student.balance);
+
+        List<string> list = new List<string>();
+        if(sInfo["certificates"].Count != 0)
+        {
+            foreach(JSONNode item in sInfo["certificates"])
+            {
+                Debug.Log(item["name"].Value);
+                list.Add(item);
+            }
+        }
+        else
+        {
+            Debug.Log("자격증 없음");
+        }
+        student.certificateList = list;
     }
 
     //로그인 한 유저 정보 불러오는 메서드

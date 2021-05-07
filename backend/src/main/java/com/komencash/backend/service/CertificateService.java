@@ -1,9 +1,14 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
+import com.komencash.backend.entity.certificate.Certificate;
+import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.CertificateIssueRequestHistory;
 import com.komencash.backend.repository.CertificateIssueRequestHistoryRepository;
+import com.komencash.backend.repository.CertificateRepository;
+import com.komencash.backend.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +19,25 @@ import java.util.List;
 public class CertificateService {
 
     @Autowired
+    CertificateRepository certificateRepository;
+    @Autowired
     CertificateIssueRequestHistoryRepository certificateIssueRequestHistoryRepository;
+    @Autowired
+    GroupRepository groupRepository;
+
+
+    public boolean saveCertificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest) {
+
+        Group group = groupRepository.findById(certificateInsertUpdateRequest.getGroupId()).orElse(null);
+        if(group == null) return false;
+
+        Certificate certificate = new Certificate(certificateInsertUpdateRequest, group);
+        certificateRepository.save(certificate);
+        return true;
+    }
+
+
+
 
     public List<CertificateSelectResponse> findCertificateListByStudent(int studentId) {
 

@@ -28,7 +28,7 @@ public class FinancialProductHistorySelectResponse {
         this.startDate = financialProductHistory.getStartDate();
         this.endDate = financialProductHistory.getEndDate();
         this.status = financialProductHistory.getStatus();
-        this.financialProductId = financialProductHistory.getFinancialProduct().getId();
-        this.financialProductName = financialProductHistory.getFinancialProduct().getName();
+        this.financialProductId = financialProductHistory.getFinancialProductDetail().getFinancialProduct().getId();
+        this.financialProductName = financialProductHistory.getFinancialProductDetail().getFinancialProduct().getName();
     }
 }

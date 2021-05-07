@@ -14,12 +14,14 @@ public class TaxHistoryResponse {
 
     private int id;
     private int balanceChange;
+    private int balance;
     private String content;
     private Date createdDate;
 
     public TaxHistoryResponse(TaxHistory taxHistory) {
         this.id = taxHistory.getId();
         this.balanceChange = taxHistory.getBalanceChange();
+        this.balance = taxHistory.getBalance();
         this.content = taxHistory.getContent();
         this.createdDate = taxHistory.getCreatedDate();
     }

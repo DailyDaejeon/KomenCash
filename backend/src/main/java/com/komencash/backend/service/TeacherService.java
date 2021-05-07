@@ -7,7 +7,6 @@ import net.nurigo.java_sdk.api.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -21,66 +20,75 @@ public class TeacherService{
     TeacherRepository teacherRepository;
 
 
-    public boolean saveTeacher(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
-        teacherRepository.save(new Teacher(teacherInsertUpdateRequest));
+    public boolean saveTeacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
+        teacherRepository.save(new Teacher(teacherAddModifyRequestDto));
         return true;
     }
 
 
-    public TeacherDupCheckByEmailResponse dupCheckByEmail(String email){
-        return new TeacherDupCheckByEmailResponse(teacherRepository.findByEmail(email).orElseGet(Teacher::new));
+    public TeacherFindByEmailResponseDto findTeacherByEmail(String email){
+        return new TeacherFindByEmailResponseDto(teacherRepository.findByEmail(email).orElse(null));
     }
 
 
-    public boolean dupCheckByNickname(String nickname){
+    public boolean findTeacherByNickname(String nickname){
         return teacherRepository.findByNickname(nickname).orElse(null) == null ? true : false;
     }
 
 
-    public TeacherSelectResponse loginTeacher(TeacherLoginRequest teacherLoginRequest) {
-        Teacher loginResult = teacherRepository.findByEmailAndPassword(teacherLoginRequest.getEmail(), teacherLoginRequest.getPassword()).orElseGet(Teacher::new);
+    public TeacherFindResponseDto teacherLogin(TeacherLoginRequestDto teacherLoginRequestDto) {
 
-        if(loginResult.getId() == 0) return null;
-        TeacherSelectResponse teacherDto = new TeacherSelectResponse(loginResult);
-        return teacherDto;
+        String email = teacherLoginRequestDto.getEmail();
+        String password = teacherLoginRequestDto.getPassword();
+        Teacher teacher = teacherRepository.findByEmailAndPassword(email, password).orElse(null);
+        if(teacher == null) return null;
+
+        TeacherFindResponseDto teacherFindResponseDto = new TeacherFindResponseDto(teacher);
+        return teacherFindResponseDto;
     }
 
 
-    public TeacherSelectResponse findTeacher(int teacherId) {
-        return new TeacherSelectResponse(teacherRepository.findById(teacherId).orElseGet(Teacher::new));
+    public TeacherFindResponseDto findTeacher(int teacherId) {
+        Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
+        if(teacher == null) return null;
+
+        return new TeacherFindResponseDto(teacher);
     }
 
-    public boolean updateTeacher(TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
-        Teacher teacher = teacherRepository.findById(teacherInsertUpdateRequest.getId()).orElseGet(Teacher::new);
-        teacher.updateTeacher(teacherInsertUpdateRequest);
-        teacherRepository.save(teacher);
-        return true;
-    }
-
-
-    public boolean deleteTeacher(int teacherId) {
-        teacherRepository.deleteById(teacherId);
-        return true;
-    }
-
-
-    public boolean updateTeacherPassword(TeacherPasswordUpdateRequest teacherPasswordUpdateRequest) {
-        Teacher teacher = teacherRepository.findById(teacherPasswordUpdateRequest.getId()).orElse(null);
-
+    public boolean modifyTeacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
+        Teacher teacher = teacherRepository.findById(teacherAddModifyRequestDto.getId()).orElse(null);
         if(teacher == null) return false;
 
-        teacher.updatePasswordTeacher(teacherPasswordUpdateRequest);
-
+        teacher.updateTeacher(teacherAddModifyRequestDto);
         teacherRepository.save(teacher);
         return true;
     }
 
 
-    public TeacherAuthByPhoneResponse authTeacherByPhone(String phoneNum){
+    public boolean removeTeacher(int teacherId) {
+        Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
+        if(teacher == null) return false;
+
+        teacherRepository.delete(teacher);
+        return true;
+    }
+
+
+    public boolean modifyTeacherPassword(TeacherModifyPasswordRequestDto teacherModifyPasswordRequestDto) {
+        Teacher teacher = teacherRepository.findById(teacherModifyPasswordRequestDto.getId()).orElse(null);
+        if(teacher == null) return false;
+
+        teacher.updatePasswordTeacher(teacherModifyPasswordRequestDto);
+        teacherRepository.save(teacher);
+        return true;
+    }
+
+
+    public TeacherFindByPhoneNumberResponseDto findTeacherByPhoneNumber(String phoneNum){
 
         Teacher resultTeacher = teacherRepository.findByPhoneNumber(phoneNum).orElseGet(Teacher::new);
 
-        if(resultTeacher.getId() == 0) return new TeacherAuthByPhoneResponse(null, null);
+        if(resultTeacher.getId() == 0) return new TeacherFindByPhoneNumberResponseDto(null, null);
 
         // 인증 번호 생성
        String authNum = makeAuthNumber();
@@ -88,7 +96,7 @@ public class TeacherService{
         // 메세지 전송
         sendMessage(authNum, phoneNum);
 
-        return new TeacherAuthByPhoneResponse(authNum, resultTeacher.getEmail());
+        return new TeacherFindByPhoneNumberResponseDto(authNum, resultTeacher.getEmail());
     }
 
     public String makeAuthNumber(){

@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,82 +19,82 @@ import java.util.Map;
 public class TeacherController {
 
     @Autowired
-    JwtService jwtService;
-
-    @Autowired
     TeacherService teacherService;
 
+    @Autowired
+    JwtService jwtService;
 
-    @ApiOperation(value = "선생님 회원 가입", notes = "선생님 정보를 받아서 insert 후 결과 반환")
-    @PostMapping("")
-    public boolean saveTeacher(@RequestBody TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
-        return teacherService.saveTeacher(teacherInsertUpdateRequest);
+
+    @ApiOperation(value = "회원 가입", notes = "입력받은 선생님 정보를 save하고 결과를 boolean 타입으로 반환")
+    @PostMapping
+    public boolean saveTeacher(@RequestBody TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
+        return teacherService.saveTeacher(teacherAddModifyRequestDto);
     }
 
 
-    @ApiOperation(value = "아이디 중복 검사", notes = "email을 받아서 해당 email이 선생님 회원정보에 존재하는 경우 그 id와 email을 반환")
+    @ApiOperation(value = "이메일 중복 검사", notes = "입력받은 email의 id와 email을 반환")
     @ApiImplicitParam(name = "email", value = "email(이메일)", dataType = "String", required = true)
     @GetMapping("/dup-chk-email/{email}")
-    public TeacherDupCheckByEmailResponse dupCheckByEmail(@PathVariable("email") String email) {
-        return teacherService.dupCheckByEmail(email);
+    public TeacherFindByEmailResponseDto findTeacherByEmail(@PathVariable("email") String email) {
+        return teacherService.findTeacherByEmail(email);
     }
 
 
-    @ApiOperation(value = "닉네임 중복 검사", notes = "nickname을 받아서 해당 nickname이 선생님 회원정보에 존재하는 경우 false, 존재하지 않는 경우 true")
+    @ApiOperation(value = "닉네임 중복 검사", notes = "입력받은 nickname이 선생님 정보에 존재하는 경우 false, 존재하지않는 경우 true를 반환")
     @ApiImplicitParam(name = "nickname", value = "nickname(닉네임)", dataType = "String", required = true)
     @GetMapping("dup-chk-nickname/{nickname}")
-    public boolean dupCheckByNickname(@PathVariable("nickname") String nickname) {
-        return teacherService.dupCheckByNickname(nickname);
+    public boolean findTeacherByNickname(@PathVariable("nickname") String nickname) {
+        return teacherService.findTeacherByNickname(nickname);
     }
 
 
-    @ApiOperation(value = "선생님 로그인", notes = "선생님 email, password를 받아서 로그인이 매치되는 정보가 있으면 JWT 토큰 발급하고 결과 반환")
+    @ApiOperation(value = "로그인", notes = "입력받은 email, password로 로그인 (JWT 토큰 발급)")
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginTeacher(@RequestBody TeacherLoginRequest teacherLoginRequest, HttpServletResponse response) {
-        TeacherSelectResponse result = teacherService.loginTeacher(teacherLoginRequest);
-        if(result == null) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        }
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("auth-token", jwtService.create(result));
-        return ResponseEntity.status(HttpStatus.OK).body(resultMap);
+    public ResponseEntity<Map<String, Object>> teacherLogin(@RequestBody TeacherLoginRequestDto teacherLoginRequestDto) {
+
+        TeacherFindResponseDto teacherFindResponseDto = teacherService.teacherLogin(teacherLoginRequestDto);
+        if(teacherFindResponseDto == null) return ResponseEntity.status(HttpStatus.OK).body(null);
+
+        Map<String, Object> teacherLoginResultMap = new HashMap<>();
+        teacherLoginResultMap.put("auth-token", jwtService.create(teacherFindResponseDto));
+        return ResponseEntity.status(HttpStatus.OK).body(teacherLoginResultMap);
     }
 
 
-    @ApiOperation(value = "선생님 정보 조회", notes = "teacher_id를 받아서 해당 id의 선생님 정보를 반환")
-    @ApiImplicitParam(name = "teacher-id", value = "teacher-id(아이디)", dataType = "int", required = true)
+    @ApiOperation(value = "정보 조회", notes = "입력받은 teacher-id로 선생님 정보를 반환")
+    @ApiImplicitParam(name = "teacher-d", value = "teacher-id(선생님 아이디)", dataType = "int", required = true)
     @GetMapping("/{teacher-id}")
-    public TeacherSelectResponse findTeacher(@PathVariable("teacher-id") int teacherId){
+    public TeacherFindResponseDto findTeacher(@PathVariable("teacher-id") int teacherId){
         return teacherService.findTeacher(teacherId);
     }
 
 
-    @ApiOperation(value = "선생님 정보 수정", notes = "선생님 정보를 받아서 update 후 결과 반환")
-    @PutMapping("")
-    public boolean updateTeacher(@RequestBody TeacherInsertUpdateRequest teacherInsertUpdateRequest) {
-        return teacherService.updateTeacher(teacherInsertUpdateRequest);
+    @ApiOperation(value = "정보 수정", notes = "입력받은 선생님 정보로 데이터를 modify후 결과값을 boolean 타입으로 반환")
+    @PutMapping
+    public boolean modifyTeacher(@RequestBody TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
+        return teacherService.modifyTeacher(teacherAddModifyRequestDto);
     }
 
 
-    @ApiOperation(value = "선생님 정보 삭제", notes = "teacher_id를 받아서 delete 후 결과 반환")
+    @ApiOperation(value = "선생님 정보 삭제", notes = "teacher_id를 받아서 remove후 결과 반환")
     @ApiImplicitParam(name = "teacher-id", value = "teacher-id(아이디)", dataType = "int", required = true)
     @DeleteMapping("/{teacher-id}")
-    public boolean deleteTeacher(@PathVariable("teacher-id") int teacherId) {
-        return teacherService.deleteTeacher(teacherId);
+    public boolean removeTeacher(@PathVariable("teacher-id") int teacherId) {
+        return teacherService.removeTeacher(teacherId);
     }
 
 
-    @ApiOperation(value = "선생님 비밀번호 수정", notes = "선생님 아이디와 비밀번호를 받아서 update 후 결과 반환")
+    @ApiOperation(value = "비밀번호 수정", notes = "입력받은 아이디에 입력받은 비밀번호를 modify후 결과 반환")
     @PutMapping("/change-pw")
-    public boolean updateTeacherPassword(@RequestBody TeacherPasswordUpdateRequest teacherPasswordUpdateRequest) {
-        return teacherService.updateTeacherPassword(teacherPasswordUpdateRequest);
+    public boolean modifyTeacherPassword(@RequestBody TeacherModifyPasswordRequestDto teacherModifyPasswordRequestDto) {
+        return teacherService.modifyTeacherPassword(teacherModifyPasswordRequestDto);
     }
 
     
     @ApiOperation(value = "휴대폰 인증", notes = "휴대전화 번호를 입력하면 이메일과 인증번호를 반환")
     @ApiImplicitParam(name = "phoneNumber", value = "phoneNumber(휴대전화 번호)", dataType = "String", required = true)
     @GetMapping("/phone-auth")
-    public TeacherAuthByPhoneResponse authTeacherByPhone(String phoneNumber){
-        return teacherService.authTeacherByPhone(phoneNumber);
+    public TeacherFindByPhoneNumberResponseDto findTeacherByPhoneNumber(String phoneNumber){
+        return teacherService.findTeacherByPhoneNumber(phoneNumber);
     }
 }

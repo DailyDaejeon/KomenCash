@@ -1,7 +1,7 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.group.GroupInsertUpdateRequest;
-import com.komencash.backend.dto.group.GroupResponseDto;
+import com.komencash.backend.dto.group.GroupAddModifyRequestDto;
+import com.komencash.backend.dto.group.GroupFindResponseDto;
 import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.entity.job.RecruitType;
 import com.komencash.backend.service.GroupService;
@@ -26,60 +26,59 @@ public class GroupController {
     GroupService groupService;
 
     @Autowired
-    JwtService jwtService;
-
-    @Autowired
     JobService jobService;
 
-    @ApiOperation(value = "그룹생성", notes = "그룹 생성")
+    @Autowired
+    JwtService jwtService;
+
+
+    @ApiOperation(value = "생성", notes = "입력받은 group 정보로 그룹을 add하고 groupId를 반환")
     @PostMapping
-    public int saveGroup(@RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest){
-        int groupId = groupService.saveGroup(groupInsertUpdateRequest);
+    public int addGroup(@RequestBody GroupAddModifyRequestDto groupAddModifyRequestDto){
+        int groupId = groupService.addGroup(groupAddModifyRequestDto);
         jobService.saveJob(new JobInsertUpdateRequest("무직", 0, "무직", "무직", 1000, RecruitType.resume, groupId));
         return groupId;
     }
 
 
-    @ApiOperation(value = "그룹리스트 보기", notes = "그룹 리스트 보기")
-    @GetMapping("/group_list")
-    public ResponseEntity<Map<String, Object>> getGroup(HttpServletRequest request){
+    @ApiOperation(value = "목록 조회", notes = "전달받은 토큰의 선생님 아이디로 그룹 목록 조회")
+    @GetMapping("/group-list")
+    public ResponseEntity<Map<String, Object>> findGroup(HttpServletRequest request){
+
         Map<String, Object> resultMap = new HashMap<>();
-        int id = jwtService.getIdFromJwt(request.getHeader("auth-token"));
-        List<GroupResponseDto> result = groupService.getGroup(id);
+        int teacherId = jwtService.getIdFromJwt(request.getHeader("auth-token"));
 
+        List<GroupFindResponseDto> result = groupService.findGroup(teacherId);
         resultMap.put("result", result);
-
 
         return ResponseEntity.status(HttpStatus.OK).body(resultMap);
     }
 
 
     // test 용
-    @ApiOperation(value = "[TEST]그룹리스트보기 선생님 아이디 넣어서 ", notes = "그룹 리스트 보기")
-    @GetMapping("/group_list/{teacher_id}")
-    public ResponseEntity<Map<String, Object>> getGroup(@PathVariable("teacher_id") int id,  HttpServletRequest request){
+    @ApiOperation(value = "[TEST] 그룹리스트보기 선생님 아이디 넣어서 ", notes = "그룹 리스트 보기")
+    @GetMapping("/group-list/{teacher-id}")
+    public ResponseEntity<Map<String, Object>> getGroup(@PathVariable("teacher-id") int id,  HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
-        List<GroupResponseDto> result = groupService.getGroup(id);
+        List<GroupFindResponseDto> result = groupService.findGroup(id);
 
         resultMap.put("result", result);
-
-
         return ResponseEntity.status(HttpStatus.OK).body(resultMap);
     }
 
 
-    @ApiOperation(value = "그룹 수정", notes = "그룹 수정")
+    @ApiOperation(value = "수정", notes = "입력받은 정보로 group을 modify하고 결과값을 boolean 타입으로 반환")
     @PutMapping
-    public ResponseEntity<Boolean> updateGroup(@RequestBody GroupInsertUpdateRequest groupInsertUpdateRequest, HttpServletRequest request){
-        groupService.updateGroup(groupInsertUpdateRequest);
-        return ResponseEntity.status(HttpStatus.OK).body(Boolean.TRUE);
+    public ResponseEntity<Boolean> modifyGroup(@RequestBody GroupAddModifyRequestDto groupAddModifyRequestDto){
+        boolean result = groupService.modifyGroup(groupAddModifyRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @ApiOperation(value = "그룹 삭제", notes = "그룹 삭제")
-    @DeleteMapping("{group_id}")
-    public ResponseEntity<Boolean> deleteGroup(@PathVariable("group_id") int group_id, HttpServletRequest request){
-        groupService.deleteGroup(group_id);
-        return ResponseEntity.status(HttpStatus.OK).body(Boolean.TRUE);
-    }
 
+    @ApiOperation(value = "삭제", notes = "입력받은 정보로 group을 remove하고 결과값을 boolean 타입으로 반환")
+    @DeleteMapping("{group-id}")
+    public ResponseEntity<Boolean> removeGroup(@PathVariable("group-id") int groupId){
+        boolean result = groupService.removeGroup(groupId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }

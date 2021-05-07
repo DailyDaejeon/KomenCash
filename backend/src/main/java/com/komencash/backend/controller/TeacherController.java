@@ -25,10 +25,10 @@ public class TeacherController {
     JwtService jwtService;
 
 
-    @ApiOperation(value = "회원 가입", notes = "입력받은 선생님 정보를 save하고 결과를 boolean 타입으로 반환")
+    @ApiOperation(value = "회원 가입", notes = "입력받은 선생님 정보를 add하고 결과를 boolean 타입으로 반환")
     @PostMapping
-    public boolean saveTeacher(@RequestBody TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
-        return teacherService.saveTeacher(teacherAddModifyRequestDto);
+    public boolean addTeacher(@RequestBody TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
+        return teacherService.addTeacher(teacherAddModifyRequestDto);
     }
 
 
@@ -55,13 +55,13 @@ public class TeacherController {
         TeacherFindResponseDto teacherFindResponseDto = teacherService.teacherLogin(teacherLoginRequestDto);
         if(teacherFindResponseDto == null) return ResponseEntity.status(HttpStatus.OK).body(null);
 
-        Map<String, Object> teacherLoginResultMap = new HashMap<>();
-        teacherLoginResultMap.put("auth-token", jwtService.create(teacherFindResponseDto));
-        return ResponseEntity.status(HttpStatus.OK).body(teacherLoginResultMap);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("auth-token", jwtService.create(teacherFindResponseDto));
+        return ResponseEntity.status(HttpStatus.OK).body(resultMap);
     }
 
 
-    @ApiOperation(value = "정보 조회", notes = "입력받은 teacher-id로 선생님 정보를 반환")
+    @ApiOperation(value = "조회", notes = "입력받은 teacher-id로 선생님 정보를 반환")
     @ApiImplicitParam(name = "teacher-d", value = "teacher-id(선생님 아이디)", dataType = "int", required = true)
     @GetMapping("/{teacher-id}")
     public TeacherFindResponseDto findTeacher(@PathVariable("teacher-id") int teacherId){
@@ -69,14 +69,14 @@ public class TeacherController {
     }
 
 
-    @ApiOperation(value = "정보 수정", notes = "입력받은 선생님 정보로 데이터를 modify후 결과값을 boolean 타입으로 반환")
+    @ApiOperation(value = "수정", notes = "입력받은 선생님 정보로 데이터를 modify후 결과값을 boolean 타입으로 반환")
     @PutMapping
     public boolean modifyTeacher(@RequestBody TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
         return teacherService.modifyTeacher(teacherAddModifyRequestDto);
     }
 
 
-    @ApiOperation(value = "선생님 정보 삭제", notes = "teacher_id를 받아서 remove후 결과 반환")
+    @ApiOperation(value = "삭제", notes = "teacher_id를 받아서 remove후 결과 반환")
     @ApiImplicitParam(name = "teacher-id", value = "teacher-id(아이디)", dataType = "int", required = true)
     @DeleteMapping("/{teacher-id}")
     public boolean removeTeacher(@PathVariable("teacher-id") int teacherId) {

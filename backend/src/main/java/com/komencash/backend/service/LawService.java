@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.law.LawRequestUpdateRequest;
 import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
 import com.komencash.backend.dto.request.LawAddReqSelectResponse;
 import com.komencash.backend.dto.law.LawInsertUpdateRequest;
@@ -78,5 +79,14 @@ public class LawService {
         VoteResultResponse result = voteService.findCntByVote_Id(request.getVote().getId());
 
         return new LawAddReqSelectResponse(request, result);
+    }
+
+    public boolean updateLawRequestAccept(LawRequestUpdateRequest lawRequestUpdateRequest){
+        LawAddRequestHistory lawAddRequestHistory = lawAddRequestHistoryRepository.findById(lawRequestUpdateRequest.getId()).orElse(null);
+        if(lawAddRequestHistory == null) return false;
+
+        if(lawAddRequestHistory.getAccpet().equals(Accept.before_confirm)) lawAddRequestHistory.updateLawRequestAccept(lawRequestUpdateRequest.getAccept());
+        lawAddRequestHistoryRepository.save(lawAddRequestHistory);
+        return true;
     }
 }

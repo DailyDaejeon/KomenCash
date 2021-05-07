@@ -35,6 +35,7 @@ public class StockHistory {
 
     public StockHistory(int price, Stock stock) {
         this.price = price;
+        this.createdDate = new Date();
         this.stock = stock;
     }
 }

@@ -73,4 +73,13 @@ public class CertificateService {
 
         return certificateSelectResponses;
     }
+
+
+    public boolean deleteCertificate(int certificateId){
+        Certificate certificate = certificateRepository.findById(certificateId).orElse(null);
+        if(certificate == null) return false;
+
+        certificateRepository.delete(certificate);
+        return true;
+    }
 }

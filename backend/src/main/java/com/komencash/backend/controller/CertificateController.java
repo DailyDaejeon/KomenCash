@@ -48,4 +48,12 @@ public class CertificateController {
     public List<CertificateSelectResponse> findCertificateListByStudent(@PathVariable("student-id") int studentId){
         return certificateService.findCertificateListByStudent(studentId);
     }
+
+
+    @ApiOperation(value = "자격증 정보 삭제", notes = "자격증 아이디를 받아서 delete 후 결과 반환")
+    @ApiImplicitParam(name = "certificate-id", value = "certificate-id(자격증 아이디)", dataType = "int", required = true)
+    @DeleteMapping("/{certificate-id}")
+    public boolean deleteCertificate(@PathVariable("certificate-id") int certificateId) {
+        return certificateService.deleteCertificate(certificateId);
+    }
 }

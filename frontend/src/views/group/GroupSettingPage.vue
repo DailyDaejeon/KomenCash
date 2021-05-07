@@ -41,6 +41,10 @@ export default {
           name: "GroupInfo",
           title: "그룹 정보",
         },
+        {
+          name: "GroupCertificate",
+          title: "자격증 정보",
+        },
         //그룹원 정보
         {
           name: "GroupMemberList",

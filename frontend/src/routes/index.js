@@ -147,6 +147,12 @@ const router =  new Router({
           props: true
         },
         {
+          path: 'certificate',
+          name: 'GroupCertificate',
+          component: () => import('@/components/group/settings/GroupCertificate.vue'),
+          props: true
+        },
+        {
           path: 'groupMemberList',
           name: 'GroupMemberList',
           component: () => import('@/components/group/settings/GroupMemberListForm.vue'),

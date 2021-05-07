@@ -34,4 +34,8 @@ public class OnlineStoreItemAddRequestHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public void updateAccept(Accept accept){
+        this.accept = accept;
+    }
 }

@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.certificate;
 
+import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,4 +31,16 @@ public class Certificate {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
+
+
+    public void updateCertificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest) {
+        this.name = certificateInsertUpdateRequest.getName();
+        this.acquisitionCondition = certificateInsertUpdateRequest.getAcquisitionCondition();
+    }
+
+    public Certificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest, Group group){
+        this.name = certificateInsertUpdateRequest.getName();
+        this.acquisitionCondition = certificateInsertUpdateRequest.getAcquisitionCondition();
+        this.group = group;
+    }
 }

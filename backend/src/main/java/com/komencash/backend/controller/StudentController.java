@@ -56,12 +56,6 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(1);
     }
 
-    @ApiOperation(value="그룹원 자격증 변경 수락하기", notes = "그룹원 자격증 변경 수락하기")
-    @PutMapping("/certificate")
-    public boolean updateCertificate(@RequestBody CertificateRequestDto dto){
-        studentService.updateCertificate(dto);
-        return true;
-    }
 
     @ApiOperation(value="그룹원 비밀번호 초기화", notes = "그룹원 비밀번호 초기화")
     @PutMapping("reset-pw")

@@ -37,6 +37,15 @@ public class CertificateService {
     }
 
 
+    public boolean updateCertificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest){
+
+        Certificate certificate = certificateRepository.findById(certificateInsertUpdateRequest.getId()).orElse(null);
+        if(certificate == null) return false;
+
+        certificate.updateCertificate(certificateInsertUpdateRequest);
+        certificateRepository.save(certificate);
+        return true;
+    }
 
 
     public List<CertificateSelectResponse> findCertificateListByStudent(int studentId) {

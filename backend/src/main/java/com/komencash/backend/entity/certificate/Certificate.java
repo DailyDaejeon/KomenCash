@@ -33,8 +33,12 @@ public class Certificate {
     private Group group;
 
 
+    public void updateCertificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest) {
+        this.name = certificateInsertUpdateRequest.getName();
+        this.acquisitionCondition = certificateInsertUpdateRequest.getAcquisitionCondition();
+    }
+
     public Certificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest, Group group){
-        this.id = certificateInsertUpdateRequest.getId();
         this.name = certificateInsertUpdateRequest.getName();
         this.acquisitionCondition = certificateInsertUpdateRequest.getAcquisitionCondition();
         this.group = group;

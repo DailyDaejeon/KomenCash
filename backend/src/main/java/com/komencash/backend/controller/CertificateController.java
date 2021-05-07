@@ -26,6 +26,13 @@ public class CertificateController {
     }
 
 
+    @ApiOperation(value = "자격증 정보 수정", notes = "자격증 정보를 받아서 update후 결과를 반환")
+    @PutMapping("")
+    public boolean updateCertificate(@RequestBody CertificateInsertUpdateRequest certificateInsertUpdateRequest) {
+        return certificateService.updateCertificate(certificateInsertUpdateRequest);
+    }
+
+
     @ApiOperation(value = "학생별 자격증 취득 목록 조회", notes = "입력받은 학생아이디로 자격증 취득 목록을 조회")
     @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
     @GetMapping("/student/{student-id}")

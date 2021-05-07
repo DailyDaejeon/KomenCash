@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherSelectResponse {
+public class TeacherFindResponseDto {
 
     private int id;
     private String email;
@@ -16,7 +16,7 @@ public class TeacherSelectResponse {
     private String nickname;
     private String phoneNumber;
 
-    public TeacherSelectResponse(Teacher teacher) {
+    public TeacherFindResponseDto(Teacher teacher) {
         this.id = teacher.getId();
         this.email = teacher.getEmail();
         this.password = teacher.getPassword();

@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherDupCheckByEmailResponse {
+public class TeacherFindByEmailResponseDto {
 
     private int id;
     private String email;
 
-    public TeacherDupCheckByEmailResponse(Teacher teacher){
+    public TeacherFindByEmailResponseDto(Teacher teacher){
         this.id = teacher.getId();
         this.email = teacher.getEmail();
     }

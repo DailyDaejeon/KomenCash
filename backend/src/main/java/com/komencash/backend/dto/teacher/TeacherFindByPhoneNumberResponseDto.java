@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherLoginRequest {
+public class TeacherFindByPhoneNumberResponseDto {
 
+    private String authNum;
     private String email;
-    private String password;
+
+
 }

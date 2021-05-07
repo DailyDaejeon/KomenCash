@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.certificate.CertificateAcceptUpdateRequest;
 import com.komencash.backend.dto.certificate.CertificateDetailSelectResponse;
 import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
@@ -56,4 +57,12 @@ public class CertificateController {
     public boolean deleteCertificate(@PathVariable("certificate-id") int certificateId) {
         return certificateService.deleteCertificate(certificateId);
     }
+
+
+    @ApiOperation(value = "자격증 발급 요청 수락/거부", notes = "자격증 발금 요청 처리정보를 받아서 update후 결과를 반환")
+    @PutMapping("/issue-request")
+    public boolean updateCertificateAccept(@RequestBody CertificateAcceptUpdateRequest certificateAcceptUpdateRequest) {
+        return certificateService.updateCertificateAccept(certificateAcceptUpdateRequest);
+    }
+
 }

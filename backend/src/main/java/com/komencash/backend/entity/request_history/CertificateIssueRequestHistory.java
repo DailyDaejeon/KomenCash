@@ -34,9 +34,8 @@ public class CertificateIssueRequestHistory {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    public void updateCertificate(Certificate cert){
-        this.certificate = cert;
-
+    public void updateCertificateAccept(Accept accept){
+        this.accept = accept;
     }
 
 }

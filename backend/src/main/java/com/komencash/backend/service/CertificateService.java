@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.certificate.CertificateAcceptUpdateRequest;
 import com.komencash.backend.dto.certificate.CertificateDetailSelectResponse;
 import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
@@ -80,6 +81,17 @@ public class CertificateService {
         if(certificate == null) return false;
 
         certificateRepository.delete(certificate);
+        return true;
+    }
+
+
+    public boolean updateCertificateAccept(CertificateAcceptUpdateRequest certificateAcceptUpdateRequest){
+        CertificateIssueRequestHistory certificateIssueRequestHistory
+                = certificateIssueRequestHistoryRepository.findById(certificateAcceptUpdateRequest.getRequestId()).orElse(null);
+        if(certificateIssueRequestHistory == null) return false;
+
+        certificateIssueRequestHistory.updateCertificateAccept(certificateAcceptUpdateRequest.getAccept());
+        certificateIssueRequestHistoryRepository.save(certificateIssueRequestHistory);
         return true;
     }
 }

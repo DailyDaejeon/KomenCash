@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private Camera theCamera; //메인 카메라
     private Rigidbody myRigid; //Rigidbody 컴포넌트를 할당할 변수. private하기 때문에 게임 시작시 GetComponent 함수로 할당
 
-    void start()
+    void Start()
     {
         myRigid = GetComponent<Rigidbody>();
         Debug.Log("myRigid : " + myRigid);

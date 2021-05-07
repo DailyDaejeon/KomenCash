@@ -72,23 +72,54 @@ public class LoginController : MonoBehaviour
             }
             else
             {
-                if(request.downloadHandler.text == "")
+                string result = request.downloadHandler.text;
+                JSONNode root = JSON.Parse(result);
+
+                bool isTrue = root["fail"];
+
+                if (isTrue)
                 {
-                    Debug.Log("회원가입을 진행해주세요.");
+                    Debug.Log(root["fail"].Value);
                 }else
                 {
-                    Debug.Log("response : " + request.downloadHandler.text);
-                    string result = request.downloadHandler.text;
-                    JSONNode root = JSON.Parse(result);
-
-                    //DataController에 정보 저장
-                    //dataController = GameObject.Find("DataManager").GetComponent<DataController>();
+                    //DataController에 학생id, 직업, 그룹, 담당교사 정보 저장
                     DataController.setStudentInfo(root["success"]);
+
+                    //DataController에 학생 잔고, 월급, 자격 정보 저장
+                    string studentId = root["success"]["id"].Value;
+                    //Debug.Log("로그인 한 학생 id : " + studentId);
+                    //Debug.Log("type : " + studentId.GetType());
+                    StartCoroutine(fetchStatInfo(studentId));
 
                     //메인 페이지로 이동
                     mainScene = GameObject.Find("MoneyJamRestAPIRequester").GetComponent<SceneChangeController>();
                     mainScene.GoToMainScene();
                 }
+            }
+        }
+    }
+
+    private IEnumerator fetchStatInfo(string sId)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(baseURL + "unity/student/"+sId))
+        {
+            request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
+            request.SetRequestHeader("Accept", "application/json, text/plain, */*");
+
+            yield return request.SendWebRequest();
+
+            if (request.error != null)
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                Debug.Log("response : " + request.downloadHandler.text);
+
+                string result = request.downloadHandler.text;
+                JSONNode root = JSON.Parse(result);
+
+                DataController.setStudentStatInfo(root);
             }
         }
     }

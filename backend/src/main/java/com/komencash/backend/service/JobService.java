@@ -105,6 +105,18 @@ public class JobService {
     }
 
 
+    public boolean updateJobAddRequestAccept(JobAddRequestAcceptRequest jobAddRequestAcceptRequest) {
+        JobAddRequestHistory jobAddRequestHistory = jobAddRequestHistoryRepository.findById(jobAddRequestAcceptRequest.getId()).orElse(null);
+        if (jobAddRequestHistory == null) return false;
+
+        if (jobAddRequestHistory.getAccept().equals(Accept.before_confirm))
+            jobAddRequestHistory.updateJobAddRequestAccept(jobAddRequestAcceptRequest.getAccept());
+
+        jobAddRequestHistoryRepository.save(jobAddRequestHistory);
+        return true;
+    }
+
+
     public List<ResumeSelectResponse> findResumeListByGroupId(int groupId) {
         List<ResumeSelectResponse> resumeSelectResponses = new ArrayList<>();
 

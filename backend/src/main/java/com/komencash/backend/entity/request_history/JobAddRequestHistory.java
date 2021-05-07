@@ -34,5 +34,9 @@ public class JobAddRequestHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
-    
+
+
+    public void updateJobAddRequestAccept(Accept accept){
+        this.accept = accept;
+    }
 }

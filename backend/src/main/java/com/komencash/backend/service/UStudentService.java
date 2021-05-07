@@ -1,12 +1,11 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import com.komencash.backend.dto.job.JobSelectResponse;
 import com.komencash.backend.dto.student.StudentJoinRequestDto;
 import com.komencash.backend.dto.student.StudentLoginRequestDto;
 import com.komencash.backend.dto.student.StudentState;
 import com.komencash.backend.entity.bank.AccountHistory;
-import com.komencash.backend.entity.certificate.Acquisition;
-import com.komencash.backend.entity.certificate.Certificate;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
@@ -16,7 +15,6 @@ import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +31,10 @@ public class UStudentService {
     @Autowired
     GroupMemberAddRequestHistoryRepository groupMemberAddRequestHistoryRepository;
     @Autowired
-    AcquisitionRepository acquisitionRepository;
-    @Autowired
     JobService jobService;
+    @Autowired
+    CertificateService certificateService;
+
     public Map<String, Object> joinStudent(StudentJoinRequestDto request) {
         Map<String, Object> resultMap = new HashMap<>();
         Group group = groupRepository.findByCode(request.getCode());
@@ -94,9 +93,9 @@ public class UStudentService {
     public StudentState getStudentState(int studentId) {
         Student student = studentRepository.findById(studentId).orElse(null);
         List<AccountHistory> account = accountHistoryRepository.findAllByStudent_Id(studentId);
-        List<String> certificate = acquisitionRepository.findCertificate_NameByStudent_Id(studentId);
-        certificate.forEach(s -> {
-            System.out.println(certificate);
+        List<CertificateSelectResponse> certificates = certificateService.findCertificateListByStudent(studentId);
+        certificates.forEach(s -> {
+            System.out.println(s);
         });
         int balance = 0;
         if(account.size() != 0){
@@ -107,7 +106,7 @@ public class UStudentService {
         String jobName = student.getJob().getName();
         int jobSalary = student.getJob().getSalary();
 
-        StudentState state = new StudentState(studentId, nickname, balance, jobName, jobSalary, certificate);
+        StudentState state = new StudentState(studentId, nickname, balance, jobName, jobSalary, certificates);
 
         return state;
     }

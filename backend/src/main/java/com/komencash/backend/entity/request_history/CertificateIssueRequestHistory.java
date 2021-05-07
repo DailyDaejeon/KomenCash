@@ -23,7 +23,7 @@ public class CertificateIssueRequestHistory {
     private int id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "accpet")
+    @Column(name = "accept")
     private Accept accept;
 
     @ManyToOne(fetch = FetchType.LAZY)

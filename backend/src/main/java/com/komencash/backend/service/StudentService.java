@@ -2,17 +2,11 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import com.komencash.backend.dto.request.GroupMemberAddRequestDto;
-import com.komencash.backend.dto.certificate.CertificateRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
-import com.komencash.backend.dto.student.StudentJoinRequestDto;
 import com.komencash.backend.dto.student.StudentResponseDto;
-import com.komencash.backend.dto.student.StudentUpdateJobRequest;
-import com.komencash.backend.entity.certificate.Acquisition;
-import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.student.Student;
-import com.komencash.backend.entity.certificate.Certificate;
 import com.komencash.backend.entity.request_history.CertificateIssueRequestHistory;
 import com.komencash.backend.entity.request_history.GroupMemberAddRequestHistory;
 import com.komencash.backend.repository.*;
@@ -41,18 +35,11 @@ public class StudentService {
     @Autowired
     JobRepository jobRepository;
 
-    @Autowired
-    AcquisitionRepository acquisitionRepository;
-
     public List<StudentResponseDto> getStudent(int group_id){
         System.out.println(studentRepository.findById(2).get().getNickname());
         List<Student> student = studentRepository.findAllByJob_Group_Id(group_id);
         List<StudentResponseDto> students = new ArrayList<>();
-        student.forEach(s ->{
-            StudentResponseDto dto = new StudentResponseDto(s.getId(), s.getNickname(), s.getJob());
-            students.add(dto);
-            System.out.println(dto);
-        });
+        student.forEach(s -> students.add(new StudentResponseDto(s.getId(), s.getNickname(), s.getJob())) );
         return students;
     }
 
@@ -62,9 +49,11 @@ public class StudentService {
         Student student = studentRepository.findById(studentId).orElse(null);
         if(student == null) return null;
 
-        List<Acquisition> acquisitions = acquisitionRepository.findByStudent_Id(studentId);
-        for(Acquisition acquisition : acquisitions)
-            certificateSelectResponseList.add(new CertificateSelectResponse(acquisition.getCertificate()));
+        List<CertificateIssueRequestHistory> certificateIssueRequestHistories = certificateIssueRequestHistoryRepository.findAllByStudent_Id(studentId);
+        certificateIssueRequestHistories.forEach(certificateIssueRequestHistory -> {
+            if(certificateIssueRequestHistory.getAccept().equals(Accept.accept))
+                certificateSelectResponseList.add(new CertificateSelectResponse(certificateIssueRequestHistory.getCertificate()));
+        });
 
         return new StudentDetailResponseDto(student, certificateSelectResponseList);
     }
@@ -97,13 +86,6 @@ public class StudentService {
         groupMemberAddRequestHistoryRepository.save(addRequest);
     }
 
-
-    public void updateCertificate(CertificateRequestDto dto) {
-        Optional<Certificate> getCertificate = certificateRepository.findById(dto.getCertificateId());
-        CertificateIssueRequestHistory updateRequest = certificateIssueRequestHistoryRepository.findByStudentId(dto.getStudentId());
-        updateRequest.updateCertificate(getCertificate.get());
-        certificateIssueRequestHistoryRepository.save(updateRequest);
-    }
 
     public void resetPw(int studentId) {
         Optional<Student> stu = studentRepository.findById(studentId);

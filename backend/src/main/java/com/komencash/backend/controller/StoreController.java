@@ -2,6 +2,7 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
+import com.komencash.backend.dto.store.StoreItemAddRequestAcceptUpdateRequest;
 import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
 import com.komencash.backend.dto.store.StoreItemPerchaseHistoryResponse;
 import com.komencash.backend.dto.store.StoreItemResponse;
@@ -56,6 +57,13 @@ public class StoreController {
     @GetMapping("/add-request-list/{group-id}")
     public List<ItemAddReqSelectResponse> selectItemAddReqList(@PathVariable("group-id") int groupId){
         return storeService.selectItemAddReqList(groupId);
+    }
+
+
+    @ApiOperation(value = "온라인스토어 상품 추가 요청 승인/거절", notes = "입력받은 상품 추가요청 처리정보로 update하고 결과를 반환")
+    @PutMapping("/add-request/accept")
+    public boolean updateStoreItemAddRequestAccept(@RequestBody StoreItemAddRequestAcceptUpdateRequest storeItemAddRequestAcceptUpdateRequest) {
+        return storeService.updateStoreItemAddRequestAccept(storeItemAddRequestAcceptUpdateRequest);
     }
 
 

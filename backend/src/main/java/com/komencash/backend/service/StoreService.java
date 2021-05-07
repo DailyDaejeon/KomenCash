@@ -2,6 +2,7 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
+import com.komencash.backend.dto.store.StoreItemAddRequestAcceptUpdateRequest;
 import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
 import com.komencash.backend.dto.store.StoreItemPerchaseHistoryResponse;
 import com.komencash.backend.dto.store.StoreItemResponse;
@@ -81,6 +82,20 @@ public class StoreService {
         }
         return itemAddReqSelectResponses;
     }
+
+
+    public boolean updateStoreItemAddRequestAccept(StoreItemAddRequestAcceptUpdateRequest storeItemAddRequestAcceptUpdateRequest){
+        OnlineStoreItemAddRequestHistory onlineStoreItemAddRequestHistory =
+                onlineStoreItemAddRequestHistoryRepository.findById(storeItemAddRequestAcceptUpdateRequest.getId()).orElse(null);
+        if(onlineStoreItemAddRequestHistory == null) return false;
+
+        if(onlineStoreItemAddRequestHistory.getAccept().equals(Accept.before_confirm))
+            onlineStoreItemAddRequestHistory.updateAccept(storeItemAddRequestAcceptUpdateRequest.getAccept());
+        onlineStoreItemAddRequestHistoryRepository.save(onlineStoreItemAddRequestHistory);
+        return true;
+    }
+
+
 
     public ItemAddReqDetailResponse selectItemAddReq(int requestId){
         OnlineStoreItemAddRequestHistory onlineStoreItemAddRequestHistory = onlineStoreItemAddRequestHistoryRepository.findById(requestId).orElse(null);

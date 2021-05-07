@@ -15,7 +15,7 @@ public class MyInfoController : MonoBehaviour
     
     void Start()
     {
-        /*data = DataController.LoadUserInfo();
+        data = DataController.LoadUserInfo();
 
         Debug.Log("로그인 유저 정보 : ");
         data.print();
@@ -24,16 +24,17 @@ public class MyInfoController : MonoBehaviour
         sJobName.text += data.job.name;
         sSalary.text += data.job.salary;
         sBalance.text += data.balance;
-        
-        if(data.certificateList.Count != 0)
+
+        if (data.certificateList.Count != 0)
         {
-            foreach(string cert in data.certificateList)
+            foreach (string cert in data.certificateList)
             {
                 sCertList.text += cert + System.Environment.NewLine;
             }
-        }else
+        }
+        else
         {
             sCertList.text += "아직 보유중인 자격증이 없습니다ㅠ.ㅠ";
-        }*/
+        }
     }
 }

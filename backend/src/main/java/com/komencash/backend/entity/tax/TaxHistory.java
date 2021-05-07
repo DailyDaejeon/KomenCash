@@ -26,6 +26,9 @@ public class TaxHistory {
     @Column(name = "balance_change")
     private int balanceChange;
 
+    @Column(name = "balance")
+    private int balance;
+
     @Column(name = "content")
     private String content;
 
@@ -38,16 +41,11 @@ public class TaxHistory {
     private Group group;
 
 
-    public void updateTaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest, Group group){
-        this.balanceChange = taxHistoryInsertUpdateRequest.getBalanceChange();
-        this.content = taxHistoryInsertUpdateRequest.getContent();
-        this.group = group;
-    }
-
-    public TaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest, Group group){
+    public TaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest, Group group, int balance){
         this.balanceChange = taxHistoryInsertUpdateRequest.getBalanceChange();
         this.content = taxHistoryInsertUpdateRequest.getContent();
         this.createdDate = new Date();
+        this.balance = balance;
         this.group = group;
     }
 }

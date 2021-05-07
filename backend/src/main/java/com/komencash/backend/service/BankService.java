@@ -112,7 +112,7 @@ public class BankService {
 
         List<StudentInfoResponse> studentInfoResponses = new ArrayList<>();
         List<FinancialProductHistory> financialProductHistories =
-                financialProductHistoryRepository.findByFinancialProduct_Id(productId);
+                financialProductHistoryRepository.findByFinancialProductDetail_FinancialProduct_Id(productId);
         for(FinancialProductHistory financialProductHistory : financialProductHistories) {
             if(!financialProductHistory.getStatus().equals(Status.deposit)) continue;
             Student student = financialProductHistory.getStudent();

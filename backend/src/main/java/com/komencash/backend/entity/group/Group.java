@@ -30,8 +30,6 @@ public class Group{
     @Column(name = "tax_rate")
     private double tax_rate;
 
-    @Column(name = "tax")
-    private int tax;
 
     @Column(name = "inflation_rate")
     private double inflationRate;
@@ -55,10 +53,6 @@ public class Group{
         this.setMonetary_unit_name(monetary_unit_name);
         this.setTax_rate(tax_rate);
         this.setInflationRate(inflationRate);
-    }
-
-    public void updateTaxBalance(int balanceChange) {
-        this.tax += balanceChange;
     }
 
     public void updateTaxRate(double taxRate){ this.tax_rate = taxRate; }

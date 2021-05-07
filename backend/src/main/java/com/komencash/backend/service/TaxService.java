@@ -22,7 +22,7 @@ public class TaxService {
     @Autowired
     GroupRepository groupRepository;
 
-    public TaxDetailResponse findTaxDetail(int groupId){
+    public List<TaxHistoryResponse> findTaxDetail(int groupId){
         Group group = groupRepository.findById(groupId).orElse(null);
         if(group == null) return null;
 
@@ -30,8 +30,7 @@ public class TaxService {
         List<TaxHistory> taxHistories = taxHistoryRepository.findAll();
         for(TaxHistory taxHistory : taxHistories) taxHistoryResponses.add(new TaxHistoryResponse(taxHistory));
 
-        TaxDetailResponse taxDetailResponse = new TaxDetailResponse(group.getTax(), taxHistoryResponses);
-        return taxDetailResponse;
+        return taxHistoryResponses;
     }
 
 
@@ -39,45 +38,15 @@ public class TaxService {
         Group group = groupRepository.findById(taxHistoryInsertUpdateRequest.getGroupId()).orElse(null);
         if(group == null) return false;
 
-        group.updateTaxBalance(taxHistoryInsertUpdateRequest.getBalanceChange());
-        groupRepository.save(group);
+        List<TaxHistory> taxHistories = taxHistoryRepository.findAll();
+        int preBalance = taxHistories.size() < 1 ? 0 : taxHistories.get(taxHistories.size() - 1).getBalance();
+        int balance = preBalance + taxHistoryInsertUpdateRequest.getBalanceChange();
 
-        TaxHistory taxHistory = new TaxHistory(taxHistoryInsertUpdateRequest, group);
+        TaxHistory taxHistory = new TaxHistory(taxHistoryInsertUpdateRequest, group, balance);
         taxHistoryRepository.save(taxHistory);
         return true;
     }
 
-
-    public boolean updateTaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest){
-        TaxHistory taxHistory = taxHistoryRepository.findById(taxHistoryInsertUpdateRequest.getId()).orElse(null);
-        if(taxHistory == null) return false;
-
-        Group group = groupRepository.findById(taxHistoryInsertUpdateRequest.getGroupId()).orElse(null);
-        if(group == null) return false;
-
-        int updatedBalance = taxHistoryInsertUpdateRequest.getBalanceChange() - taxHistory.getBalanceChange();
-        group.updateTaxBalance(updatedBalance);
-        groupRepository.save(group);
-
-        taxHistory.updateTaxHistory(taxHistoryInsertUpdateRequest, group);
-        taxHistoryRepository.save(taxHistory);
-        return true;
-    }
-
-
-    public boolean deleteTaxHistory(int taxHistoryId){
-        TaxHistory taxHistory = taxHistoryRepository.findById(taxHistoryId).orElse(null);
-        if(taxHistory == null) return false;
-
-        Group group = groupRepository.findById(taxHistory.getGroup().getId()).orElse(null);
-        if(group == null) return false;
-
-        group.updateTaxBalance(-taxHistory.getBalanceChange());
-        groupRepository.save(group);
-
-        taxHistoryRepository.delete(taxHistory);
-        return true;
-    }
 
 
     public boolean updateTaxRate(TaxRateUpdateRequest taxHistoryInsertUpdateRequest){

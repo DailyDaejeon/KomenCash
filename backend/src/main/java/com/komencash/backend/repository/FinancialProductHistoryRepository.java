@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FinancialProductHistoryRepository extends JpaRepository<FinancialProductHistory, Integer> {
 
-    List<FinancialProductHistory> findByFinancialProduct_Id(int productId);
+    List<FinancialProductHistory> findByFinancialProductDetail_FinancialProduct_Id(int productId);
     List<FinancialProductHistory> findByStudent_Id(int studentId);
 
 }

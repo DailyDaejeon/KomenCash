@@ -4,6 +4,7 @@ import com.komencash.backend.dto.job.*;
 import com.komencash.backend.dto.request.JobAddReqSelectResponse;
 import com.komencash.backend.dto.request.ResumeDetailSelectResponse;
 import com.komencash.backend.dto.request.ResumeSelectResponse;
+import com.komencash.backend.dto.student.StudentUpdateJobRequest;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.job.PartTimeJob;
@@ -12,6 +13,7 @@ import com.komencash.backend.entity.request_history.JobAddRequestHistory;
 import com.komencash.backend.entity.request_history.ResumeRequestHistory;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.*;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,8 @@ public class JobService {
     PartTimeJobRepository partTimeJobRepository;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    StudentService studentService;
     @Autowired
     GroupRepository groupRepository;
     @Autowired
@@ -132,6 +136,29 @@ public class JobService {
     public ResumeDetailSelectResponse findResumeById(int resumeId) {
         ResumeRequestHistory resumeRequestHistory = resumeRequestHistoryRepository.findById(resumeId).orElseGet(ResumeRequestHistory::new);
         return new ResumeDetailSelectResponse(resumeRequestHistory);
+    }
+
+
+    public boolean updateResumeAccept(JobResumeAcceptRequest jobResumeAcceptRequest){
+        ResumeRequestHistory resumeRequestHistory = resumeRequestHistoryRepository.findById(jobResumeAcceptRequest.getId()).orElse(null);
+        if (resumeRequestHistory == null) return false;
+
+        // 미확인 상태인 경우에는 수정해서 반영한다.
+        if(resumeRequestHistory.getAccept().equals(Accept.before_confirm)){
+            resumeRequestHistory.updateResumeAccept(jobResumeAcceptRequest.getAccept());
+
+            // 만약에 이력서가 승인되었다면 해당 학생의 직업을 바꿔준다.
+            if(jobResumeAcceptRequest.getAccept().equals(Accept.accept)) {
+                int studentId = resumeRequestHistory.getStudent().getId();
+                int jobId = resumeRequestHistory.getJob().getId();
+                studentService.updateStudentJob(new StudentUpdateJobRequest(studentId, jobId));
+            }
+        }
+
+        resumeRequestHistoryRepository.save(resumeRequestHistory);
+
+
+        return true;
     }
 
 

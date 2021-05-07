@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.request_history;
 
+import com.komencash.backend.dto.job.JobResumeAcceptRequest;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.job.Job;
 import lombok.AllArgsConstructor;
@@ -39,4 +40,8 @@ public class ResumeRequestHistory {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public void updateResumeAccept(Accept accept){
+        this.accept = accept;
+    }
 }

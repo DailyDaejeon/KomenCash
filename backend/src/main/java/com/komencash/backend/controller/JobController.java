@@ -91,6 +91,13 @@ public class JobController {
     }
 
 
+    @ApiOperation(value = "이력서 제출내역 승인/거절", notes = "이력서 제출내역 처리정보를 받아서 update후 반환")
+    @PutMapping("/resume-request/accept")
+    public boolean updateResumeAccept(@RequestBody JobResumeAcceptRequest jobResumeAcceptRequest) {
+        return jobService.updateResumeAccept(jobResumeAcceptRequest);
+    }
+
+
     @ApiOperation(value = "아르바이트 정보 조회", notes = "입력받은 그룹 아이디로 그룹 내의 모든 아르바이트 정보를 반환")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/part-time-list/{group-id}")

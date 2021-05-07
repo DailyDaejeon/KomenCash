@@ -4,6 +4,7 @@ import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import com.komencash.backend.dto.request.GroupMemberAddRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentResponseDto;
+import com.komencash.backend.dto.student.StudentUpdateJobRequest;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.student.Student;
@@ -98,6 +99,18 @@ public class StudentService {
         if(student == null) return false;
 
         Job job = jobRepository.findByName("무직");
+        if(job == null) return false;
+
+        student.updateJob(job);
+        studentRepository.save(student);
+        return true;
+    }
+
+    public boolean updateStudentJob(StudentUpdateJobRequest studentUpdateJobRequest){
+        Student student = studentRepository.findById(studentUpdateJobRequest.getStudentId()).orElse(null);
+        if(student == null) return false;
+
+        Job job = jobRepository .findById(studentUpdateJobRequest.getJobId()).orElse(null);
         if(job == null) return false;
 
         student.updateJob(job);

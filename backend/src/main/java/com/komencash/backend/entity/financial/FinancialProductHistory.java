@@ -41,4 +41,13 @@ public class FinancialProductHistory {
     @ManyToOne
     @JoinColumn(name = "financial_product_detail_id")
     private FinancialProductDetail financialProductDetail;
+
+    public FinancialProductHistory(int principal, Date startDate, Date endDate, Status status, Student student, FinancialProductDetail financialProductDetail) {
+        this.principal = principal;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.student = student;
+        this.financialProductDetail = financialProductDetail;
+    }
 }

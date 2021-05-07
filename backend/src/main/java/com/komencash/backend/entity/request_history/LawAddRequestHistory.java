@@ -39,4 +39,8 @@ public class LawAddRequestHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public void updateLawRequestAccept(Accept accept){
+        this.accpet = accept;
+    }
 }

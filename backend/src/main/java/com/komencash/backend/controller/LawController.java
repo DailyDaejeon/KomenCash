@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.law.LawRequestUpdateRequest;
 import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
 import com.komencash.backend.dto.request.LawAddReqSelectResponse;
 import com.komencash.backend.dto.law.LawInsertUpdateRequest;
@@ -48,6 +49,10 @@ public class LawController {
         return lawService.findLawRequestByReqId(requestId);
     }
 
-
+    @ApiOperation(value = "법률 추가/수정 요청 승인/거절", notes = "입력받은 법률 추가/요청 처리 정보로 update후 결과를 반환")
+    @PutMapping("/add-request/accept")
+    public boolean updateLawRequestAccept(@RequestBody LawRequestUpdateRequest lawRequestUpdateRequest) {
+        return lawService.updateLawRequestAccept(lawRequestUpdateRequest);
+    }
 
 }

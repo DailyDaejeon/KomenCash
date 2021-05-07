@@ -20,7 +20,7 @@ public class TeacherService{
     TeacherRepository teacherRepository;
 
 
-    public boolean saveTeacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
+    public boolean addTeacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
         teacherRepository.save(new Teacher(teacherAddModifyRequestDto));
         return true;
     }

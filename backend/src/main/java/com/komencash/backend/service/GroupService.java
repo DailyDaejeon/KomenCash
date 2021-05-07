@@ -1,9 +1,9 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.group.GroupInsertUpdateRequest;
-import com.komencash.backend.dto.group.GroupResponseDto;
+import com.komencash.backend.dto.group.GroupAddModifyRequestDto;
+import com.komencash.backend.dto.group.GroupFindResponseDto;
 import com.komencash.backend.entity.group.Group;
-import com.komencash.backend.entity.student.Student;
+import com.komencash.backend.entity.teacher.Teacher;
 import com.komencash.backend.repository.GroupRepository;
 import com.komencash.backend.repository.StudentRepository;
 import com.komencash.backend.repository.TeacherRepository;
@@ -24,35 +24,47 @@ public class GroupService {
 
     @Autowired
     StudentRepository studentRepository;
-    public int saveGroup(GroupInsertUpdateRequest groupInsertUpdateRequest){
-        Group savedGroup = new Group(groupInsertUpdateRequest, teacherRepository.findById(groupInsertUpdateRequest.getTeacherId()).get());
-//        savedGroup.setTeacher(teacherRepository.findById(groupInsertUpdateRequest.getTeacher_id()).get());
-        Group group = groupRepository.save(savedGroup);
-        int groupId = group.getId();
 
-        return groupId;
+
+    public int addGroup(GroupAddModifyRequestDto groupAddModifyRequestDto){
+        Teacher teacher = teacherRepository.findById(groupAddModifyRequestDto.getTeacherId()).orElse(null);
+        if(teacher == null) return 0;
+
+        Group group = new Group(groupAddModifyRequestDto, teacher);
+        group = groupRepository.save(group);
+
+        return group.getId();
     }
 
-    public List<GroupResponseDto> getGroup(int id){       // 선생님 id를 가지고 group 리스트 보여주기
-        List<Group> group = groupRepository.findByTeacher_Id(id);
 
-        List<GroupResponseDto> result = new ArrayList<>();
-        group.forEach(s -> {
-            List<Student> students = studentRepository.findAllByJob_Group_Id(s.getId());
-            GroupResponseDto dto = new GroupResponseDto(s, students.size());
-            result.add(dto);
+    public List<GroupFindResponseDto> findGroup(int teacherId){
+        List<GroupFindResponseDto> groupFindResponseDtos = new ArrayList<>();
+
+        List<Group> groups = groupRepository.findByTeacher_Id(teacherId);
+        groups.forEach(group -> {
+            int studentsSize = studentRepository.countByJob_Group_Id(group.getId());
+            groupFindResponseDtos.add(new GroupFindResponseDto(group, studentsSize));
         });
-        return result;
+
+        return groupFindResponseDtos;
     }
 
-    public void updateGroup(GroupInsertUpdateRequest groupInsertUpdateRequest) {
-        Group group = groupRepository.findById(groupInsertUpdateRequest.getId()).orElse(null);
-        group.updateGroup(groupInsertUpdateRequest.getName(), groupInsertUpdateRequest.getMonetaryUnitName(),
-                groupInsertUpdateRequest.getTaxRate(), groupInsertUpdateRequest.getInflationRate());
+
+    public boolean modifyGroup(GroupAddModifyRequestDto groupAddModifyRequestDto) {
+        Group group = groupRepository.findById(groupAddModifyRequestDto.getId()).orElse(null);
+        if(group == null) return false;
+
+        group.updateGroup(groupAddModifyRequestDto);
         groupRepository.save(group);
+        return true;
     }
 
-    public void deleteGroup(int group_id) {
-        groupRepository.deleteById(group_id);
+
+    public boolean removeGroup(int groupId){
+        Group group = groupRepository.findById(groupId).orElse(null);
+        if(group == null) return false;
+
+        groupRepository.delete(group);
+        return true;
     }
 }

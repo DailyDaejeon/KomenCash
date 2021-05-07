@@ -67,7 +67,7 @@ export default {
       //그룹원 리스트 조회 api
       const res = await fetchGroupMemberList(this.groupInfo.id);
       console.log(res)
-      // this.students = res.data
+      this.students = res.data
     },
   }
 }

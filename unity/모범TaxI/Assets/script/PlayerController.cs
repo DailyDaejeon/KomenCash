@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField] //private 변수를 inspector에서는 접근이 가능하게 만들어주는 명령어
     private float walkSpeed; //이동 속도
 
     [SerializeField]
@@ -15,13 +15,18 @@ public class PlayerController : MonoBehaviour
     private float currentCameraRotationX; //현재 카메라 X축 회전값. default는 정면을 보게하는 0.
 
     [SerializeField]
-    private Camera theCamera; //메인 카메라
+    private Camera theCamera;  //메인 카메라
     private Rigidbody myRigid; //Rigidbody 컴포넌트를 할당할 변수. private하기 때문에 게임 시작시 GetComponent 함수로 할당
+    private Animator animator; //animation 설정
+
+    void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
 
     void Start()
     {
         myRigid = GetComponent<Rigidbody>();
-        Debug.Log("myRigid : " + myRigid);
     }
 
     void Update()
@@ -51,9 +56,11 @@ public class PlayerController : MonoBehaviour
         Vector3 _moveHorizontal = transform.right * _moveDirX; //좌우 이동 벡터 값
         Vector3 _moveVertical = transform.forward * _moveDirZ; //앞뒤 이동 벡터 값
 
-        Vector3 _velocity = new Vector3(0f,0f,0f);
-        _velocity = (_moveHorizontal + _moveVertical).normalized * walkSpeed; //속도 벡터 : (이동할 방향 * 속도 크기)로 character의 속도를 나타낸다.
+        Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * walkSpeed; //속도 벡터 : (이동할 방향 * 속도 크기)로 character의 속도를 나타낸다. normalized : 방향 값이 1로 보정된 벡터
         myRigid.MovePosition(transform.position + _velocity * Time.deltaTime); //(현재 위치 + 속도 * deltaTime) 위치로 이동
+
+        Debug.Log("velocity : " + _velocity);
+        animator.SetBool("isWalk", _velocity != Vector3.zero);
     }
 
     private void CameraRotation() //위아래 카메라 회전(X축 회전)

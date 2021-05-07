@@ -79,6 +79,16 @@ function fetchMemberStockDeal(studentId) {
   return instance.get(`stock/deal/student/${studentId}`)
 }
 
+// 그룹원 자격증취득 목록 조회 API
+function fetchMemberCerti(studentId) {
+  return instance.get(`certificate/student/${studentId}`)
+}
+
+// 그룹원 경위서 조회
+function fetchMemberCase(studentId) {
+  return instance.get(`case/student/${studentId}`)
+}
+
 export {
   fetchGroupMemberList,
   fetchGroupRequest,
@@ -93,5 +103,7 @@ export {
   fetchMemberBalance,
   fetchMemberFinancial,
   fetchMemberStockDeal,
-  modifyGroupMemberJobFire
+  modifyGroupMemberJobFire,
+  fetchMemberCerti,
+  fetchMemberCase
 }

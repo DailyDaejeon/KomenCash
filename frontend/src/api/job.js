@@ -56,6 +56,17 @@ function deletePartTime(partTimeId) {
   return instance.delete(`job/part-time/${partTimeId}`)
 }
 
+// 직업 추가 요청 승인/거절
+function acceptJobRequest(requestData) {
+  return instance.put(`job/add-request/accept`,requestData)
+}
+
+// 이력서 제출내역 승인/거절
+function acceptJobResumeRequest(requestData) {
+  return instance.put(`job/resume-request/accept`,requestData)
+}
+
+
 export {
   fetchJobList,
   fetchJobDetail,
@@ -67,5 +78,7 @@ export {
   fetchJobResumeDetail,
   addPartTime,
   fetchPartTimeList,
-  deletePartTime
+  deletePartTime,
+  acceptJobRequest,
+  acceptJobResumeRequest
 }

@@ -36,6 +36,11 @@ function fetchStoreRequestDetail(requestId) {
   return instance.get(`store/add-request/${requestId}`)
 }
 
+// 온라인 스토어 상품추가 요청 승인/거절
+function acceptStoreRequest(requestData) {
+  return instance.put(`store/add-request/accept`,requestData)
+}
+
 
 export {
   addStoreProduct,
@@ -44,5 +49,6 @@ export {
   fetchStoreList,
   fetchStoreHistory,
   fetchStoreRequestList,
-  fetchStoreRequestDetail
+  fetchStoreRequestDetail,
+  acceptStoreRequest
 }

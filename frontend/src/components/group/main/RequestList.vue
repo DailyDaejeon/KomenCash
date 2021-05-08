@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-12 col-lg-8 col-xxl-9 d-flex">
+    <div class="col-12 d-flex">
       <div class="w-100">
         <div class="row">
           <div class="col-4 col-sm-6">

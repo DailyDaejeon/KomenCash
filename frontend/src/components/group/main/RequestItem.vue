@@ -10,7 +10,8 @@
           <!-- <th class="d-none d-xl-table-cell">Date</th> -->
           <th>Date</th>
           <th>Assignee</th>
-          <th>수락/거절</th>
+          <th>수락</th>
+          <th>거절</th>
         </tr>
       </thead>
       <tbody>
@@ -20,7 +21,8 @@
           <!-- <td class="d-none d-xl-table-cell">날짜</td> -->
           <td><span class="badge bg-success">날짜</span></td>
           <td>누가요청했는지</td>
-          <td><span @click="acceptRequest(request.id)">수락</span>/<span @click="rejectRequest(request.id)">거절</span></td>
+          <td><span @click="acceptRequest(request.id)">accept</span></td>
+          <td><span @click="rejectRequest(request.id)">reject</span></td>
         </tr>
       </tbody>
     </table>
@@ -30,10 +32,10 @@
 <script>
 import { acceptGroupMember, fetchGroupRequest, rejectGroupMember } from '@/api/student';
 import { mapState } from 'vuex';
-import { fetchLawRequest } from '@/api/law';
-import { fetchStoreRequestList } from '@/api/store';
-import { fetchJobRequestList, fetchJobResumeList } from '@/api/job';
-import { acceptCase } from '@/api/case';
+import { acceptLawRequest, fetchLawRequest } from '@/api/law';
+import { acceptStoreRequest, fetchStoreRequestList } from '@/api/store';
+import { acceptJobRequest, fetchJobRequestList, fetchJobResumeList } from '@/api/job';
+import { acceptCase, fetchCaseList } from '@/api/case';
 
 export default {
   props:{
@@ -65,8 +67,8 @@ export default {
         const res = fetchJobResumeList(this.groupInfo.id)
         this.requestList = res.data
       } else if (this.RequestName === "경위서") {
-        // const res = fetchGroupRequest(this.groupInfo.id)
-        // this.requestList = res.data
+        const res = fetchCaseList(this.groupInfo.id)
+        this.requestList = res.data
       } else if (this.RequestName === "직업추가") {
         const res = fetchJobRequestList(this.groupInfo.id)
         this.requestList = res.data
@@ -83,30 +85,37 @@ export default {
       this.$router.push(`/`)
     },
     rejectRequest(id) {
+      const requestData = {
+          caseId:id,
+          accept:"reject"
+        }
       if (this.RequestName === "그룹원추가") {
         rejectGroupMember(id)
       } else if (this.RequestName === "이력서") {
         console.log(this.RequestName,'거절api')
       } else if (this.RequestName === "경위서") {
-        const caseData = {
-          caseId:id,
-          accept:"reject"
-        }
-        acceptCase(caseData)
+        acceptCase(requestData)
         console.log(this.RequestName,'거절api')
        
       } else if (this.RequestName === "직업추가") {
         console.log(this.RequestName,'거절api')
+        acceptJobRequest(requestData)
         
       } else if (this.RequestName === "법률추가") {
         console.log(this.RequestName,'거절api')
+        acceptLawRequest(requestData)
        
       } else if (this.RequestName === "상품추가") {
         console.log(this.RequestName,'거절api')
+        acceptStoreRequest(requestData)
        
       }
     },
     acceptRequest(id) {
+      const requestData = {
+          caseId:id,
+          accept:"accept"
+        }
       if (this.RequestName === "그룹원추가") {
         acceptGroupMember(id)
       } else if (this.RequestName === "이력서") {
@@ -114,20 +123,19 @@ export default {
 
       } else if (this.RequestName === "경위서") {
         console.log(this.RequestName,'수락api')
-        const caseData = {
-          caseId:id,
-          accept:"accept"
-        }
-        acceptCase(caseData)
+        acceptCase(requestData)
        
       } else if (this.RequestName === "직업추가") {
         console.log(this.RequestName,'수락api')
+        acceptJobRequest(requestData)
         
       } else if (this.RequestName === "법률추가") {
+        acceptLawRequest(requestData)
         console.log(this.RequestName,'수락api')
        
       } else if (this.RequestName === "상품추가") {
         console.log(this.RequestName,'수락api')
+        acceptStoreRequest(requestData)
        
       }
     }

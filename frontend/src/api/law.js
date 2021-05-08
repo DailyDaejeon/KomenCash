@@ -21,10 +21,15 @@ function fetchLawRequestDetail(requestId) {
   return instance.get(`law/add_request/${requestId}`)
 }
 
+// 법률추가/수정 요청 승인/거절
+function acceptLawRequest(requestData) {
+  return instance.put(`law/add_request/accept`,requestData)
+}
 
 export {
   fetchLawList,
   modifyLawItem,
   fetchLawRequest,
-  fetchLawRequestDetail
+  fetchLawRequestDetail,
+  acceptLawRequest
 }

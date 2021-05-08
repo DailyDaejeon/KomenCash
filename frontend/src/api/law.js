@@ -23,7 +23,7 @@ function fetchLawRequestDetail(requestId) {
 
 // 법률추가/수정 요청 승인/거절
 function acceptLawRequest(requestData) {
-  return instance.put(`law/add_request/accept`,requestData)
+  return instance.put(`law/add-request/accept`,requestData)
 }
 
 export {

@@ -10,7 +10,6 @@
           <th>금액(단위:미소)</th>
           <th>거래날짜</th>
           <th>잔액</th>
-          <th>내역삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -20,11 +19,6 @@
           <td>{{history.balanceChange}}</td>
           <td>{{history.createdDate.slice(0,10)}}</td>
           <td>100,000,000미소</td>
-          <td>
-            <button @click="removeHistory(history, index)" class="btn-danger">
-            <i class="removeBtn fas fa-trash-alt"></i>
-            </button>
-          </td>
         </tr>
       </tbody>
     </table>
@@ -32,7 +26,7 @@
 </template>
 
 <script>
-import { addTaxData, deleteTaxData } from '@/api/tax';
+import { addTaxData } from '@/api/tax';
 export default {
   props :['taxHistoryList','groupInfo'],
   methods: {
@@ -78,22 +72,6 @@ export default {
         }
         })
     },
-    removeHistory(history, index) {
-      this.$swal({
-        title: '삭제하시겠습니까?',
-        text:'해당 세금 내역을 삭제하면 복구를 할 수 없습니다.',
-        icon:"warning",
-        confirmButtonText: '삭제',
-        showCancelButton:true,
-        cancelButtonText:'취소',
-      }).then((result)=>{
-        if(result.value) {
-        this.taxHistoryList.splice(index,1);
-        console.log(history,'지우기')
-        deleteTaxData(history.id)
-        }
-      })
-    }
   },
 };
 </script>

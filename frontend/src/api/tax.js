@@ -11,15 +11,6 @@ function addTaxData(taxData) {
   return instance.post(`tax`,taxData)
 }
 
-// 세금 내역 삭제
-function deleteTaxData(taxId) {
-  return instance.delete(`tax/${taxId}`)
-}
-
-// 세금 내역 수정
-function modifyTaxData(taxData) {
-  return instance.put(`tax/history`,taxData)
-}
 
 // 인플레이션 비율 수정
 function modifyInfRate(taxData) {
@@ -34,8 +25,6 @@ function modifyTaxRate(taxData) {
 export {
   fetchTaxList,
   addTaxData,
-  deleteTaxData,
-  modifyTaxData,
   modifyInfRate,
   modifyTaxRate
 }

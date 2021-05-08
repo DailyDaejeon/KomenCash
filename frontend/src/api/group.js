@@ -18,12 +18,12 @@ function deleteGroup(groupId) {
 
 // 그룹조회
 function fetchGroupList() {
-    return instance.get(`group/group_list`) 
+    return instance.get(`group/group-list`) 
 }
 
 // 그룹상세조회
 function fetchGroup(teacherId) {
-    return instance.get(`group/group_list/${teacherId}`) 
+    return instance.get(`group/group-list/${teacherId}`) 
 }
 
 

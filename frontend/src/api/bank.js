@@ -30,17 +30,17 @@ function deleteFinancial(financialId) {
 
 // 은행 금융상품 수정
 function modifyFinancial(financialData) {
-  return instance.put(`bank/financial_product`,financialData)
+  return instance.put(`bank/financial-product`,financialData)
 }
 
 // 은행 금융상품 상세수정
 function modifyDetailFinancial(financialData) {
-  return instance.put(`bank/financial_product-detail`,financialData)
+  return instance.put(`bank/financial-product-detail`,financialData)
 }
 
 // 은행 금융상품 상세조회
 function fetchDetailFinancial(financialId) {
-  return instance.get(`bank/financial_product/product/${financialId}`)
+  return instance.get(`bank/financial-product/product/${financialId}`)
 }
 
 export {

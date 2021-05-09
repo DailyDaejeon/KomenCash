@@ -1,9 +1,9 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
-import com.komencash.backend.dto.request.GroupMemberAddRequestDto;
+import com.komencash.backend.dto.request.GroupMemberAddReqFindRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
-import com.komencash.backend.dto.student.StudentResponseDto;
+import com.komencash.backend.dto.student.StudentFindResponseDto;
 import com.komencash.backend.dto.student.StudentUpdateJobRequest;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
@@ -36,17 +36,19 @@ public class StudentService {
     @Autowired
     JobRepository jobRepository;
 
-    public List<StudentResponseDto> getStudent(int group_id){
-        System.out.println(studentRepository.findById(2).get().getNickname());
-        List<Student> student = studentRepository.findAllByJob_Group_Id(group_id);
-        List<StudentResponseDto> students = new ArrayList<>();
-        student.forEach(s -> students.add(new StudentResponseDto(s.getId(), s.getNickname(), s.getJob())) );
-        return students;
+
+    public List<StudentFindResponseDto> findStudentListByGroupId(int group_id){
+        List<StudentFindResponseDto> studentFindResponseDtos = new ArrayList<>();
+        List<Student> students = studentRepository.findAllByJob_Group_Id(group_id);
+
+        students.forEach(student ->
+                studentFindResponseDtos.add(new StudentFindResponseDto(student.getId(), student.getNickname(), student.getJob())));
+        return studentFindResponseDtos;
     }
 
-    public StudentDetailResponseDto getStudentDetail(int studentId) {
-        List<CertificateSelectResponse> certificateSelectResponseList = new ArrayList<>();
 
+    public StudentDetailResponseDto findStudentDetailByStudentId(int studentId) {
+        List<CertificateSelectResponse> certificateSelectResponseList = new ArrayList<>();
         Student student = studentRepository.findById(studentId).orElse(null);
         if(student == null) return null;
 
@@ -60,39 +62,58 @@ public class StudentService {
     }
 
 
-    public List<GroupMemberAddRequestDto> getStudentJoinRequest(int group_id) {
-        List<Student> tst = studentRepository.findAllByJob_Group_Id(group_id);
-        List<GroupMemberAddRequestDto> list = new ArrayList<>();
-        tst.forEach(s ->{
-            GroupMemberAddRequestHistory dto = groupMemberAddRequestHistoryRepository.findByStudent_Id(s.getId());
-            System.out.println(dto.getStudent().getNickname()+" , "+dto.getAccept());
+    public List<GroupMemberAddReqFindRequestDto> findGroupMemberAddReqByGroupId(int groupId) {
+        List<GroupMemberAddReqFindRequestDto> groupMemberAddReqFindRequestDtos = new ArrayList<>();
 
-            if(dto.getAccept()==Accept.before_confirm){
-                list.add(new GroupMemberAddRequestDto(dto.getId(), dto.getAccept(), dto.getStudent().getId(), dto.getStudent().getNickname()));
+        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
+        if(students.size() == 0) return null;
+
+        students.forEach(student ->{
+            GroupMemberAddRequestHistory groupMemberAddRequestHistory = groupMemberAddRequestHistoryRepository.findByStudent_Id(student.getId());
+
+            if(groupMemberAddRequestHistory.getAccept() == Accept.before_confirm){
+                groupMemberAddReqFindRequestDtos.add(
+                        new GroupMemberAddReqFindRequestDto(
+                        groupMemberAddRequestHistory.getId(),
+                        groupMemberAddRequestHistory.getAccept(),
+                        groupMemberAddRequestHistory.getStudent().getId(),
+                        groupMemberAddRequestHistory.getStudent().getNickname()
+                        )
+                );
             }
         });
 
-
-        return list;
-    }
-
-    public void addStudent(int studentId) {
-        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudent_Id(studentId);
-        addRequest.updateAccept();
-        groupMemberAddRequestHistoryRepository.save(addRequest);
-    }
-    public void rejectStudent(int studentId) {
-        GroupMemberAddRequestHistory addRequest = groupMemberAddRequestHistoryRepository.findByStudent_Id(studentId);
-        addRequest.updateReject();
-        groupMemberAddRequestHistoryRepository.save(addRequest);
+        return groupMemberAddReqFindRequestDtos;
     }
 
 
-    public void resetPw(int studentId) {
-        Optional<Student> stu = studentRepository.findById(studentId);
-        stu.get().updatePw();
-        studentRepository.save(stu.get());
+    public boolean updateGroupMemberAddReqAccept(int requestId) {
+        GroupMemberAddRequestHistory groupMemberAddRequestHistory = groupMemberAddRequestHistoryRepository.findById(requestId).orElse(null);
+        if (groupMemberAddRequestHistory == null) return false;
+
+        groupMemberAddRequestHistory.updateAccept();
+        groupMemberAddRequestHistoryRepository.save(groupMemberAddRequestHistory);
+        return true;
     }
+
+
+    public boolean updateGroupMemberAddReqReject(int requestId) {
+        GroupMemberAddRequestHistory groupMemberAddRequestHistory = groupMemberAddRequestHistoryRepository.findById(requestId).orElse(null);
+        if(groupMemberAddRequestHistory == null) return false;
+
+        groupMemberAddRequestHistory.updateReject();
+        groupMemberAddRequestHistoryRepository.save(groupMemberAddRequestHistory);
+        return true;
+    }
+
+
+    public boolean updateStudentPasswordInit(int studentId) {
+        Optional<Student> student = studentRepository.findById(studentId);
+        student.get().updatePw();
+        studentRepository.save(student.get());
+        return true;
+    }
+
 
     public boolean updateStudentJobFire(int studentId) {
         Student student = studentRepository.findById(studentId).orElse(null);
@@ -106,6 +127,7 @@ public class StudentService {
         return true;
     }
 
+
     public boolean updateStudentJob(StudentUpdateJobRequest studentUpdateJobRequest){
         Student student = studentRepository.findById(studentUpdateJobRequest.getStudentId()).orElse(null);
         if(student == null) return false;
@@ -118,8 +140,13 @@ public class StudentService {
         return true;
     }
 
-    public void deleteStudent(int studentId) {
-        studentRepository.deleteById(studentId);
+
+    public boolean deleteStudent(int studentId) {
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if(student == null) return false;
+
+        studentRepository.delete(student);
+        return true;
     }
 
 

@@ -31,10 +31,7 @@ public class GroupMemberAddRequestHistory {
         this.student = student;
     }
 
-    public void updateAccept(){
-        this.accept = Accept.accept;
-    }
+    public void updateAccept(){ this.accept = Accept.accept; }
 
-    public void updateReject() { this.accept = Accept.reject;
-    }
+    public void updateReject() { this.accept = Accept.reject; }
 }

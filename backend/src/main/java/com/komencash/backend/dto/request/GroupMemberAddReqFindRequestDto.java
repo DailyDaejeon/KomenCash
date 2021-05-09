@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupMemberAddRequestDto {
+public class GroupMemberAddReqFindRequestDto {
     private int id;
     private Accept accept;
     private int student_id;
     private String nickname;
 
-    public GroupMemberAddRequestDto(Accept accept, int student_id, String nickname) {
+    public GroupMemberAddReqFindRequestDto(Accept accept, int student_id, String nickname) {
         this.accept = accept;
         this.student_id = student_id;
         this.nickname = nickname;

@@ -55,7 +55,7 @@ public class TeacherService{
         return new TeacherFindResponseDto(teacher);
     }
 
-    public boolean modifyTeacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
+    public boolean updateTeacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
         Teacher teacher = teacherRepository.findById(teacherAddModifyRequestDto.getId()).orElse(null);
         if(teacher == null) return false;
 
@@ -65,7 +65,7 @@ public class TeacherService{
     }
 
 
-    public boolean removeTeacher(int teacherId) {
+    public boolean deleteTeacher(int teacherId) {
         Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
         if(teacher == null) return false;
 
@@ -74,7 +74,7 @@ public class TeacherService{
     }
 
 
-    public boolean modifyTeacherPassword(TeacherModifyPasswordRequestDto teacherModifyPasswordRequestDto) {
+    public boolean updateTeacherPassword(TeacherModifyPasswordRequestDto teacherModifyPasswordRequestDto) {
         Teacher teacher = teacherRepository.findById(teacherModifyPasswordRequestDto.getId()).orElse(null);
         if(teacher == null) return false;
 

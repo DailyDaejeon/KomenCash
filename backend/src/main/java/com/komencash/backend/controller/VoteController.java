@@ -27,14 +27,14 @@ public class VoteController {
     }
 
 
-    @ApiOperation(value = "투표 생성", notes = "투표 생성에 필요한 정보를 받아서 투표를 생성")
+    @ApiOperation(value = "투표 생성", notes = "입력받은 투표 정보로 투표를 생성하고 그 결과 반환")
     @PostMapping("")
     public boolean addVote(@RequestBody VoteAddUpdateRequestDto voteAddUpdateRequestDto) {
         return voteService.addVote(voteAddUpdateRequestDto);
     }
 
 
-    @ApiOperation(value = "투표 상세 조회", notes = "투표 아이디를 받아 해당 투표의 상세 정보를 조회")
+    @ApiOperation(value = "투표 상세 조회", notes = "입력받은 투표 아이디의 상세 정보 조회")
     @ApiImplicitParam(name = "vote-id", value = "vote-id(투표 아이디)", dataType = "int", required = true)
     @GetMapping("/detail/{vote-id}")
     public VoteDetailFindResponseDto getVoteDetail(@PathVariable("vote-id") int voteId) {
@@ -42,7 +42,7 @@ public class VoteController {
     }
 
 
-    @ApiOperation(value = "투표 삭제", notes = "투표 아이디를 받아 해당 투표를 삭제")
+    @ApiOperation(value = "투표 삭제", notes = "입력받은 투표 아이디를 삭제")
     @ApiImplicitParam(name = "vote-id", value = "vote-id(투표 아이디)", dataType = "int", required = true)
     @DeleteMapping("/{vote-id}")
     public boolean deleteVote(@PathVariable("vote-id") int voteId) {

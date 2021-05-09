@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FinancialProductDetailRequest {
+public class FinancialProductDetailAddUpdateRequestDto {
     private int id;
     private int period;
     private int creditGrade;
     private double rate;
     private FinancialProduct financialProduct;
 
-    public FinancialProductDetailRequest(int period, int creditGrade, double rate) {
+    public FinancialProductDetailAddUpdateRequestDto(int period, int creditGrade, double rate) {
         this.period = period;
         this.creditGrade = creditGrade;
         this.rate = rate;

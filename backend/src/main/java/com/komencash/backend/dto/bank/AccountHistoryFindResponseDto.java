@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountHistoryDto {
+public class AccountHistoryFindResponseDto {
+    private int balance;
     private int balanceChange;
     private String content;
 }

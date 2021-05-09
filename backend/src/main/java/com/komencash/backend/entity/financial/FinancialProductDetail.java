@@ -1,7 +1,7 @@
 package com.komencash.backend.entity.financial;
 
-import com.komencash.backend.dto.bank.FinancialProductDetailRequest;
-import com.komencash.backend.dto.bank.FinancialProductDetailUpdateRequest;
+import com.komencash.backend.dto.bank.FinancialProductDetailAddUpdateRequestDto;
+import com.komencash.backend.dto.bank.FinancialProductDetailUpdateRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,16 +35,16 @@ public class FinancialProductDetail {
     @JoinColumn(name = "financial_product_id")
     private FinancialProduct financialProduct;
 
-    public FinancialProductDetail(FinancialProductDetailRequest dto, FinancialProduct financialProduct) {
+    public FinancialProductDetail(FinancialProductDetailAddUpdateRequestDto dto, FinancialProduct financialProduct) {
         this.period = dto.getPeriod();
         this.creditGrade = dto.getCreditGrade();
         this.rate = dto.getRate();
         this.financialProduct = financialProduct;
     }
 
-    public void updateFinancialProductDetail(FinancialProductDetailUpdateRequest financialProductDetailUpdateRequest){
-        this.creditGrade = financialProductDetailUpdateRequest.getCreditGrade();
-        this.period = financialProductDetailUpdateRequest.getPeriod();
-        this.rate = financialProductDetailUpdateRequest.getRate();
+    public void updateFinancialProductDetail(FinancialProductDetailUpdateRequestDto financialProductDetailUpdateRequestDto){
+        this.creditGrade = financialProductDetailUpdateRequestDto.getCreditGrade();
+        this.period = financialProductDetailUpdateRequestDto.getPeriod();
+        this.rate = financialProductDetailUpdateRequestDto.getRate();
     }
 }

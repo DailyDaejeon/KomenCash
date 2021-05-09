@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountHistoryInsertUpdateRequest {
+public class AccountHistoryAddUpdateRequestDto {
 
     private int studentId;
     private int balance_change;

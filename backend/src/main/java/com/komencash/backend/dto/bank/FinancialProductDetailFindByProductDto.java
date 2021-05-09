@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FinancialProductDetailResponse {
+public class FinancialProductDetailFindByProductDto {
 
     private int id;
     private int creditGrade;
     private int period;
     private double rate;
 
-    public FinancialProductDetailResponse(FinancialProductDetail financialProductDetail){
+    public FinancialProductDetailFindByProductDto(FinancialProductDetail financialProductDetail){
         this.id = financialProductDetail.getId();
         this.creditGrade = financialProductDetail.getCreditGrade();
         this.period = financialProductDetail.getPeriod();

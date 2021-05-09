@@ -1,13 +1,11 @@
 package com.komencash.backend.controller.unity;
 
-import com.komencash.backend.dto.bank.FinancialProductRegist;
+import com.komencash.backend.dto.bank.FinancialProductAddDto;
 import com.komencash.backend.service.unity.UBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/ubank")
@@ -20,7 +18,7 @@ public class UBankController {
 //
 //    }
     @PostMapping("/product-regist")
-    public ResponseEntity<Boolean> productRegist(@RequestBody FinancialProductRegist request){
+    public ResponseEntity<Boolean> productRegist(@RequestBody FinancialProductAddDto request){
         uBankService.productRegist(request);
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }

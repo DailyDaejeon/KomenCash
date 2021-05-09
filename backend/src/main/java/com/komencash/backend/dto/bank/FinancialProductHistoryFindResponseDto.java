@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FinancialProductHistorySelectResponse {
+public class FinancialProductHistoryFindResponseDto {
 
     private int id;
     private int principal;
@@ -22,7 +22,7 @@ public class FinancialProductHistorySelectResponse {
     private int financialProductId;
     private String financialProductName;
 
-    public FinancialProductHistorySelectResponse(FinancialProductHistory financialProductHistory){
+    public FinancialProductHistoryFindResponseDto(FinancialProductHistory financialProductHistory){
         this.id = financialProductHistory.getId();
         this.principal = financialProductHistory.getPrincipal();
         this.startDate = financialProductHistory.getStartDate();

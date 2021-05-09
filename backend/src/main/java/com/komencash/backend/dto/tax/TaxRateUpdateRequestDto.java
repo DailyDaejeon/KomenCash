@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaxRateUpdateRequest {
+public class TaxRateUpdateRequestDto {
     private double taxRate;
     private int groupId;
 }

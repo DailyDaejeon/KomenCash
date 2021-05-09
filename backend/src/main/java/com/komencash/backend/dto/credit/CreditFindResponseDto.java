@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditSelectResponse {
+public class CreditFindResponseDto {
 
     private int studentId;
     private String studentNickname;
     private int grade;
     private int creditPoint;
 
-    public CreditSelectResponse(Student student, int grade, int point) {
+    public CreditFindResponseDto(Student student, int grade, int point) {
         this.studentId = student.getId();
         this.studentNickname = student.getNickname();
         this.grade = grade;

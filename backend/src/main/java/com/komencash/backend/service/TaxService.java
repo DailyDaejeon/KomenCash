@@ -1,9 +1,8 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.tax.TaxDetailResponse;
-import com.komencash.backend.dto.tax.TaxHistoryInsertUpdateRequest;
-import com.komencash.backend.dto.tax.TaxHistoryResponse;
-import com.komencash.backend.dto.tax.TaxRateUpdateRequest;
+import com.komencash.backend.dto.tax.TaxHistoryAddUpdateRequestDto;
+import com.komencash.backend.dto.tax.TaxHistoryFindResponseDto;
+import com.komencash.backend.dto.tax.TaxRateUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.tax.TaxHistory;
 import com.komencash.backend.repository.GroupRepository;
@@ -19,51 +18,53 @@ public class TaxService {
 
     @Autowired
     TaxHistoryRepository taxHistoryRepository;
+
     @Autowired
     GroupRepository groupRepository;
 
-    public List<TaxHistoryResponse> findTaxDetail(int groupId){
+
+    public List<TaxHistoryFindResponseDto> findTaxHistoryList(int groupId){
         Group group = groupRepository.findById(groupId).orElse(null);
         if(group == null) return null;
 
-        List<TaxHistoryResponse> taxHistoryResponses = new ArrayList<>();
-        List<TaxHistory> taxHistories = taxHistoryRepository.findAll();
-        for(TaxHistory taxHistory : taxHistories) taxHistoryResponses.add(new TaxHistoryResponse(taxHistory));
+        List<TaxHistoryFindResponseDto> taxHistoryFindResponsDtos = new ArrayList<>();
+        List<TaxHistory> taxHistories = taxHistoryRepository.findByGroup_Id(group.getId());
+        taxHistories.forEach(taxHistory -> taxHistoryFindResponsDtos.add(new TaxHistoryFindResponseDto(taxHistory)));
 
-        return taxHistoryResponses;
+        return taxHistoryFindResponsDtos;
     }
 
 
-    public boolean insertTaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest){
-        Group group = groupRepository.findById(taxHistoryInsertUpdateRequest.getGroupId()).orElse(null);
+    public boolean addTaxHistory(TaxHistoryAddUpdateRequestDto taxHistoryAddUpdateRequestDto){
+        Group group = groupRepository.findById(taxHistoryAddUpdateRequestDto.getGroupId()).orElse(null);
         if(group == null) return false;
 
-        List<TaxHistory> taxHistories = taxHistoryRepository.findAll();
+        List<TaxHistory> taxHistories = taxHistoryRepository.findByGroup_Id(group.getId());
         int preBalance = taxHistories.size() < 1 ? 0 : taxHistories.get(taxHistories.size() - 1).getBalance();
-        int balance = preBalance + taxHistoryInsertUpdateRequest.getBalanceChange();
+        int balance = preBalance + taxHistoryAddUpdateRequestDto.getBalanceChange();
 
-        TaxHistory taxHistory = new TaxHistory(taxHistoryInsertUpdateRequest, group, balance);
+        TaxHistory taxHistory = new TaxHistory(taxHistoryAddUpdateRequestDto, group, balance);
         taxHistoryRepository.save(taxHistory);
         return true;
     }
 
 
 
-    public boolean updateTaxRate(TaxRateUpdateRequest taxHistoryInsertUpdateRequest){
-        Group group = groupRepository.findById(taxHistoryInsertUpdateRequest.getGroupId()).orElse(null);
+    public boolean updateTaxRate(TaxRateUpdateRequestDto taxRateUpdateRequestDto){
+        Group group = groupRepository.findById(taxRateUpdateRequestDto.getGroupId()).orElse(null);
         if(group == null) return false;
 
-        group.updateTaxRate(taxHistoryInsertUpdateRequest.getTaxRate());
+        group.updateTaxRate(taxRateUpdateRequestDto.getTaxRate());
         groupRepository.save(group);
         return true;
     }
 
 
-    public boolean updateInflationRate(TaxRateUpdateRequest taxHistoryInsertUpdateRequest){
-        Group group = groupRepository.findById(taxHistoryInsertUpdateRequest.getGroupId()).orElse(null);
+    public boolean updateInflationRate(TaxRateUpdateRequestDto taxRateUpdateRequestDto){
+        Group group = groupRepository.findById(taxRateUpdateRequestDto.getGroupId()).orElse(null);
         if(group == null) return false;
 
-        group.updateInflationRate(taxHistoryInsertUpdateRequest.getTaxRate());
+        group.updateInflationRate(taxRateUpdateRequestDto.getTaxRate());
         groupRepository.save(group);
         return true;
     }

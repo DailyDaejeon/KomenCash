@@ -123,4 +123,12 @@ public class LoginController : MonoBehaviour
             }
         }
     }
+
+    public void ShowFindIdPwAlert()
+    {
+        string title = "닉네임 또는 비밀번호를 잊어버렸나요?";
+        string message = "닉네임 또는 비밀번호를 잊어버렸을 때는"+ System.Environment.NewLine + "선생님께 문의하세요!";
+
+        AlertViewController.Show(title, message);
+    }
 }

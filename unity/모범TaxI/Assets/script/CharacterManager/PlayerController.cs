@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
         Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * walkSpeed; //속도 벡터 : (이동할 방향 * 속도 크기)로 character의 속도를 나타낸다. normalized : 방향 값이 1로 보정된 벡터
         myRigid.MovePosition(transform.position + _velocity * Time.deltaTime); //(현재 위치 + 속도 * deltaTime) 위치로 이동
 
-        Debug.Log("velocity : " + _velocity);
         animator.SetBool("isWalk", _velocity != Vector3.zero);
     }
 

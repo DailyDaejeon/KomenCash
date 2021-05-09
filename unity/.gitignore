@@ -3,8 +3,7 @@
 *.meta
 
 #Assets folder
-POLYGON city pack/
-PolygonCity/
+AssetsList/
 Resources/
 Scenes/
 
@@ -18,4 +17,3 @@ UserSettings/
 Temp/
 .vs/
 Font/
-TextMesh Pro/

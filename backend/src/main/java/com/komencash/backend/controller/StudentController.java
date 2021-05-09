@@ -1,10 +1,8 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.request.GroupMemberAddRequestDto;
-import com.komencash.backend.dto.certificate.CertificateRequestDto;
+import com.komencash.backend.dto.request.GroupMemberAddReqFindRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
-import com.komencash.backend.dto.student.StudentResponseDto;
-import com.komencash.backend.dto.student.StudentUpdateJobRequest;
+import com.komencash.backend.dto.student.StudentFindResponseDto;
 import com.komencash.backend.service.StudentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,60 +19,59 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @ApiOperation(value = "그룹원 목록 조회", notes = "그룹 id 입력 후 그룹원 목록 조회")
-    @GetMapping("/group/{group_id}")
-    public ResponseEntity<List<StudentResponseDto>> getStudentList(@PathVariable("group_id") int groupId){
-        List<StudentResponseDto> result = studentService.getStudent(groupId);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+
+    @ApiOperation(value = "학생 목록 조회", notes = "입력받은 그룹 아이디의 학생 목록 조회")
+    @GetMapping("/group/{group-id}")
+    public ResponseEntity<List<StudentFindResponseDto>> getStudentList(@PathVariable("group-id") int groupId){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.findStudentListByGroupId(groupId));
     }
 
-    @ApiOperation(value="그룹원 상세 조회", notes = "한 학생의 정보 보기")
-    @GetMapping("/{student_id}")
-    public ResponseEntity<StudentDetailResponseDto> getStudentDetail(@PathVariable("student_id") int studentId){
-        StudentDetailResponseDto result =studentService.getStudentDetail(studentId);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+
+    @ApiOperation(value="학생 상세 정보 조회", notes = "입력받은 학생 아이디의 학생 상세 정보 조회")
+    @GetMapping("/{student-id}")
+    public ResponseEntity<StudentDetailResponseDto> getStudentDetail(@PathVariable("student-id") int studentId){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.findStudentDetailByStudentId(studentId));
     }
 
-    @ApiOperation(value="그룹원 추가 요청 리스트 보기", notes = "그룹원 추가 요청 온 리스트 보기")
-    @GetMapping("/{group_id}/add-request")
-    public ResponseEntity<List<GroupMemberAddRequestDto>> getStudentJoinRequest(@PathVariable("group_id") int groupId){
-        List<GroupMemberAddRequestDto> resultList = studentService.getStudentJoinRequest(groupId);
-        return ResponseEntity.status(HttpStatus.OK).body(resultList);
+
+    @ApiOperation(value="학생 추가 요청 목록 조회", notes = "입력받은 그룹 아이디의 학생 추가 요청 목록 조회")
+    @GetMapping("/{group-id}/add-request")
+    public ResponseEntity<List<GroupMemberAddReqFindRequestDto>> getStudentAddReq(@PathVariable("group-id") int groupId){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.findGroupMemberAddReqByGroupId(groupId));
     }
 
-    @ApiOperation(value="그룹원 추가 요청 수락하기", notes = "그룹원 추가 요청 수락하기")
+
+    @ApiOperation(value="그룹원 추가 요청 수락", notes = "입력받은 요청 아이디의 요청을 수락")
     @PutMapping("/accept")
-    public ResponseEntity addStudent(@RequestBody int studentId){
-        studentService.addStudent(studentId);
-        return ResponseEntity.status(HttpStatus.OK).body(1);
+    public ResponseEntity updateGroupMemberAddReqAccept(@RequestBody int requestId){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.updateGroupMemberAddReqAccept(requestId));
     }
 
-    @ApiOperation(value="그룹원 추가 요청 거절하기", notes = "그룹원 추가 요청 거절하기")
+
+    @ApiOperation(value="그룹원 추가 요청 거절", notes = "입력받은 요청 아이디의 요청을 거절")
     @PutMapping("/reject")
-    public ResponseEntity rejectStudent(@RequestBody int studentId){
-        studentService.rejectStudent(studentId);
-        return ResponseEntity.status(HttpStatus.OK).body(1);
+    public ResponseEntity updateGroupMemberAddReqReject(@RequestBody int requestId){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.updateGroupMemberAddReqReject(requestId));
     }
 
 
-    @ApiOperation(value="그룹원 비밀번호 초기화", notes = "그룹원 비밀번호 초기화")
+    @ApiOperation(value="학생 비밀번호 초기화", notes = "학생 비밀번호 초기화 (1234)")
     @PutMapping("reset-pw")
-    public ResponseEntity resetStudentPW(@RequestBody int studentId){
-        studentService.resetPw(studentId);
-        return ResponseEntity.status(HttpStatus.OK).body(1);
+    public ResponseEntity updateStudentPasswordInit(@RequestBody int studentId){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.updateStudentPasswordInit(studentId));
     }
 
-    @ApiOperation(value="그룹원 직업 무직으로 변경", notes = "입력받은 학생 아이디의 직업을 무직으로 변경")
+
+    @ApiOperation(value="학생 직업 무직으로 변경", notes = "입력받은 학생 아이디의 직업을 무직으로 변경")
     @PutMapping("/job/fire")
     public boolean updateStudentJobFire(@RequestBody int studentId){
         return studentService.updateStudentJobFire(studentId);
     }
 
 
-    @ApiOperation(value="그룹원 삭제", notes = "그룹원 삭제")
-    @DeleteMapping("/{studentId}")
-    public boolean deleteStudent(@PathVariable("studentId") int id){
-        studentService.deleteStudent(id);
-        return true;
+    @ApiOperation(value="학생 정보 삭제", notes = "입력받은 학생 아이디의 정보 삭제")
+    @DeleteMapping("/{student-id}")
+    public boolean deleteStudent(@PathVariable("student-id") int studentId){
+        return studentService.deleteStudent(studentId);
     }
 }

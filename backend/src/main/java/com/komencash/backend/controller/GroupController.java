@@ -43,7 +43,7 @@ public class GroupController {
 
     @ApiOperation(value = "목록 조회", notes = "전달받은 토큰의 선생님 아이디로 그룹 목록 조회")
     @GetMapping("/group-list")
-    public ResponseEntity<Map<String, Object>> findGroup(HttpServletRequest request){
+    public ResponseEntity<Map<String, Object>> getGroup(HttpServletRequest request){
 
         Map<String, Object> resultMap = new HashMap<>();
         int teacherId = jwtService.getIdFromJwt(request.getHeader("auth-token"));
@@ -69,16 +69,16 @@ public class GroupController {
 
     @ApiOperation(value = "수정", notes = "입력받은 정보로 group을 modify하고 결과값을 boolean 타입으로 반환")
     @PutMapping
-    public ResponseEntity<Boolean> modifyGroup(@RequestBody GroupAddModifyRequestDto groupAddModifyRequestDto){
-        boolean result = groupService.modifyGroup(groupAddModifyRequestDto);
+    public ResponseEntity<Boolean> updateGroup(@RequestBody GroupAddModifyRequestDto groupAddModifyRequestDto){
+        boolean result = groupService.updateGroup(groupAddModifyRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 
     @ApiOperation(value = "삭제", notes = "입력받은 정보로 group을 remove하고 결과값을 boolean 타입으로 반환")
     @DeleteMapping("{group-id}")
-    public ResponseEntity<Boolean> removeGroup(@PathVariable("group-id") int groupId){
-        boolean result = groupService.removeGroup(groupId);
+    public ResponseEntity<Boolean> deleteGroup(@PathVariable("group-id") int groupId){
+        boolean result = groupService.deleteGroup(groupId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

@@ -50,7 +50,7 @@ public class GroupService {
     }
 
 
-    public boolean modifyGroup(GroupAddModifyRequestDto groupAddModifyRequestDto) {
+    public boolean updateGroup(GroupAddModifyRequestDto groupAddModifyRequestDto) {
         Group group = groupRepository.findById(groupAddModifyRequestDto.getId()).orElse(null);
         if(group == null) return false;
 
@@ -60,7 +60,7 @@ public class GroupService {
     }
 
 
-    public boolean removeGroup(int groupId){
+    public boolean deleteGroup(int groupId){
         Group group = groupRepository.findById(groupId).orElse(null);
         if(group == null) return false;
 

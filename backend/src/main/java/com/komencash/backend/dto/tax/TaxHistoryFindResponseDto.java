@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaxHistoryResponse {
+public class TaxHistoryFindResponseDto {
 
     private int id;
     private int balanceChange;
@@ -18,7 +18,7 @@ public class TaxHistoryResponse {
     private String content;
     private Date createdDate;
 
-    public TaxHistoryResponse(TaxHistory taxHistory) {
+    public TaxHistoryFindResponseDto(TaxHistory taxHistory) {
         this.id = taxHistory.getId();
         this.balanceChange = taxHistory.getBalanceChange();
         this.balance = taxHistory.getBalance();

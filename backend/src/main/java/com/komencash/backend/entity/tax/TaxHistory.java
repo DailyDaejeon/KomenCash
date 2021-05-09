@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.tax;
 
-import com.komencash.backend.dto.tax.TaxHistoryInsertUpdateRequest;
+import com.komencash.backend.dto.tax.TaxHistoryAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,9 +41,9 @@ public class TaxHistory {
     private Group group;
 
 
-    public TaxHistory(TaxHistoryInsertUpdateRequest taxHistoryInsertUpdateRequest, Group group, int balance){
-        this.balanceChange = taxHistoryInsertUpdateRequest.getBalanceChange();
-        this.content = taxHistoryInsertUpdateRequest.getContent();
+    public TaxHistory(TaxHistoryAddUpdateRequestDto taxHistoryAddUpdateRequestDto, Group group, int balance){
+        this.balanceChange = taxHistoryAddUpdateRequestDto.getBalanceChange();
+        this.content = taxHistoryAddUpdateRequestDto.getContent();
         this.createdDate = new Date();
         this.balance = balance;
         this.group = group;

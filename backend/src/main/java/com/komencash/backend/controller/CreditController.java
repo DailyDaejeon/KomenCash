@@ -21,7 +21,7 @@ public class CreditController {
     CreditService creditService;
 
 
-    @ApiOperation(value = "신용등급 전체 조회", notes = "입력받은 그룹의 신용등급 정보 목록 반환")
+    @ApiOperation(value = "학생 신용등급 목록 조회", notes = "입력받은 그룹의 모든 학생의 신용등급 목록 반환")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/list/{group-id}")
     public List<CreditFindResponseDto> getCreditList(@PathVariable("group-id") int groupId){

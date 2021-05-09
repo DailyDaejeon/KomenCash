@@ -3,7 +3,7 @@ package com.komencash.backend.service;
 import com.komencash.backend.dto.bank.AccountHistoryAddUpdateRequestDto;
 import com.komencash.backend.dto.request.CaseAcceptRequest;
 import com.komencash.backend.dto.request.CaseSelectResponse;
-import com.komencash.backend.dto.tax.TaxHistoryInsertUpdateRequest;
+import com.komencash.backend.dto.tax.TaxHistoryAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.CaseRequestHistory;
@@ -76,7 +76,7 @@ public class CaseService {
 
             // 세금 히스토리에 세금 넣고 그룹 전체 세금을 갱신하고 저장
             Group group = caseRequestHistory.getPolice().getJob().getGroup();
-            if(!taxService.insertTaxHistory(new TaxHistoryInsertUpdateRequest(0, -balance_change, content, group.getId()))) return false;
+            if(!taxService.addTaxHistory(new TaxHistoryAddUpdateRequestDto(0, -balance_change, content, group.getId()))) return false;
 
             return true;
         }

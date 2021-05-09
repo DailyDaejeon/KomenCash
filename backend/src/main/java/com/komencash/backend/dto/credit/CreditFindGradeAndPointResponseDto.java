@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditInfoResponse {
+public class CreditFindGradeAndPointResponseDto {
 
     private int creditGrade;
     private int point;

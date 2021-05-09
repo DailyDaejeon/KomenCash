@@ -1,7 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.bank.*;
-import com.komencash.backend.dto.credit.CreditInfoResponse;
+import com.komencash.backend.dto.credit.CreditFindGradeAndPointResponseDto;
 import com.komencash.backend.dto.student.StudentFindFinancialInfoDto;
 import com.komencash.backend.entity.bank.AccountHistory;
 import com.komencash.backend.entity.financial.*;
@@ -152,9 +152,9 @@ public class BankService {
             if(financialProductHistory.getStatus().equals(Status.deposit)) {
                 Student student = financialProductHistory.getStudent();
 
-                CreditInfoResponse creditInfoResponse = creditService.findCreditGrade(student.getId());
-                int grade = creditInfoResponse.getCreditGrade();
-                int point = creditInfoResponse.getPoint();
+                CreditFindGradeAndPointResponseDto creditFindGradeAndPointResponseDto = creditService.findCreditGrade(student.getId());
+                int grade = creditFindGradeAndPointResponseDto.getCreditGrade();
+                int point = creditFindGradeAndPointResponseDto.getPoint();
 
                 studentFindFinancialInfoDtos.add(new StudentFindFinancialInfoDto(student.getId(), student.getNickname(), grade, point));
             }

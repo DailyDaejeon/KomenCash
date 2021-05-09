@@ -1,7 +1,7 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.credit.CreditInfoResponse;
-import com.komencash.backend.dto.credit.CreditSelectResponse;
+import com.komencash.backend.dto.credit.CreditFindGradeAndPointResponseDto;
+import com.komencash.backend.dto.credit.CreditFindResponseDto;
 import com.komencash.backend.entity.credit.CreditGrade;
 import com.komencash.backend.entity.credit.CreditHistory;
 import com.komencash.backend.entity.student.Student;
@@ -24,21 +24,22 @@ public class CreditService {
     @Autowired
     StudentRepository studentRepository;
 
-    public List<CreditSelectResponse>  findCreditList(int groupId){
-        List<CreditSelectResponse> creditSelectResponses = new ArrayList<>();
+    public List<CreditFindResponseDto>  findCreditList(int groupId){
+
+        List<CreditFindResponseDto> creditFindResponsDtos = new ArrayList<>();
+
         List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
+        students.forEach(student -> {
+            CreditFindGradeAndPointResponseDto creditFindGradeAndPointResponseDto = findCreditGrade(student.getId());
+            int grade = creditFindGradeAndPointResponseDto.getCreditGrade();
+            int point = creditFindGradeAndPointResponseDto.getPoint();
+            creditFindResponsDtos.add(new CreditFindResponseDto(student, grade, point));
+        });
 
-        for(Student student : students) {
-            CreditInfoResponse creditInfoResponse = findCreditGrade(student.getId());
-            int grade = creditInfoResponse.getCreditGrade();
-            int point = creditInfoResponse.getPoint();
-            creditSelectResponses.add(new CreditSelectResponse(student, grade, point));
-        }
-
-        return creditSelectResponses;
+        return creditFindResponsDtos;
     }
 
-    public CreditInfoResponse findCreditGrade(int studentId){
+    public CreditFindGradeAndPointResponseDto findCreditGrade(int studentId){
         List<CreditHistory> creditHistories = creditHistoryRepository.findByStudent_Id(studentId);
         CreditHistory creditHistory = creditHistories.size() == 0 ? new CreditHistory() : creditHistories.get(creditHistories.size() - 1);
 
@@ -46,6 +47,6 @@ public class CreditService {
         CreditGrade creditGrade = creditGradeRepository.findByPoint(point);
         int grade =creditGrade.getGrade();
 
-        return new CreditInfoResponse(grade, point);
+        return new CreditFindGradeAndPointResponseDto(grade, point);
     }
 }

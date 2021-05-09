@@ -20,67 +20,65 @@ public class VoteService {
 
     @Autowired
     VoteRepository voteRepository;
+
     @Autowired
     VoteItemRepository voteItemRepository;
+
     @Autowired
     VoteAttendRepository voteAttendRepository;
+
     @Autowired
     StudentRepository studentRepository;
 
-    public VoteResultResponse findCntByVote_Id(int voteId){
+
+    public VoteFindResponseDto findCntByVote_Id(int voteId){
         Vote vote = voteRepository.findById(voteId).orElse(null);
-        List<VoteItemResultResponse> voteItemResultResponses = new ArrayList<>();
+        List<VoteItemFindResponseDto> voteItemResultResponses = new ArrayList<>();
 
-        List<VoteItemResultInterface> voteItemResultInterfaces = voteRepository.findCntByVote_Id(voteId);
-        for(VoteItemResultInterface response : voteItemResultInterfaces) {
-            VoteItemResultResponse voteItemResultResponse = new VoteItemResultResponse(response);
-            voteItemResultResponses.add(voteItemResultResponse);
-        }
+        List<VoteItemFindInterface> voteItemFindInterfaces = voteRepository.findCntByVote_Id(voteId);
+        voteItemFindInterfaces.forEach(voteItemFindInterface ->
+                voteItemResultResponses.add(new VoteItemFindResponseDto(voteItemFindInterface)));
 
-        return new VoteResultResponse(vote, voteItemResultResponses);
+        return new VoteFindResponseDto(vote, voteItemResultResponses);
     }
 
 
-    public List<VoteResultResponse> findVoteListByGroupId(int groupId){
-        List<VoteResultResponse> voteResultResponses = new ArrayList<>();
+    public List<VoteFindResponseDto> findVoteListByGroupId(int groupId){
+        List<VoteFindResponseDto> voteFindResponsDtos = new ArrayList<>();
 
-        List<Vote> voteList = voteRepository.findByStudent_Job_Group_Id(groupId);
-        for(Vote vote : voteList) {
-            System.out.println(vote.getId());
-            voteResultResponses.add(findCntByVote_Id(vote.getId()));
-        }
+        List<Vote> votes = voteRepository.findByStudent_Job_Group_Id(groupId);
+        votes.forEach(vote -> voteFindResponsDtos.add(findCntByVote_Id(vote.getId())));
 
-        return voteResultResponses;
+        return voteFindResponsDtos;
     }
 
 
-    public boolean saveVote(VoteInsertUpdateRequest voteInsertUpdateRequest) {
+    public boolean addVote(VoteAddUpdateRequestDto voteAddUpdateRequestDto) {
 
-        Student student = studentRepository.findById(voteInsertUpdateRequest.getStudentId()).orElse(null);
-        Vote vote = new Vote(voteInsertUpdateRequest, student);
+        Student student = studentRepository.findById(voteAddUpdateRequestDto.getStudentId()).orElse(null);
+        if(student == null) return false;
+
+        Vote vote = new Vote(voteAddUpdateRequestDto, student);
         voteRepository.save(vote);
 
-        List<VoteItemInsertUpdateRequest> voteItems = voteInsertUpdateRequest.getVoteItemList();
-        for(VoteItemInsertUpdateRequest voteItemInsertUpdateRequest : voteItems) {
-            VoteItem voteItem = new VoteItem(voteItemInsertUpdateRequest, vote);
-            voteItemRepository.save(voteItem);
-        }
-
+        List<VoteItemAddUpdateRequestDto> voteItemAddUpdateRequestDtos = voteAddUpdateRequestDto.getVoteItemList();
+        voteItemAddUpdateRequestDtos.forEach(voteItemAddUpdateRequestDto ->
+                        voteItemRepository.save(new VoteItem(voteItemAddUpdateRequestDto, vote)));
         return true;
     }
 
-    public VoteDetailResultResponse findVoteByVoteId(int voteId){
-        VoteResultResponse voteResultResponse = findCntByVote_Id(voteId);
 
+    public VoteDetailFindResponseDto findVoteByVoteId(int voteId){
+
+        VoteFindResponseDto voteFindResponseDto = findCntByVote_Id(voteId);
+
+        List<VoteAttendFindResponseDto> voteAttendFindResponsDtos = new ArrayList<>();
         List<VoteAttend> voteAttends = voteAttendRepository.findByVote_Id(voteId);
-        List<VoteAttendResponse> voteAttendResponses = new ArrayList<>();
-        for(VoteAttend voteAttend : voteAttends) {
-            voteAttendResponses.add(new VoteAttendResponse(voteAttend));
-        }
+        voteAttends.forEach(voteAttend -> voteAttendFindResponsDtos.add(new VoteAttendFindResponseDto(voteAttend)));
 
-        VoteDetailResultResponse voteDetailResultResponse = new VoteDetailResultResponse(voteResultResponse, voteAttendResponses);
+        VoteDetailFindResponseDto voteDetailFindResponseDto = new VoteDetailFindResponseDto(voteFindResponseDto, voteAttendFindResponsDtos);
 
-        return voteDetailResultResponse;
+        return voteDetailFindResponseDto;
     }
 
 

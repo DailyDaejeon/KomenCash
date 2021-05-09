@@ -5,7 +5,7 @@ import com.komencash.backend.dto.request.LawAddReqFindListResponseDto;
 import com.komencash.backend.dto.request.LawAddReqFindDetailResponseDto;
 import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
 import com.komencash.backend.dto.law.LawFindResponseDto;
-import com.komencash.backend.dto.vote.VoteResultResponse;
+import com.komencash.backend.dto.vote.VoteFindResponseDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.student.Student;
@@ -80,9 +80,9 @@ public class LawService {
 
     public LawAddReqFindDetailResponseDto findLawRequestByRequestId(int requestId) {
         LawAddRequestHistory lawAddRequestHistory = lawAddRequestHistoryRepository.findById(requestId).orElse(null);
-        VoteResultResponse voteResultResponse = voteService.findCntByVote_Id(lawAddRequestHistory.getVote().getId());
+        VoteFindResponseDto voteFindResponseDto = voteService.findCntByVote_Id(lawAddRequestHistory.getVote().getId());
 
-        return new LawAddReqFindDetailResponseDto(lawAddRequestHistory, voteResultResponse);
+        return new LawAddReqFindDetailResponseDto(lawAddRequestHistory, voteFindResponseDto);
     }
 
 

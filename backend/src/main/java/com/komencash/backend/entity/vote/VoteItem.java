@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.vote;
 
-import com.komencash.backend.dto.vote.VoteItemInsertUpdateRequest;
+import com.komencash.backend.dto.vote.VoteItemAddUpdateRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,9 +31,9 @@ public class VoteItem {
     @JoinColumn(name = "vote_id")
     private Vote vote;
 
-    public VoteItem(VoteItemInsertUpdateRequest voteItemInsertUpdateRequest, Vote vote){
-        this.itemNum = voteItemInsertUpdateRequest.getItemNum();
-        this.content = voteItemInsertUpdateRequest.getContent();
+    public VoteItem(VoteItemAddUpdateRequestDto voteItemAddUpdateRequestDto, Vote vote){
+        this.itemNum = voteItemAddUpdateRequestDto.getItemNum();
+        this.content = voteItemAddUpdateRequestDto.getContent();
         this.vote = vote;
     }
 }

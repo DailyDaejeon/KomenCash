@@ -39,7 +39,7 @@ public class LawController {
     @ApiOperation(value = "법률 추가/수정 요청 목록 조회", notes = "입력받은 그룹아이디의 미확인된 헌법 추가/수정 요청 목록 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/add-request-list/{group-id}")
-    public List<LawAddReqFindListResponseDto> findLawAddReqByGroupId(@PathVariable("group-id") int groupId) {
+    public List<LawAddReqFindListResponseDto> getLawAddReqByGroupId(@PathVariable("group-id") int groupId) {
         return lawService.findLawRequestByGroupId(groupId);
     }
 
@@ -47,7 +47,7 @@ public class LawController {
     @ApiOperation(value = "법률 추가/수정 요청 상세 조회", notes = "입력받은 요청 아이디의 상세 정보를 조회")
     @ApiImplicitParam(name = "request-id", value = "request-id(요청 아이디)", dataType = "int", required = true)
     @GetMapping("/add-request/{request-id}")
-    public LawAddReqFindDetailResponseDto findLawAddRequestByReqId(@PathVariable("request-id") int requestId) {
+    public LawAddReqFindDetailResponseDto getLawAddRequestByReqId(@PathVariable("request-id") int requestId) {
         return lawService.findLawRequestByRequestId(requestId);
     }
 

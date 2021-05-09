@@ -1,6 +1,6 @@
 package com.komencash.backend.dto.request;
 
-import com.komencash.backend.dto.vote.VoteResultResponse;
+import com.komencash.backend.dto.vote.VoteFindResponseDto;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.LawAddRequestHistory;
 import lombok.AllArgsConstructor;
@@ -18,15 +18,15 @@ public class LawAddReqFindDetailResponseDto {
     private Accept accpet;
     private int student_id;
     private String student_nickname;
-    private VoteResultResponse voteResultResponse;
+    private VoteFindResponseDto voteFindResponseDto;
 
-    public LawAddReqFindDetailResponseDto(LawAddRequestHistory lawAddRequestHistory, VoteResultResponse voteResultResponse) {
+    public LawAddReqFindDetailResponseDto(LawAddRequestHistory lawAddRequestHistory, VoteFindResponseDto voteFindResponseDto) {
         this.id = lawAddRequestHistory.getId();
         this.title = lawAddRequestHistory.getTitle();
         this.content = lawAddRequestHistory.getContent();
         this.accpet = lawAddRequestHistory.getAccpet();
         this.student_id = lawAddRequestHistory.getStudent().getId();
         this.student_nickname = lawAddRequestHistory.getStudent().getNickname();
-        this.voteResultResponse = voteResultResponse;
+        this.voteFindResponseDto = voteFindResponseDto;
     }
 }

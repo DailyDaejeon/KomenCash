@@ -9,11 +9,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VoteInsertUpdateRequest {
+public class VoteAddUpdateRequestDto {
 
     private int id;
     private String title;
     private String content;
     private int StudentId;
-    private List<VoteItemInsertUpdateRequest> voteItemList;
+    private List<VoteItemAddUpdateRequestDto> voteItemList;
 }

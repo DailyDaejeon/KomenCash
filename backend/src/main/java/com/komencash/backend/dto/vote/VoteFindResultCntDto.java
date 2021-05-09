@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoteResultCnt {
+public class VoteFindResultCntDto {
 
     private int choiceItemNum;
     private int cntResult;

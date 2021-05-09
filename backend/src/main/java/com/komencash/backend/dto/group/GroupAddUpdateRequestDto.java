@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupAddModifyRequestDto {
+public class GroupAddUpdateRequestDto {
     private int id;
     private String code;
     private String name;

@@ -20,8 +20,8 @@ public class TeacherService{
     TeacherRepository teacherRepository;
 
 
-    public boolean addTeacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
-        teacherRepository.save(new Teacher(teacherAddModifyRequestDto));
+    public boolean addTeacher(TeacherAddUpdateRequestDto teacherAddUpdateRequestDto) {
+        teacherRepository.save(new Teacher(teacherAddUpdateRequestDto));
         return true;
     }
 
@@ -55,11 +55,11 @@ public class TeacherService{
         return new TeacherFindResponseDto(teacher);
     }
 
-    public boolean updateTeacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
-        Teacher teacher = teacherRepository.findById(teacherAddModifyRequestDto.getId()).orElse(null);
+    public boolean updateTeacher(TeacherAddUpdateRequestDto teacherAddUpdateRequestDto) {
+        Teacher teacher = teacherRepository.findById(teacherAddUpdateRequestDto.getId()).orElse(null);
         if(teacher == null) return false;
 
-        teacher.updateTeacher(teacherAddModifyRequestDto);
+        teacher.updateTeacher(teacherAddUpdateRequestDto);
         teacherRepository.save(teacher);
         return true;
     }
@@ -74,11 +74,11 @@ public class TeacherService{
     }
 
 
-    public boolean updateTeacherPassword(TeacherModifyPasswordRequestDto teacherModifyPasswordRequestDto) {
-        Teacher teacher = teacherRepository.findById(teacherModifyPasswordRequestDto.getId()).orElse(null);
+    public boolean updateTeacherPassword(TeacherUpdatePasswordRequestDto teacherUpdatePasswordRequestDto) {
+        Teacher teacher = teacherRepository.findById(teacherUpdatePasswordRequestDto.getId()).orElse(null);
         if(teacher == null) return false;
 
-        teacher.updatePasswordTeacher(teacherModifyPasswordRequestDto);
+        teacher.updatePasswordTeacher(teacherUpdatePasswordRequestDto);
         teacherRepository.save(teacher);
         return true;
     }

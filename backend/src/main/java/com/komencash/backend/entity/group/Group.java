@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.group;
 
-import com.komencash.backend.dto.group.GroupAddModifyRequestDto;
+import com.komencash.backend.dto.group.GroupAddUpdateRequestDto;
 import com.komencash.backend.entity.teacher.Teacher;
 import lombok.*;
 import javax.persistence.*;
@@ -37,21 +37,21 @@ public class Group{
     private Teacher teacher;
 
 
-    public Group(GroupAddModifyRequestDto groupAddModifyRequestDto, Teacher teacher) {
-        this.code = teacher.getNickname() + teacher.getId() + groupAddModifyRequestDto.getName();
-        this.name = groupAddModifyRequestDto.getName();
-        this.monetaryUnitName = groupAddModifyRequestDto.getMonetaryUnitName();
-        this.taxRate = groupAddModifyRequestDto.getTaxRate();
-        this.inflationRate = groupAddModifyRequestDto.getInflationRate();
+    public Group(GroupAddUpdateRequestDto groupAddUpdateRequestDto, Teacher teacher) {
+        this.code = teacher.getNickname() + teacher.getId() + groupAddUpdateRequestDto.getName();
+        this.name = groupAddUpdateRequestDto.getName();
+        this.monetaryUnitName = groupAddUpdateRequestDto.getMonetaryUnitName();
+        this.taxRate = groupAddUpdateRequestDto.getTaxRate();
+        this.inflationRate = groupAddUpdateRequestDto.getInflationRate();
         this.teacher = teacher;
     }
 
 
-    public void updateGroup(GroupAddModifyRequestDto groupAddModifyRequestDto){
-        this.name = groupAddModifyRequestDto.getName();
-        this.monetaryUnitName = groupAddModifyRequestDto.getMonetaryUnitName();
-        this.taxRate = groupAddModifyRequestDto.getTaxRate();
-        this.inflationRate = groupAddModifyRequestDto.getInflationRate();
+    public void updateGroup(GroupAddUpdateRequestDto groupAddUpdateRequestDto){
+        this.name = groupAddUpdateRequestDto.getName();
+        this.monetaryUnitName = groupAddUpdateRequestDto.getMonetaryUnitName();
+        this.taxRate = groupAddUpdateRequestDto.getTaxRate();
+        this.inflationRate = groupAddUpdateRequestDto.getInflationRate();
     }
 
     public void updateTaxRate(double taxRate){ this.taxRate = taxRate; }

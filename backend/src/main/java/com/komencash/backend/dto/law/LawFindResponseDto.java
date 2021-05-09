@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LawSelectResponse {
+public class LawFindResponseDto {
 
     private int id;
     private String lawTyepe;
@@ -16,7 +16,7 @@ public class LawSelectResponse {
     private int paragraph;
     private String content;
 
-    public LawSelectResponse(Law law){
+    public LawFindResponseDto(Law law){
         this.id = law.getId();
         this.lawTyepe = law.getLawTyepe();
         this.article = law.getArticle();

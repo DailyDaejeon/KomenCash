@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FinancialProductDetailUpdateRequest {
+public class FinancialProductAddDto {
+    private int principal;
+    private int financialProductDetailId;
+    private int studentId;
 
-    private int id;
-    private int creditGrade;
-    private int period;
-    private double rate;
 }

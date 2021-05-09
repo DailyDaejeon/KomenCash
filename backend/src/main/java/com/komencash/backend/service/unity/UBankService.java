@@ -1,6 +1,6 @@
 package com.komencash.backend.service.unity;
 
-import com.komencash.backend.dto.bank.FinancialProductRegist;
+import com.komencash.backend.dto.bank.FinancialProductAddDto;
 import com.komencash.backend.entity.financial.FinancialProductDetail;
 import com.komencash.backend.entity.financial.FinancialProductHistory;
 import com.komencash.backend.entity.financial.Status;
@@ -22,7 +22,7 @@ public class UBankService {
     StudentRepository studentRepository;
     @Autowired
     FinancialProductDetailRepository financialProductDetailRepository;
-    public boolean productRegist(FinancialProductRegist request) {
+    public boolean productRegist(FinancialProductAddDto request) {
         FinancialProductDetail financialProductDetail = financialProductDetailRepository.findById(request.getFinancialProductDetailId()).orElse(null);
 
         Student student = studentRepository.findById(request.getStudentId()).orElse(null);

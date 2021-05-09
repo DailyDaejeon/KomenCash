@@ -1,6 +1,6 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.group.GroupAddModifyRequestDto;
+import com.komencash.backend.dto.group.GroupAddUpdateRequestDto;
 import com.komencash.backend.dto.group.GroupFindResponseDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.teacher.Teacher;
@@ -26,11 +26,11 @@ public class GroupService {
     StudentRepository studentRepository;
 
 
-    public int addGroup(GroupAddModifyRequestDto groupAddModifyRequestDto){
-        Teacher teacher = teacherRepository.findById(groupAddModifyRequestDto.getTeacherId()).orElse(null);
+    public int addGroup(GroupAddUpdateRequestDto groupAddUpdateRequestDto){
+        Teacher teacher = teacherRepository.findById(groupAddUpdateRequestDto.getTeacherId()).orElse(null);
         if(teacher == null) return 0;
 
-        Group group = new Group(groupAddModifyRequestDto, teacher);
+        Group group = new Group(groupAddUpdateRequestDto, teacher);
         group = groupRepository.save(group);
 
         return group.getId();
@@ -50,11 +50,11 @@ public class GroupService {
     }
 
 
-    public boolean updateGroup(GroupAddModifyRequestDto groupAddModifyRequestDto) {
-        Group group = groupRepository.findById(groupAddModifyRequestDto.getId()).orElse(null);
+    public boolean updateGroup(GroupAddUpdateRequestDto groupAddUpdateRequestDto) {
+        Group group = groupRepository.findById(groupAddUpdateRequestDto.getId()).orElse(null);
         if(group == null) return false;
 
-        group.updateGroup(groupAddModifyRequestDto);
+        group.updateGroup(groupAddUpdateRequestDto);
         groupRepository.save(group);
         return true;
     }

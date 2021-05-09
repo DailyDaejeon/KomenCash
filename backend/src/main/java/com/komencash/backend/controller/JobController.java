@@ -2,7 +2,6 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.job.*;
 import com.komencash.backend.dto.request.JobAddReqSelectResponse;
-import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
 import com.komencash.backend.dto.request.ResumeDetailSelectResponse;
 import com.komencash.backend.dto.request.ResumeSelectResponse;
 import com.komencash.backend.service.JobService;

@@ -1,6 +1,6 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.group.GroupAddModifyRequestDto;
+import com.komencash.backend.dto.group.GroupAddUpdateRequestDto;
 import com.komencash.backend.dto.group.GroupFindResponseDto;
 import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.entity.job.RecruitType;
@@ -34,8 +34,8 @@ public class GroupController {
 
     @ApiOperation(value = "생성", notes = "입력받은 group 정보로 그룹을 add하고 groupId를 반환")
     @PostMapping
-    public int addGroup(@RequestBody GroupAddModifyRequestDto groupAddModifyRequestDto){
-        int groupId = groupService.addGroup(groupAddModifyRequestDto);
+    public int addGroup(@RequestBody GroupAddUpdateRequestDto groupAddUpdateRequestDto){
+        int groupId = groupService.addGroup(groupAddUpdateRequestDto);
         jobService.saveJob(new JobInsertUpdateRequest("무직", 0, "무직", "무직", 1000, RecruitType.resume, groupId));
         return groupId;
     }
@@ -69,8 +69,8 @@ public class GroupController {
 
     @ApiOperation(value = "수정", notes = "입력받은 정보로 group을 modify하고 결과값을 boolean 타입으로 반환")
     @PutMapping
-    public ResponseEntity<Boolean> updateGroup(@RequestBody GroupAddModifyRequestDto groupAddModifyRequestDto){
-        boolean result = groupService.updateGroup(groupAddModifyRequestDto);
+    public ResponseEntity<Boolean> updateGroup(@RequestBody GroupAddUpdateRequestDto groupAddUpdateRequestDto){
+        boolean result = groupService.updateGroup(groupAddUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

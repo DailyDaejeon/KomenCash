@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoteItemInsertUpdateRequest {
+public class VoteItemAddUpdateRequestDto {
 
     private int itemNum;
     private String content;

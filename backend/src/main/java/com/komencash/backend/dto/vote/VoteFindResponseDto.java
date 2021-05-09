@@ -10,16 +10,16 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoteResultResponse {
+public class VoteFindResponseDto {
 
     private int id;
     private String title;
     private String content;
     private int studentId;
     private String studentNickname;
-    private List<VoteItemResultResponse> voteItemResultResponses;
+    private List<VoteItemFindResponseDto> voteItemResultResponses;
 
-    public VoteResultResponse(Vote vote, List<VoteItemResultResponse> voteItemResultResponses) {
+    public VoteFindResponseDto(Vote vote, List<VoteItemFindResponseDto> voteItemResultResponses) {
         this.id = vote.getId();
         this.title = vote.getTitle();
         this.content = vote.getContent();

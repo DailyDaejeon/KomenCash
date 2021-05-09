@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LawInsertUpdateRequest {
+public class LawAddUpdateRequestDto {
 
     private int id;
     private String lawTyepe;

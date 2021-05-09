@@ -1,7 +1,7 @@
 package com.komencash.backend.entity.teacher;
 
-import com.komencash.backend.dto.teacher.TeacherAddModifyRequestDto;
-import com.komencash.backend.dto.teacher.TeacherModifyPasswordRequestDto;
+import com.komencash.backend.dto.teacher.TeacherAddUpdateRequestDto;
+import com.komencash.backend.dto.teacher.TeacherUpdatePasswordRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,22 +32,22 @@ public class Teacher {
     private String phoneNumber;
 
 
-    public Teacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
-        this.id = teacherAddModifyRequestDto.getId();
-        this.email = teacherAddModifyRequestDto.getEmail();
-        this.password = teacherAddModifyRequestDto.getPassword();
-        this.nickname = teacherAddModifyRequestDto.getNickname();
-        this.phoneNumber = teacherAddModifyRequestDto.getPhoneNumber();
+    public Teacher(TeacherAddUpdateRequestDto teacherAddUpdateRequestDto) {
+        this.id = teacherAddUpdateRequestDto.getId();
+        this.email = teacherAddUpdateRequestDto.getEmail();
+        this.password = teacherAddUpdateRequestDto.getPassword();
+        this.nickname = teacherAddUpdateRequestDto.getNickname();
+        this.phoneNumber = teacherAddUpdateRequestDto.getPhoneNumber();
     }
 
-    public void updateTeacher(TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
-        this.email = teacherAddModifyRequestDto.getEmail();
-        this.password = teacherAddModifyRequestDto.getPassword();
-        this.nickname = teacherAddModifyRequestDto.getNickname();
-        this.phoneNumber = teacherAddModifyRequestDto.getPhoneNumber();
+    public void updateTeacher(TeacherAddUpdateRequestDto teacherAddUpdateRequestDto) {
+        this.email = teacherAddUpdateRequestDto.getEmail();
+        this.password = teacherAddUpdateRequestDto.getPassword();
+        this.nickname = teacherAddUpdateRequestDto.getNickname();
+        this.phoneNumber = teacherAddUpdateRequestDto.getPhoneNumber();
     }
 
-    public void updatePasswordTeacher(TeacherModifyPasswordRequestDto teacherModifyPasswordRequestDto) {
-        this.password = teacherModifyPasswordRequestDto.getPassword();
+    public void updatePasswordTeacher(TeacherUpdatePasswordRequestDto teacherUpdatePasswordRequestDto) {
+        this.password = teacherUpdatePasswordRequestDto.getPassword();
     }
 }

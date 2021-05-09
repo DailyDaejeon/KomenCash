@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VoteAttendResponse {
+public class VoteAttendFindResponseDto {
     private int choiceItenNum;
     private int studentId;
     private String studentNickname;
 
-    public VoteAttendResponse(VoteAttend voteAttend) {
+    public VoteAttendFindResponseDto(VoteAttend voteAttend) {
         this.choiceItenNum = voteAttend.getChoiceItemNum();
         this.studentId = voteAttend.getStudent().getId();
         this.studentNickname = voteAttend.getStudent().getNickname();

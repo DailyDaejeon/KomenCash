@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface LawRepository extends JpaRepository<Law, Integer> {
 
-    Optional<List<Law>> findByGroup_Id(int group_id);
+    List<Law> findByGroup_Id(int group_id);
 }

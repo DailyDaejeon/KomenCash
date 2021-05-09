@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LawRequestUpdateRequest {
+public class LawAddReqAcceptUpdateRequestDto {
 
     private int id;
     private Accept accept;

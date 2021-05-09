@@ -37,9 +37,9 @@ public class StudentService {
     JobRepository jobRepository;
 
 
-    public List<StudentFindResponseDto> findStudentListByGroupId(int group_id){
+    public List<StudentFindResponseDto> findStudentListByGroupId(int groupId){
         List<StudentFindResponseDto> studentFindResponseDtos = new ArrayList<>();
-        List<Student> students = studentRepository.findAllByJob_Group_Id(group_id);
+        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
 
         students.forEach(student ->
                 studentFindResponseDtos.add(new StudentFindResponseDto(student.getId(), student.getNickname(), student.getJob())));

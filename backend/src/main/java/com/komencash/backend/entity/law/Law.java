@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.law;
 
-import com.komencash.backend.dto.law.LawInsertUpdateRequest;
+import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,12 +40,12 @@ public class Law {
 
 
 
-    public void updateLaw(LawInsertUpdateRequest lawInsertUpdateRequest, Group group) {
-        if(lawInsertUpdateRequest.getId() != 0) this.id = lawInsertUpdateRequest.getId();
-        if(lawInsertUpdateRequest.getLawTyepe() != null) this.lawTyepe = lawInsertUpdateRequest.getLawTyepe();
-        if(lawInsertUpdateRequest.getArticle() != 0) this.article = lawInsertUpdateRequest.getArticle();
-        if(lawInsertUpdateRequest.getParagraph() != 0) this.paragraph = lawInsertUpdateRequest.getParagraph();
-        if(lawInsertUpdateRequest.getContent() != null) this.content = lawInsertUpdateRequest.getContent();
+    public void updateLaw(LawAddUpdateRequestDto lawAddUpdateRequestDto, Group group) {
+        if(lawAddUpdateRequestDto.getId() != 0) this.id = lawAddUpdateRequestDto.getId();
+        if(lawAddUpdateRequestDto.getLawTyepe() != null) this.lawTyepe = lawAddUpdateRequestDto.getLawTyepe();
+        if(lawAddUpdateRequestDto.getArticle() != 0) this.article = lawAddUpdateRequestDto.getArticle();
+        if(lawAddUpdateRequestDto.getParagraph() != 0) this.paragraph = lawAddUpdateRequestDto.getParagraph();
+        if(lawAddUpdateRequestDto.getContent() != null) this.content = lawAddUpdateRequestDto.getContent();
         if(group != null) this.group = group;
     }
 }

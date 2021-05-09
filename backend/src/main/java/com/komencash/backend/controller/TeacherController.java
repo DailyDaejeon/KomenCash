@@ -27,8 +27,8 @@ public class TeacherController {
 
     @ApiOperation(value = "회원 가입", notes = "입력받은 선생님 정보를 add하고 결과를 boolean 타입으로 반환")
     @PostMapping
-    public boolean addTeacher(@RequestBody TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
-        return teacherService.addTeacher(teacherAddModifyRequestDto);
+    public boolean addTeacher(@RequestBody TeacherAddUpdateRequestDto teacherAddUpdateRequestDto) {
+        return teacherService.addTeacher(teacherAddUpdateRequestDto);
     }
 
 
@@ -71,8 +71,8 @@ public class TeacherController {
 
     @ApiOperation(value = "수정", notes = "입력받은 선생님 정보로 데이터를 modify후 결과값을 boolean 타입으로 반환")
     @PutMapping
-    public boolean updateTeacher(@RequestBody TeacherAddModifyRequestDto teacherAddModifyRequestDto) {
-        return teacherService.updateTeacher(teacherAddModifyRequestDto);
+    public boolean updateTeacher(@RequestBody TeacherAddUpdateRequestDto teacherAddUpdateRequestDto) {
+        return teacherService.updateTeacher(teacherAddUpdateRequestDto);
     }
 
 
@@ -86,8 +86,8 @@ public class TeacherController {
 
     @ApiOperation(value = "비밀번호 수정", notes = "입력받은 아이디에 입력받은 비밀번호를 modify후 결과 반환")
     @PutMapping("/change-pw")
-    public boolean updateTeacherPassword(@RequestBody TeacherModifyPasswordRequestDto teacherModifyPasswordRequestDto) {
-        return teacherService.updateTeacherPassword(teacherModifyPasswordRequestDto);
+    public boolean updateTeacherPassword(@RequestBody TeacherUpdatePasswordRequestDto teacherUpdatePasswordRequestDto) {
+        return teacherService.updateTeacherPassword(teacherUpdatePasswordRequestDto);
     }
 
     

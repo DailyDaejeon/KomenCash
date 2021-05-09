@@ -1,6 +1,5 @@
 package com.komencash.backend.repository;
 
-import com.komencash.backend.dto.vote.VoteAttendResponse;
 import com.komencash.backend.entity.vote.VoteAttend;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,11 +1,11 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.law.LawRequestUpdateRequest;
-import com.komencash.backend.dto.request.LawAddReqSelectListResponse;
-import com.komencash.backend.dto.request.LawAddReqSelectResponse;
-import com.komencash.backend.dto.law.LawInsertUpdateRequest;
-import com.komencash.backend.dto.law.LawSelectResponse;
-import com.komencash.backend.dto.vote.VoteResultResponse;
+import com.komencash.backend.dto.law.LawAddReqAcceptUpdateRequestDto;
+import com.komencash.backend.dto.request.LawAddReqFindListResponseDto;
+import com.komencash.backend.dto.request.LawAddReqFindDetailResponseDto;
+import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
+import com.komencash.backend.dto.law.LawFindResponseDto;
+import com.komencash.backend.dto.vote.VoteFindResponseDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.student.Student;
@@ -23,69 +23,74 @@ public class LawService {
 
     @Autowired
     LawRepository lawRepository;
+
     @Autowired
     LawAddRequestHistoryRepository lawAddRequestHistoryRepository;
+
     @Autowired
     VoteRepository voteRepository;
+
     @Autowired
     StudentRepository studentRepository;
+
     @Autowired
     GroupRepository groupRepository;
 
     @Autowired
     VoteService voteService;
 
-    public List<LawSelectResponse> findLawByGroupId(int groupId) {
-        List<Law> lawList =  lawRepository.findByGroup_Id(groupId).orElseGet(ArrayList::new);
 
-        List<LawSelectResponse> resultList = new ArrayList();
-        for(Law law : lawList) {
-            resultList.add(new LawSelectResponse(law));
-        }
+    public List<LawFindResponseDto> findLawByGroupId(int groupId) {
+        List<LawFindResponseDto> resultList = new ArrayList();
+
+        List<Law> laws =  lawRepository.findByGroup_Id(groupId);
+        laws.forEach(law -> resultList.add(new LawFindResponseDto(law)));
 
         return resultList;
     }
 
 
-    public boolean updateLaw(LawInsertUpdateRequest lawInsertUpdateRequest) {
-        Law law = lawRepository.findById(lawInsertUpdateRequest.getId()).orElse(null);
+    public boolean updateLaw(LawAddUpdateRequestDto lawAddUpdateRequestDto) {
+        Law law = lawRepository.findById(lawAddUpdateRequestDto.getId()).orElse(null);
         if(law == null) return false;
 
-        Group group = groupRepository.findById(lawInsertUpdateRequest.getGroup_id()).orElse(null);
-        law.updateLaw(lawInsertUpdateRequest, group);
+        Group group = groupRepository.findById(lawAddUpdateRequestDto.getGroup_id()).orElse(null);
+        law.updateLaw(lawAddUpdateRequestDto, group);
         lawRepository.save(law);
         return true;
     }
 
 
-    public List<LawAddReqSelectListResponse> findLawRequestByGroupId(int groupId) {
+    public List<LawAddReqFindListResponseDto> findLawRequestByGroupId(int groupId) {
 
-        List<LawAddReqSelectListResponse> resList = new ArrayList();
+        List<LawAddReqFindListResponseDto> lawAddReqFindListResponseDtos = new ArrayList();
 
         List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
-        for(Student student : students) {
-            List<LawAddRequestHistory> reqList = lawAddRequestHistoryRepository.findByStudent_Id(student.getId());
-            for(LawAddRequestHistory request : reqList) {
-                if(!request.getAccpet().equals(Accept.before_confirm)) continue;
-                resList.add(new LawAddReqSelectListResponse(request));
-            }
-        }
-        return resList;
+        students.forEach(student -> {
+            List<LawAddRequestHistory> lawAddRequestHistories = lawAddRequestHistoryRepository.findByStudent_Id(student.getId());
+            lawAddRequestHistories.forEach(lawAddRequestHistory -> {
+                if (lawAddRequestHistory.getAccpet().equals(Accept.before_confirm))
+                    lawAddReqFindListResponseDtos.add(new LawAddReqFindListResponseDto(lawAddRequestHistory));
+            });
+        });
+
+        return lawAddReqFindListResponseDtos;
     }
 
 
-    public LawAddReqSelectResponse findLawRequestByReqId(int requestId) {
-        LawAddRequestHistory request = lawAddRequestHistoryRepository.findById(requestId).orElse(null);
-        VoteResultResponse result = voteService.findCntByVote_Id(request.getVote().getId());
+    public LawAddReqFindDetailResponseDto findLawRequestByRequestId(int requestId) {
+        LawAddRequestHistory lawAddRequestHistory = lawAddRequestHistoryRepository.findById(requestId).orElse(null);
+        VoteFindResponseDto voteFindResponseDto = voteService.findCntByVote_Id(lawAddRequestHistory.getVote().getId());
 
-        return new LawAddReqSelectResponse(request, result);
+        return new LawAddReqFindDetailResponseDto(lawAddRequestHistory, voteFindResponseDto);
     }
 
-    public boolean updateLawRequestAccept(LawRequestUpdateRequest lawRequestUpdateRequest){
-        LawAddRequestHistory lawAddRequestHistory = lawAddRequestHistoryRepository.findById(lawRequestUpdateRequest.getId()).orElse(null);
+
+    public boolean updateLawRequestAccept(LawAddReqAcceptUpdateRequestDto lawAddReqAcceptUpdateRequestDto){
+        LawAddRequestHistory lawAddRequestHistory = lawAddRequestHistoryRepository.findById(lawAddReqAcceptUpdateRequestDto.getId()).orElse(null);
         if(lawAddRequestHistory == null) return false;
 
-        if(lawAddRequestHistory.getAccpet().equals(Accept.before_confirm)) lawAddRequestHistory.updateLawRequestAccept(lawRequestUpdateRequest.getAccept());
+        if(lawAddRequestHistory.getAccpet().equals(Accept.before_confirm)) lawAddRequestHistory.updateLawRequestAccept(lawAddReqAcceptUpdateRequestDto.getAccept());
         lawAddRequestHistoryRepository.save(lawAddRequestHistory);
         return true;
     }

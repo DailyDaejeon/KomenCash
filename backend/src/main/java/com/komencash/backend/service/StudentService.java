@@ -39,7 +39,7 @@ public class StudentService {
 
     public List<StudentFindResponseDto> findStudentListByGroupId(int groupId){
         List<StudentFindResponseDto> studentFindResponseDtos = new ArrayList<>();
-        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
+        List<Student> students = studentRepository.findByJob_Group_Id(groupId);
 
         students.forEach(student ->
                 studentFindResponseDtos.add(new StudentFindResponseDto(student.getId(), student.getNickname(), student.getJob())));
@@ -65,13 +65,14 @@ public class StudentService {
     public List<GroupMemberAddReqFindRequestDto> findGroupMemberAddReqByGroupId(int groupId) {
         List<GroupMemberAddReqFindRequestDto> groupMemberAddReqFindRequestDtos = new ArrayList<>();
 
-        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
+        List<Student> students = studentRepository.findByJob_Group_Id(groupId);
         if(students.size() == 0) return null;
 
         students.forEach(student ->{
+            System.out.println(student.getNickname());
             GroupMemberAddRequestHistory groupMemberAddRequestHistory = groupMemberAddRequestHistoryRepository.findByStudent_Id(student.getId());
-
-            if(!groupMemberAddReqFindRequestDtos.isEmpty() && groupMemberAddRequestHistory.getAccept() == Accept.before_confirm){
+            System.out.println(groupMemberAddRequestHistory.getStudent().getNickname());
+            if(groupMemberAddRequestHistory.getAccept() == Accept.before_confirm){
                 groupMemberAddReqFindRequestDtos.add(
                         new GroupMemberAddReqFindRequestDto(
                         groupMemberAddRequestHistory.getId(),

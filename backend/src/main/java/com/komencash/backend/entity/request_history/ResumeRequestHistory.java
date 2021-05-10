@@ -41,6 +41,14 @@ public class ResumeRequestHistory {
     @JoinColumn(name = "student_id")
     private Student student;
 
+    public ResumeRequestHistory(String title, String content, Accept accept, Job job, Student student) {
+        this.title = title;
+        this.content = content;
+        this.accept = accept;
+        this.job = job;
+        this.student = student;
+    }
+
     public void updateResumeAccept(Accept accept){
         this.accept = accept;
     }

@@ -55,6 +55,9 @@ export default {
             document.getElementById('swal-input1').value,
           ]
         },
+        inputValidator: (result) => {
+          return !result && '수정할 정보를 적어주세요!'
+        }
       }).then((result) => {
         if (result.value) {
         

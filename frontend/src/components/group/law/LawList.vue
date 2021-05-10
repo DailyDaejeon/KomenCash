@@ -7,25 +7,31 @@
         <!-- 2. 해당 헌법 또는 조항에 맞는 내용으로 이동 -->
         <div id="tab" class="container">
           <div class="tabs">
-          <!-- <div class="tabs" v-for="(law, index) in lawList" :key="index"> -->
-            <!-- <a @click="activetab=(index+1)" :class="[ activetab === (index+1) ? 'active' : '' ]">{{law.law_type}}</a> -->
-            <a @click="activetab=1" :class="[ activetab === 1 ? 'active' : '' ]">교통법</a>
+          <div class="tabs" v-for="(law, index) in lawData" :key="index">
+            <!-- <a v-if="law.lawType" @click="activetab=(index+1)" :class="[ activetab === (index+1) ? 'active' : '' ]">
+              {{law.lawType}}</a> -->
+              <router-link 
+              active-class="active"
+              class="list-group-item list-group-item-action"
+              :to="{name:'LawType',params:{lawType:law.lawType,lawData:law}}">{{law.lawType}}</router-link>
+            <!-- <a @click="activetab=1" :class="[ activetab === 1 ? 'active' : '' ]">교통법</a>
             <a @click="activetab=2" :class="[ activetab === 2 ? 'active' : '' ]">질서법</a>
             <a @click="activetab=3" :class="[ activetab === 3 ? 'active' : '' ]">교육법</a>
             <a @click="activetab=4" :class="[ activetab === 4 ? 'active' : '' ]">형사법</a>
             <a @click="activetab=5" :class="[ activetab === 5 ? 'active' : '' ]">환경법</a>
-            <a @click="activetab=6" :class="[ activetab === 6 ? 'active' : '' ]">금융법</a>
+            <a @click="activetab=6" :class="[ activetab === 6 ? 'active' : '' ]">금융법</a> -->
           </div>
           <div>
           <!-- <div v-for="(law, index) in lawList" :key="index"> -->
             <!-- <div v-if="activetab === (index+1)" class="tabcontent"> -->
                 <!-- 도로법 관련 조항! -->
                 <!-- <LawType /> :articles="" -->
-            <!-- </div> -->
+            </div>
             <div v-if="activetab === 1" class="tabcontent">
                 교통법 관련 조항!
+                <router-view></router-view>
             </div>
-            <div v-if="activetab === 2" class="tabcontent">
+            <!-- <div v-if="activetab === 2" class="tabcontent">
                 질서법 관련 조항!
             </div>
             <div v-if="activetab === 3" class="tabcontent">
@@ -39,7 +45,7 @@
             </div>
             <div v-if="activetab === 6" class="tabcontent">
                 금융법 관련 조항!
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -49,12 +55,10 @@
 
 <script>
 export default {
+  props:['lawData'],
   data() {
     return {
       activetab: 1,
-      lawList: [
-        //이걸 어떻게 넣어야할까................
-      ],
     }
   },
 }

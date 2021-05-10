@@ -62,13 +62,30 @@ const router =  new Router({
       path: '/group/job/resume/detail',
       name: 'JobResumeDetail',
       props:true,
-      component: () => import('@/components/group/job/Resume.vue'),
+      component: () => import('@/components/group/job/Resume.vue')
     },
     {
       path: '/group/law',
       name: 'LawPage',
       component: () => import('@/views/group/law/LawPage.vue'),
+      children:[
+        {
+          path: 'list',
+          name: 'LawList',
+          component: () => import('@/components/group/law/LawList.vue'),
+          // props: true,
+          children: [
+            {
+              path: ':lawType',
+              name: 'LawType',
+              component: () => import('@/components/group/law/LawType.vue'),
+              props: true
+            }
+          ]
+        },
+      ]
     },
+    
     {
       path: '/group/vote/:id',
       name: 'VoteDetail',

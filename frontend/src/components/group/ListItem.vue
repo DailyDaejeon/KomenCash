@@ -6,10 +6,16 @@
           <h5 class="card-title mb-0">{{listTypeName}} 조회</h5>
         </div>
         <div class="pointer list-group list-group-flush" role="tablist" v-for="(data,index) in propsData" :key="index"> 
-          <router-link 
+          <!-- <router-link 
           :id="data.name"
           active-class="active"
           class="list-group-item list-group-item-action" :to="{name:`${listTypeRouteName}`, params: { id:`${data.id}`, propsData:data,dataName:data.name}}"
+          
+          > -->
+          <router-link 
+          :id="data.name"
+          active-class="active"
+          class="list-group-item list-group-item-action" :to="{name:listTypeRouteName, params: { id:data.id, propsData:data,dataName:data.name}}"
           
           >
           <span v-if="listTypeRouteName === 'BankFinancialDetail'">{{data.financialProduct.name}}</span>

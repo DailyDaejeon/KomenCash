@@ -57,6 +57,9 @@ export default {
         confirmButtonText: 'Next &rarr;',
         showCancelButton: true,
         progressSteps: ['1', '2', '3','4','5','6'],
+        inputValidator: (result) => {
+          return !result && '직업명을 적어주세요!'
+        }
       },
       {
         title: '직업추가 2단계',
@@ -65,7 +68,10 @@ export default {
         inputPlaceholder: '100미소',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
-      progressSteps: ['1', '2', '3','4','5','6']
+      progressSteps: ['1', '2', '3','4','5','6'],
+      inputValidator: (result) => {
+          return !result && '월급을 적어주세요!'
+        }
       },
       {
         title: '직업추가 3단계',
@@ -74,7 +80,10 @@ export default {
         inputPlaceholder: '그룹원의 월급을 담당합니다.',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
-      progressSteps: ['1', '2', '3','4','5','6']
+      progressSteps: ['1', '2', '3','4','5','6'],
+      inputValidator: (result) => {
+          return !result && '역할을 적어주세요!'
+        }
       },
       {
         title: '직업추가 4단계',
@@ -83,7 +92,10 @@ export default {
         inputPlaceholder: '0',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
-      progressSteps: ['1', '2', '3','4','5','6']
+      progressSteps: ['1', '2', '3','4','5','6'],
+      inputValidator: (result) => {
+          return !result && '인원수를 적어주세요!'
+        }
       },
       {
         title: '직업추가 5단계',
@@ -92,7 +104,10 @@ export default {
         inputPlaceholder: '수학 자격증 4급 이상',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
-      progressSteps: ['1', '2', '3','4','5','6']
+      progressSteps: ['1', '2', '3','4','5','6'],
+      inputValidator: (result) => {
+          return !result && '자격조건을 적어주세요!'
+        }
       },
       {
         title: '직업추가 6단계',
@@ -102,7 +117,10 @@ export default {
         inputPlaceholder: '선출방식을 정해주세요',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
-      progressSteps: ['1', '2', '3','4','5','6']
+      progressSteps: ['1', '2', '3','4','5','6'],
+      inputValidator: (result) => {
+          return !result && '선출방식을 정해주세요!'
+        }
       }
       ]).then((result) => {
       if (result.value) {

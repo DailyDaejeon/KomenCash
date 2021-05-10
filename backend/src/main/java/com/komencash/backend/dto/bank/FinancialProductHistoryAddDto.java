@@ -12,4 +12,8 @@ public class FinancialProductHistoryAddDto {
     private int financialProductDetailId;
     private int studentId;
 
+    public FinancialProductHistoryAddDto(int financialProductDetailId, int studentId) {
+        this.financialProductDetailId = financialProductDetailId;
+        this.studentId = studentId;
+    }
 }

@@ -66,4 +66,16 @@ public class UBankService {
 
         return true;
     }
+
+    public boolean productTerminateRequest(FinancialProductHistoryAddDto request) {
+        FinancialProductHistory history = financialProductHistoryRepository.findById(request.getFinancialProductDetailId()).orElse(null);
+        if(history.getStatus() == Status.deposit){
+            history.acceptRequest(Status.before_termination);
+        }
+        else{
+            return false;
+        }
+        financialProductHistoryRepository.save(history);
+        return true;
+    }
 }

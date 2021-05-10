@@ -37,7 +37,12 @@ public class StudentController {
     @ApiOperation(value="학생 추가 요청 목록 조회", notes = "입력받은 그룹 아이디의 학생 추가 요청 목록 조회")
     @GetMapping("/{group-id}/add-request")
     public ResponseEntity<List<GroupMemberAddReqFindRequestDto>> getStudentAddReq(@PathVariable("group-id") int groupId){
-        return ResponseEntity.status(HttpStatus.OK).body(studentService.findGroupMemberAddReqByGroupId(groupId));
+        List<GroupMemberAddReqFindRequestDto> result = studentService.findGroupMemberAddReqByGroupId(groupId);
+        if(result == null) {
+            GroupMemberAddReqFindRequestDto dto = new GroupMemberAddReqFindRequestDto();
+            result.add(dto);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 

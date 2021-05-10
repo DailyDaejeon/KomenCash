@@ -1,10 +1,10 @@
-using System.Collections;
+ο»Ώusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class FinanceDTO
 {
-    public string balance; //Ελΐε ΐάΎΧ
+    public string balance; //ν†µμ¥ μ”μ•΅
 
 }

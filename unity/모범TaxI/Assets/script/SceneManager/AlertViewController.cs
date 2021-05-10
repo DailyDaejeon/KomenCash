@@ -1,35 +1,35 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
-// alert ºäÀÇ Ç¥½Ã ¿É¼ÇÀ» ÁöÁ¤ÇÏ±â À§ÇÑ Å¬·¡½º
+// alert ë·°ì˜ í‘œì‹œ ì˜µì…˜ì„ ì§€ì •í•˜ê¸° ìœ„í•œ í´ë˜ìŠ¤
 public class AlertViewOptions
 {
-    public string cancelButtonTitle; //Ãë¼Ò ¹öÆ°ÀÇ Å¸ÀÌÆ²
-    public System.Action cancelButtonDelegate; //Ãë¼Ò ¹öÆ°À» ´­·¶À» ¶§ ½ÇÇàµÇ´Â ´ë¸®ÀÚ
-    public string okButtonTitle; //OK ¹öÆ°ÀÇ Å¸ÀÌÆ²
-    public System.Action okButtonDelegate; //OK ¹öÆ°À» ´­·¶À» ¶§ ½ÇÇàµÇ´Â ´ë¸®ÀÚ
+    public string cancelButtonTitle; //ì·¨ì†Œ ë²„íŠ¼ì˜ íƒ€ì´í‹€
+    public System.Action cancelButtonDelegate; //ì·¨ì†Œ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ ì‹¤í–‰ë˜ëŠ” ëŒ€ë¦¬ì
+    public string okButtonTitle; //OK ë²„íŠ¼ì˜ íƒ€ì´í‹€
+    public System.Action okButtonDelegate; //OK ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ ì‹¤í–‰ë˜ëŠ” ëŒ€ë¦¬ì
 }
 
 public class AlertViewController : MonoBehaviour
 {
-    public Text titleLabel; //Å¸ÀÌÆ²À» Ç¥½Ã
-    public Text messageLabel; //¸Ş¼¼Áö¸¦ Ç¥½Ã
-    public Button cancelButton; //Ãë¼Ò¹öÆ°
-    public Button okButton; //ok¹öÆ°
-    public Text cancelButtonLabel; //Ãë¼Ò ¹öÆ°ÀÇ Å¸ÀÌÆ²
-    public Text okButtonLabel; //ok¹öÆ°ÀÇ Å¸ÀÌÆ²
+    public Text titleLabel; //íƒ€ì´í‹€ì„ í‘œì‹œ
+    public Text messageLabel; //ë©”ì„¸ì§€ë¥¼ í‘œì‹œ
+    public Button cancelButton; //ì·¨ì†Œë²„íŠ¼
+    public Button okButton; //okë²„íŠ¼
+    public Text cancelButtonLabel; //ì·¨ì†Œ ë²„íŠ¼ì˜ íƒ€ì´í‹€
+    public Text okButtonLabel; //okë²„íŠ¼ì˜ íƒ€ì´í‹€
 
     private static GameObject prefab; //alert view prefab
-    private System.Action cancelButtonDelegate; //Ãë¼Ò ¹öÆ° Å¬¸¯ ½Ã ½ÇÇàµÇ´Â ´ë¸®ÀÚ ÁöÁ¤
-    private System.Action okButtonDelegate; //ok ¹öÆ° Å¬¸¯ ½Ã ½ÇÇàµÇ´Â ´ë¸®ÀÚ ÁöÁ¤
+    private System.Action cancelButtonDelegate; //ì·¨ì†Œ ë²„íŠ¼ í´ë¦­ ì‹œ ì‹¤í–‰ë˜ëŠ” ëŒ€ë¦¬ì ì§€ì •
+    private System.Action okButtonDelegate; //ok ë²„íŠ¼ í´ë¦­ ì‹œ ì‹¤í–‰ë˜ëŠ” ëŒ€ë¦¬ì ì§€ì •
 
-    //¾Ë¸² ºä¸¦ Ç¥½ÃÇÏ´Â static ¸Ş¼­µå
+    //ì•Œë¦¼ ë·°ë¥¼ í‘œì‹œí•˜ëŠ” static ë©”ì„œë“œ
     public static AlertViewController Show(
         string title, string message, AlertViewOptions options = null)
     {
         if(prefab == null)
         {
-            //ÇÁ¸®ÆÕÀ» ÀĞ¾îµéÀÎ´Ù.
+            //í”„ë¦¬íŒ¹ì„ ì½ì–´ë“¤ì¸ë‹¤.
             prefab = Resources.Load("AlertView") as GameObject;
         }
 
@@ -40,17 +40,17 @@ public class AlertViewController : MonoBehaviour
         return alertView;
     }
 
-    //alert viewÀÇ ³»¿ëÀ» ¾÷µ¥ÀÌÆ®ÇÏ´Â ¸Ş¼­µå
+    //alert viewì˜ ë‚´ìš©ì„ ì—…ë°ì´íŠ¸í•˜ëŠ” ë©”ì„œë“œ
     public void UpdateContent(
         string title, string message, AlertViewOptions options = null)
     {
-        //Å¸ÀÌÆ²°ú ¸Ş¼¼Áö¸¦ °áÁ¤
+        //íƒ€ì´í‹€ê³¼ ë©”ì„¸ì§€ë¥¼ ê²°ì •
         titleLabel.text = title;
         messageLabel.text = message;
 
         if (options != null)
         {
-            //Ç¥½Ã ¿É¼ÇÀÌ ÀÖÀ» ¶§ ¿É¼ÇÀÇ ³»¿ë¿¡ ¸ÂÃç ¹öÆ°À» Ç¥½ÃÇÏ°Å³ª Ç¥½ÃÇÏÁö ¾Ê´Â°ÍÀ» °áÁ¤
+            //í‘œì‹œ ì˜µì…˜ì´ ìˆì„ ë•Œ ì˜µì…˜ì˜ ë‚´ìš©ì— ë§ì¶° ë²„íŠ¼ì„ í‘œì‹œí•˜ê±°ë‚˜ í‘œì‹œí•˜ì§€ ì•ŠëŠ”ê²ƒì„ ê²°ì •
             cancelButton.transform.gameObject.SetActive(
                 options.cancelButtonTitle != null || options.okButtonTitle != null);
 
@@ -64,20 +64,20 @@ public class AlertViewController : MonoBehaviour
         }
         else
         {
-            // Ç¥½Ã ¿É¼ÇÀÌ ÁöÁ¤µÇ¾îÀÖÁö ¾ÊÀ» ¶§, ±âº» ¹öÆ°À» Ç¥½Ã
+            // í‘œì‹œ ì˜µì…˜ì´ ì§€ì •ë˜ì–´ìˆì§€ ì•Šì„ ë•Œ, ê¸°ë³¸ ë²„íŠ¼ì„ í‘œì‹œ
             cancelButton.gameObject.SetActive(false);
             okButton.gameObject.SetActive(true);
-            okButtonLabel.text = "È®ÀÎ";
+            okButtonLabel.text = "í™•ì¸";
         }
     }
 
-    //alert view¸¦ ´İ´Â ¸Ş¼­µå
+    //alert viewë¥¼ ë‹«ëŠ” ë©”ì„œë“œ
     public void Dismiss()
     {
         Destroy(gameObject);
     }
 
-    //Ãë¼Ò ¹öÆ°À» ´­·¶À» ¶§, È£ÃâµÇ´Â ¸Ş¼­µå
+    //ì·¨ì†Œ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ, í˜¸ì¶œë˜ëŠ” ë©”ì„œë“œ
     public void OnPressCancelButton()
     {
         if(cancelButtonDelegate != null)
@@ -87,7 +87,7 @@ public class AlertViewController : MonoBehaviour
         Dismiss();
     }
 
-    //OK ¹öÆ°À» ´­·¶À» ¶§, È£ÃâµÇ´Â ¸Ş¼­µå
+    //OK ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ, í˜¸ì¶œë˜ëŠ” ë©”ì„œë“œ
     public void OnPressOkButton()
     {
         if(okButtonDelegate != null)

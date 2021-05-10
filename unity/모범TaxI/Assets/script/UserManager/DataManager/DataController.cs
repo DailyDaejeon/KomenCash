@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
@@ -7,7 +7,7 @@ public static class DataController
 {
     public static StudentDTO student = new StudentDTO();
 
-    //·Î±×ÀÎ ¼º°ø ½Ã, À¯Àú Á¤º¸(±âº», Á÷¾÷, ±×·ì, ¼±»ı´Ô) ÀúÀåÇÏ´Â ¸Ş¼­µå
+    //ë¡œê·¸ì¸ ì„±ê³µ ì‹œ, ìœ ì € ì •ë³´(ê¸°ë³¸, ì§ì—…, ê·¸ë£¹, ì„ ìƒë‹˜) ì €ì¥í•˜ëŠ” ë©”ì„œë“œ
     public static void setStudentInfo(JSONNode sInfo)
     {
         student.id = sInfo["id"].AsInt;
@@ -19,10 +19,10 @@ public static class DataController
 
         /*
         Debug.Log("--------------- sJob ---------------");
-        //JSONNode Ãâ·Â ¹æ¹ı 1
+        //JSONNode ì¶œë ¥ ë°©ë²• 1
         Debug.Log(sJob.ToString());
         
-        //JSONNode Ãâ·Â ¹æ¹ı 2
+        //JSONNode ì¶œë ¥ ë°©ë²• 2
         foreach (KeyValuePair<string, JSONNode> keyValue in sJob)
         {
             Debug.Log(keyValue.Key + " : " + keyValue.Value);
@@ -66,14 +66,14 @@ public static class DataController
         teacherData.phoneNumber = sTeacher["phoneNumber"].Value;
         student.teacher = teacherData;
 
-        //Àß µé¾î°¬³ª È®ÀÎ¿ë Ãâ·Â
+        //ì˜ ë“¤ì–´ê°”ë‚˜ í™•ì¸ìš© ì¶œë ¥
         //student.print();
     }
 
     public static void setStudentStatInfo(JSONNode sInfo)
     {
         student.balance = sInfo["balance"].AsInt;
-        Debug.Log("ÅëÀå ÀÜ°í : " + student.balance);
+        Debug.Log("í†µì¥ ì”ê³  : " + student.balance);
 
         List<string> list = new List<string>();
         if(sInfo["certificates"].Count != 0)
@@ -86,15 +86,15 @@ public static class DataController
         }
         else
         {
-            Debug.Log("ÀÚ°İÁõ ¾øÀ½");
+            Debug.Log("ìê²©ì¦ ì—†ìŒ");
         }
         student.certificateList = list;
     }
 
-    //·Î±×ÀÎ ÇÑ À¯Àú Á¤º¸ ºÒ·¯¿À´Â ¸Ş¼­µå
+    //ë¡œê·¸ì¸ í•œ ìœ ì € ì •ë³´ ë¶ˆëŸ¬ì˜¤ëŠ” ë©”ì„œë“œ
     public static StudentDTO LoadUserInfo()
     {
-        Debug.Log("ÀúÀåµÈ À¯Àú Á¤º¸");
+        Debug.Log("ì €ì¥ëœ ìœ ì € ì •ë³´");
         student.print();
         return student;
     }

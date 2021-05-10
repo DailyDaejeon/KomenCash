@@ -1,40 +1,50 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using SimpleJSON;
+using System;
 
 public class MyInfoController : MonoBehaviour
 {
     private StudentDTO data;
-    public Text sNickname; //´Ğ³×ÀÓ
-    public Text sJobName;  //Á÷¾÷¸í
-    public Text sSalary;   //¿ù±Ş
-    public Text sBalance;  //ÅëÀåÀÜ°í
-    public Text sCertList; //ÀÚ°İÁõ ¸ñ·Ï
-    
+    public Text sNickname; //ë‹‰ë„¤ì„
+    public Text sJobName;  //ì§ì—…ëª…
+    public Text sSalary;   //ì›”ê¸‰
+    public Text sBalance;  //í†µì¥ì”ê³ 
+    public Text sCertList; //ìê²©ì¦ ëª©ë¡
+    private SceneChangeController loginForm;
+
     void Start()
     {
-        /*data = DataController.LoadUserInfo();
-
-        Debug.Log("·Î±×ÀÎ À¯Àú Á¤º¸ : ");
-        data.print();
-
-        sNickname.text += data.nickname;
-        sJobName.text += data.job.name;
-        sSalary.text += data.job.salary;
-        sBalance.text += data.balance;
-
-        if (data.certificateList.Count != 0)
+        try
         {
-            foreach (string cert in data.certificateList)
+            data = DataController.LoadUserInfo();
+            Debug.Log("ë¡œê·¸ì¸ ìœ ì € ì •ë³´ : ");
+            data.print();
+
+            sNickname.text += data.nickname;
+            sJobName.text += data.job.name;
+            sSalary.text += data.job.salary;
+            sBalance.text += data.balance;
+
+            if (data.certificateList.Count != 0)
             {
-                sCertList.text += cert + System.Environment.NewLine;
+                foreach (string cert in data.certificateList)
+                {
+                    sCertList.text += cert + System.Environment.NewLine;
+                }
+            }
+            else
+            {
+                sCertList.text += "ì•„ì§ ë³´ìœ ì¤‘ì¸ ìê²©ì¦ì´ ì—†ìŠµë‹ˆë‹¤ã… .ã… ";
             }
         }
-        else
+        catch (NullReferenceException ie)
         {
-            sCertList.text += "¾ÆÁ÷ º¸À¯ÁßÀÎ ÀÚ°İÁõÀÌ ¾ø½À´Ï´Ù¤Ğ.¤Ğ";
-        }*/
+            Debug.Log("ë¡œê·¸ì¸ í›„ ì´ìš© ê°€ëŠ¥í•œ ì„œë¹„ìŠ¤ ì…ë‹ˆë‹¤.");
+            loginForm = GameObject.Find("MainManager").GetComponent<SceneChangeController>();
+            loginForm.GoToLoginForm();
+        }
     }
 }

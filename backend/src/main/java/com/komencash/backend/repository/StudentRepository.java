@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
-    List<Student> findAllByJob_Group_Id(int groupId);
+    List<Student> findByJob_Group_Id(int groupId);
 
     int countByJob_Group_Id(int groupId);
 
@@ -16,4 +16,5 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     Student findByNickname(String nickname);
 
     Student findByNicknameAndJob_Group_Id(String nickname, int groupId);
+
 }

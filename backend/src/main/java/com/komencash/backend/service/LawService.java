@@ -77,7 +77,7 @@ public class LawService {
 
         List<LawAddReqFindListResponseDto> lawAddReqFindListResponseDtos = new ArrayList();
 
-        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
+        List<Student> students = studentRepository.findByJob_Group_Id(groupId);
         students.forEach(student -> {
             List<LawAddRequestHistory> lawAddRequestHistories = lawAddRequestHistoryRepository.findByStudent_Id(student.getId());
             lawAddRequestHistories.forEach(lawAddRequestHistory -> {

@@ -28,7 +28,7 @@ public class CreditService {
 
         List<CreditFindResponseDto> creditFindResponsDtos = new ArrayList<>();
 
-        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
+        List<Student> students = studentRepository.findByJob_Group_Id(groupId);
         students.forEach(student -> {
             CreditFindGradeAndPointResponseDto creditFindGradeAndPointResponseDto = findCreditGrade(student.getId());
             int grade = creditFindGradeAndPointResponseDto.getCreditGrade();

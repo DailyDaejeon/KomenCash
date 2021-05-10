@@ -29,6 +29,10 @@ public class UBankController {
         uBankService.productRegist(request);
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }
-
+    @PutMapping("/product-terminate-request")
+    public ResponseEntity<Boolean> productTerminateRequest(@RequestBody FinancialProductHistoryAddDto request){
+        uBankService.productTerminateRequest(request);
+        return ResponseEntity.status(HttpStatus.OK).body(true);
+    }
 
 }

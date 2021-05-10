@@ -72,12 +72,12 @@ public class BankService {
     }
 
 
-    public boolean addFinancialProduct(int groupId, String name) {
+    public int addFinancialProduct(int groupId, String name) {
         Group group = groupRepository.findById(groupId).orElse(null);
-        if (group == null) return false;
+        if (group == null) return 0;
 
-        financialProuctRepository.save(new FinancialProduct(name, group));
-        return true;
+        int productId = financialProuctRepository.save(new FinancialProduct(name, group)).getId();
+        return productId;
     }
 
 

@@ -34,9 +34,9 @@ public class BankController {
     }
 
 
-    @ApiOperation(value="금융 상품 생성", notes = "입력받은 그룹 아이디와 이름으로 금융 상품 생성하고 결과 반환")
+    @ApiOperation(value="금융 상품 생성", notes = "입력받은 그룹 아이디와 이름으로 금융 상품 생성하고 생성한 상품 아이디 반환")
     @PostMapping("/{group-id}/financial-product")
-    public boolean addFinancialProduct(@PathVariable("group-id") int groupId, @RequestBody String name){
+    public int addFinancialProduct(@PathVariable("group-id") int groupId, @RequestBody String name){
         return bankService.addFinancialProduct(groupId, name);
     }
 

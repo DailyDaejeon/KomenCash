@@ -28,9 +28,9 @@ public class FinancialProduct {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    public FinancialProduct(String name, Group g) {
+    public FinancialProduct(String name, Group group) {
         this.name = name;
-        this.group = g;
+        this.group = group;
     }
 
 

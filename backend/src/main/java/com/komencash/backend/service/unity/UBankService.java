@@ -1,8 +1,9 @@
 package com.komencash.backend.service.unity;
 
+
 import com.komencash.backend.dto.bank.AccountFindResponseDto;
 import com.komencash.backend.dto.bank.AccountHistoryFindResponseDto;
-import com.komencash.backend.dto.bank.FinancialProductAddDto;
+import com.komencash.backend.dto.bank.FinancialProductHistoryAddDto;
 import com.komencash.backend.entity.bank.AccountHistory;
 import com.komencash.backend.entity.financial.FinancialProductDetail;
 import com.komencash.backend.entity.financial.FinancialProductHistory;
@@ -33,7 +34,7 @@ public class UBankService {
     AccountHistoryRepository accountHistoryRepository;
 
 
-    public List<AccountHistoryFindResponseDto> getAcocuntHistory(int studentId) {
+    public List<AccountHistoryFindResponseDto> getAccountHistory(int studentId) {
         List<AccountHistoryFindResponseDto> accountHistoryFindResponseDtos = new ArrayList<>();
         List<AccountHistory> accountHistories = accountHistoryRepository.findAllByStudent_Id(studentId);
         accountHistories.forEach(accountHistory ->
@@ -49,7 +50,7 @@ public class UBankService {
 
     }
 
-    public boolean productRegist(FinancialProductAddDto request) {
+    public boolean productRegist(FinancialProductHistoryAddDto request) {
         FinancialProductDetail financialProductDetail = financialProductDetailRepository.findById(request.getFinancialProductDetailId()).orElse(null);
 
         Student student = studentRepository.findById(request.getStudentId()).orElse(null);

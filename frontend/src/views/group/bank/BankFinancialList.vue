@@ -1,13 +1,13 @@
 <template>
   <main class="content">
-    <button class="mr-3 btn btn-main"  @click="addFinancial">예금상품추가</button>
+    <button class="mr-3 btn btn-main"  @click="createFinancial">예금상품추가</button>
     <ListItem listType="financial" :propsData="financialData"/>
   </main>
 </template>
 
 <script>
 import ListItem from '@/components/group/ListItem.vue';
-import { fetchFinancialList } from '@/api/bank';
+import { addFinancial, detailFinancial, fetchFinancialList } from '@/api/bank';
 import { mapState } from 'vuex';
 
 export default {
@@ -59,7 +59,7 @@ export default {
       const res = await fetchFinancialList(this.groupInfo.id)
       this.financialData = res.data
     },
-    addFinancial() {
+    createFinancial() {
       this.$swal.queue([
       {
         title: '예금상품추가 1단계',
@@ -68,37 +68,25 @@ export default {
         inputPlaceholder: '새싹적금',
         confirmButtonText: 'Next &rarr;',
         showCancelButton: true,
-        progressSteps: ['1', '2', '3','4'],
+        progressSteps: ['1', '2', '3'],
         inputValidator: (result) => {
           return !result && '상품명을 지정해주세요!'
         }
       },
       {
         title: '예금상품추가 2단계',
-        input: 'textarea',
-        text: '상품설명을 작성해주세요.',
-        inputPlaceholder: '이상품은 블라블라블라',
-        confirmButtonText: 'Next &rarr;',
-      showCancelButton: true,
-      progressSteps: ['1', '2', '3','4'],
-      inputValidator: (result) => {
-          return !result && '상품설명을 작성해주세요!'
-        }
-      },
-      {
-        title: '예금상품추가 3단계',
         input: 'text',
         text: '기간을 적어주세요.',
         inputPlaceholder: '28',
         confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
-      progressSteps: ['1', '2', '3','4'],
+      progressSteps: ['1', '2', '3'],
       inputValidator: (result) => {
           return !result && '기간을 적어주세요!'
         }
       },
       {
-        title: '예금상품추가 4단계',
+        title: '예금상품추가 3단계',
         html:
         '<div id="swal2-content" class="swal2-html-container" style="display: block;">신용등급별 이율을 적어주세요.</div>'+'<input id="swal-input1" class="swal2-input-custom" min="0" max="100" type="number" placeholder="1등급">' +
         '<input id="swal-input2" class="swal2-input-custom" min="0" max="100" type="number" placeholder="2등급">'+
@@ -127,47 +115,36 @@ export default {
         },
       confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
-      progressSteps: ['1', '2', '3','4'],
+      progressSteps: ['1', '2', '3'],
       }
       ]).then((result) => {
       if (result.value) {
-        const answers = JSON.stringify(result.value)
-        // const item = addFinancial(result.value[0])
-        // const financialInfo = {
-        //     creditGrade: 0,
-        //     financialProduct: {
-        //       group: {
-        //         code: "string",
-        //         id: 0,
-        //         inflationRate: 0,
-        //         monetary_unit_name: "string",
-        //         name: "string",
-        //         tax: 0,
-        //         tax_rate: 0,
-        //         teacher: {
-        //           email: "string",
-        //           id: 0,
-        //           nickname: "string",
-        //           password: "string",
-        //           phoneNumber: "string"
-        //         }
-        //       },
-        //       id: 0,
-        //       name: "string"
-        //     },
-        //     "id": 0,
-        //     "period": 0,
-        //     "rate": 0
-        // }
+        console.log('이름 잘들어오니?',result.value[0])
+        const item = {
+          groupId: this.groupInfo.id,
+          name: result.value[0]
+        }
+        addFinancial(item).then((res) => {
+        console.log(res.data,'금융상품생성')
+        for (let i = 0; i < result.value[2].length; i++) {
+          const element = result.value[2][i];
+          const financialInfo = {
+          creditGrade: i+1,
+            financialProduct: {
+              id: res.data,
+              name:result.value[0],
+            },
+            period: Number(result.value[1]),
+            rate: Number(element)
+          }
+          console.log('순서',i,financialInfo)
+          detailFinancial(financialInfo)
+        }
+      })
       this.$swal({
           title: '직업이 생성됐어요!',
-          html: `
-            Your answers:
-            <pre><code>${answers}</code></pre>
-          `,
+          icon:'success',
           confirmButtonText: 'Lovely!'
-        }).then({
-          // addFinancial
         })
       }
       })

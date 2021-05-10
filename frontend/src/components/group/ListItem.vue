@@ -12,10 +12,13 @@
           class="list-group-item list-group-item-action" :to="{name:`${listTypeRouteName}`, params: { id:`${data.id}`, propsData:data,dataName:data.name}}"
           
           >
-          <!-- v-slot="{ href, navigate, isActive}" custom -->
-          <!-- :active="isActive" :href="href" @click="navigate"
-          :class="[isActive && 'active']" -->
-        {{data.nickname}}
+          <span v-if="listTypeRouteName === 'BankFinancialDetail'">{{data.financialProduct.name}}</span>
+          <span v-else-if="listTypeRouteName==='GroupMemberInfo'">
+            {{data.nickname}}
+          </span>
+          <span v-else>
+          {{data.name}}
+          </span>
           </router-link>
         </div>
       </div>

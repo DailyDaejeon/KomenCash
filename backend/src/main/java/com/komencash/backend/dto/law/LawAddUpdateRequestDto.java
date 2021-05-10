@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 public class LawAddUpdateRequestDto {
 
     private int id;
-    private String lawTyepe;
+    private String lawType;
     private int article;
     private int paragraph;
     private String content;
-    private int group_id;
+    private int groupId;
 }

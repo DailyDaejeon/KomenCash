@@ -23,7 +23,7 @@ public class Law {
     private int id;
 
     @Column(name = "law_type")
-    private String lawTyepe;
+    private String lawType;
 
     @Column(name = "article")
     private int article;
@@ -40,12 +40,21 @@ public class Law {
 
 
 
+    public Law(LawAddUpdateRequestDto lawAddUpdateRequestDto, Group group) {
+        this.lawType = lawAddUpdateRequestDto.getLawType();
+        this.article = lawAddUpdateRequestDto.getArticle();
+        this.paragraph = lawAddUpdateRequestDto.getParagraph();
+        this.content = lawAddUpdateRequestDto.getContent();
+        this.group = group;
+    }
+
+
     public void updateLaw(LawAddUpdateRequestDto lawAddUpdateRequestDto, Group group) {
-        if(lawAddUpdateRequestDto.getId() != 0) this.id = lawAddUpdateRequestDto.getId();
-        if(lawAddUpdateRequestDto.getLawTyepe() != null) this.lawTyepe = lawAddUpdateRequestDto.getLawTyepe();
-        if(lawAddUpdateRequestDto.getArticle() != 0) this.article = lawAddUpdateRequestDto.getArticle();
-        if(lawAddUpdateRequestDto.getParagraph() != 0) this.paragraph = lawAddUpdateRequestDto.getParagraph();
-        if(lawAddUpdateRequestDto.getContent() != null) this.content = lawAddUpdateRequestDto.getContent();
-        if(group != null) this.group = group;
+        this.id = lawAddUpdateRequestDto.getId();
+        this.lawType = lawAddUpdateRequestDto.getLawType();
+        this.article = lawAddUpdateRequestDto.getArticle();
+        this.paragraph = lawAddUpdateRequestDto.getParagraph();
+        this.content = lawAddUpdateRequestDto.getContent();
+        this.group = group;
     }
 }

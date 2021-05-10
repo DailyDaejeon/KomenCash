@@ -50,11 +50,23 @@ public class LawService {
     }
 
 
+    public boolean addLaw(LawAddUpdateRequestDto lawAddUpdateRequestDto) {
+        Group group = groupRepository.findById(lawAddUpdateRequestDto.getGroupId()).orElse(null);
+        if(group == null) return false;
+
+        Law law = new Law(lawAddUpdateRequestDto, group);
+        lawRepository.save(law);
+        return true;
+    }
+
+
     public boolean updateLaw(LawAddUpdateRequestDto lawAddUpdateRequestDto) {
+        Group group = groupRepository.findById(lawAddUpdateRequestDto.getGroupId()).orElse(null);
+        if(group == null) return false;
+
         Law law = lawRepository.findById(lawAddUpdateRequestDto.getId()).orElse(null);
         if(law == null) return false;
 
-        Group group = groupRepository.findById(lawAddUpdateRequestDto.getGroup_id()).orElse(null);
         law.updateLaw(lawAddUpdateRequestDto, group);
         lawRepository.save(law);
         return true;

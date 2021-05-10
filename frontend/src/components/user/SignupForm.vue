@@ -5,7 +5,7 @@
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
 					<div class="d-table-cell align-middle">
 						<div class="text-center mt-4">
-							<h1 class="h2">WELCOME TO 몽글몽글혜림이네</h1>
+							<h1 class="h2">WELCOME TO MONEY JAM!</h1>
 						</div>
 
 						<div class="card">
@@ -33,7 +33,7 @@
 											<input 
                       v-model="userId"
                       autocapitalize="off"
-                      class="form-control form-control-lg" type="email" name="email" placeholder="komencash@komencash.com" />
+                      class="form-control form-control-lg" type="email" name="email" placeholder="moneyJam@moneyJam.com" />
                       <!-- 중복 아이디가 아닐 때 표출 -->
                       <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && idCheck">
                       <!-- 체크표시 아이콘 -->
@@ -285,8 +285,9 @@ export default {
       return false;
       
     },
-    checkCertification() {
+    checkCertification(e) {
       this.userPhoneNumber = store.state.userInfo.phoneNumber;
+      this.userPhoneNumber = e
       this.showCertiForm = false;
     },
     clickphonebtn() {

@@ -2,7 +2,7 @@
   <nav id="sidebar" class="sidebar">
 		<div class="sidebar-content js-simplebar">
 			<router-link class="sidebar-brand" :to="{name:'GroupList'}">
-				<span class="align-middle">모범택시</span>
+				<span class="align-middle">MONEY JAM</span>
 			</router-link>
 
 			<ul class="sidebar-nav">
@@ -55,7 +55,7 @@
 							그룹원 계좌조회 </router-link></li>
 						<li class="sidebar-item" 
 						id="BankFinancialPage"
-					:class="[toActive === 'BankFinancialPage'? 'active' : '']"><router-link class="sidebar-link" :to="{name:'BankFinancialPage'}" >예적금 상품관리</router-link></li>	
+					:class="[toActive === 'BankFinancialPage'? 'active' : '']"><router-link class="sidebar-link" :to="{name:'BankFinancialPage'}" >예금 상품관리</router-link></li>	
 						</ul>
 				</li>
 
@@ -112,7 +112,7 @@
 						로그아웃하시겠습니까?
 					</div>
 					<div class="d-grid" @click="logout">
-						<a target="_blank" class="btn btn-primary">Logout</a>
+						<a target="_blank" class="btn btn-main">Logout</a>
 					</div>
 				</div>
 			</div>

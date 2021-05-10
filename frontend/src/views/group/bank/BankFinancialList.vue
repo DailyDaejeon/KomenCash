@@ -51,13 +51,14 @@ export default {
   },
   computed: {
     ...mapState({
-      groupInfo : state=> state.group.groupInfo
+      groupInfo : state => state.group.groupInfo
     })
   },
   methods: {
     async fetchFinancialData() {
       const res = await fetchFinancialList(this.groupInfo.id)
       this.financialData = res.data
+      console.log('부모finan',this.financialData)
     },
     createFinancial() {
       this.$swal.queue([
@@ -65,7 +66,7 @@ export default {
         title: '예금상품추가 1단계',
         input: 'text',
         text: '상품명을 지정해주세요.',
-        inputPlaceholder: '새싹적금',
+        inputPlaceholder: '새싹예금',
         confirmButtonText: 'Next &rarr;',
         showCancelButton: true,
         progressSteps: ['1', '2', '3'],
@@ -119,13 +120,13 @@ export default {
       }
       ]).then((result) => {
       if (result.value) {
-        console.log('이름 잘들어오니?',result.value[0])
+        // console.log('이름 잘들어오니?',result.value[0])
         const item = {
           groupId: this.groupInfo.id,
           name: result.value[0]
         }
         addFinancial(item).then((res) => {
-        console.log(res.data,'금융상품생성')
+        // console.log(res.data,'금융상품생성')
         for (let i = 0; i < result.value[2].length; i++) {
           const element = result.value[2][i];
           const financialInfo = {
@@ -137,7 +138,7 @@ export default {
             period: Number(result.value[1]),
             rate: Number(element)
           }
-          console.log('순서',i,financialInfo)
+          // console.log('순서',i,financialInfo)
           detailFinancial(financialInfo)
         }
       })

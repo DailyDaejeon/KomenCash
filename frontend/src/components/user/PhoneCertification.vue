@@ -79,7 +79,7 @@ export default {
     sendCertificationNumber() {
       console.log(this.userPhoneNum)
       const response = phoneAuth({
-        phone_number : this.userPhoneNum
+        phoneNumber  : this.userPhoneNum
         })
       console.log('휴대폰인증',response)
       // this.userId = response.data.u_email;
@@ -112,7 +112,7 @@ export default {
       })
         store.commit('setEmail', this.userId);
         store.commit('setPhonenum',this.userPhoneNum);
-        this.$emit('checkCertification')
+        this.$emit('checkCertification',this.userPhoneNum)
       
       } else {
         this.$swal({

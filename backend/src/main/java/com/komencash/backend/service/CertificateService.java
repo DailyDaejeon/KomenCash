@@ -54,7 +54,7 @@ public class CertificateService {
 
         List<CertificateDetailSelectResponse> certificateDetailSelectResponses = new ArrayList<>();
 
-        List<Certificate> certificates = certificateRepository.findAllByGroup_Id(groupId);
+        List<Certificate> certificates = certificateRepository.findByGroup_IdOrderByNameAsc(groupId);
         certificates.forEach(certificate -> certificateDetailSelectResponses.add(new CertificateDetailSelectResponse(certificate)));
 
         return certificateDetailSelectResponses;

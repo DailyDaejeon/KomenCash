@@ -19,6 +19,9 @@ public class StatisticList {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "submit_content")
+    private String submitContent;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "start_date")
     private Date startDate;

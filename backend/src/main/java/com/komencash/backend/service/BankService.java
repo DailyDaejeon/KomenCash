@@ -6,6 +6,8 @@ import com.komencash.backend.dto.student.StudentFindFinancialInfoDto;
 import com.komencash.backend.entity.bank.AccountHistory;
 import com.komencash.backend.entity.financial.*;
 import com.komencash.backend.entity.group.Group;
+import com.komencash.backend.entity.job.Job;
+import com.komencash.backend.entity.request_history.SalaryPaymentRequestHistory;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +40,14 @@ public class BankService {
     @Autowired
     CreditService creditService;
 
+    @Autowired
+    SalaryPaymentRequestHistoryRepository salaryPaymentRequestHistoryRepository;
+
 
     public List<AccountFindResponseDto> findAccountByGroupId(int groupId) {
         List<AccountFindResponseDto> accountFindResponseDtos = new ArrayList<>();
 
-        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
+        List<Student> students = studentRepository.findByJob_Group_Id(groupId);
         students.forEach(student ->{
 
             List<AccountHistoryFindResponseDto> accountHistoryFindResponseDtos = new ArrayList<>();
@@ -113,7 +118,22 @@ public class BankService {
     }
 
 
-    public boolean insertAccountHistory(AccountHistoryAddUpdateRequestDto accountHistoryAddUpdateRequestDto) {
+    public boolean addSalaryPaymentRequest(int groupId){
+        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
+
+        students.forEach(student -> {
+            Job job = student.getJob();
+            int salary = job.getSalary();
+            int taxLoss = (int) (job.getGroup().getTaxRate() * salary);
+            SalaryPaymentRequestHistory salaryPaymentRequestHistory = new SalaryPaymentRequestHistory(salary, taxLoss, student);
+            salaryPaymentRequestHistoryRepository.save(salaryPaymentRequestHistory);
+        });
+
+        return true;
+    }
+
+
+    public boolean addAccountHistory(AccountHistoryAddUpdateRequestDto accountHistoryAddUpdateRequestDto) {
         List<AccountHistory> accountHistories = accountHistoryRepository.findAll();
         int preBalance = accountHistories.size() == 0 ? 0 : accountHistories.get(accountHistories.size() - 1).getBalance();
 

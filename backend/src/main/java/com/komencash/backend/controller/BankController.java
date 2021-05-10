@@ -49,6 +49,13 @@ public class BankController {
     }
 
 
+    @ApiOperation(value="학생 월급 지급 요청 생성", notes = "입력받은 그룹 아이디의 모든 학생 월급 지급 요청을 생성하고 그 결과를 반환")
+    @PostMapping("/salary-payment-request")
+    public boolean addSalaryPaymentRequest(@RequestBody int groupId){
+        return bankService.addSalaryPaymentRequest(groupId);
+    }
+
+
     @ApiOperation(value="금융 상품 삭제", notes = "입력받은 금융 상품 아이디로 삭제하고 결과 반환")
     @DeleteMapping("/financial-product/{product-id}")
     public ResponseEntity<Boolean> deleteFinancialProduct(@PathVariable("product-id") int productId){

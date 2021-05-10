@@ -37,4 +37,13 @@ public class SalaryPaymentRequestHistory {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+
+    public SalaryPaymentRequestHistory(int salary, int taxLoss, Student student){
+        this.salary = salary;
+        this.taxLoss = taxLoss;
+        this.createdDate = new Date();
+        this.accept = Accept.before_confirm;
+        this.student = student;
+    }
 }

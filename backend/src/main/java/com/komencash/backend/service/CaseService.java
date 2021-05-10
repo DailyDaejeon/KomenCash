@@ -71,7 +71,7 @@ public class CaseService {
             int balance_change = -caseRequestHistory.getFine();
             String content = "사건 번호 - " + caseRequestHistory.getId() + " : " +
                     "경찰 - " + caseRequestHistory.getPolice().getNickname() + ", 대상 - " + caseRequestHistory.getStudent().getNickname();
-            if(!bankService.insertAccountHistory(new AccountHistoryAddUpdateRequestDto(studentId, balance_change, content))) return false;
+            if(!bankService.addAccountHistory(new AccountHistoryAddUpdateRequestDto(studentId, balance_change, content))) return false;
 
 
             // 세금 히스토리에 세금 넣고 그룹 전체 세금을 갱신하고 저장

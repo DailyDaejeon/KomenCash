@@ -103,8 +103,7 @@ export default {
         cancelButtonText:'취소',
         html: 
         '<div id="swal2-content" class="swal2-html-container" style="display: block;">'
-        +'<input id="swal-input-name" class="swal2-input" type="text" placeholder="국어왕1급">' +'<input id="swal-input-condition" class="swal2-input" type="text" placeholder="조건을 입력해주세요.(수행평가 평균)">' +'</div>'+
-        '<input id="swal-input1" class="swal2-input" min="0" type="number" placeholder="등급 기준을 적어주세요">',
+        +'<input id="swal-input-name" class="swal2-input" type="text" placeholder=' +`"${certi.name}"`+'>'+'<input id="swal-input-condition" class="swal2-input" type="text" placeholder='+`"${certi.acquisitionCondition}"`+'>'+'</div>',
         focusConfirm: false,
         preConfirm: () => {
           return [
@@ -119,7 +118,7 @@ export default {
           const product = {
             groupId: this.groupInfo.id,
             name: result.value[0],
-            acquisitionCondition: result.value[1]+' : '+result.value[2],
+            acquisitionCondition: result.value[1],
             id:certi.id
           }
           modifyCertificate(product).then(()=>{

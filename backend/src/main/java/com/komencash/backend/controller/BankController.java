@@ -92,6 +92,7 @@ public class BankController {
         return bankService.updateFinancialProductDetail(financialProductDetailUpdateRequestDto);
     }
 
+    @ApiOperation(value = "금융상품 신청 상태 수정", notes = "금융상품 신청상태를 Deposit이나, Terminate로 바꾸기")
     @PutMapping("/financial-status-accept/{financialProductHistoryId}")
     public boolean updateFinancialStatusAccept(@PathVariable("financialProductHistoryId") int financialProductHistoryId){
         return bankService.updateFinancialStatusAccept(financialProductHistoryId);

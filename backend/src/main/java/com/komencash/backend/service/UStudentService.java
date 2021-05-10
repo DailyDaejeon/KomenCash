@@ -2,6 +2,7 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import com.komencash.backend.dto.job.JobSelectResponse;
+import com.komencash.backend.dto.student.StudentJobRequestDto;
 import com.komencash.backend.dto.student.StudentJoinRequestDto;
 import com.komencash.backend.dto.student.StudentLoginRequestDto;
 import com.komencash.backend.dto.student.StudentState;
@@ -10,6 +11,7 @@ import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.GroupMemberAddRequestHistory;
+import com.komencash.backend.entity.request_history.ResumeRequestHistory;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,10 @@ public class UStudentService {
     JobService jobService;
     @Autowired
     CertificateService certificateService;
-
+    @Autowired
+    JobAddRequestHistoryRepository jobAddRequestHistoryRepository;
+    @Autowired
+    ResumeRequestHistoryRepository resumeRequestHistoryRepository;
     public Map<String, Object> joinStudent(StudentJoinRequestDto request) {
         Map<String, Object> resultMap = new HashMap<>();
         Group group = groupRepository.findByCode(request.getCode());
@@ -109,5 +114,20 @@ public class UStudentService {
         StudentState state = new StudentState(studentId, nickname, balance, jobName, jobSalary, certificates);
 
         return state;
+    }
+
+    public boolean addJobRequestWithResume(StudentJobRequestDto dto) {
+        Job job = jobService.findJobById(dto.getJobId());
+        Student student = studentRepository.findById(dto.getStudentId()).orElse(null);
+        ResumeRequestHistory resumeRequestHistory =
+                new ResumeRequestHistory(dto.getTitle(),
+                dto.getContent(),
+                Accept.before_confirm,
+                job,
+                student
+        );
+
+        resumeRequestHistoryRepository.save(resumeRequestHistory);
+        return true;
     }
 }

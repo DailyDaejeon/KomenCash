@@ -1,9 +1,6 @@
 package com.komencash.backend.controller.unity;
 
-import com.komencash.backend.dto.student.StudentDetailResponseDto;
-import com.komencash.backend.dto.student.StudentJoinRequestDto;
-import com.komencash.backend.dto.student.StudentLoginRequestDto;
-import com.komencash.backend.dto.student.StudentState;
+import com.komencash.backend.dto.student.*;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.service.JobService;
 import com.komencash.backend.service.UStudentService;
@@ -46,12 +43,17 @@ public class UStudentController {
     }
 
 
-    @ApiOperation(value="", notes = "")
+    @ApiOperation(value="학생 정보 보기", notes = "학생 정보 보기")
     @GetMapping("/student/{student_id}")
     public StudentState getStudentState(@PathVariable("student_id") int studentId){
         return(ustudentService.getStudentState(studentId));
 
     }
 
+    @ApiOperation(value="직업 변경 요청", notes = "직업 변경 요청")
+    @PostMapping("/ustudent/request-job-change")
+    public boolean requestStudent(@RequestBody StudentJobRequestDto dto){
+        return ustudentService.addJobRequestWithResume(dto);
+    }
 
 }

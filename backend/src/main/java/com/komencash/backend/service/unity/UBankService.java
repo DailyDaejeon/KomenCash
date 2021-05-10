@@ -60,8 +60,8 @@ public class UBankService {
         Timestamp startDate = new Timestamp(time);
         Timestamp endDate = new Timestamp(time + financialProductDetail.getPeriod() * 24 * 60 * 60 * 1000);
         System.out.println("기간 : " + startDate + "~" + endDate);
-
-        FinancialProductHistory financialProductHistory = new FinancialProductHistory(request.getPrincipal(), startDate, endDate, Status.deposit, student, financialProductDetail);
+        // Status 수정
+        FinancialProductHistory financialProductHistory = new FinancialProductHistory(request.getPrincipal(), startDate, endDate, Status.before_deposit, student, financialProductDetail);
         financialProductHistoryRepository.save(financialProductHistory);
 
         return true;

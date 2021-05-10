@@ -1,5 +1,5 @@
 package com.komencash.backend.entity.financial;
 
 public enum Status {
-    deposit, termination, maturity
+    before_deposit, deposit, termination, before_maturity, maturity
 }

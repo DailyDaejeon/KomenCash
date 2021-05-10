@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CertificateRepository  extends JpaRepository<Certificate, Integer> {
 
-    public List<Certificate> findAllByGroup_Id(int groupId);
+    public List<Certificate> findByGroup_IdOrderByNameAsc(int groupId);
 }

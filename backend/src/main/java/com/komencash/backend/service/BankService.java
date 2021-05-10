@@ -139,10 +139,10 @@ public class BankService {
         if(financialProduct == null) return null;
 
 
-        List<FinancialProductDetailFindByProductDto> financialProductDetailRespons = new ArrayList<>();
-        List<FinancialProductDetail> financialProductDetails = financialProductDetailRepository.findByFinancialProduct_Id(productId);
+        List<FinancialProductDetailFindByProductDto> financialProductDetailResponse = new ArrayList<>();
+        List<FinancialProductDetail> financialProductDetails = financialProductDetailRepository.findByFinancialProduct_IdOrderByCreditGrade(productId);
         financialProductDetails.forEach(financialProductDetail ->
-                financialProductDetailRespons.add(new FinancialProductDetailFindByProductDto(financialProductDetail)));
+                financialProductDetailResponse.add(new FinancialProductDetailFindByProductDto(financialProductDetail)));
 
 
         List<StudentFindFinancialInfoDto> studentFindFinancialInfoDtos = new ArrayList<>();
@@ -160,7 +160,7 @@ public class BankService {
             }
         });
 
-        return new FinancialProductFindDetailResponseDto(financialProduct, financialProductDetailRespons, studentFindFinancialInfoDtos);
+        return new FinancialProductFindDetailResponseDto(financialProduct, financialProductDetailResponse, studentFindFinancialInfoDtos);
     }
 
 

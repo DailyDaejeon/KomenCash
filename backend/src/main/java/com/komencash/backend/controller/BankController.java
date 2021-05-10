@@ -58,8 +58,8 @@ public class BankController {
 
     @ApiOperation(value="금융 상품 정보 조회", notes = "입력받은 그룹 아이디의 금융 상품 목록 조회")
     @GetMapping("/{group-id}/financial-product")
-    public ResponseEntity<List<FinancialProductDetailAddUpdateRequestDto>> getFinancialProductDetailList(@PathVariable("group-id") int groupId){
-        return ResponseEntity.status(HttpStatus.OK).body(bankService.findFinancialProductDetailList(groupId));
+    public ResponseEntity<List<FinancialProductFindResponseDto>> getFinancialProductList(@PathVariable("group-id") int groupId){
+        return ResponseEntity.status(HttpStatus.OK).body(bankService.findFinancialProductList(groupId));
     }
 
 

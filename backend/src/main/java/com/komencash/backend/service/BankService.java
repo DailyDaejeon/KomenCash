@@ -90,21 +90,17 @@ public class BankService {
     }
 
 
-    public List<FinancialProductDetailAddUpdateRequestDto> findFinancialProductDetailList(int groupId) {
-        List<FinancialProductDetailAddUpdateRequestDto> financialProductDetailAddUpdateRequestDtos = new ArrayList<>();
+    public List<FinancialProductFindResponseDto> findFinancialProductList(int groupId) {
+        List<FinancialProductFindResponseDto> financialProductFindResponseDtos = new ArrayList<>();
 
-        List<FinancialProductDetail> financialProductDetails = financialProductDetailRepository.findByFinancialProduct_Group_Id(groupId);
-        financialProductDetails.forEach(financialProductDetail -> {
-            financialProductDetailAddUpdateRequestDtos.add(
-                    new FinancialProductDetailAddUpdateRequestDto(
-                            financialProductDetail.getId(),
-                            financialProductDetail.getPeriod(),
-                            financialProductDetail.getCreditGrade(),
-                            financialProductDetail.getRate(),
-                            financialProductDetail.getFinancialProduct()));
+        List<FinancialProduct> financialProducts = financialProuctRepository.findByGroup_Id(groupId);
+        financialProducts.forEach(financialProduct -> {
+            financialProductFindResponseDtos.add(
+                    new FinancialProductFindResponseDto(financialProduct.getId(), financialProduct.getName())
+            );
         });
 
-        return financialProductDetailAddUpdateRequestDtos;
+        return financialProductFindResponseDtos;
     }
 
 

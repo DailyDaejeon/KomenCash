@@ -26,8 +26,8 @@ public class TeacherService{
     }
 
 
-    public TeacherFindByEmailResponseDto findTeacherByEmail(String email){
-        return new TeacherFindByEmailResponseDto(teacherRepository.findByEmail(email).orElse(null));
+    public boolean findTeacherByEmail(String email){
+        return teacherRepository.findByEmail(email).orElse(null) == null ? true : false;
     }
 
 

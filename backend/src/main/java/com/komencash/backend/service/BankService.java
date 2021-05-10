@@ -119,7 +119,7 @@ public class BankService {
 
 
     public boolean addSalaryPaymentRequest(int groupId){
-        List<Student> students = studentRepository.findAllByJob_Group_Id(groupId);
+        List<Student> students = studentRepository.findByJob_Group_Id(groupId);
 
         students.forEach(student -> {
             Job job = student.getJob();

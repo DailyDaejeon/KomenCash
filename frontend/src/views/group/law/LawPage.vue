@@ -4,7 +4,7 @@
     <div class="container-fluid p-0">
       <div class="row mb-2 mb-xl-3">
         <div class="col-auto d-none d-sm-block">
-          <h3><strong>OO초 5학년 2반</strong>의 헌법</h3> <!-- {{this.$store.groupName}} -->
+          <h3><strong>{{groupInfo.name}}</strong>의 헌법</h3>
         </div>
       </div>
       <!-- 1. 헌법 관리 -->
@@ -72,6 +72,7 @@ import RequestItem from '@/components/group/main/RequestItem.vue'
 // import VoteItemInput from '@/components/group/vote/VoteItemInput.vue'
 // import VoteItemList from '@/components/group/vote/VoteItemList.vue'
 import VoteList from '@/components/group/vote/VoteList.vue'
+import { mapState } from 'vuex'
 // import VoteList from '../../../components/group/vote/VoteList.vue'
 
 export default {
@@ -84,6 +85,11 @@ export default {
     }
   },
   components: { LawList, RequestItem, VoteList }, //Modal, VoteItemInput, VoteItemList, 
+  computed: {
+    ...mapState({
+      groupInfo:state => state.group.groupInfo
+    })
+  },
   methods: {
     addVote() {
       // this.showModal = true;

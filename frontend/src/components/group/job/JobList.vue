@@ -8,7 +8,7 @@
       </div>
       <div class="card-header">
         <h4 class="card-title mb-0 d-inline-block">Part-time list</h4>
-        <button class="btn btn-main m-3" @click="createPart">직업추가</button>
+        <button class="btn btn-main m-3" @click="createPart">아르바이트추가</button>
         <JobItem JobType="PartTime" :jobData="partTimeList"/>
       </div>
     </div>

@@ -66,7 +66,7 @@ export default {
         this.listTypeName = "계좌"
         this.listTypeRouteName = "BankMemberDetail"
       } else if (this.listType === "financial") {
-        this.listTypeName = "예적금 상품"
+        this.listTypeName = "예금 상품"
         this.listTypeRouteName = "BankFinancialDetail"
       } else if (this.listType === "member") {
         this.listTypeName = "그룹원"

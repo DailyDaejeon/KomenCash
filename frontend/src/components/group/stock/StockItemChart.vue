@@ -13,7 +13,7 @@
       <p class="h2">오늘의 HINT : {{stockHint}}</p>
       </div>
       <div class="text-center d-flex mt-1 mb-3 align-items-baseline">
-        <span :class="arrowColor" class="display-3">{{stockData.price}} </span>
+        <span :class="arrowColor" class="display-3">{{nowMoney}} </span>
         <div>
         <span class="h1 mr-3" :class="arrowColor"> <i :class="arrow"></i></span>
         <span :class="arrowColor" class="h1 mr-3">{{changeMoney}}</span>
@@ -45,6 +45,7 @@ export default {
   data () {
     return {
       changeMoney:0,
+      nowMoney:0,
       money : 0,
       arrow:"",
       arrowColor:"",
@@ -61,65 +62,11 @@ export default {
   },
   created() {
     this.fetchStockMoney()
-    this.fetchMoney()
+    this.fetchMoney(this.stockData)
 
   },
   mounted() {
-    this.stockName = this.stockData.name;
-    this.stockHint = this.stockData.hint;
-    const ctx = this.$refs.lineChart.getContext('2d');
-    const myLineChart = new this.$_Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: this.labelList,
-        // labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-          label: "주식종목 ($)",
-          fill: true,
-          backgroundColor: "transparent",
-          borderColor: "#e7ab3c",
-          // data: [2115, 1562, 1584, 1892, 1487, 2223, 2966, 2448, 2905, 3838, 2917, 3327]
-          data: this.stockDataList
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        legend: {
-          display: false
-        },
-        tooltips: {
-          intersect: false
-        },
-        hover: {
-          intersect: true
-        },
-        plugins: {
-          filler: {
-            propagate: false
-          }
-        },
-        scales: {
-          xAxes: [{
-            reverse: true,
-            gridLines: {
-              color: "rgba(0,0,0,0.05)"
-            }
-          }],
-          yAxes: [{
-            ticks: {
-              stepSize: 500
-            },
-            display: true,
-            borderDash: [5, 5],
-            gridLines: {
-              color: "rgba(0,0,0,0)",
-              fontColor: "#fff"
-            }
-          }]
-        }
-      }
-    }); 
-    this.myChart = myLineChart
+    // this.fetchChart()
   },
   computed:{
     ...mapState({
@@ -131,12 +78,14 @@ export default {
       const res = await fetchStockHistory(this.stockData.id)
       res.data.forEach(element => {
         this.stockDataList.push(Number(element.price))
-        this.labelList.push(element.createdDate)
+        this.labelList.push(element.createdDate.slice(5,10))
       });
+      this.fetchChart()
     },
-    fetchMoney() {
-      this.changeMoney = Math.abs(this.stockData.price - this.stockData.prePrice)
-      this.money = (((this.stockData.price - this.stockData.prePrice)/this.stockData.prePrice)*100).toFixed(2)
+    fetchMoney(stockData) {
+      this.nowMoney = stockData.price
+      this.changeMoney = Math.abs(stockData.price - stockData.prePrice).toFixed(2)
+      this.money = (((stockData.price - stockData.prePrice)/stockData.prePrice)*100).toFixed(2)
       if (this.money < 0 ) {
         this.arrow = this.downArrow
         this.arrowColor = "text-primary"
@@ -147,6 +96,61 @@ export default {
         this.arrow = this.upArrow
         this.arrowColor = "text-danger"
       }
+    },
+    fetchChart() {
+      this.stockName = this.stockData.name;
+      this.stockHint = this.stockData.hint;
+      const ctx = this.$refs.lineChart.getContext('2d');
+      const myLineChart = new this.$_Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: this.labelList,
+          datasets: [{
+            label: "주식종목 ($)",
+            fill: true,
+            backgroundColor: "transparent",
+            borderColor: "#e7ab3c",
+            data: this.stockDataList
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          legend: {
+            display: false
+          },
+          tooltips: {
+            intersect: false
+          },
+          hover: {
+            intersect: true
+          },
+          plugins: {
+            filler: {
+              propagate: false
+            }
+          },
+          scales: {
+            xAxes: [{
+              reverse: true,
+              gridLines: {
+                color: "rgba(0,0,0,0.05)"
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                stepSize: 500
+              },
+              display: true,
+              borderDash: [5, 5],
+              gridLines: {
+                color: "rgba(0,0,0,0)",
+                fontColor: "#fff"
+              }
+            }]
+          }
+        }
+      }); 
+      this.myChart = myLineChart
     },
     addData() {
       this.$swal({
@@ -165,11 +169,15 @@ export default {
           info:"success",
           confirmButtonText: 'Lovely!'
         })
+        this.fetchMoney({
+          price:Number(result.value),
+          prePrice:this.nowMoney
+        })
         const today = new Date();
-        const year = today.getFullYear(); // 년도
+        // const year = today.getFullYear(); // 년도
         const month = today.getMonth() + 1;  // 월
         const date = today.getDate();  // 날짜
-        this.myChart.data.labels.push(year + '.' + month + '.' + date);
+        this.myChart.data.labels.push(month + '-' + date);
         this.myChart.data.datasets[0].data.push(Number(result.value));
         this.myChart.update();
         // console.log(this.myChart)

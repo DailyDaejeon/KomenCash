@@ -41,6 +41,18 @@ function fetchDetailFinancial(financialId) {
   return instance.get(`bank/financial-product/product/${financialId}`)
 }
 
+// 그룹원 월급 지급 요청 생성
+function createSalaryRequest(groupId) {
+  return instance.post(`bank/salary-payment-request`,{
+    groupId: groupId
+  })
+}
+
+// 금융상품 신청 상태 수정
+function acceptFinancialRequest(financialData) {
+  return instance.put(`bank/financial-status-accept/${financialData.id}`, financialData)
+}
+
 
 export {
   fetchGroupMemberAccountList,
@@ -50,5 +62,7 @@ export {
   deleteFinancial,
   modifyFinancial,
   modifyDetailFinancial,
-  fetchDetailFinancial
+  fetchDetailFinancial,
+  createSalaryRequest,
+  acceptFinancialRequest
 }

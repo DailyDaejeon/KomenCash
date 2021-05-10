@@ -50,4 +50,7 @@ public class FinancialProductHistory {
         this.student = student;
         this.financialProductDetail = financialProductDetail;
     }
+    public void acceptDeposit(){
+        this.status = Status.deposit;
+    }
 }

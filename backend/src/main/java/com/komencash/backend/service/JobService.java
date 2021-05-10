@@ -47,7 +47,9 @@ public class JobService {
         return jobSelectResponses;
     }
 
-
+    public Job findJobById(int jobId){
+        return jobRepository.findById(jobId).orElse(null);
+    }
     public boolean saveJob(JobInsertUpdateRequest jobInsertUpdateRequest) {
         Group group = groupRepository.findById(jobInsertUpdateRequest.getGroupId()).orElse(null);
         if(group == null) return false;

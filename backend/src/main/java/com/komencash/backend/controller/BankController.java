@@ -92,5 +92,9 @@ public class BankController {
         return bankService.updateFinancialProductDetail(financialProductDetailUpdateRequestDto);
     }
 
+    @PutMapping("/financial-status-accept/{financialProductHistoryId}")
+    public boolean updateFinancialStatusAccept(@PathVariable("financialProductHistoryId") int financialProductHistoryId){
+        return bankService.updateFinancialStatusAccept(financialProductHistoryId);
+    }
 
 }

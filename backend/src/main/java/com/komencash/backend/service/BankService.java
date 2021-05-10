@@ -193,4 +193,11 @@ public class BankService {
         financialProductDetailRepository.save(financialProductDetail);
         return true;
     }
+
+    public boolean updateFinancialStatusAccept(int financialProductHistoryId) {
+        FinancialProductHistory history = financialProductHistoryRepository.findById(financialProductHistoryId).orElse(null);
+        history.acceptDeposit();
+        financialProductHistoryRepository.save(history);
+        return true;
+    }
 }

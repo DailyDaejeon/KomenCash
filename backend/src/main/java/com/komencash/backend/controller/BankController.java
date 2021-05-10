@@ -35,9 +35,9 @@ public class BankController {
 
 
     @ApiOperation(value="금융 상품 생성", notes = "입력받은 그룹 아이디와 이름으로 금융 상품 생성하고 생성한 상품 아이디 반환")
-    @PostMapping("/{group-id}/financial-product")
-    public int addFinancialProduct(@PathVariable("group-id") int groupId, @RequestBody String name){
-        return bankService.addFinancialProduct(groupId, name);
+    @PostMapping("/financial-product")
+    public int addFinancialProduct(@RequestBody FinancialProductAddUpdateRequestDto financialProductAddUpdateRequestDto){
+        return bankService.addFinancialProduct(financialProductAddUpdateRequestDto);
     }
 
 
@@ -81,8 +81,8 @@ public class BankController {
 
     @ApiOperation(value = "금융 상품 정보 수정", notes = "입력받은 금융 상품 정보를 update후 결과 반환")
     @PutMapping("/financial-product")
-    public boolean updateFinancialProduct(@RequestBody FinancialProductUpdateRequestDto financialProductUpdateRequestDto) {
-        return bankService.updateFinancialProduct(financialProductUpdateRequestDto);
+    public boolean updateFinancialProduct(@RequestBody FinancialProductAddUpdateRequestDto financialProductAddUpdateRequestDto) {
+        return bankService.updateFinancialProduct(financialProductAddUpdateRequestDto);
     }
 
 

@@ -1,6 +1,6 @@
 package com.komencash.backend.controller.unity;
 
-import com.komencash.backend.dto.bank.FinancialProductAddDto;
+import com.komencash.backend.dto.bank.FinancialProductHistoryAddDto;
 import com.komencash.backend.service.unity.UBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class UBankController {
 //
 //    }
     @PostMapping("/product-regist")
-    public ResponseEntity<Boolean> productRegist(@RequestBody FinancialProductAddDto request){
+    public ResponseEntity<Boolean> productRegist(@RequestBody FinancialProductHistoryAddDto request){
         uBankService.productRegist(request);
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }

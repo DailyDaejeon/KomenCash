@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FinancialProductAddDto {
+public class FinancialProductHistoryAddDto {
     private int principal;
     private int financialProductDetailId;
     private int studentId;

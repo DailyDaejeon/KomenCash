@@ -72,11 +72,11 @@ public class BankService {
     }
 
 
-    public int addFinancialProduct(int groupId, String name) {
-        Group group = groupRepository.findById(groupId).orElse(null);
+    public int addFinancialProduct(FinancialProductAddUpdateRequestDto financialProductAddUpdateRequestDto) {
+        Group group = groupRepository.findById(financialProductAddUpdateRequestDto.getGroupId()).orElse(null);
         if (group == null) return 0;
 
-        int productId = financialProuctRepository.save(new FinancialProduct(name, group)).getId();
+        int productId = financialProuctRepository.save(new FinancialProduct(financialProductAddUpdateRequestDto.getName(), group)).getId();
         return productId;
     }
 
@@ -175,14 +175,15 @@ public class BankService {
     }
 
 
-    public boolean updateFinancialProduct (FinancialProductUpdateRequestDto financialProductUpdateRequestDto){
-        FinancialProduct financialProduct = financialProuctRepository.findById(financialProductUpdateRequestDto.getId()).orElse(null);
+    public boolean updateFinancialProduct (FinancialProductAddUpdateRequestDto financialProductAddUpdateRequestDto){
+        FinancialProduct financialProduct = financialProuctRepository.findById(financialProductAddUpdateRequestDto.getId()).orElse(null);
         if(financialProduct == null) return false;
 
-        financialProduct.updateName(financialProductUpdateRequestDto.getName());
+        financialProduct.updateName(financialProductAddUpdateRequestDto.getName());
         financialProuctRepository.save(financialProduct);
         return true;
     }
+
 
     public boolean updateFinancialProductDetail (FinancialProductDetailUpdateRequestDto financialProductDetailUpdateRequestDto) {
         FinancialProductDetail financialProductDetail = financialProductDetailRepository.findById(financialProductDetailUpdateRequestDto.getId()).orElse(null);

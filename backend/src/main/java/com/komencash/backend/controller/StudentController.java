@@ -38,10 +38,7 @@ public class StudentController {
     @GetMapping("/{group-id}/add-request")
     public ResponseEntity<List<GroupMemberAddReqFindRequestDto>> getStudentAddReq(@PathVariable("group-id") int groupId){
         List<GroupMemberAddReqFindRequestDto> result = studentService.findGroupMemberAddReqByGroupId(groupId);
-        if(result == null) {
-            GroupMemberAddReqFindRequestDto dto = new GroupMemberAddReqFindRequestDto();
-            result.add(dto);
-        }
+
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

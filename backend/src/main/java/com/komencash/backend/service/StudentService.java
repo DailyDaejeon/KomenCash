@@ -71,7 +71,7 @@ public class StudentService {
         students.forEach(student ->{
             GroupMemberAddRequestHistory groupMemberAddRequestHistory = groupMemberAddRequestHistoryRepository.findByStudent_Id(student.getId());
 
-            if(groupMemberAddRequestHistory.getAccept() == Accept.before_confirm){
+            if(!groupMemberAddReqFindRequestDtos.isEmpty() && groupMemberAddRequestHistory.getAccept() == Accept.before_confirm){
                 groupMemberAddReqFindRequestDtos.add(
                         new GroupMemberAddReqFindRequestDto(
                         groupMemberAddRequestHistory.getId(),

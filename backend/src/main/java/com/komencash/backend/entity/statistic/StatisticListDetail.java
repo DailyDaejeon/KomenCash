@@ -21,9 +21,6 @@ public class StatisticListDetail {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "submit_content")
-    private String submitContent;
-
     @Column(name = "is_submission")
     private boolean isSubmission;
 

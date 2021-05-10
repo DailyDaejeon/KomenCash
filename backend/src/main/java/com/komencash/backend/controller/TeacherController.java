@@ -32,10 +32,10 @@ public class TeacherController {
     }
 
 
-    @ApiOperation(value = "이메일 중복 검사", notes = "입력받은 email의 id와 email을 반환")
+    @ApiOperation(value = "이메일 중복 검사", notes = "입력받은 email이 선생님 정보에 존재하는 경우 false, 존재하지않는 경우 true를 반환")
     @ApiImplicitParam(name = "email", value = "email(이메일)", dataType = "String", required = true)
     @GetMapping("/dup-chk-email/{email}")
-    public TeacherFindByEmailResponseDto getTeacherByEmail(@PathVariable("email") String email) {
+    public boolean getTeacherByEmail(@PathVariable("email") String email) {
         return teacherService.findTeacherByEmail(email);
     }
 
@@ -62,7 +62,7 @@ public class TeacherController {
 
 
     @ApiOperation(value = "조회", notes = "입력받은 teacher-id로 선생님 정보를 반환")
-    @ApiImplicitParam(name = "teacher-d", value = "teacher-id(선생님 아이디)", dataType = "int", required = true)
+    @ApiImplicitParam(name = "teacher-id", value = "teacher-id(선생님 아이디)", dataType = "int", required = true)
     @GetMapping("/{teacher-id}")
     public TeacherFindResponseDto getTeacher(@PathVariable("teacher-id") int teacherId){
         return teacherService.findTeacher(teacherId);

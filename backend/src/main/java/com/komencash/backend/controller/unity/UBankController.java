@@ -1,5 +1,6 @@
 package com.komencash.backend.controller.unity;
 
+import com.komencash.backend.dto.bank.AccountHistoryFindResponseDto;
 import com.komencash.backend.dto.bank.FinancialProductHistoryAddDto;
 import com.komencash.backend.service.unity.UBankService;
 import io.swagger.models.Response;
@@ -19,7 +20,7 @@ public class UBankController {
 
     @GetMapping("/myAccount/{student_id}")
     public ResponseEntity<List<AccountHistoryFindResponseDto>> getMyAccount(@PathVariable("student_id") int studentId){
-        List<AccountHistoryFindResponseDto> result = uBankService.getAcocuntHistory(studentId);
+        List<AccountHistoryFindResponseDto> result = uBankService.getAccountHistory(studentId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,12 +36,12 @@ public class JoinController : MonoBehaviour
         userGroupcode = inputGroupcode.text;
     }
 
-    //È¸¿ø°¡ÀÔ
+    //íšŒì›ê°€ì…
     public void OnClickButton()
     {
         if (userNickname.Length == 0 || userPassword.Length == 0 || userGroupcode.Length == 0)
         {
-            Debug.Log("¸ğµç Ç×¸ñÀº ÇÊ¼ö ÀÔ·Â°ªÀÔ´Ï´Ù.");
+            Debug.Log("ëª¨ë“  í•­ëª©ì€ í•„ìˆ˜ ì…ë ¥ê°’ì…ë‹ˆë‹¤.");
             return;
         } else if(userNickname.Length != 0 && userPassword.Length != 0 && userGroupcode.Length != 0)
         {
@@ -59,7 +59,7 @@ public class JoinController : MonoBehaviour
         string json = JsonUtility.ToJson(data);
         Debug.Log("json : " + json);
 
-        using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "unity/student", json))
+        using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "ustudent/student", json))
         {
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
             request.uploadHandler = new UploadHandlerRaw(jsonToSend);
@@ -89,9 +89,9 @@ public class JoinController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("¼º°øÀûÀ¸·Î °¡ÀÔµÇ¾ú½À´Ï´Ù.");
+                    Debug.Log("ì„±ê³µì ìœ¼ë¡œ ê°€ì…ë˜ì—ˆìŠµë‹ˆë‹¤.");
                 
-                    //·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
+                    //ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ì´ë™
                     loginForm = GameObject.Find("JoinRestAPIRequester").GetComponent<SceneChangeController>();
                     loginForm.GoToLoginForm();
                 }

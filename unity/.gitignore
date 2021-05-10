@@ -7,7 +7,6 @@ AssetsList/
 Resources/
 Scenes/
 
-
 #etc folder
 Library/
 Logs/
@@ -17,3 +16,7 @@ UserSettings/
 Temp/
 .vs/
 Font/
+obj/
+.vscode/
+*.sln
+*.csproj

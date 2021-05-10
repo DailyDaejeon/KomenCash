@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,12 +6,12 @@ public class AlertTestController : MonoBehaviour
 {
     public void ShowAlertTest()
     {
-        string title = "´Ğ³×ÀÓ ¶Ç´Â ºñ¹Ğ¹øÈ£¸¦ ÀØÀ¸¼Ì³ª¿ä?";
-        string message = "´Ğ³×ÀÓ ¶Ç´Â ºñ¹Ğ¹øÈ£¸¦ ÀØÀ¸¼ÌÀ» ¶§´Â ¼±»ı´Ô²² ¹®ÀÇÇÏ¼¼¿ä!";
+        string title = "ë‹‰ë„¤ì„ ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ë¥¼ ìŠìœ¼ì…¨ë‚˜ìš”?";
+        string message = "ë‹‰ë„¤ì„ ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ë¥¼ ìŠìœ¼ì…¨ì„ ë•ŒëŠ” ì„ ìƒë‹˜ê»˜ ë¬¸ì˜í•˜ì„¸ìš”!";
 
         AlertViewController.Show(title, message);
 
-        //¹öÆ° ¿É¼ÇÀ» ÁÖ°í ½ÍÀ» ¶§
+        //ë²„íŠ¼ ì˜µì…˜ì„ ì£¼ê³  ì‹¶ì„ ë•Œ
         /*
         AlertViewController.Show(title, message, new AlertViewOptions
         {

@@ -1,19 +1,19 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class StudentDTO
 {
-    public int id; //ÇĞ»ı id
-    public string nickname; //´Ğ³×ÀÓ
-    public string password; //ºñ¹Ğ¹øÈ£
-    public string code; //±×·ìÄÚµå
-    public int balance; //ÅëÀåÀÜ°í
-    public List<string> certificateList; //º¸À¯ ÀÚ°İÁõ
-    public JobDTO job; //Á÷¾÷Á¤º¸
-    public GroupDTO group; //±×·ìÁ¤º¸
-    public TeacherDTO teacher; //±³»çÁ¤º¸
+    public int id; //í•™ìƒ id
+    public string nickname; //ë‹‰ë„¤ì„
+    public string password; //ë¹„ë°€ë²ˆí˜¸
+    public string code; //ê·¸ë£¹ì½”ë“œ
+    public int balance; //í†µì¥ì”ê³ 
+    public List<string> certificateList; //ë³´ìœ  ìê²©ì¦
+    public JobDTO job; //ì§ì—…ì •ë³´
+    public GroupDTO group; //ê·¸ë£¹ì •ë³´
+    public TeacherDTO teacher; //êµì‚¬ì •ë³´
 
     public StudentDTO() {}
 

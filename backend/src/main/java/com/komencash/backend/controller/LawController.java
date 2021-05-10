@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.law.LawAddReqAcceptUpdateRequestDto;
 import com.komencash.backend.dto.request.LawAddReqFindListResponseDto;
 import com.komencash.backend.dto.request.LawAddReqFindDetailResponseDto;
@@ -26,6 +27,13 @@ public class LawController {
     @GetMapping("/{group-id}")
     public List<LawFindResponseDto> getLawByGroupId(@PathVariable("group-id") int groupId) {
         return lawService.findLawByGroupId(groupId);
+    }
+
+
+    @ApiOperation(value = "헌법 추가", notes = "입력받은 헌법 정보로 추가하고 결과 반환")
+    @PostMapping
+    public boolean addLaw(@RequestBody LawAddUpdateRequestDto lawAddUpdateRequestDto) {
+        return lawService.addLaw(lawAddUpdateRequestDto);
     }
 
 

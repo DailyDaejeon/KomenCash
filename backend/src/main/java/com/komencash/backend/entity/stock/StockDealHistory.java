@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.stock;
 
+import com.komencash.backend.dto.stock.StockDealHistoryAddRequestDto;
 import com.komencash.backend.entity.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,4 +41,11 @@ public class StockDealHistory {
     @JoinColumn(name = "student_id")
     private Student student;
 
+    public StockDealHistory(StockDealHistoryAddRequestDto stockDealHistoryAddRequestDto, Stock stock, Student student){
+        this.price = stockDealHistoryAddRequestDto.getPrice();
+        this.amount = stockDealHistoryAddRequestDto.getAmount();
+        this.createdDate = new Date();
+        this.stock = stock;
+        this.student = student;
+    }
 }

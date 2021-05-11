@@ -2,13 +2,16 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.bank.AccountHistoryAddUpdateRequestDto;
 import com.komencash.backend.dto.request.CaseAcceptRequest;
+import com.komencash.backend.dto.request.CaseAddRequestDto;
 import com.komencash.backend.dto.request.CaseSelectResponse;
 import com.komencash.backend.dto.tax.TaxHistoryAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.CaseRequestHistory;
+import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.CaseRequestHistoryRepository;
 import com.komencash.backend.repository.GroupRepository;
+import com.komencash.backend.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +23,18 @@ public class CaseService {
 
     @Autowired
     CaseRequestHistoryRepository caseRequestHistoryRepository;
+
     @Autowired
     BankService bankService;
+
     @Autowired
     TaxService taxService;
+
     @Autowired
     GroupRepository groupRepository;
+
+    @Autowired
+    StudentRepository studentRepository;
 
 
     public List<CaseSelectResponse> selectCaseList(int groupId){
@@ -86,6 +95,17 @@ public class CaseService {
             caseRequestHistory.updateCaseAccept(caseAcceptRequest.getAccept());
             caseRequestHistoryRepository.save(caseRequestHistory);
         }
+        return true;
+    }
+
+
+    public boolean addCase(CaseAddRequestDto caseAddRequestDto){
+        Student student = studentRepository.findById(caseAddRequestDto.getStudentId()).orElse(null);
+        Student police = studentRepository.findById(caseAddRequestDto.getPoliceId()).orElse(null);
+        if(student == null || police == null) return false;
+
+        CaseRequestHistory caseRequestHistory = new CaseRequestHistory(caseAddRequestDto, student, police);
+        caseRequestHistoryRepository.save(caseRequestHistory);
         return true;
     }
 }

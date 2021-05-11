@@ -1,6 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.statistic.StatisticListAddRequestDto;
+import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.statistic.StatisticList;
 import com.komencash.backend.repository.GroupRepository;
@@ -8,6 +9,9 @@ import com.komencash.backend.repository.StatisticListDetailRepository;
 import com.komencash.backend.repository.StatisticListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StatisticService {
@@ -21,6 +25,8 @@ public class StatisticService {
     @Autowired
     GroupRepository groupRepository;
 
+
+
     public boolean addStatisticList(StatisticListAddRequestDto statisticListAddRequestDto){
 
         Group group = groupRepository.findById(statisticListAddRequestDto.getGroupId()).orElse(null);
@@ -29,5 +35,18 @@ public class StatisticService {
         StatisticList statisticList = new StatisticList(statisticListAddRequestDto, group);
         statisticListRepository.save(statisticList);
         return true;
+    }
+
+
+    public List<StatisticListFindResponseDto> findStatisticListList(int groupId) {
+
+        List<StatisticListFindResponseDto> statisticListFindResponseDtos = new ArrayList<>();
+
+        List<StatisticList> statisticLists = statisticListRepository.findByGroup_Id(groupId);
+        statisticLists.forEach(statisticList -> {
+            if(!statisticList.isSend()) statisticListFindResponseDtos.add(new StatisticListFindResponseDto(statisticList));
+        });
+
+        return statisticListFindResponseDtos;
     }
 }

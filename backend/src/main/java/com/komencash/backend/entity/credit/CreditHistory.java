@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.credit;
 
+import com.komencash.backend.dto.credit.CreditHistoryAddRequestDto;
 import com.komencash.backend.entity.student.Student;
 import lombok.*;
 
@@ -35,4 +36,12 @@ public class CreditHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public CreditHistory(CreditHistoryAddRequestDto creditHistoryAddRequestDto, int point, Student student) {
+        this.content = creditHistoryAddRequestDto.getContent();
+        this.datetime = new Date();
+        this.pointChange = creditHistoryAddRequestDto.getPointChange();
+        this.point = point;
+        this.student = student;
+    }
 }

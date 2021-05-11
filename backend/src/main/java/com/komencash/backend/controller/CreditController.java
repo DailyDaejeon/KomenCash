@@ -2,15 +2,13 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.credit.CreditFindGradeAndPointResponseDto;
 import com.komencash.backend.dto.credit.CreditFindResponseDto;
+import com.komencash.backend.dto.credit.CreditHistoryAddRequestDto;
 import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
 import com.komencash.backend.service.CreditService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,5 +42,12 @@ public class CreditController {
     @GetMapping("/statistic-doc/list/{group-id}")
     public List<StatisticListFindResponseDto> getSubmittedStatisticList(@PathVariable("group-id") int groupId){
         return creditService.findSubmittedStatisticList(groupId);
+    }
+
+
+    @ApiOperation(value = "학생별 신용 포인트 내역 생성", notes = "입력받은 학생 아이디와 신용 포인트 수정 값으로 수정하고 결과를 반환")
+    @PostMapping("/point")
+    public boolean addCreditHistory(@RequestBody CreditHistoryAddRequestDto creditHistoryAddRequestDto) {
+        return creditService.addCreditHistory(creditHistoryAddRequestDto);
     }
 }

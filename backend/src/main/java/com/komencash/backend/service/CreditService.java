@@ -2,6 +2,7 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.credit.CreditFindGradeAndPointResponseDto;
 import com.komencash.backend.dto.credit.CreditFindResponseDto;
+import com.komencash.backend.dto.credit.CreditHistoryAddRequestDto;
 import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
 import com.komencash.backend.entity.credit.CreditGrade;
 import com.komencash.backend.entity.credit.CreditHistory;
@@ -27,6 +28,7 @@ public class CreditService {
     @Autowired
     StatisticService statisticService;
 
+
     public List<CreditFindResponseDto>  findCreditList(int groupId){
 
         List<CreditFindResponseDto> creditFindResponsDtos = new ArrayList<>();
@@ -42,6 +44,7 @@ public class CreditService {
         return creditFindResponsDtos;
     }
 
+
     public CreditFindGradeAndPointResponseDto findCreditGrade(int studentId){
         List<CreditHistory> creditHistories = creditHistoryRepository.findByStudent_Id(studentId);
         CreditHistory creditHistory = creditHistories.size() == 0 ? new CreditHistory() : creditHistories.get(creditHistories.size() - 1);
@@ -56,5 +59,18 @@ public class CreditService {
 
     public List<StatisticListFindResponseDto> findSubmittedStatisticList(int groupId){
         return statisticService.findStatisticListList(groupId, true);
+    }
+
+
+    public boolean addCreditHistory(CreditHistoryAddRequestDto creditHistoryAddRequestDto) {
+        Student student = studentRepository.findById(creditHistoryAddRequestDto.getStudentId()).orElse(null);
+        if(student == null) return false;
+
+        List<CreditHistory> creditHistories = creditHistoryRepository.findByStudent_Id(student.getId());
+        int prePoint = creditHistories.size() < 1 ? 0 : creditHistories.get(creditHistories.size() - 1).getPoint();
+        int point = prePoint + creditHistoryAddRequestDto.getPointChange();
+
+        creditHistoryRepository.save(new CreditHistory(creditHistoryAddRequestDto, point, student));
+        return true;
     }
 }

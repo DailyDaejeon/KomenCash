@@ -54,6 +54,7 @@ public class StatisticController {
         return statisticService.updateStatisticListDetailSubmit(statisticListDetailUpdateSubmitRequestDto);
     }
 
+
     @ApiOperation(value = "제출 목록 상세 조회", notes = "입력받은 제출 목록 아이디의 상세 정보를 조회")
     @ApiImplicitParam(name = "statistic-list-id", value = "statistic-list-id(제출 목록 아이디)", dataType = "int", required = true)
     @GetMapping("/detail/{statistic-list-id}")

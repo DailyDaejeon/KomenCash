@@ -68,6 +68,18 @@ public class VoteService {
     }
 
 
+    public boolean addVoteAttend(VoteAttendAddRequestDto voteAttendAddRequestDto){
+        Vote vote = voteRepository.findById(voteAttendAddRequestDto.getVoteId()).orElse(null);
+        if(vote == null) return false;
+
+        Student student = studentRepository.findById(voteAttendAddRequestDto.getVoteId()).orElse(null);
+        if(student == null) return false;
+
+        voteAttendRepository.save(new VoteAttend(voteAttendAddRequestDto.getVoteItemNum(), vote, student));
+        return true;
+    }
+
+
     public VoteDetailFindResponseDto findVoteByVoteId(int voteId){
 
         VoteFindResponseDto voteFindResponseDto = findCntByVote_Id(voteId);

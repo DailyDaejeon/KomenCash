@@ -76,7 +76,7 @@ public class UBankService {
     }
 
     public boolean productTerminateRequest(FinancialProductHistoryAddDto request) {
-        FinancialProductHistory history = financialProductHistoryRepository.findById(request.getFinancialProductDetailId()).orElse(null);
+        FinancialProductHistory history = financialProductHistoryRepository.findById(request.getId()).orElse(null);
         if(history.getStatus() == Status.deposit){
             history.acceptRequest(Status.before_termination);
         }

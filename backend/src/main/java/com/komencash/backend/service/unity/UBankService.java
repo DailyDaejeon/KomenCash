@@ -136,4 +136,13 @@ public class UBankService {
         salaryPaymentRequestHistoryRepository.delete(salaryPaymentRequestHistory);
         return true;
     }
+
+    public List<SalaryPaymentRequestDto> getSalaryRequestList(int groupId) {
+        List<SalaryPaymentRequestHistory> list = salaryPaymentRequestHistoryRepository.findByStudent_Job_Group_Id(groupId);
+        List<SalaryPaymentRequestDto> dtos = new ArrayList<>();
+        list.forEach(s ->{
+            dtos.add(new SalaryPaymentRequestDto(s.getId(), s.getSalary(), s.getTaxLoss(), s.getAccept(), s.getStudent().getId()));
+        });
+        return dtos;
+    }
 }

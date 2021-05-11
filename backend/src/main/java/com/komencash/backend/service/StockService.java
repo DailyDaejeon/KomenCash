@@ -1,14 +1,13 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.bank.AccountHistoryAddUpdateRequestDto;
 import com.komencash.backend.dto.stock.*;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.stock.Stock;
 import com.komencash.backend.entity.stock.StockDealHistory;
 import com.komencash.backend.entity.stock.StockHistory;
-import com.komencash.backend.repository.GroupRepository;
-import com.komencash.backend.repository.StockDealHistoryRepository;
-import com.komencash.backend.repository.StockHistoryRepository;
-import com.komencash.backend.repository.StockRepository;
+import com.komencash.backend.entity.student.Student;
+import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,10 @@ public class StockService {
     StockDealHistoryRepository stockDealHistoryRepository;
     @Autowired
     GroupRepository groupRepository;
+    @Autowired
+    StudentRepository studentRepository;
+    @Autowired
+    BankService bankService;
 
 
     public boolean saveStock(StockInsertUpdateRequest stockInsertUpdateRequest){
@@ -103,4 +106,19 @@ public class StockService {
         return true;
     }
 
+
+    public boolean addStockDealHistory(StockDealHistoryAddRequestDto stockDealHistoryAddRequestDto) {
+        Stock stock = stockRepository.findById(stockDealHistoryAddRequestDto.getStockId()).orElse(null);
+        Student student = studentRepository.findById(stockDealHistoryAddRequestDto.getStudentId()).orElse(null);
+        if(stock == null || student == null) return false;
+
+        int price = stockDealHistoryAddRequestDto.getPrice();
+        int amount = stockDealHistoryAddRequestDto.getAmount();
+        String content = "주식 거래(" + student.getNickname() + ") : " + stock.getName();
+        bankService.addAccountHistory(new AccountHistoryAddUpdateRequestDto(student.getId(), -(price * amount), content));
+
+        StockDealHistory stockDealHistory = new StockDealHistory(stockDealHistoryAddRequestDto, stock, student);
+        stockDealHistoryRepository.save(stockDealHistory);
+        return true;
+    }
 }

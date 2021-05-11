@@ -68,4 +68,12 @@ public class StockController {
     public boolean saveStockHistory(@RequestBody StockHistoryInsertRequest stockInsertUpdateRequest) {
         return stockService.saveStockHistory(stockInsertUpdateRequest);
     }
+
+
+    @ApiOperation(value = "주식 거래 내역 생성", notes = "입력받은 주식 거래 정보로 주식 거래 내역을 생성하고" +
+            "계좌에서 그만큼 학생 계좌에서 차감한 후 결과를 반환")
+    @PostMapping("/deal")
+    public boolean addStockDealHistory(@RequestBody StockDealHistoryAddRequestDto stockDealHistoryAddRequestDto) {
+        return stockService.addStockDealHistory(stockDealHistoryAddRequestDto);
+    }
 }

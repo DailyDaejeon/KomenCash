@@ -45,13 +45,13 @@ public class StatisticService {
     }
 
 
-    public List<StatisticListFindResponseDto> findStatisticListList(int groupId) {
+    public List<StatisticListFindResponseDto> findStatisticListList(int groupId, boolean isSend) {
 
         List<StatisticListFindResponseDto> statisticListFindResponseDtos = new ArrayList<>();
 
         List<StatisticList> statisticLists = statisticListRepository.findByGroup_Id(groupId);
         statisticLists.forEach(statisticList -> {
-            if(!statisticList.isSend()) statisticListFindResponseDtos.add(new StatisticListFindResponseDto(statisticList));
+            if(statisticList.isSend() == isSend) statisticListFindResponseDtos.add(new StatisticListFindResponseDto(statisticList));
         });
 
         return statisticListFindResponseDtos;
@@ -79,7 +79,7 @@ public class StatisticService {
     }
 
 
-    public StatisticListFindDetailResponseDto getStatisticListDetail(int statisticListId) {
+    public StatisticListFindDetailResponseDto findStatisticListDetail(int statisticListId) {
         StatisticList statisticList = statisticListRepository.findById(statisticListId).orElse(null);
         if(statisticList == null) return null;
 

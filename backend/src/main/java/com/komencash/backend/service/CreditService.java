@@ -2,6 +2,7 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.credit.CreditFindGradeAndPointResponseDto;
 import com.komencash.backend.dto.credit.CreditFindResponseDto;
+import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
 import com.komencash.backend.entity.credit.CreditGrade;
 import com.komencash.backend.entity.credit.CreditHistory;
 import com.komencash.backend.entity.student.Student;
@@ -23,6 +24,8 @@ public class CreditService {
     CreditGradeRepository creditGradeRepository;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    StatisticService statisticService;
 
     public List<CreditFindResponseDto>  findCreditList(int groupId){
 
@@ -48,5 +51,10 @@ public class CreditService {
         int grade =creditGrade.getGrade();
 
         return new CreditFindGradeAndPointResponseDto(grade, point);
+    }
+
+
+    public List<StatisticListFindResponseDto> findSubmittedStatisticList(int groupId){
+        return statisticService.findStatisticListList(groupId, true);
     }
 }

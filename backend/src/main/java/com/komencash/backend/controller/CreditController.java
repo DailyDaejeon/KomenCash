@@ -2,6 +2,7 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.credit.CreditFindGradeAndPointResponseDto;
 import com.komencash.backend.dto.credit.CreditFindResponseDto;
+import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
 import com.komencash.backend.service.CreditService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -34,5 +35,14 @@ public class CreditController {
     @GetMapping("/student/{student-id}")
     public CreditFindGradeAndPointResponseDto getCreditGrade(@PathVariable("student-id") int studentId){
         return creditService.findCreditGrade(studentId);
+    }
+
+
+
+    @ApiOperation(value = "제출 목록 리스트 조회", notes = "그룹 아이디로 해당 그룹의 통계청에서 전달받은 제출 목록의 리스트를 조회")
+    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/statistic-doc/list/{group-id}")
+    public List<StatisticListFindResponseDto> getSubmittedStatisticList(@PathVariable("group-id") int groupId){
+        return creditService.findSubmittedStatisticList(groupId);
     }
 }

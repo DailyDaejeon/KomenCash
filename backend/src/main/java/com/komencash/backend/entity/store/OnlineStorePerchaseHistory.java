@@ -33,4 +33,11 @@ public class OnlineStorePerchaseHistory {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public OnlineStorePerchaseHistory(String name, int price, Student student){
+        this.name = name;
+        this.price = price;
+        this.perchaseDatetime = new Date();
+        this.student = student;
+    }
 }

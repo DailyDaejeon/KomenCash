@@ -138,13 +138,13 @@ public class BankService {
         List<AccountHistory> accountHistories = accountHistoryRepository.findAll();
         int preBalance = accountHistories.size() == 0 ? 0 : accountHistories.get(accountHistories.size() - 1).getBalance();
 
-        int balance_change = accountHistoryAddUpdateRequestDto.getBalance_change();
-        int balance = preBalance + balance_change;
+        int balanceChange = accountHistoryAddUpdateRequestDto.getBalanceChange();
+        int balance = preBalance + balanceChange;
         String content = accountHistoryAddUpdateRequestDto.getContent();
         Student student = studentRepository.findById(accountHistoryAddUpdateRequestDto.getStudentId()).orElse(null);
         if(student == null) return false;
 
-        AccountHistory accountHistory = new AccountHistory(balance_change, balance, content, student);
+        AccountHistory accountHistory = new AccountHistory(balanceChange, balance, content, student);
         accountHistoryRepository.save(accountHistory);
         return true;
     }

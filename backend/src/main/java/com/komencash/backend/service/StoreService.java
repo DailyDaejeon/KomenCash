@@ -1,20 +1,18 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.bank.AccountHistoryAddUpdateRequestDto;
 import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
-import com.komencash.backend.dto.store.StoreItemAddRequestAcceptUpdateRequest;
-import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
-import com.komencash.backend.dto.store.StoreItemPerchaseHistoryResponse;
-import com.komencash.backend.dto.store.StoreItemResponse;
+import com.komencash.backend.dto.store.*;
+import com.komencash.backend.dto.tax.TaxHistoryAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.OnlineStoreItemAddRequestHistory;
 import com.komencash.backend.entity.store.OnlineStoreItem;
 import com.komencash.backend.entity.store.OnlineStorePerchaseHistory;
-import com.komencash.backend.repository.GroupRepository;
-import com.komencash.backend.repository.OnlineStoreItemAddRequestHistoryRepository;
-import com.komencash.backend.repository.OnlineStoreItemRepository;
-import com.komencash.backend.repository.OnlineStorePerchaseHistoryRepository;
+import com.komencash.backend.entity.student.Student;
+import com.komencash.backend.entity.tax.TaxHistory;
+import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +30,12 @@ public class StoreService {
     OnlineStoreItemAddRequestHistoryRepository onlineStoreItemAddRequestHistoryRepository;
     @Autowired
     OnlineStorePerchaseHistoryRepository onlineStorePerchaseHistoryRepository;
+    @Autowired
+    StudentRepository studentRepository;
+    @Autowired
+    BankService bankService;
+    @Autowired
+    TaxService taxService;
 
     public List<StoreItemResponse> selectStoreItem(int groupId){
         List<StoreItemResponse> storeItemResponses = new ArrayList<>();
@@ -120,5 +124,25 @@ public class StoreService {
         for(OnlineStorePerchaseHistory history : onlineStorePerchaseHistories) responses.add(new StoreItemPerchaseHistoryResponse(history));
 
         return responses;
+    }
+
+    public boolean addPurchaseHistory(StorePerchaseHistoryAddRequestDto storePerchaseHistoryAddRequestDto){
+
+        OnlineStoreItem onlineStoreItem = onlineStoreItemRepository.findById(storePerchaseHistoryAddRequestDto.getItemId()).orElse(null);
+        Student student = studentRepository.findById(storePerchaseHistoryAddRequestDto.getStudentId()).orElse(null);
+        if(onlineStoreItem == null || student == null) return false;
+
+
+        String itemName = onlineStoreItem.getName();
+        int itemPrice = onlineStoreItem.getPrice();
+        String content = "온라인 스토어 물품 구매(" + student.getNickname() + ") : " + itemName;
+
+        onlineStorePerchaseHistoryRepository.save(new OnlineStorePerchaseHistory(itemName, itemPrice, student));
+
+        bankService.addAccountHistory(new AccountHistoryAddUpdateRequestDto(student.getId(), -itemPrice, content));
+
+        taxService.addTaxHistory(new TaxHistoryAddUpdateRequestDto(itemPrice, content, student.getJob().getGroup().getId()));
+
+        return true;
     }
 }

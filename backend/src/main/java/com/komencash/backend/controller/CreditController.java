@@ -2,6 +2,7 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.credit.CreditFindGradeAndPointResponseDto;
 import com.komencash.backend.dto.credit.CreditFindResponseDto;
+import com.komencash.backend.dto.credit.CreditGradeFindListResponseDto;
 import com.komencash.backend.dto.credit.CreditHistoryAddRequestDto;
 import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
 import com.komencash.backend.service.CreditService;
@@ -49,5 +50,12 @@ public class CreditController {
     @PostMapping("/point")
     public boolean addCreditHistory(@RequestBody CreditHistoryAddRequestDto creditHistoryAddRequestDto) {
         return creditService.addCreditHistory(creditHistoryAddRequestDto);
+    }
+
+
+    @ApiOperation(value = "신용 등급 목록 조회", notes = "신용등급 목록을 조회")
+    @GetMapping("/grade-list")
+    public List<CreditGradeFindListResponseDto> getCreditGradeList(){
+        return creditService.findCreditGradeList();
     }
 }

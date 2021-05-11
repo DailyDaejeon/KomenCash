@@ -45,6 +45,11 @@ function modifyGroupMemberJob(studentData) {
     return instance.put(`student/job`, studentData)
 }
 
+//그룹원 전과조회
+function fetchGroupMemeberCase(studentId) {
+  return instance.get(`case/student/${studentId}`)
+}
+
 // 그룹원 직업 무직으로 변경
 function modifyGroupMemberJobFire(studentId) {
     return instance.put(`student/job/fire`, {
@@ -84,6 +89,11 @@ function acceptStatisDetail(statisData) {
   return instance.put(`statistic/detail`, statisData)
 }
 
+// 그룹원 스토어 거래내역 조회
+function fetchGroupMemeberStoreHistory(studentId) {
+  return instance.get(`store/history/student/${studentId}`)
+}
+
 export {
   fetchGroupMemberList,
   fetchGroupRequest,
@@ -95,9 +105,11 @@ export {
   modifyGroupMemberJob,
   resetGroupMemberPw,
   fetchMemberCredit,
+  fetchGroupMemeberCase,
   fetchMemberBalance,
   fetchMemberFinancial,
   fetchMemberStockDeal,
   modifyGroupMemberJobFire,
-  acceptStatisDetail
+  acceptStatisDetail,
+  fetchGroupMemeberStoreHistory
 }

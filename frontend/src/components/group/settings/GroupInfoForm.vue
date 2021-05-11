@@ -15,12 +15,12 @@
                   </tr>
                   <tr>
                     <th>화폐단위</th>
-                    <td class="p-3" v-if="!mActive">{{groupInfo.monetary_unit_name}}</td>
+                    <td class="p-3" v-if="!mActive">{{groupInfo.monetaryUnitName}}</td>
                     <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputMonetaryUnitName" v-model="monetaryUnitName"></td>
                   </tr>
                   <tr>
                     <th>세율</th>
-                    <td class="p-3" v-if="!mActive">{{groupInfo.tax_rate}}(%)</td>
+                    <td class="p-3" v-if="!mActive">{{groupInfo.taxRate}}(%)</td>
                     <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputTaxRate" v-model="taxRate"></td>
                   </tr>
                   <tr>
@@ -105,9 +105,9 @@ export default {
       console.log(this.groupInfo)
       this.groupName = this.groupInfo.name
       this.groupInflationRate= this.groupInfo.inflationRate,
-      this.monetaryUnitName= this.groupInfo.monetary_unit_name
+      this.monetaryUnitName= this.groupInfo.monetaryUnitName
       this.groupTax=this.groupInfo.tax,
-      this.taxRate=this.groupInfo.tax_rate
+      this.taxRate=this.groupInfo.taxRate
       this.userInfo=this.groupInfo.teacher
     },
     modiGroupInfo() {
@@ -126,17 +126,17 @@ export default {
       }
       console.log(groupInfo)
       modifyGroup(groupInfo)
-      const modifyGroupInfo = {
-        code: this.groupInfo.code,
-        id: this.groupInfo.id,
-        inflationRate: this.groupInflationRate,
-        monetary_unit_name: this.monetaryUnitName,
-        name: this.groupName,
-        tax:this.groupTax,
-        tax_rate: this.groupTax,
-        teacher: this.userInfo
-      }
-      this.$store.commit('setGroupInfo',modifyGroupInfo)
+      // const modifyGroupInfo = {
+      //   code: this.groupInfo.code,
+      //   id: this.groupInfo.id,
+      //   inflationRate: this.groupInflationRate,
+      //   monetary_unit_name: this.monetaryUnitName,
+      //   name: this.groupName,
+      //   tax:this.groupTax,
+      //   tax_rate: this.groupTax,
+      //   teacher: this.userInfo
+      // }
+      this.$store.commit('setGroupInfo',groupInfo)
       this.fetchInfo()
       this.mActive = !this.mActive;
     },

@@ -2,6 +2,7 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.law.LawAddReqAcceptUpdateRequestDto;
+import com.komencash.backend.dto.law.LawAddReqAddRequestDto;
 import com.komencash.backend.dto.request.LawAddReqFindListResponseDto;
 import com.komencash.backend.dto.request.LawAddReqFindDetailResponseDto;
 import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
@@ -41,6 +42,13 @@ public class LawController {
     @PutMapping("")
     public boolean updateLaw(@RequestBody LawAddUpdateRequestDto lawAddUpdateRequestDto) {
         return lawService.updateLaw(lawAddUpdateRequestDto);
+    }
+
+
+    @ApiOperation(value = "헌법 추가 요청 생성", notes = "입력받은 헌법 정보로 헌법 추가 요청을 생성하고 결과 반환")
+    @PostMapping("law-add-request")
+    public boolean addLawAddReq(@RequestBody LawAddReqAddRequestDto lawAddReqAddRequestDto) {
+        return lawService.addLawAddReq(lawAddReqAddRequestDto);
     }
 
 

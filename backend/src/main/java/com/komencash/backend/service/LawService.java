@@ -1,6 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.law.LawAddReqAcceptUpdateRequestDto;
+import com.komencash.backend.dto.law.LawAddReqAddRequestDto;
 import com.komencash.backend.dto.request.LawAddReqFindListResponseDto;
 import com.komencash.backend.dto.request.LawAddReqFindDetailResponseDto;
 import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
@@ -11,6 +12,7 @@ import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.law.Law;
 import com.komencash.backend.entity.request_history.LawAddRequestHistory;
+import com.komencash.backend.entity.vote.Vote;
 import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,19 @@ public class LawService {
 
         Law law = new Law(lawAddUpdateRequestDto, group);
         lawRepository.save(law);
+        return true;
+    }
+
+
+    public boolean addLawAddReq(LawAddReqAddRequestDto lawAddReqAddRequestDto) {
+        Vote vote = voteRepository.findById(lawAddReqAddRequestDto.getVoteId()).orElse(null);
+        if(vote == null) return false;
+
+        Student student = studentRepository.findById(lawAddReqAddRequestDto.getStudentId()).orElse(null);
+        if(student == null) return false;
+
+        LawAddRequestHistory lawAddRequestHistory = new LawAddRequestHistory(lawAddReqAddRequestDto, vote, student);
+        lawAddRequestHistoryRepository.save(lawAddRequestHistory);
         return true;
     }
 

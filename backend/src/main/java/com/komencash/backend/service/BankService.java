@@ -223,4 +223,15 @@ public class BankService {
         financialProductHistoryRepository.save(history);
         return true;
     }
+
+    public List<FinancialProductApplyDto> getApplication(int productId) {
+        List<FinancialProductHistory> financialProductHistory =financialProductHistoryRepository.findByFinancialProductDetail_FinancialProduct_Id(productId);
+        List<FinancialProductApplyDto> result = new ArrayList<>();
+        financialProductHistory.forEach(s -> {
+            if(s.getStatus() == Status.before_deposit || s.getStatus() ==Status.before_termination){
+                result.add(new FinancialProductApplyDto(s.getId(), s.getStudent().getNickname(), s.getStatus()));
+            }
+        });
+        return result;
+    }
 }

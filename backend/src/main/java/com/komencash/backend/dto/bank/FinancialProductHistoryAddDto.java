@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FinancialProductHistoryAddDto {
+    private int id;
     private int principal;
     private int financialProductDetailId;
     private int studentId;
@@ -15,5 +16,9 @@ public class FinancialProductHistoryAddDto {
     public FinancialProductHistoryAddDto(int financialProductDetailId, int studentId) {
         this.financialProductDetailId = financialProductDetailId;
         this.studentId = studentId;
+    }
+
+    public FinancialProductHistoryAddDto(int id) {
+        this.id = id;
     }
 }

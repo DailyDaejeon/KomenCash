@@ -4,6 +4,7 @@ import com.komencash.backend.dto.bank.*;
 import com.komencash.backend.service.BankService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,6 +86,12 @@ public class BankController {
         return ResponseEntity.status(HttpStatus.OK).body(bankService.findFinancialProductHistoryByStudentId(studentId));
     }
 
+    @ApiOperation(value="금융 상품 신청 조회", notes = "입력받은 상품에서 가입 신청한 목록 조회")
+    @ApiImplicitParam(name = "product-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/financial-product/apply/{product-id}")
+    public ResponseEntity<List<FinancialProductApplyDto>> getApplication(@PathVariable("product-id") int productId){
+        return ResponseEntity.status(HttpStatus.OK).body(bankService.getApplication(productId));
+    }
 
     @ApiOperation(value = "금융 상품 정보 수정", notes = "입력받은 금융 상품 정보를 update후 결과 반환")
     @PutMapping("/financial-product")
@@ -100,8 +107,8 @@ public class BankController {
     }
 
     @ApiOperation(value = "금융상품 신청 상태 수정", notes = "금융상품 신청상태를 Deposit이나, Terminate로 바꾸기")
-    @PutMapping("/financial-status-accept/{financialProductHistoryId}")
-    public boolean updateFinancialStatusAccept(@PathVariable("financialProductHistoryId") int financialProductHistoryId){
+    @PutMapping("/financial-status-accept/{financialProductHistory-id}")
+    public boolean updateFinancialStatusAccept(@PathVariable("financialProductHistory-id") int financialProductHistoryId){
         return bankService.updateFinancialStatusAccept(financialProductHistoryId);
     }
 

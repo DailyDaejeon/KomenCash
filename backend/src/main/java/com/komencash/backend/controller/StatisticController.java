@@ -36,7 +36,7 @@ public class StatisticController {
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/list/{group-id}")
     public List<StatisticListFindResponseDto> getStatisticListList(@PathVariable("group-id") int groupId) {
-        return statisticService.findStatisticListList(groupId);
+        return statisticService.findStatisticListList(groupId, false);
     }
 
 
@@ -54,11 +54,12 @@ public class StatisticController {
         return statisticService.updateStatisticListDetailSubmit(statisticListDetailUpdateSubmitRequestDto);
     }
 
+
     @ApiOperation(value = "제출 목록 상세 조회", notes = "입력받은 제출 목록 아이디의 상세 정보를 조회")
     @ApiImplicitParam(name = "statistic-list-id", value = "statistic-list-id(제출 목록 아이디)", dataType = "int", required = true)
     @GetMapping("/detail/{statistic-list-id}")
     public StatisticListFindDetailResponseDto getStatisticListDetail(@PathVariable("statistic-list-id") int staticListId) {
-        return statisticService.getStatisticListDetail(staticListId);
+        return statisticService.findStatisticListDetail(staticListId);
     }
 
 

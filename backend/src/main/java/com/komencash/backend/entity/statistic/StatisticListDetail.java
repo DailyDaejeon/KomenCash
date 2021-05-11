@@ -2,7 +2,6 @@ package com.komencash.backend.entity.statistic;
 
 import com.komencash.backend.entity.student.Student;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +11,6 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "statistic_list_detail")
 public class StatisticListDetail {
 
@@ -31,4 +29,10 @@ public class StatisticListDetail {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "statistic_list_id")
     private StatisticList statisticList;
+
+    public StatisticListDetail(Student student, StatisticList statisticList){
+        this.isSubmission = false;
+        this.statisticList = statisticList;
+        this.student = student;
+    }
 }

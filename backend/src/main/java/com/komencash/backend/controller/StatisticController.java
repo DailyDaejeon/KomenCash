@@ -8,6 +8,8 @@ import com.komencash.backend.service.StatisticService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +21,8 @@ public class StatisticController {
     @Autowired
     StatisticService statisticService;
 
-    @ApiOperation(value = "제출 목록 생성", notes = "입력받은 제출목록 정보로 제출목록을 생성하고 결과를 boolean 타입으로 반환")
+    @ApiOperation(value = "제출 목록 생성", notes = "입력받은 제출목록 정보로 제출 내역 목록과 해당 그룹의 모든 학생의 " +
+            "제출 내역을 생성하고 결과를 boolean 타입으로 반환")
     @PostMapping
     public boolean addStatisticList(@RequestBody StatisticListAddRequestDto statisticListAddRequestDto) {
         return statisticService.addStatisticList(statisticListAddRequestDto);
@@ -31,5 +34,12 @@ public class StatisticController {
     @GetMapping("/list/{group-id}")
     public List<StatisticListFindResponseDto> getStatisticListList(@PathVariable("group-id") int groupId) {
         return statisticService.findStatisticListList(groupId);
+    }
+
+
+    @ApiOperation(value="제출 목록 삭제", notes = "입력받은 제출 목록 아이디로 삭제하고 결과 반환")
+    @DeleteMapping("/financial-product/{statistic-list-id}")
+    public boolean deleteStatisticList(@PathVariable("statistic-list-id") int statisticListId){
+        return statisticService.deleteStatistidList(statisticListId);
     }
 }

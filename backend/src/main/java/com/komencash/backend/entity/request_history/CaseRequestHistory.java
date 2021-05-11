@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.request_history;
 
+import com.komencash.backend.dto.request.CaseAddRequestDto;
 import com.komencash.backend.entity.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,5 +42,13 @@ public class CaseRequestHistory {
 
     public void updateCaseAccept(Accept accept) {
         this.accept = accept;
+    }
+
+    public CaseRequestHistory(CaseAddRequestDto caseAddRequestDto, Student student, Student police){
+        this.content = caseAddRequestDto.getContent();
+        this.fine = caseAddRequestDto.getFine();
+        this.accept = Accept.before_confirm;
+        this.student = student;
+        this.police = police;
     }
 }

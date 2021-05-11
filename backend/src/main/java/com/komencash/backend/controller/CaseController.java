@@ -1,6 +1,8 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
 import com.komencash.backend.dto.request.CaseAcceptRequest;
+import com.komencash.backend.dto.request.CaseAddRequestDto;
 import com.komencash.backend.dto.request.CaseSelectResponse;
 import com.komencash.backend.service.CaseService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -24,6 +26,7 @@ public class CaseController {
         return caseService.selectCaseList(groupId);
     }
 
+    
     @ApiOperation(value = "사건 경위서 상세 조회", notes = "입력받은 case-id의 사건 경위서를 조회")
     @ApiImplicitParam(name = "case-id", value = "case-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/{case-id}")
@@ -46,4 +49,12 @@ public class CaseController {
     public boolean updateCaseAccept(@RequestBody CaseAcceptRequest caseAcceptRequest) {
         return caseService.updateCaseAccept(caseAcceptRequest);
     }
+
+
+    @ApiOperation(value = "사건 경위서 접수", notes = "사건 경위서 정보를 받아서 생성하고 결과를 반환")
+    @PostMapping
+    public boolean addCase(@RequestBody CaseAddRequestDto caseAddRequestDto) {
+        return caseService.addCase(caseAddRequestDto);
+    }
+
 }

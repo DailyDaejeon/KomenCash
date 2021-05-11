@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.request_history;
 
+import com.komencash.backend.dto.request.ItemAddReqAddRequestDto;
 import com.komencash.backend.entity.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +35,13 @@ public class OnlineStoreItemAddRequestHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public OnlineStoreItemAddRequestHistory(ItemAddReqAddRequestDto itemAddReqAddRequestDto, Student student) {
+        this.name = itemAddReqAddRequestDto.getItemName();
+        this.content = itemAddReqAddRequestDto.getContent();
+        this.accept = Accept.before_confirm;
+        this.student = student;
+    }
 
     public void updateAccept(Accept accept){
         this.accept = accept;

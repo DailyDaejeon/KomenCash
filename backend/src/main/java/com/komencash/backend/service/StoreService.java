@@ -1,6 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.bank.AccountHistoryAddUpdateRequestDto;
+import com.komencash.backend.dto.request.ItemAddReqAddRequestDto;
 import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
 import com.komencash.backend.dto.store.*;
@@ -143,6 +144,16 @@ public class StoreService {
 
         taxService.addTaxHistory(new TaxHistoryAddUpdateRequestDto(itemPrice, content, student.getJob().getGroup().getId()));
 
+        return true;
+    }
+
+
+    public boolean addItemAddReq(ItemAddReqAddRequestDto itemAddReqAddRequestDto) {
+        Student student = studentRepository.findById(itemAddReqAddRequestDto.getStudentId()).orElse(null);
+        if(student == null) return false;
+
+        OnlineStoreItemAddRequestHistory onlineStoreItemAddRequestHistory = new OnlineStoreItemAddRequestHistory(itemAddReqAddRequestDto, student);
+        onlineStoreItemAddRequestHistoryRepository.save(onlineStoreItemAddRequestHistory);
         return true;
     }
 }

@@ -1,5 +1,6 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.request.ItemAddReqAddRequestDto;
 import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
 import com.komencash.backend.dto.store.*;
@@ -91,5 +92,11 @@ public class StoreController {
     @PostMapping("/purchase")
     public boolean addPurchaseHistory(@RequestBody StorePerchaseHistoryAddRequestDto storePerchaseHistoryAddRequestDto) {
         return storeService.addPurchaseHistory(storePerchaseHistoryAddRequestDto);
+    }
+
+    @ApiOperation(value = "상품 추가 요청", notes = "입력받은 상품의 추가 요청을 생성하고 결과를 반환")
+    @PostMapping("/add-request")
+    public boolean addItemAddReq(@RequestBody ItemAddReqAddRequestDto itemAddReqAddRequestDto) {
+        return storeService.addItemAddReq(itemAddReqAddRequestDto);
     }
 }

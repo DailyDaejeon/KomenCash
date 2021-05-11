@@ -43,9 +43,9 @@ public class UBankController {
     }
 
     @ApiOperation(value="은행원 - 월급 요청 목록 보기", notes = "월급 요청 목록 보기")
-    @GetMapping("/ubank/salary-payment")
-    public ResponseEntity<List<SalaryPaymentRequestDto>> getSalaryRequest(){
-        return null;
+    @GetMapping("/ubank/salary-payment/{group-id}")
+    public ResponseEntity<List<SalaryPaymentRequestDto>> getSalaryRequest(@PathVariable("group-id") int groupId){
+        return ResponseEntity.status(HttpStatus.OK).body(uBankService.getSalaryRequestList(groupId));
     }
     // 수락 버튼을 누른다
     // 국무총리, 부총리 인 경우 (vote인 경우) 는 세금에서 빼서 어카운트에 추가
@@ -57,6 +57,7 @@ public class UBankController {
         uBankService.salaryRequestAllow(request);
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }
+
 
 
 }

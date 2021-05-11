@@ -22,7 +22,7 @@ export default {
     return {
       istoggleNav:false,
     }
-  },  
+  }, 
   methods: {
     toggleNav() {
       this.istoggleNav = !this.istoggleNav;

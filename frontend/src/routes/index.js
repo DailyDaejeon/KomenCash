@@ -4,6 +4,12 @@ Vue.use(Router);
 
 const router =  new Router({
   mode: 'history',
+  scrollBehavior(to, from) {
+    // to, from, savedPosition
+    if (to.path !== from.path) {
+      return { x: 0, y: 0 }
+    }
+  },
   routes: [
     {
       path: '/',

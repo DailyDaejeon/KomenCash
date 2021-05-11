@@ -73,16 +73,14 @@ const router =  new Router({
           path: 'list',
           name: 'LawList',
           component: () => import('@/components/group/law/LawList.vue'),
-          // props: true,
-          children: [
-            {
-              path: ':lawType',
-              name: 'LawType',
-              component: () => import('@/components/group/law/LawType.vue'),
-              props: true
-            }
-          ]
+          props: true
         },
+        {
+          path: ':lawType',
+          name: 'LawType',
+          component: () => import('@/components/group/law/LawType.vue'),
+          props: true
+        }
       ]
     },
     

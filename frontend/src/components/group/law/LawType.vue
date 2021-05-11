@@ -6,10 +6,10 @@
       </li>
     </ul> -->
     <div class="law-content">
-      <div v-for="article in lawData" :key="article.id">
+      <div v-for="(law,index) in lawData" :key="index">
         <!-- 수정 폼을 여기에 만들어야 하나...? -->
-        <p class="law-item-title">{{article.lawType}}법 제 {{article.article}}조 {{article.paragraph}}항</p>
-        <p class="law-item-content">{{article.content}}</p>
+        <p class="law-item-title">{{lawType}} 제 {{law.article}}조 {{law.paragraph}}항</p>
+        <p class="law-item-content">{{law.content}}</p>
       </div>
     </div>
   </div>
@@ -19,14 +19,18 @@
 export default {
   data() {
     return {
+      lawList: []
     }
   },
   props: ['lawType','lawData'],
   created() {
-    console.log(this.lawType,this.lawData)
+    this.fetchData()
   },
   methods: {
-    
+    fetchData() {
+      this.lawList = this.lawData
+      console.log(this.lawList)
+    }
   },
 }
 </script>

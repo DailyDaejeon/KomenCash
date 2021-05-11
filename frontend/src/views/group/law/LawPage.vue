@@ -84,7 +84,7 @@ export default {
       voteItemList:[],
       voteTitle:'',
       voteContent:'',
-      lawData:[]
+      lawData:{}
     }
   },
   components: { LawList, RequestItem, VoteList }, //Modal, VoteItemInput, VoteItemList, 
@@ -98,9 +98,17 @@ export default {
   },
   methods: {
     async fetchLawData() {
+      this.lawData = {};
       const res = await fetchLawList(this.groupInfo.id)
-      this.lawData = res.data
+      res.data.forEach((el) => {
+        if (this.lawData[el.lawType]) {
+          this.lawData[el.lawType].push(el)
+        } else {
+          this.lawData[el.lawType] = [el]
+        }
+      })
       console.log('헌법리스트',this.lawData)
+
     },
     addLaw() {
       this.$swal({
@@ -109,7 +117,7 @@ export default {
         '<div id="swal2-content" class="swal2-html-container" style="display: block;">추가할 법률을 적어주세요.</div>'+'<input id="swal-input1" class="swal2-input" type="text" placeholder="OO법">' +
         '<input id="swal-input2" class="swal2-input-custom" min="0" type="number" placeholder="0조">'+
         '<input id="swal-input3" class="swal2-input-custom" min="0" type="number" placeholder="0항">'+
-        '<input id="swal-input4" class="swal2-input"  type="text" placeholder="~~~~을 했을시에는 ~~~합니다.">',
+        '<input id="swal-input4" class="swal2-input"  type="text" placeholder="그룹의 주권은 국민에게 있고, 모든 권력은 국민으로부터 나온다.">',
         focusConfirm: false,
         preConfirm: () => {
           return [

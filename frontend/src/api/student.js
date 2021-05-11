@@ -35,6 +35,11 @@ function rejectGroupMember(studentId) {
     })
 }
 
+//그룹원 자격증 취득 목록 조회
+function fetchGroupMemberCertificate(studentId) {
+  return instance.get(`certificate/student/${studentId}`)
+}
+
 //그룹원 자격증 변경 수락
 function modifyGroupMemberCertificate(studentData) {
     return instance.put(`student/certificate`, studentData)
@@ -60,7 +65,7 @@ function modifyGroupMemberJobFire(studentId) {
 //그룹원 비밀번호초기화
 function resetGroupMemberPw(studentId) {
     return instance.put(`student/reset-pw`,  {
-      student_id:studentId
+      studentId :studentId
     })
 }
 
@@ -104,6 +109,7 @@ export {
   modifyGroupMemberCertificate,
   modifyGroupMemberJob,
   resetGroupMemberPw,
+  fetchGroupMemberCertificate,
   fetchMemberCredit,
   fetchGroupMemeberCase,
   fetchMemberBalance,

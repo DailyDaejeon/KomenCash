@@ -95,6 +95,15 @@ public class StatisticService {
         });
 
         return new StatisticListFindDetailResponseDto(statisticList, statisticListDetailFindResponseDtos);
+    }
 
+    
+    public boolean updateStatisticListSubmit(int statisticListId){
+        StatisticList statisticList = statisticListRepository.findById(statisticListId).orElse(null);
+        if(statisticList == null) return false;
+
+        statisticList.updateSubmit();
+        statisticListRepository.save(statisticList);
+        return true;
     }
 }

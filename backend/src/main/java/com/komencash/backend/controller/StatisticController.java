@@ -61,4 +61,10 @@ public class StatisticController {
         return statisticService.getStatisticListDetail(staticListId);
     }
 
+
+    @ApiOperation(value = "제출 내역 제출", notes = "신관위로 학생들 제출 내역을 제출하고 결과를 반환")
+    @PutMapping("/submit")
+    public boolean updateStatisticListSubmit(@RequestBody int statisticListId) {
+        return statisticService.updateStatisticListSubmit(statisticListId);
+    }
 }

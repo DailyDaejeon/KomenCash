@@ -1,8 +1,6 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.statistic.StatisticListAddRequestDto;
-import com.komencash.backend.dto.statistic.StatisticListDetailUpdateSubmitRequestDto;
-import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
+import com.komencash.backend.dto.statistic.*;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.statistic.StatisticList;
 import com.komencash.backend.entity.statistic.StatisticListDetail;
@@ -78,5 +76,25 @@ public class StatisticService {
         statisticListDetail.updateSubmit();
         statisticListDetailRepository.save(statisticListDetail);
         return true;
+    }
+
+
+    public StatisticListFindDetailResponseDto getStatisticListDetail(int statisticListId) {
+        StatisticList statisticList = statisticListRepository.findById(statisticListId).orElse(null);
+        if(statisticList == null) return null;
+
+        List<StatisticListDetailFindResponseDto> statisticListDetailFindResponseDtos = new ArrayList<>();
+        List<StatisticListDetail> statisticListDetails = statisticListDetailRepository.findByStatisticList_Id(statisticListId);
+        statisticListDetails.forEach(statisticListDetail -> {
+            statisticListDetailFindResponseDtos.add(
+                    new StatisticListDetailFindResponseDto(
+                            statisticListDetail.getId(),
+                            statisticListDetail.isSubmission(),
+                            statisticListDetail.getStudent().getId(),
+                            statisticListDetail.getStudent().getNickname()));
+        });
+
+        return new StatisticListFindDetailResponseDto(statisticList, statisticListDetailFindResponseDtos);
+
     }
 }

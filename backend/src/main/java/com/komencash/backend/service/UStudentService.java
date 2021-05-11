@@ -97,7 +97,7 @@ public class UStudentService {
 
     public StudentState getStudentState(int studentId) {
         Student student = studentRepository.findById(studentId).orElse(null);
-        List<AccountHistory> account = accountHistoryRepository.findAllByStudent_Id(studentId);
+        List<AccountHistory> account = accountHistoryRepository.findByStudent_Id(studentId);
         List<CertificateSelectResponse> certificates = certificateService.findCertificateListByStudent(studentId);
         certificates.forEach(s -> {
             System.out.println(s);

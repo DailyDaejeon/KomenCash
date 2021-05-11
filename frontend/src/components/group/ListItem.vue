@@ -18,8 +18,7 @@
           class="list-group-item list-group-item-action" :to="{name:listTypeRouteName, params: { id:data.id, propsData:data,dataName:data.name}}"
           
           >
-          <span v-if="listTypeRouteName === 'BankFinancialDetail'">{{data.financialProduct.name}}</span>
-          <span v-else-if="listTypeRouteName==='GroupMemberInfo'">
+          <span v-if="listTypeRouteName==='GroupMemberInfo'">
             {{data.nickname}}
           </span>
           <span v-else>

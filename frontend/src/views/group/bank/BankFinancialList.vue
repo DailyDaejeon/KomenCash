@@ -143,7 +143,7 @@ export default {
         }
       })
       this.$swal({
-          title: '직업이 생성됐어요!',
+          title: '예금상품이 생성됐어요!',
           icon:'success',
           confirmButtonText: 'Lovely!'
         })

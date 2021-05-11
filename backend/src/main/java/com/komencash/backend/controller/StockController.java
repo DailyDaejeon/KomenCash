@@ -76,4 +76,12 @@ public class StockController {
     public boolean addStockDealHistory(@RequestBody StockDealHistoryAddRequestDto stockDealHistoryAddRequestDto) {
         return stockService.addStockDealHistory(stockDealHistoryAddRequestDto);
     }
+
+
+    @ApiOperation(value = "학생별 주식 보유 현황 조회", notes = "입력받은 학생 아이디의 모든 주식 보유 현황 조회")
+    @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/deal/holding-status/{student-id}")
+    public List<StockDealHistoryFindHoldingStatusDto> getStockHoldingStatus(@PathVariable("student-id")int studentId){
+        return stockService.findStockHoldingStatus(studentId);
+    }
 }

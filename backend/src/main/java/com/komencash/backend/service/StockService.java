@@ -121,4 +121,39 @@ public class StockService {
         stockDealHistoryRepository.save(stockDealHistory);
         return true;
     }
+
+
+    public List<StockDealHistoryFindHoldingStatusDto> findStockHoldingStatus(int studentId){
+        List<StockDealHistoryFindHoldingStatusDto> stockDealHistoryFindHoldingStatusDtos = new ArrayList<>();
+
+        Student student = studentRepository.findById(studentId).orElse(null);
+        List<Stock> stocks = stockRepository.findByGroup_Id(student.getJob().getGroup().getId());
+        List<StockDealHistory> stockDealHistories = stockDealHistoryRepository.findByStudent_Id(studentId);
+        if(student == null) return null;
+
+        for (Stock stock : stocks){
+
+            double sumDealPrice = 0;
+            int amount = 0;
+            for(StockDealHistory stockDealHistory : stockDealHistories) {
+                if (stockDealHistory.getStock() == stock) {
+                    amount += stockDealHistory.getAmount();
+                    sumDealPrice += (stockDealHistory.getPrice() * stockDealHistory.getAmount());
+                }
+            }
+
+            if(amount > 0) {
+                List<StockHistory> stockHistories = stockHistoryRepository.findByStock_Id(stock.getId());
+
+                int stockId = stock.getId();
+                String stockName = stock.getName();
+                int curPrice = stockHistories.size() > 0 ? stockHistories.get(stockHistories.size() - 1).getPrice() : 0;
+                double avgDealPrice = sumDealPrice / amount;
+                double changePercent = (curPrice / avgDealPrice - 1) * 100;
+                stockDealHistoryFindHoldingStatusDtos
+                        .add(new StockDealHistoryFindHoldingStatusDto(stockId, stockName, curPrice, avgDealPrice, amount, changePercent));
+            }
+        }
+        return stockDealHistoryFindHoldingStatusDtos;
+    }
 }

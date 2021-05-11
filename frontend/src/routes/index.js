@@ -74,13 +74,14 @@ const router =  new Router({
       path: '/group/law',
       name: 'LawPage',
       component: () => import('@/views/group/law/LawPage.vue'),
+      props: true,
       children:[
-        {
-          path: 'list',
-          name: 'LawList',
-          component: () => import('@/components/group/law/LawList.vue'),
-          props: true
-        },
+        // {
+        //   path: 'list',
+        //   name: 'LawList',
+        //   component: () => import('@/components/group/law/LawList.vue'),
+        //   props: true
+        // },
         {
           path: ':lawType',
           name: 'LawType',
@@ -89,7 +90,12 @@ const router =  new Router({
         }
       ]
     },
-    
+    // {
+    //   path: 'list',
+    //   name: 'LawList',
+    //   component: () => import('@/components/group/law/LawList.vue'),
+    //   props: true
+    // },
     {
       path: '/group/vote/:id',
       name: 'VoteDetail',

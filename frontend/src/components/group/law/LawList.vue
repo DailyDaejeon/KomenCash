@@ -5,11 +5,14 @@
         <div id="tab" class="container">
           <div class="tabs">
             <div class="tabs" >
+              <!-- {{lawData}} -->
+              <span v-for="(law,index) in Object.keys(lawData)" :key="index"
+              >
               <router-link 
-              v-for="(law,index) in Object.keys(lawData)" :key="index"
               active-class="active"
               :to="{name:'LawType',params:{lawType:law,lawData:lawData[law]}}">{{law}}
               </router-link>
+              </span>
             </div>
             <div class="tabcontent">
                 <router-view></router-view>
@@ -22,13 +25,39 @@
 </template>
 
 <script>
+import { fetchLawList } from '@/api/law';
+import { mapState } from 'vuex';
 export default {
-  props:['lawData'],
   data() {
     return {
       activetab: 1,
+      lawData:{}
+
     }
   },
+  created() {
+    this.fetchLawData()
+  },
+  computed: {
+    ...mapState({
+      groupInfo:state => state.group.groupInfo
+    })
+  },
+  methods : {
+    async fetchLawData() {
+      this.lawData = {};
+      const res = await fetchLawList(this.groupInfo.id)
+      res.data.forEach((el) => {
+        if (this.lawData[el.lawType]) {
+          this.lawData[el.lawType].push(el)
+        } else {
+          this.lawData[el.lawType] = [el]
+        }
+      })
+      console.log('헌법리스트',this.lawData)
+
+    },
+  }
 }
 </script>
 

@@ -48,6 +48,11 @@ function createSalaryRequest(groupId) {
   })
 }
 
+// 금융상품 신청 목록 조회
+function fetchFinancialRequest(financialId) {
+  return instance.put(`bank/financial-product/apply/${financialId}`)
+}
+
 // 금융상품 신청 상태 수정
 function acceptFinancialRequest(financialData) {
   return instance.put(`bank/financial-status-accept/${financialData.id}`, financialData)
@@ -64,5 +69,6 @@ export {
   modifyDetailFinancial,
   fetchDetailFinancial,
   createSalaryRequest,
+  fetchFinancialRequest,
   acceptFinancialRequest
 }

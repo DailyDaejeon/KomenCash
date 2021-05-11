@@ -69,10 +69,8 @@ public class StudentService {
         if(students.size() == 0) return null;
 
         students.forEach(student ->{
-            System.out.println(student.getNickname());
             GroupMemberAddRequestHistory groupMemberAddRequestHistory = groupMemberAddRequestHistoryRepository.findByStudent_Id(student.getId());
-            System.out.println(groupMemberAddRequestHistory.getStudent().getNickname());
-            if(groupMemberAddRequestHistory.getAccept() == Accept.before_confirm){
+            if(groupMemberAddRequestHistory!=null && groupMemberAddRequestHistory.getAccept() == Accept.before_confirm){
                 groupMemberAddReqFindRequestDtos.add(
                         new GroupMemberAddReqFindRequestDto(
                         groupMemberAddRequestHistory.getId(),

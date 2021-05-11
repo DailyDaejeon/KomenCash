@@ -79,6 +79,11 @@ function fetchMemberStockDeal(studentId) {
   return instance.get(`stock/deal/student/${studentId}`)
 }
 
+// 그룹원 제출 내역 수정
+function acceptStatisDetail(statisData) {
+  return instance.put(`statistic/detail`, statisData)
+}
+
 export {
   fetchGroupMemberList,
   fetchGroupRequest,
@@ -93,5 +98,6 @@ export {
   fetchMemberBalance,
   fetchMemberFinancial,
   fetchMemberStockDeal,
-  modifyGroupMemberJobFire
+  modifyGroupMemberJobFire,
+  acceptStatisDetail
 }

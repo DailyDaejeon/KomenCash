@@ -5,26 +5,23 @@
         <h3>이름</h3>
       </div>
       <div class="col-6">
-        <span class="h3" v-if="!mActive">{{memberInfo.nickname}}</span>
-        <span v-else>
-          <input type="text" class="form-control d-inline-block ml-2 w-50" id="inputGroupname" v-model="memberName">
-        </span>
+        <span class="h3">{{memberInfo.nickname}}</span>
       </div>
       <div class="col-6">
         <h3>비밀번호</h3>
       </div>
       <div class="col-6">
         <span class="h3" >
-         <button class="btn btn-main" @click="resetPW(student.id)">초기화하기</button>
+         <button class="btn btn-main" @click="resetPW(memberInfo.id)">초기화하기</button>
         </span>
       </div>
       <div class="col-6">
         <h3>직업</h3>
       </div>
       <div class="col-6">
-        <span class="h3" v-if="!mActive">{{memberInfo.job.name}}</span>
-        <span v-else>
-          <button class="btn btn-main">
+        <span class="h3">{{memberInfo.job.name}}</span>
+        <span v-if="memberInfo.job.name !== '무직'">
+          <button class="ml-3 btn btn-main" @click="jobFire(memberInfo.id)">
             무직으로 변경
           </button>
         </span>
@@ -49,10 +46,10 @@
         <h3>자격증</h3>
       </div>
       <div class="col-6">
-          <button class="btn btn-main">자격증 추가</button>
+          <button class="btn btn-main" @click="addCerti">자격증 추가</button>
       </div>
       <div class="col-12">
-        <table v-if="memberInfo.certificateSelectResponseList.name" class="table table-hover my-0">
+        <table v-if="memberInfo.certificateSelectResponseList.length" class="table table-hover my-0">
           <thead>
             <tr>
               <th>자격증명</th>
@@ -61,23 +58,23 @@
               </tr>
           </thead>
           <tbody>
-            <tr v-for="(certi,index) in memberInfo.certificateSelectResponseList" 
+            <tr v-for="(certi,index) in memberInfo.certificateSelectResponseList"
             :key="index">
               <td>{{certi.name}}</td>
-              <td><button class="btn btn-main">수정</button></td>
-              <td><button class="btn btn-danger">삭제</button></td>
+              <td><button class="btn btn-main"><i class="fas fa-edit"></i></button></td>
+              <td><button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></td>
             </tr>
           </tbody>
         </table>
-        <span v-else>
+        <p class="h5" v-else>
           등록된 자격증이 없습니다.
-        </span>
+        </p>
       </div>
       <div class="col-6">
         <h3>예금</h3>
       </div>
       <div class="col-12">
-        <table class="table table-hover my-0">
+        <table v-if="memberFinancial.length" class="table table-hover my-0">
           <thead>
             <tr>
               <th>예금상품명</th>
@@ -97,12 +94,15 @@
             </tr>
           </tbody>
         </table>
+        <p class="h5" v-else>
+          가입한 예금상품이 없습니다.
+        </p>
       </div>
       <div class="col-6">
         <h3>주식</h3>
       </div>
       <div class="col-12">
-        <table class="table table-hover my-0">
+        <table v-if="memberStock.length" class="table table-hover my-0">
           <thead>
             <tr>
               <th>주식명</th>
@@ -120,13 +120,16 @@
             </tr>
           </tbody>
         </table>
+        <p class="h5" v-else>
+          매수한 주식이 없습니다.
+        </p>
       </div>
       
       <div class="col-6">
         <h3>경위서</h3>
       </div>
       <div class="col-12">
-        <table class="table table-hover my-0">
+        <table v-if="memberCaseList.length" class="table table-hover my-0">
           <thead>
             <tr>
               <th>사건명</th>
@@ -144,12 +147,15 @@
             </tr>
           </tbody>
         </table>
+        <p class="h5" v-else>
+          사고를 친 적이 없습니다.
+        </p>
       </div>
       <div class="col-6">
         <h3>상품 구매내역</h3>
       </div>
       <div class="col-12">
-        <table class="table table-hover my-0">
+        <table v-if="memberShopList.length" class="table table-hover my-0">
           <thead>
             <tr>
               <th>상품명</th>
@@ -165,6 +171,9 @@
             </tr>
           </tbody>
         </table>
+        <p class="h5" v-else>
+          상점에서 구매한 내역이 없습니다.
+        </p>
       </div>
       
       <div class="col-6">
@@ -178,20 +187,18 @@
 
         
     </div>
-    <button class="btn btn-primary" @click="submitModiInfo" v-if="this.mActive">Save changes</button>
-    <button class="btn btn-main" @click="modiGroupInfo" v-if="!mActive">수정</button>
   </div>
 </template>
 
 <script>
-import { deleteGroupMember, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, resetGroupMemberPw } from '@/api/student';
+import { deleteGroupMember, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, modifyGroupMemberJobFire, resetGroupMemberPw } from '@/api/student';
 import { mapState } from 'vuex';
+import { fetchCertiList } from '@/api/certificate';
 
 export default {
   props: ['id','propsData','dataName'],
   data() {
     return {
-      mActive: false,
       acceptChk: false,
       memberName:'',
       memberMoney: 0,
@@ -201,7 +208,9 @@ export default {
       memberStock:[],
       memberCredit:0,
       memberCaseList : [],
-      memberShopList: []
+      memberShopList: [],
+      groupCertiList : [],
+      groupCertiName:[]
     }
   },
   created() {
@@ -221,6 +230,7 @@ export default {
       const credit = await fetchMemberCredit(this.id)
       const caseList = await fetchGroupMemeberCase(this.id)
       const shop = await fetchGroupMemeberStoreHistory(this.id) 
+      const certi = await fetchCertiList(this.groupInfo.id)
       
       this.memberInfo = res.data
       this.memberMoney = remain.data
@@ -229,20 +239,79 @@ export default {
       this.memberCredit = credit.data
       this.memberCaseList = caseList.data
       this.memberShopList = shop.data
+      this.groupCertiList = certi.data
+      certi.data.forEach((el)=>{
+        const name= `${el.name}(${el.acquisitionCondition})`
+        this.groupCertiName.push(name)
+      })
     },
-    modiGroupInfo() {
-      this.mActive = !this.mActive;
-      // 직업 변경은 무직으로만 바꿀 수 있게 함!
+    jobFire(sId) {
+      this.$swal({
+        icon: 'info',
+        text: `'${this.memberInfo.nickname}님의 직업을 ${this.memberInfo.job.name}에서 '무직'으로 변경 하시겠습니까?'`,
+        confirmButtonText:'변경',
+        showCancelButton: true,
+        cancelButtonText:'취소'
+      }).then((res)=>{
+        if (res.value) {
+          modifyGroupMemberJobFire(sId).then(() => {
+            this.$swal({
+              icon: 'success',
+              text: `'${this.memberInfo.nickname}님의 직업이 '무직'으로 변경됐습니다.'`,
+            })
+          })
+        }
+      })
+    },
+    addCerti() {
+      this.$swal({
+        title: '자격증 추가',
+        input: 'select',
+        inputOptions:this.groupCertiName,
+        inputPlaceholder: '추가할 자격증을 선택해 주세요.',
+        confirmButtonText: '추가',
+        showCancelButton: true,
+      }).then((res)=>{
+        if (res.value && res.isConfirmed) {
+          console.log('자격증추가',this.groupCertiList[Number(res.value)])
+        }
+      })
     },
     deleteMember(sId) {
-      deleteGroupMember(sId)
+      this.$swal({
+        icon: 'info',
+        text: `'${this.memberInfo.nickname}님을 ${this.groupInfo.name}에서 탈퇴시키겠습니까?'`,
+        confirmButtonText:'탈퇴',
+        showCancelButton: true,
+        cancelButtonText:'취소'
+      }).then((res)=>{
+        if (res.value) {
+          deleteGroupMember(sId).then(() => {
+            this.$swal({
+              icon: 'success',
+              text: `'${this.memberInfo.nickname}님이 ${this.groupInfo.name}에서 탈퇴됐습니다.'`,
+            })
+          })
+        }
+      })
     },
     resetPW(sId) {
       resetGroupMemberPw(sId)
       this.$swal({
         icon: 'info',
-        text: '비밀번호가 1234로 초기화 됐습니다!',
+        text: '비밀번호를 초기화 하시겠습니까?',
+        confirmButtonText:'초기화',
+        showCancelButton: true,
+        cancelButtonText:'취소'
+      }).then((res)=>{
+        if (res.value) {
+          this.$swal({
+            icon: 'success',
+            text: '비밀번호가 1234로 초기화 됐습니다!',
+          })
+        }
       })
+      
     }
   }
 }

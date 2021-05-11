@@ -14,4 +14,9 @@ public class TaxHistoryAddUpdateRequestDto {
     private String content;
     private int groupId;
 
+    public TaxHistoryAddUpdateRequestDto(int balanceChange, String content, int groupId) {
+        this.balanceChange = balanceChange;
+        this.content = content;
+        this.groupId = groupId;
+    }
 }

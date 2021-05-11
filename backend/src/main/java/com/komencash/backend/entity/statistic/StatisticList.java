@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.statistic;
 
+import com.komencash.backend.dto.statistic.StatisticListAddRequestDto;
 import com.komencash.backend.entity.group.Group;
 import lombok.*;
 
@@ -10,7 +11,6 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "`statistic_list`")
 public class StatisticList {
 
@@ -36,4 +36,13 @@ public class StatisticList {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
+
+
+    public StatisticList(StatisticListAddRequestDto statisticListAddRequestDto, Group group){
+        this.submitContent = statisticListAddRequestDto.getSumbmitContent();
+        this.startDate = statisticListAddRequestDto.getStartDate();
+        this.endDate = statisticListAddRequestDto.getEndDate();
+        this.isSend = false;
+        this.group = group;
+    }
 }

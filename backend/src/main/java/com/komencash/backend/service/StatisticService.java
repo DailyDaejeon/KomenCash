@@ -1,6 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.statistic.StatisticListAddRequestDto;
+import com.komencash.backend.dto.statistic.StatisticListDetailUpdateSubmitRequestDto;
 import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.statistic.StatisticList;
@@ -64,6 +65,18 @@ public class StatisticService {
         if(statisticList == null) return false;
 
         statisticListRepository.delete(statisticList);
+        return true;
+    }
+
+
+    public boolean updateStatisticListDetailSubmit(StatisticListDetailUpdateSubmitRequestDto statisticListDetailUpdateSubmitRequestDto){
+
+        int studentId = statisticListDetailUpdateSubmitRequestDto.getStudentId();
+        int statisticListId = statisticListDetailUpdateSubmitRequestDto.getStatisticListId();
+        StatisticListDetail statisticListDetail = statisticListDetailRepository.findByStudent_IdAndStatisticList_Id(studentId, statisticListId);
+
+        statisticListDetail.updateSubmit();
+        statisticListDetailRepository.save(statisticListDetail);
         return true;
     }
 }

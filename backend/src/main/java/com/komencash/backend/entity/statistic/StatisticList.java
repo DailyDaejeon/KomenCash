@@ -33,7 +33,7 @@ public class StatisticList {
     @Column(name = "is_send")
     private boolean isSend;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 

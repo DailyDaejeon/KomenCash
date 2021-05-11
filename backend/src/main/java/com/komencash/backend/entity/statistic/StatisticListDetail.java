@@ -22,11 +22,11 @@ public class StatisticListDetail {
     @Column(name = "is_submission")
     private boolean isSubmission;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "statistic_list_id")
     private StatisticList statisticList;
 
@@ -34,5 +34,9 @@ public class StatisticListDetail {
         this.isSubmission = false;
         this.statisticList = statisticList;
         this.student = student;
+    }
+
+    public void updateSubmit(){
+        this.isSubmission = !isSubmission;
     }
 }

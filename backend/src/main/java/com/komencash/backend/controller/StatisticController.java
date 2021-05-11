@@ -1,7 +1,9 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.bank.FinancialProductAddUpdateRequestDto;
 import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
 import com.komencash.backend.dto.statistic.StatisticListAddRequestDto;
+import com.komencash.backend.dto.statistic.StatisticListDetailUpdateSubmitRequestDto;
 import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
 import com.komencash.backend.dto.vote.VoteFindResponseDto;
 import com.komencash.backend.service.StatisticService;
@@ -38,8 +40,16 @@ public class StatisticController {
 
 
     @ApiOperation(value="제출 목록 삭제", notes = "입력받은 제출 목록 아이디로 삭제하고 결과 반환")
+    @ApiImplicitParam(name = "statistic-list-id", value = "statistic-list-id(제출 목록 아이디)", dataType = "int", required = true)
     @DeleteMapping("/financial-product/{statistic-list-id}")
     public boolean deleteStatisticList(@PathVariable("statistic-list-id") int statisticListId){
         return statisticService.deleteStatistidList(statisticListId);
+    }
+
+
+    @ApiOperation(value = "학생별 제출 내역 수정", notes = "입력받은 학생과 제출 목록 아이디로 학생의 제출 내역을 수정하고 결과를 반환")
+    @PutMapping("/detail")
+    public boolean updateStatisticListDetailSubmit(@RequestBody StatisticListDetailUpdateSubmitRequestDto statisticListDetailUpdateSubmitRequestDto) {
+        return statisticService.updateStatisticListDetailSubmit(statisticListDetailUpdateSubmitRequestDto);
     }
 }

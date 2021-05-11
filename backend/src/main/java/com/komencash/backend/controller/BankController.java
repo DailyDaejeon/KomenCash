@@ -93,7 +93,7 @@ public class BankController {
     }
 
 
-    @ApiOperation(value = "금융상품 상세정보 수정", notes = "금융상품 상세정보를 받아서 update후 반환")
+    @ApiOperation(value = "금융 상품 상세정보 수정", notes = "금융상품 상세정보를 받아서 update후 반환")
     @PutMapping("/financial-product-detail")
     public boolean updateFinancialProductDetail(@RequestBody FinancialProductDetailUpdateRequestDto financialProductDetailUpdateRequestDto) {
         return bankService.updateFinancialProductDetail(financialProductDetailUpdateRequestDto);

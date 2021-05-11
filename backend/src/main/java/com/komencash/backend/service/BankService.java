@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -52,7 +53,7 @@ public class BankService {
 
             List<AccountHistoryFindResponseDto> accountHistoryFindResponseDtos = new ArrayList<>();
 
-            List<AccountHistory> accountHistories = accountHistoryRepository.findAllByStudent_Id(student.getId());
+            List<AccountHistory> accountHistories = accountHistoryRepository.findByStudent_Id(student.getId());
             accountHistories.forEach(accountHistory ->
                     accountHistoryFindResponseDtos.add(
                             new AccountHistoryFindResponseDto(
@@ -71,7 +72,7 @@ public class BankService {
 
 
     public int getBalance(int studentId){
-        List<AccountHistory> accountHistories = accountHistoryRepository.findAllByStudent_Id(studentId);
+        List<AccountHistory> accountHistories = accountHistoryRepository.findByStudent_Id(studentId);
         int balance = accountHistories.size() == 0 ? 0 : accountHistories.get(accountHistories.size() - 1).getBalance();
         return balance;
     }
@@ -170,9 +171,10 @@ public class BankService {
 
                 CreditFindGradeAndPointResponseDto creditFindGradeAndPointResponseDto = creditService.findCreditGrade(student.getId());
                 int grade = creditFindGradeAndPointResponseDto.getCreditGrade();
-                int point = creditFindGradeAndPointResponseDto.getPoint();
+                Date startDate = financialProductHistory.getStartDate();
+                int principal = financialProductHistory.getPrincipal();
 
-                studentFindFinancialInfoDtos.add(new StudentFindFinancialInfoDto(student.getId(), student.getNickname(), grade, point));
+                studentFindFinancialInfoDtos.add(new StudentFindFinancialInfoDto(student.getId(), student.getNickname(), grade, startDate, principal));
             }
         });
 

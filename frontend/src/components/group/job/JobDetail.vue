@@ -1,24 +1,33 @@
 <template>
   <main class="d-flex w-100">
-    <div class="container d-flex flex-column">
+    <div class="container">
       <div class="row vh-100">
         <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
-          <div class="d-table-cell">
+          <div>
             <div class="card">
               <div class="card-body">
-                <div class="m-sm-4">
+                <div class="m-4">
                   <form @submit.prevent="modifyJobInfo">
                     <div class="mb-3">
-                      <label class="form-label">직업이름</label>
-                      <input type="text" class="h3"
-                      v-model="jobName"
-                      /> 
+                      <div class="col-6">
+                      <h3 class="h3 form-label">직업명</h3>
+                      </div>
+                      <div class="col-6 h3 text-end">
+                        <input type="text" class="h3 border border-main"
+                        v-model="jobName"
+                        /> 
+                      </div>
                     </div>
-                    <div class="mb-3" v-for="member in jobMembers" :key="member.memberId">
-                      <label class="form-label">맡은학생이름</label>
-                      <input type="text" class="h3"
-                      v-model="member.memberName"
-                      />                 
+                    <div class="col-6">
+                      <h3 class="h3 form-label">맡은학생이름</h3>
+                      </div>
+                    <div v-for="member in jobMembers" :key="member.memberId">
+                      
+                      <div class="col-6 h3 text-end">
+                        <input type="text" class="h3 border border-main"
+                        v-model="member.memberName"
+                        /> 
+                      </div>                
                     </div>
                     <div class="mb-3">
                       <label class="form-label">급여</label>

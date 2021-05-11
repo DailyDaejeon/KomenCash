@@ -19,5 +19,9 @@ public class SalaryPaymentRequestDto {
         this.id = id;
         this.student_id = student_id;
     }
+
+    public SalaryPaymentRequestDto(int id) {
+        this.id = id;
+    }
 }
 

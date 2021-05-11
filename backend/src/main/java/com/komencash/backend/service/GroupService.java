@@ -2,10 +2,13 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.group.GroupAddUpdateRequestDto;
 import com.komencash.backend.dto.group.GroupFindResponseDto;
+import com.komencash.backend.dto.tax.TaxHistoryAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
+import com.komencash.backend.entity.tax.TaxHistory;
 import com.komencash.backend.entity.teacher.Teacher;
 import com.komencash.backend.repository.GroupRepository;
 import com.komencash.backend.repository.StudentRepository;
+import com.komencash.backend.repository.TaxHistoryRepository;
 import com.komencash.backend.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ public class GroupService {
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
+    TaxHistoryRepository taxHistoryRepository;
 
     public int addGroup(GroupAddUpdateRequestDto groupAddUpdateRequestDto){
         Teacher teacher = teacherRepository.findById(groupAddUpdateRequestDto.getTeacherId()).orElse(null);
@@ -32,7 +37,7 @@ public class GroupService {
 
         Group group = new Group(groupAddUpdateRequestDto, teacher);
         group = groupRepository.save(group);
-
+        taxHistoryRepository.save(new TaxHistory(new TaxHistoryAddUpdateRequestDto(0, "initial",group.getId()), group, 0));
         return group.getId();
     }
 

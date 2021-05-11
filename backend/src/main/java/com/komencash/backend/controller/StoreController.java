@@ -1,11 +1,9 @@
 package com.komencash.backend.controller;
 
+import com.komencash.backend.dto.request.ItemAddReqAddRequestDto;
 import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
 import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
-import com.komencash.backend.dto.store.StoreItemAddRequestAcceptUpdateRequest;
-import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
-import com.komencash.backend.dto.store.StoreItemPerchaseHistoryResponse;
-import com.komencash.backend.dto.store.StoreItemResponse;
+import com.komencash.backend.dto.store.*;
 import com.komencash.backend.service.StoreService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -89,4 +87,16 @@ public class StoreController {
         return storeService.selectPerchaseHistoryListByStudent(studentId);
     }
 
+
+    @ApiOperation(value = "아이템 구입", notes = "입력받은 학생 아이디가 입력받은 아이템 아이디를 구입")
+    @PostMapping("/purchase")
+    public boolean addPurchaseHistory(@RequestBody StorePerchaseHistoryAddRequestDto storePerchaseHistoryAddRequestDto) {
+        return storeService.addPurchaseHistory(storePerchaseHistoryAddRequestDto);
+    }
+
+    @ApiOperation(value = "상품 추가 요청", notes = "입력받은 상품의 추가 요청을 생성하고 결과를 반환")
+    @PostMapping("/add-request")
+    public boolean addItemAddReq(@RequestBody ItemAddReqAddRequestDto itemAddReqAddRequestDto) {
+        return storeService.addItemAddReq(itemAddReqAddRequestDto);
+    }
 }

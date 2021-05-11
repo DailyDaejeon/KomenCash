@@ -1,4 +1,4 @@
-package com.komencash.backend.dto.bank;
+package com.komencash.backend.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountHistoryAddUpdateRequestDto {
+public class ItemAddReqAddRequestDto {
 
-    private int studentId;
-    private int balanceChange;
+    private String itemName;
     private String content;
-
+    private int studentId;
 }

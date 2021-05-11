@@ -38,6 +38,10 @@ public class StatisticList {
     private Group group;
 
 
+    public void updateSubmit(){
+        this.isSend = true;
+    }
+
     public StatisticList(StatisticListAddRequestDto statisticListAddRequestDto, Group group){
         this.submitContent = statisticListAddRequestDto.getSumbmitContent();
         this.startDate = statisticListAddRequestDto.getStartDate();

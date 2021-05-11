@@ -4,6 +4,7 @@ import com.komencash.backend.dto.bank.FinancialProductAddUpdateRequestDto;
 import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
 import com.komencash.backend.dto.statistic.StatisticListAddRequestDto;
 import com.komencash.backend.dto.statistic.StatisticListDetailUpdateSubmitRequestDto;
+import com.komencash.backend.dto.statistic.StatisticListFindDetailResponseDto;
 import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
 import com.komencash.backend.dto.vote.VoteFindResponseDto;
 import com.komencash.backend.service.StatisticService;
@@ -51,5 +52,19 @@ public class StatisticController {
     @PutMapping("/detail")
     public boolean updateStatisticListDetailSubmit(@RequestBody StatisticListDetailUpdateSubmitRequestDto statisticListDetailUpdateSubmitRequestDto) {
         return statisticService.updateStatisticListDetailSubmit(statisticListDetailUpdateSubmitRequestDto);
+    }
+
+    @ApiOperation(value = "제출 목록 상세 조회", notes = "입력받은 제출 목록 아이디의 상세 정보를 조회")
+    @ApiImplicitParam(name = "statistic-list-id", value = "statistic-list-id(제출 목록 아이디)", dataType = "int", required = true)
+    @GetMapping("/detail/{statistic-list-id}")
+    public StatisticListFindDetailResponseDto getStatisticListDetail(@PathVariable("statistic-list-id") int staticListId) {
+        return statisticService.getStatisticListDetail(staticListId);
+    }
+
+
+    @ApiOperation(value = "제출 내역 제출", notes = "신관위로 학생들 제출 내역을 제출하고 결과를 반환")
+    @PutMapping("/submit")
+    public boolean updateStatisticListSubmit(@RequestBody int statisticListId) {
+        return statisticService.updateStatisticListSubmit(statisticListId);
     }
 }

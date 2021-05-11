@@ -31,4 +31,11 @@ public class VoteAttend {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vote_id")
     private Vote vote;
+
+
+    public VoteAttend(int choiceItemNum, Vote vote, Student student){
+        this.choiceItemNum = choiceItemNum;
+        this.vote = vote;
+        this.student = student;
+    }
 }

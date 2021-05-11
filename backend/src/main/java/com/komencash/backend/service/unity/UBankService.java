@@ -90,9 +90,10 @@ public class UBankService {
     public boolean salaryRequestAllow(SalaryPaymentRequestDto request) {
         AccountHistory newAccountHistory;
         TaxHistory newTaxHistory;
+
+        SalaryPaymentRequestHistory salaryPaymentRequestHistory = salaryPaymentRequestHistoryRepository.findById(request.getId()).orElse(null);
         Student student = studentRepository.findById(request.getStudent_id()).orElse(null);
         List<AccountHistory> accountHistory = accountHistoryRepository.findByStudent_Id(request.getStudent_id());
-        SalaryPaymentRequestHistory salaryPaymentRequestHistory = salaryPaymentRequestHistoryRepository.findById(request.getId()).orElse(null);
         int groupId = student.getJob().getGroup().getId();
         List<TaxHistory> taxHistory = taxHistoryRepository.findByGroup_Id(groupId);
 
@@ -102,7 +103,10 @@ public class UBankService {
             AccountHistory lastAccountHistory = accountHistory.get(accountHistory.size() - 1);
             lastBalance = lastAccountHistory.getBalance();
         }
-
+        System.out.println(salaryPaymentRequestHistory.getSalary());
+        System.out.println(salaryPaymentRequestHistory.getStudent().getId());
+        System.out.println(salaryPaymentRequestHistory.getTaxLoss());
+        System.out.println(lastBalance);
         // 세금뗀 월급 계산
         int salary = salaryPaymentRequestHistory.getSalary() - salaryPaymentRequestHistory.getTaxLoss();
 

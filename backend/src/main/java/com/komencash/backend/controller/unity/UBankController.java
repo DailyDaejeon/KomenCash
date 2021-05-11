@@ -48,6 +48,7 @@ public class UBankController {
     @ApiOperation(value="은행원 - 월급 요청 수락하기", notes = "수락 버튼 누르면 voted, resume 직업별로 tax 적용해서 월급 적용, 요청은 삭제처리")
     @DeleteMapping("/salary-payment")
     public ResponseEntity<Boolean> salaryRequestAllow(@RequestBody SalaryPaymentRequestDto request){
+        System.out.println(request.getId()+", "+ request.getStudent_id());
         uBankService.salaryRequestAllow(request);
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }

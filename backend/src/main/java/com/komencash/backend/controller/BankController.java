@@ -4,7 +4,6 @@ import com.komencash.backend.dto.bank.*;
 import com.komencash.backend.service.BankService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +19,18 @@ public class BankController {
     BankService bankService;
 
 
-    @ApiOperation(value="학생 계좌 전체 목록 조회", notes = "입력받은 그룹 아이디의 모든 학생 계좌 정보 조회")
+    @ApiOperation(value="그룹 전체 계좌 목록 조회", notes = "입력받은 그룹 아이디의 모든 학생 계좌 정보 조회")
     @GetMapping("/{group-id}")
     public ResponseEntity<List<AccountFindResponseDto>> getAccountList(@PathVariable("group-id") int groupId){
         return ResponseEntity.status(HttpStatus.OK).body(bankService.findAccountByGroupId(groupId));
     }
 
 
-    @ApiOperation(value="학생 잔액 조회", notes = "입력받은 학생 아이디로 학생의 계좌 잔액을 조회")
+    @ApiOperation(value="학생별 계좌 잔액 조회", notes = "입력받은 학생 아이디로 학생의 계좌 잔액을 조회")
     @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
     @GetMapping("/balance/{student-id}")
     public ResponseEntity<Integer> getBalance(@PathVariable("student-id") int studentId){
-        return ResponseEntity.status(HttpStatus.OK).body(bankService.getBalance(studentId));
+        return ResponseEntity.status(HttpStatus.OK).body(bankService.findBalance(studentId));
     }
 
 
@@ -50,21 +49,7 @@ public class BankController {
     }
 
 
-    @ApiOperation(value="학생 월급 지급 요청 생성", notes = "입력받은 그룹 아이디의 모든 학생 월급 지급 요청을 생성하고 그 결과를 반환")
-    @PostMapping("/salary-payment-request")
-    public boolean addSalaryPaymentRequest(@RequestBody int groupId){
-        return bankService.addSalaryPaymentRequest(groupId);
-    }
-
-
-    @ApiOperation(value="금융 상품 삭제", notes = "입력받은 금융 상품 아이디로 삭제하고 결과 반환")
-    @DeleteMapping("/financial-product/{product-id}")
-    public ResponseEntity<Boolean> deleteFinancialProduct(@PathVariable("product-id") int productId){
-        return ResponseEntity.status(HttpStatus.OK).body(bankService.deleteFinancialProduct(productId));
-    }
-
-
-    @ApiOperation(value="금융 상품 정보 조회", notes = "입력받은 그룹 아이디의 금융 상품 목록 조회")
+    @ApiOperation(value="금융 상품 정보 목록 조회", notes = "입력받은 그룹 아이디의 금융 상품 목록 조회")
     @GetMapping("/{group-id}/financial-product")
     public ResponseEntity<List<FinancialProductFindResponseDto>> getFinancialProductList(@PathVariable("group-id") int groupId){
         return ResponseEntity.status(HttpStatus.OK).body(bankService.findFinancialProductList(groupId));
@@ -86,12 +71,6 @@ public class BankController {
         return ResponseEntity.status(HttpStatus.OK).body(bankService.findFinancialProductHistoryByStudentId(studentId));
     }
 
-    @ApiOperation(value="금융 상품 신청 조회", notes = "입력받은 상품에서 가입 신청한 목록 조회")
-    @ApiImplicitParam(name = "product-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
-    @GetMapping("/financial-product/apply/{product-id}")
-    public ResponseEntity<List<FinancialProductApplyDto>> getApplication(@PathVariable("product-id") int productId){
-        return ResponseEntity.status(HttpStatus.OK).body(bankService.getApplication(productId));
-    }
 
     @ApiOperation(value = "금융 상품 정보 수정", notes = "입력받은 금융 상품 정보를 update후 결과 반환")
     @PutMapping("/financial-product")
@@ -106,10 +85,24 @@ public class BankController {
         return bankService.updateFinancialProductDetail(financialProductDetailUpdateRequestDto);
     }
 
+
     @ApiOperation(value = "금융상품 신청 상태 수정", notes = "금융상품 신청상태를 Deposit이나, Terminate로 바꾸기")
-    @PutMapping("/financial-status-accept/{financialProductHistory-id}")
-    public boolean updateFinancialStatusAccept(@PathVariable("financialProductHistory-id") int financialProductHistoryId){
+    @PutMapping("/financial-status-accept/{financial-product-history-id}")
+    public boolean updateFinancialStatusAccept(@PathVariable("financial-product-history-id") int financialProductHistoryId){
         return bankService.updateFinancialStatusAccept(financialProductHistoryId);
     }
 
+
+    @ApiOperation(value="금융 상품 삭제", notes = "입력받은 금융 상품 아이디로 삭제하고 결과 반환")
+    @DeleteMapping("/financial-product/{product-id}")
+    public ResponseEntity<Boolean> deleteFinancialProduct(@PathVariable("product-id") int productId){
+        return ResponseEntity.status(HttpStatus.OK).body(bankService.deleteFinancialProduct(productId));
+    }
+
+
+    @ApiOperation(value="학생 월급 지급 요청 생성", notes = "입력받은 그룹 아이디의 모든 학생 월급 지급 요청을 생성하고 그 결과를 반환")
+    @PostMapping("/salary-payment-request")
+    public boolean addSalaryPaymentRequest(@RequestBody int groupId){
+        return bankService.addSalaryPaymentRequest(groupId);
+    }
 }

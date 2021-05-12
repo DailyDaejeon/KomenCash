@@ -9,5 +9,5 @@ public interface FinancialProductHistoryRepository extends JpaRepository<Financi
 
     List<FinancialProductHistory> findByFinancialProductDetail_FinancialProduct_Id(int productId);
     List<FinancialProductHistory> findByStudent_Id(int studentId);
-
+    List<FinancialProductHistory> findByStudent_Job_Group_Id(int groupId);
 }

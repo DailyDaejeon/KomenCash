@@ -3,9 +3,11 @@ package com.komencash.backend.service.unity;
 
 import com.komencash.backend.dto.bank.AccountHistoryFindResponseDto;
 import com.komencash.backend.dto.bank.FinancialProductHistoryAddDto;
+import com.komencash.backend.dto.bank.FinancialProductReqResponseDto;
 import com.komencash.backend.dto.bank.SalaryPaymentRequestDto;
 import com.komencash.backend.dto.tax.TaxHistoryAddUpdateRequestDto;
 import com.komencash.backend.entity.bank.AccountHistory;
+import com.komencash.backend.entity.financial.FinancialProduct;
 import com.komencash.backend.entity.financial.FinancialProductDetail;
 import com.komencash.backend.entity.financial.FinancialProductHistory;
 import com.komencash.backend.entity.financial.Status;
@@ -14,6 +16,7 @@ import com.komencash.backend.entity.request_history.SalaryPaymentRequestHistory;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.tax.TaxHistory;
 import com.komencash.backend.repository.*;
+import com.komencash.backend.service.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +40,8 @@ public class UBankService {
     TaxHistoryRepository taxHistoryRepository;
     @Autowired
     SalaryPaymentRequestHistoryRepository salaryPaymentRequestHistoryRepository;
+    @Autowired
+    CreditService creditService;
 
 
     public List<AccountHistoryFindResponseDto> getAccountHistory(int studentId) {
@@ -135,6 +140,39 @@ public class UBankService {
 
         salaryPaymentRequestHistoryRepository.delete(salaryPaymentRequestHistory);
         return true;
+    }
+
+
+    public List<FinancialProductReqResponseDto> getFinancialProductRequestList(int groupId){
+        List<FinancialProductReqResponseDto> financialProductReqResponseDtos = new ArrayList<>();
+
+        List<FinancialProductHistory> financialProductHistories = financialProductHistoryRepository.findByStudent_Job_Group_Id(groupId);
+        financialProductHistories.forEach(financialProductHistory -> {
+
+            if(financialProductHistory.getStatus() == Status.before_deposit || financialProductHistory.getStatus() == Status.before_termination){
+                FinancialProductDetail financialProductDetail = financialProductHistory.getFinancialProductDetail();
+                FinancialProduct financialProduct = financialProductDetail.getFinancialProduct();
+                Student student = financialProductHistory.getStudent();
+                int creditGrade = creditService.findCreditGrade(student.getId()).getCreditGrade();
+
+                financialProductReqResponseDtos.add(
+                        new FinancialProductReqResponseDto(
+                                financialProduct.getId(),
+                                financialProduct.getName(),
+                                financialProductHistory.getPrincipal(),
+                                financialProductDetail.getRate(),
+                                financialProductHistory.getStartDate(),
+                                financialProductHistory.getEndDate(),
+                                financialProductHistory.getStatus(),
+                                student.getId(),
+                                student.getNickname(),
+                                creditGrade
+                        )
+                );
+            }
+        });
+
+        return financialProductReqResponseDtos;
     }
 
 

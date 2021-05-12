@@ -70,6 +70,7 @@ function fetchMemberCredit(studentId) {
   return instance.get(`credit/student/${studentId}`)
 }
 
+
 // 그룹원 잔액 조회 API
 function fetchMemberBalance(studentId) {
   return instance.get(`bank/balance/${studentId}`)

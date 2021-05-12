@@ -36,7 +36,7 @@ public class GroupController {
     @PostMapping
     public int addGroup(@RequestBody GroupAddUpdateRequestDto groupAddUpdateRequestDto){
         int groupId = groupService.addGroup(groupAddUpdateRequestDto);
-        jobService.saveJob(new JobAddUpdateRequestDto("무직", 0, "무직", "무직", 1000, RecruitType.vote, groupId));
+        jobService.addJob(new JobAddUpdateRequestDto("무직", 0, "무직", "무직", 1000, RecruitType.vote, groupId));
         return groupId;
     }
 

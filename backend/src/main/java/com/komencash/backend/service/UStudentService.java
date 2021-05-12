@@ -2,10 +2,7 @@ package com.komencash.backend.service;
 
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import com.komencash.backend.dto.job.JobSelectResponse;
-import com.komencash.backend.dto.student.StudentJobRequestDto;
-import com.komencash.backend.dto.student.StudentJoinRequestDto;
-import com.komencash.backend.dto.student.StudentLoginRequestDto;
-import com.komencash.backend.dto.student.StudentState;
+import com.komencash.backend.dto.student.*;
 import com.komencash.backend.entity.bank.AccountHistory;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
@@ -128,6 +125,15 @@ public class UStudentService {
         );
 
         resumeRequestHistoryRepository.save(resumeRequestHistory);
+        return true;
+    }
+
+    public boolean updateStudentPassword(StudentUpdatePasswordRequestDto studentUpdatePasswordRequestDto) {
+        Student student = studentRepository.findById(studentUpdatePasswordRequestDto.getStudentId()).orElse(null);
+        if(student == null) return false;
+
+        student.updatePassword(studentUpdatePasswordRequestDto.getPassword());
+        studentRepository.save(student);
         return true;
     }
 }

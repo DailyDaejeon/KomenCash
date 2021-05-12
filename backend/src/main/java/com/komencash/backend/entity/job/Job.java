@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.job;
 
-import com.komencash.backend.dto.job.JobInsertUpdateRequest;
+import com.komencash.backend.dto.job.JobAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,22 +44,22 @@ public class Job {
     private Group group;
 
 
-    public Job(JobInsertUpdateRequest jobInsertUpdateRequest, Group group) {
-        this.id = jobInsertUpdateRequest.getId();
-        this.name = jobInsertUpdateRequest.getName();
-        this.salary = jobInsertUpdateRequest.getSalary();
-        this.role = jobInsertUpdateRequest.getRole();
-        this.qualification = jobInsertUpdateRequest.getQualification();
-        this.personnel = jobInsertUpdateRequest.getPersonnel();
-        this.recruitType = jobInsertUpdateRequest.getRecruitType();
+    public Job(JobAddUpdateRequestDto jobAddUpdateRequestDto, Group group) {
+        this.id = jobAddUpdateRequestDto.getId();
+        this.name = jobAddUpdateRequestDto.getName();
+        this.salary = jobAddUpdateRequestDto.getSalary();
+        this.role = jobAddUpdateRequestDto.getRole();
+        this.qualification = jobAddUpdateRequestDto.getQualification();
+        this.personnel = jobAddUpdateRequestDto.getPersonnel();
+        this.recruitType = jobAddUpdateRequestDto.getRecruitType();
         this.group = group;
     }
 
-    public void updateJob(JobInsertUpdateRequest jobInsertUpdateRequest) {
-        this.name = jobInsertUpdateRequest.getName();
-        this.salary = jobInsertUpdateRequest.getSalary();
-        this.role = jobInsertUpdateRequest.getRole();
-        this.personnel = jobInsertUpdateRequest.getPersonnel();
-        this.recruitType = jobInsertUpdateRequest.getRecruitType();
+    public void updateJob(JobAddUpdateRequestDto jobAddUpdateRequestDto) {
+        this.name = jobAddUpdateRequestDto.getName();
+        this.salary = jobAddUpdateRequestDto.getSalary();
+        this.role = jobAddUpdateRequestDto.getRole();
+        this.personnel = jobAddUpdateRequestDto.getPersonnel();
+        this.recruitType = jobAddUpdateRequestDto.getRecruitType();
     }
 }

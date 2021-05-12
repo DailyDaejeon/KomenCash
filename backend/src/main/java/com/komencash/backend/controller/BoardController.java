@@ -2,7 +2,6 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
 import com.komencash.backend.dto.board.BoardSelectResponse;
-import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.service.BoardService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PartTimeInsertUpdateRequest {
+public class PartTimeAddUpdateRequestDto {
 
     private int id;
     private String name;

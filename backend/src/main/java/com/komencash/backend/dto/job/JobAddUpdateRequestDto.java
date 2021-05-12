@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobInsertUpdateRequest {
+public class JobAddUpdateRequestDto {
 
     private int id;
     private String name;
@@ -19,7 +19,7 @@ public class JobInsertUpdateRequest {
     private RecruitType recruitType;
     private int groupId;
 
-    public JobInsertUpdateRequest(String name, int salary, String role, String qualification, int personnel, RecruitType recruitType, int groupId) {
+    public JobAddUpdateRequestDto(String name, int salary, String role, String qualification, int personnel, RecruitType recruitType, int groupId) {
         this.name = name;
         this.salary = salary;
         this.role = role;

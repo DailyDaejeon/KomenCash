@@ -1,8 +1,9 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.job.*;
-import com.komencash.backend.dto.request.JobAddReqSelectResponse;
-import com.komencash.backend.dto.request.ResumeDetailSelectResponse;
+import com.komencash.backend.dto.request.JobAddReqFindResponseDto;
+import com.komencash.backend.dto.request.JobAddReqAcceptRequestDto;
+import com.komencash.backend.dto.request.ResumeFindDetailResponseDto;
 import com.komencash.backend.dto.request.ResumeSelectResponse;
 import com.komencash.backend.dto.student.StudentUpdateJobRequest;
 import com.komencash.backend.entity.group.Group;
@@ -13,7 +14,6 @@ import com.komencash.backend.entity.request_history.JobAddRequestHistory;
 import com.komencash.backend.entity.request_history.ResumeRequestHistory;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.*;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,38 +25,43 @@ public class JobService {
 
     @Autowired
     JobRepository jobRepository;
+
     @Autowired
     PartTimeJobRepository partTimeJobRepository;
+
     @Autowired
     StudentRepository studentRepository;
+
     @Autowired
     StudentService studentService;
+
     @Autowired
     GroupRepository groupRepository;
+
     @Autowired
     JobAddRequestHistoryRepository jobAddRequestHistoryRepository;
+
     @Autowired
     ResumeRequestHistoryRepository resumeRequestHistoryRepository;
 
-    public List<JobSelectResponse> findJobByGroupId(int groupId){
-        List<JobSelectResponse> jobSelectResponses = new ArrayList<>();
 
-        List<Job> jobs = jobRepository.findByGroup_id(groupId);
-        for(Job job : jobs) jobSelectResponses.add(new JobSelectResponse(job));
-
-        return jobSelectResponses;
-    }
-
-    public Job findJobById(int jobId){
-        return jobRepository.findById(jobId).orElse(null);
-    }
-    public boolean saveJob(JobInsertUpdateRequest jobInsertUpdateRequest) {
-        Group group = groupRepository.findById(jobInsertUpdateRequest.getGroupId()).orElse(null);
+    public boolean addJob(JobAddUpdateRequestDto jobAddUpdateRequestDto) {
+        Group group = groupRepository.findById(jobAddUpdateRequestDto.getGroupId()).orElse(null);
         if(group == null) return false;
 
-        Job job = new Job(jobInsertUpdateRequest, group);
+        Job job = new Job(jobAddUpdateRequestDto, group);
         jobRepository.save(job);
         return true;
+    }
+
+
+    public List<JobFindResponseDto> findJobListByGroupId(int groupId){
+        List<JobFindResponseDto> jobFindResponsDtos = new ArrayList<>();
+
+        List<Job> jobs = jobRepository.findByGroup_id(groupId);
+        jobs.forEach(job -> jobFindResponsDtos.add(new JobFindResponseDto(job)));
+
+        return jobFindResponsDtos;
     }
 
 
@@ -72,11 +77,16 @@ public class JobService {
     }
 
 
-    public boolean updateJob(JobInsertUpdateRequest jobInsertUpdateRequest) {
-        Job job = jobRepository.findById(jobInsertUpdateRequest.getId()).orElse(null);
+    public Job findJobById(int jobId){
+        return jobRepository.findById(jobId).orElse(null);
+    }
+
+
+    public boolean updateJob(JobAddUpdateRequestDto jobAddUpdateRequestDto) {
+        Job job = jobRepository.findById(jobAddUpdateRequestDto.getId()).orElse(null);
         if(job == null) return false;
 
-        job.updateJob(jobInsertUpdateRequest);
+        job.updateJob(jobAddUpdateRequestDto);
         jobRepository.save(job);
         return true;
     }
@@ -99,24 +109,24 @@ public class JobService {
     }
 
 
-    public List<JobAddReqSelectResponse> findJobAddRequestByGroupId (int groupId) {
-        List<JobAddReqSelectResponse> jobAddReqSelectResponses = new ArrayList<>();
+    public List<JobAddReqFindResponseDto> findJobAddRequestByGroupId (int groupId) {
+        List<JobAddReqFindResponseDto> jobAddReqFindResponsDtos = new ArrayList<>();
 
         List<JobAddRequestHistory> jobAddRequestHistories = jobAddRequestHistoryRepository.findByStudent_Job_Group_Id(groupId);
         for(JobAddRequestHistory jobAddRequestHistory : jobAddRequestHistories) {
             if(!jobAddRequestHistory.getAccept().equals(Accept.before_confirm)) continue;
-            jobAddReqSelectResponses.add(new JobAddReqSelectResponse(jobAddRequestHistory));
+            jobAddReqFindResponsDtos.add(new JobAddReqFindResponseDto(jobAddRequestHistory));
         }
-        return jobAddReqSelectResponses;
+        return jobAddReqFindResponsDtos;
     }
 
 
-    public boolean updateJobAddRequestAccept(JobAddRequestAcceptRequest jobAddRequestAcceptRequest) {
-        JobAddRequestHistory jobAddRequestHistory = jobAddRequestHistoryRepository.findById(jobAddRequestAcceptRequest.getId()).orElse(null);
+    public boolean updateJobAddRequestAccept(JobAddReqAcceptRequestDto jobAddReqAcceptRequestDto) {
+        JobAddRequestHistory jobAddRequestHistory = jobAddRequestHistoryRepository.findById(jobAddReqAcceptRequestDto.getId()).orElse(null);
         if (jobAddRequestHistory == null) return false;
 
         if (jobAddRequestHistory.getAccept().equals(Accept.before_confirm))
-            jobAddRequestHistory.updateJobAddRequestAccept(jobAddRequestAcceptRequest.getAccept());
+            jobAddRequestHistory.updateJobAddRequestAccept(jobAddReqAcceptRequestDto.getAccept());
 
         jobAddRequestHistoryRepository.save(jobAddRequestHistory);
         return true;
@@ -135,22 +145,22 @@ public class JobService {
     }
 
 
-    public ResumeDetailSelectResponse findResumeById(int resumeId) {
+    public ResumeFindDetailResponseDto findResumeById(int resumeId) {
         ResumeRequestHistory resumeRequestHistory = resumeRequestHistoryRepository.findById(resumeId).orElseGet(ResumeRequestHistory::new);
-        return new ResumeDetailSelectResponse(resumeRequestHistory);
+        return new ResumeFindDetailResponseDto(resumeRequestHistory);
     }
 
 
-    public boolean updateResumeAccept(JobResumeAcceptRequest jobResumeAcceptRequest){
-        ResumeRequestHistory resumeRequestHistory = resumeRequestHistoryRepository.findById(jobResumeAcceptRequest.getId()).orElse(null);
+    public boolean updateResumeAccept(ResumeUpdateAcceptRequestDto resumeUpdateAcceptRequestDto){
+        ResumeRequestHistory resumeRequestHistory = resumeRequestHistoryRepository.findById(resumeUpdateAcceptRequestDto.getId()).orElse(null);
         if (resumeRequestHistory == null) return false;
 
         // 미확인 상태인 경우에는 수정해서 반영한다.
         if(resumeRequestHistory.getAccept().equals(Accept.before_confirm)){
-            resumeRequestHistory.updateResumeAccept(jobResumeAcceptRequest.getAccept());
+            resumeRequestHistory.updateResumeAccept(resumeUpdateAcceptRequestDto.getAccept());
 
             // 만약에 이력서가 승인되었다면 해당 학생의 직업을 바꿔준다.
-            if(jobResumeAcceptRequest.getAccept().equals(Accept.accept)) {
+            if(resumeUpdateAcceptRequestDto.getAccept().equals(Accept.accept)) {
                 int studentId = resumeRequestHistory.getStudent().getId();
                 int jobId = resumeRequestHistory.getJob().getId();
                 studentService.updateStudentJob(new StudentUpdateJobRequest(studentId, jobId));
@@ -158,29 +168,27 @@ public class JobService {
         }
 
         resumeRequestHistoryRepository.save(resumeRequestHistory);
-
-
         return true;
     }
 
 
-    public List<PartTimeSelectResponse> findPartTimeByGroupId(int groupId) {
-        List<PartTimeJob> partTimeJobs = partTimeJobRepository.findByGroup_Id(groupId);
-
-        List<PartTimeSelectResponse> partTimeSelectResponses = new ArrayList<>();
-        for(PartTimeJob partTimeJob : partTimeJobs) partTimeSelectResponses.add(new PartTimeSelectResponse(partTimeJob));
-
-        return partTimeSelectResponses;
-    }
-
-
-    public boolean savePartTime(PartTimeInsertUpdateRequest partTimeInsertUpdateRequest) {
-        Group group = groupRepository.findById(partTimeInsertUpdateRequest.getGroupId()).orElse(null);
+    public boolean addPartTime(PartTimeAddUpdateRequestDto partTimeAddUpdateRequestDto) {
+        Group group = groupRepository.findById(partTimeAddUpdateRequestDto.getGroupId()).orElse(null);
         if(group == null) return false;
 
-        PartTimeJob partTimeJob = new PartTimeJob(partTimeInsertUpdateRequest, group);
+        PartTimeJob partTimeJob = new PartTimeJob(partTimeAddUpdateRequestDto, group);
         partTimeJobRepository.save(partTimeJob);
         return true;
+    }
+
+
+    public List<PartTimeFindResponseDto> findPartTimeByGroupId(int groupId) {
+        List<PartTimeJob> partTimeJobs = partTimeJobRepository.findByGroup_Id(groupId);
+
+        List<PartTimeFindResponseDto> partTimeFindResponsDtos = new ArrayList<>();
+        for(PartTimeJob partTimeJob : partTimeJobs) partTimeFindResponsDtos.add(new PartTimeFindResponseDto(partTimeJob));
+
+        return partTimeFindResponsDtos;
     }
 
 

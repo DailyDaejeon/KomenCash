@@ -21,18 +21,18 @@ public class TaxController {
     TaxService taxService;
 
 
+    @ApiOperation(value = "세금 내역 추가", notes = "세금 내역 정보를 입력받아 add하고 그 결과를 반환")
+    @PostMapping("")
+    public boolean addTaxHistory(@RequestBody TaxHistoryAddUpdateRequestDto taxHistoryAddUpdateRequestDto) {
+        return taxService.addTaxHistory(taxHistoryAddUpdateRequestDto);
+    }
+
+
     @ApiOperation(value = "세금 내역 목록 조회", notes = "입력받은 그룹 아이디의 세금 내역 목록 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/detail/{group-id}")
     public List<TaxHistoryFindResponseDto> getTaxHistoryList(@PathVariable("group-id") int groupId){
         return taxService.findTaxHistoryList(groupId);
-    }
-
-
-    @ApiOperation(value = "세금 내역 추가", notes = "세금 내역 정보를 입력받아 add하고 그 결과를 반환")
-    @PostMapping("")
-    public boolean addTaxHistory(@RequestBody TaxHistoryAddUpdateRequestDto taxHistoryAddUpdateRequestDto) {
-        return taxService.addTaxHistory(taxHistoryAddUpdateRequestDto);
     }
 
 

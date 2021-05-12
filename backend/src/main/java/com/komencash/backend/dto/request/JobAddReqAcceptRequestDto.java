@@ -1,4 +1,4 @@
-package com.komencash.backend.dto.job;
+package com.komencash.backend.dto.request;
 
 import com.komencash.backend.entity.request_history.Accept;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobResumeAcceptRequest {
+public class JobAddReqAcceptRequestDto {
+
     private int id;
     private Accept accept;
 }

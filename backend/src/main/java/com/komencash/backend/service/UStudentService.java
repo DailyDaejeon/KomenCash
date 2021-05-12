@@ -1,7 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
-import com.komencash.backend.dto.job.JobSelectResponse;
+import com.komencash.backend.dto.job.JobFindResponseDto;
 import com.komencash.backend.dto.student.*;
 import com.komencash.backend.entity.bank.AccountHistory;
 import com.komencash.backend.entity.group.Group;
@@ -52,9 +52,9 @@ public class UStudentService {
         }
 
 
-        List<JobSelectResponse> list = jobService.findJobByGroupId(group.getId());
+        List<JobFindResponseDto> list = jobService.findJobListByGroupId(group.getId());
         Job findBaekSoo = null;
-        for(JobSelectResponse j : list){
+        for(JobFindResponseDto j : list){
             if(j.getName().equals("무직")){
                 findBaekSoo = new Job(j.getId(), j.getName(), j.getSalary(), j.getRole(), j.getQualification(), j.getPersonnel(), j.getRecruitType(), group);
                 break;

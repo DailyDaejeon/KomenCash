@@ -1,10 +1,6 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.certificate.CertificateAcceptUpdateRequest;
-import com.komencash.backend.dto.certificate.CertificateDetailSelectResponse;
-import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
-import com.komencash.backend.dto.certificate.CertificateSelectResponse;
-import com.komencash.backend.dto.job.JobInsertUpdateRequest;
+import com.komencash.backend.dto.certificate.*;
 import com.komencash.backend.service.CertificateService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -65,4 +61,17 @@ public class CertificateController {
         return certificateService.updateCertificateAccept(certificateAcceptUpdateRequest);
     }
 
+
+    @ApiOperation(value = "자격증 발급 정보 생성", notes = "학생과 자격증 아이디를 입력받아 자격증 발급 정보를 생성하고 결과를 반환")
+    @PostMapping("/issue")
+    public boolean addCertificateIssue(@RequestBody CertificateIssueAddRequestDto certificateIssueAddRequestDto) {
+        return certificateService.addCertificateIssue(certificateIssueAddRequestDto);
+    }
+
+
+    @ApiOperation(value = "자격증 발급 요청 생성", notes = "학생과 자격증 아이디를 입력받아 자격증 발급 요청를 생성하고 결과를 반환")
+    @PostMapping("/issue")
+    public boolean addCertificateIssueReq(@RequestBody CertificateIssueAddRequestDto certificateIssueAddRequestDto) {
+        return certificateService.addCertificateIssueReq(certificateIssueAddRequestDto);
+    }
 }

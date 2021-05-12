@@ -193,7 +193,7 @@
 <script>
 import { deleteGroupMember, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, modifyGroupMemberJobFire, resetGroupMemberPw } from '@/api/student';
 import { mapState } from 'vuex';
-import { fetchCertiList } from '@/api/certificate';
+import { addCertiIssue, fetchCertiList } from '@/api/certificate';
 
 export default {
   props: ['id','propsData','dataName'],
@@ -274,6 +274,11 @@ export default {
       }).then((res)=>{
         if (res.value && res.isConfirmed) {
           console.log('자격증추가',this.groupCertiList[Number(res.value)])
+          const certi = {
+            certificateId:this.groupCertiList[Number(res.value)].id,
+            studentId:this.memberInfo.id
+          }
+          addCertiIssue(certi)
         }
       })
     },

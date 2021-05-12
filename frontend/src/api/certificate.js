@@ -21,6 +21,16 @@ function deleteCertificate(certiId) {
   return instance.delete(`certificate/${certiId}`)
 }
 
+// 자격증 발급 정보 생성
+function addCertiIssue(certiData) {
+  return instance.post(`certificate/issue`, certiData)
+}
+
+// 자격증 발급 요청 생성
+function addCertiIssueRequest(certiData) {
+  return instance.post(`certificate/issue-request`, certiData)
+}
+
 // 자격증 발급 요청 수락/거절
 function requestCertificate(certiData) {
   return instance.put(`certificate/issue-request`,certiData)
@@ -31,5 +41,7 @@ export {
   addCertificate,
   modifyCertificate,
   deleteCertificate,
+  addCertiIssue,
+  addCertiIssueRequest,
   requestCertificate
 }

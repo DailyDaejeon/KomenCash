@@ -68,4 +68,10 @@ public class CertificateController {
         return certificateService.addCertificateIssue(certificateIssueAddRequestDto);
     }
 
+
+    @ApiOperation(value = "자격증 발급 요청 생성", notes = "학생과 자격증 아이디를 입력받아 자격증 발급 요청를 생성하고 결과를 반환")
+    @PostMapping("/issue")
+    public boolean addCertificateIssueReq(@RequestBody CertificateIssueAddRequestDto certificateIssueAddRequestDto) {
+        return certificateService.addCertificateIssueReq(certificateIssueAddRequestDto);
+    }
 }

@@ -28,7 +28,7 @@ public class CertificateService {
     @Autowired
     StudentRepository studentRepository;
 
-    
+
     public boolean saveCertificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest) {
 
         Group group = groupRepository.findById(certificateInsertUpdateRequest.getGroupId()).orElse(null);
@@ -102,7 +102,18 @@ public class CertificateService {
         Student student = studentRepository.findById(certificateIssueAddRequestDto.getStudentId()).orElse(null);
         if(certificate == null || student == null) return false;
 
-        CertificateIssueRequestHistory certificateIssueRequestHistory = new CertificateIssueRequestHistory(certificate, student);
+        CertificateIssueRequestHistory certificateIssueRequestHistory = new CertificateIssueRequestHistory(certificate, student, Accept.accept);
+        certificateIssueRequestHistoryRepository.save(certificateIssueRequestHistory);
+        return true;
+    }
+
+
+    public boolean addCertificateIssueReq(CertificateIssueAddRequestDto certificateIssueAddRequestDto){
+        Certificate certificate = certificateRepository.findById(certificateIssueAddRequestDto.getCertificateId()).orElse(null);
+        Student student = studentRepository.findById(certificateIssueAddRequestDto.getStudentId()).orElse(null);
+        if(certificate == null || student == null) return false;
+
+        CertificateIssueRequestHistory certificateIssueRequestHistory = new CertificateIssueRequestHistory(certificate, student, Accept.before_confirm);
         certificateIssueRequestHistoryRepository.save(certificateIssueRequestHistory);
         return true;
     }

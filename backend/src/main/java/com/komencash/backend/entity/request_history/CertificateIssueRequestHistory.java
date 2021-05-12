@@ -35,8 +35,10 @@ public class CertificateIssueRequestHistory {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    public CertificateIssueRequestHistory(Certificate certificate, Student student){
-        this.accept = Accept.accept;
+    public CertificateIssueRequestHistory(Certificate certificate, Student student, Accept accept){
+        this.accept = accept;
+        this.certificate = certificate;
+        this.student = student;
     }
 
     public void updateCertificateAccept(Accept accept){

@@ -1,6 +1,51 @@
 <template>
   <div class="card flex-fill">
-    <button class="btn btn-main" @click="alertDetail">자세히</button>
+    <div class="row">
+      <div class="col-6">
+        <h3>예금명</h3>
+      </div>
+      <div class="col-6">
+        <span class="h3" v-if="!mActive">{{financialName}}</span>
+        <span class="h3" v-else>
+          <input class="border border-main" type="text" v-model="financialName">
+        </span>
+      </div>
+      <div class="col-6">
+        <h3>기간</h3>
+      </div>
+      <div class="col-6">
+        <span class="h3" v-if="!mActive">{{financialPeriod}}</span>
+        <span class="h3" v-else>
+          <input class="border border-main" type="text" v-model="financialPeriod">
+        </span>
+      </div>
+      <div class="col-6">
+        <h3>신용등급별 금리</h3>
+      </div>
+      <div class="col-12">
+        <table class="table table-hover my-0">
+          <thead>
+            <tr>
+              <th>신용등급</th>
+              <th>금리</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(credit,index) in financialList" :key="index">
+              <td v-if="!mActive">{{financialCredit[index]}}급</td>
+              <td v-else>
+                 <input class="border border-main" type="text" v-model="financialCredit[index]">
+              </td>
+              <td v-if="!mActive">{{financialRateList[index]}}%</td>
+              <td v-else>
+                <input class="border border-main" type="text" v-model="financialRateList[index]">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <button class="btn btn-main" @click="modifyDetail">수정</button>
     <table class="table table-hover my-0">
       <thead>
         <tr>
@@ -15,8 +60,8 @@
         <tr v-for="(student,index) in studentList" :key="index">
           <td>{{student.studentNickname}}</td>
           <td>{{student.studentCreditGrade}}</td>
-          <td>{{financialList[student.studentCreditGrade-1].rate}}</td>
-          <td>{{student.startDate}}</td>
+          <td>{{studentRateList[index]}}</td>
+          <td>{{student.startDate.slice(0,10)}}</td>
           <td>{{student.principal}}</td>
         </tr>
       </tbody>
@@ -31,10 +76,15 @@ export default {
   props:['propsData','dataName'],
   data() {
     return {
+      mActive:false,
       financialList : [],
       financialName: '',
       studentList:[],
-      financialId:0
+      financialId:0,
+      financialPeriod:0,
+      studentRateList : [],
+      financialCredit : [],
+      financialRateList : []
     }
   },
   created() {
@@ -43,7 +93,8 @@ export default {
   computed: {
     ...mapState({
       groupInfo : state => state.group.groupInfo
-    })
+    }),
+    
   },
   methods: {
     async fetchFinList() {
@@ -52,8 +103,62 @@ export default {
       this.studentList = res.data.studentFindFinancialInfoResponse
       this.financialName = res.data.name
       this.financialId = res.data.id
+      this.financialPeriod = this.financialList[0].period
+      const credit = []
+      const creditRate = []
+      this.financialList.forEach((el) => {
+        credit.push(el.creditGrade)
+        creditRate.push(el.rate)
+      })
+      this.financialCredit = credit
+      this.financialRateList = creditRate
+      this.studentList.forEach((el) => {
+        const temp = []
+        let flag = false;
+        for (let i = 0; i < this.financialList.length; i++) {
+          const element = this.financialList[i];
+          if (!flag && el.studentCreditGrade === element.creditGrade) {
+            temp.push(element.rate)
+            flag = true
+          }
+        }
+        this.studentRateList = temp
+      })
+      console.log(this.studentRateList)
+      // console.log(this.financialList,this.studentList)
+    },
+    financialRate(student) {
+      this.financialList.forEach((el) => {
+        if (el.creditGrade === student.creditGrade) {
+          return el.rate
+        }
+        return 0
+      })
+    },
+    modifyDetail() {
+      this.mActive = !this.mActive
+      if (!this.mActive) {
+        const fData = {
+          groupId: this.groupInfo.id,
+          id: this.financialId,
+          name: this.financialName
+        }
+        modifyFinancial(fData)
+        for (let i = 0; i < this.financialList.length; i++) {
+          const element = this.financialList[i];
+          const fDetail = {
+          rate: this.financialRateList[i],
+          id: element.id,
+          period: this.financialPeriod,
+          creditGrade: this.financialCredit[i]
+        }
+        modifyDetailFinancial(fDetail)
+        }
+        
+      }
     },
     alertDetail() {
+      console.log(this.financialList)
       this.$swal({
         title: this.financialName+' 의 수정',
         confirmButtonText:'수정',

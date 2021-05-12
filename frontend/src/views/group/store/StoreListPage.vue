@@ -7,7 +7,7 @@
       </div>
       <div class="row">
       <div class="col-4" v-for="(product,index) in productList" :key="index">
-        <StoreItem :product="product" :moneyUnit="groupInfo.monetary_unit_name"
+        <StoreItem :product="product" :moneyUnit="groupInfo.monetaryUnitName"
         />
         </div>
       </div>

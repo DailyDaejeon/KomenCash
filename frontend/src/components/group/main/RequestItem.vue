@@ -131,10 +131,10 @@ export default {
           // text: `${request.content}`,
           html: 
             '<div id="swal2-content" class="swal2-html-container" style="display: block;">'
-            +'<p class="swal2-input">'+'제출인 : '+`${request.policeNickname}`+'</p>' +
-            '<p class="swal2-input">'+'벌금내는 학생 : '+`${request.studentNickname}`+'</p>' +
-            '<p class="swal2-input">'+'벌금 : '+`${request.fine}`+'</p>' + 
-            '<p class="swal2-input">'+'내용 : '+`${request.content}`+'</p>'
+            +'<p class="swal2-text">'+'제출인 : '+`${request.policeNickname}`+'</p>' +
+            '<p class="swal2-text">'+'벌금내는 학생 : '+`${request.studentNickname}`+'</p>' +
+            '<p class="swal2-text">'+'벌금 : '+`${request.fine}`+'</p>' + 
+            '<p class="swal2-text">'+'내용 : '+`${request.content}`+'</p>'
             +'</div>',
 
         })
@@ -151,21 +151,22 @@ export default {
         fetchLawRequestDetail(request.id).then((res) => {
           let vote = 0
           let voteResult = ''
-          for (let i = 0; i < res.voteFindResponseDto.length; i++) {
-            const element = res.voteFindResponseDto[i];
+          for (let i = 0; i < res.data.voteFindResponseDto.voteItemResultResponses.length; i++) {
+            const element = res.data.voteFindResponseDto.voteItemResultResponses[i];
             if (element.itemNum > vote) {
               vote = element.itemNum
               voteResult = element.content
             }
             
           }
+          console.log(res.data)
           this.$swal({
-          title: `${res.student_nickname}님의 법률추가 요청`,
-          text: `'${res.title}' 법률이 필요합니다. 추가해주세요. `,
+          title: `${res.data.student_nickname}님의 법률추가 요청`,
+          text: `'${res.data.title}' 법률이 필요합니다. 추가해주세요. `,
           html:'<div id="swal2-content" class="swal2-html-container" style="display: block;">'
-            +'<span class="swal2-input">'+'제출인 : '+`${res.student_nickname}`+'</span>' +
-            '<span class="swal2-input">'+'추가 법률 내용 : '+`${res.content}`+'</span>' +
-            '<span class="swal2-input">'+'투표결과 : '+`${res.voteFindResponseDto[0].resultCnt} 중 ${voteResult}가 ${vote}표를 얻었습니다.}`+'</span>'  
+            +'<p class="swal2-text" >'+'제출인 : '+`${res.data.student_nickname}`+'</p>' +
+            '<p class="swal2-text">'+'추가 법률 내용 : '+`${res.data.content}`+'</p>' +
+            '<p class="swal2-text">'+'투표결과 : '+`${res.data.voteFindResponseDto.voteItemResultResponses[0].resultCnt} 중 ${voteResult}가 ${vote}표를 얻었습니다.`+'</p>'  
             +'</div>',
         })
         })
@@ -175,8 +176,8 @@ export default {
 
         fetchStoreRequestDetail(request.id).then((res) => {
           this.$swal({
-            title: `${res.studentNickname}님의 상품추가 요청`,
-            text: `'${res.name}' 상품이 '${res.content}' 이유로 필요합니다. 추가해주세요. `
+            title: `${res.data.studentNickname}님의 상품추가 요청`,
+            text: `'${res.data.name}' 상품이 '${res.data.content}' 이유로 필요합니다. 추가해주세요. `
           })
         })
         

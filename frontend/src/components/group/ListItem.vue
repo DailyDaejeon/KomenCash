@@ -79,6 +79,9 @@ export default {
       } else if (this.listType === "store") {
         this.listTypeName = "온라인 상품"
         this.listTypeRouteName = "StorePage"
+      } else if (this.listType === "job") {
+        this.listTypeName = "직업"
+        this.listTypeRouteName = "JobDetail"
       }
     }
   },

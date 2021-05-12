@@ -1,5 +1,29 @@
 <template>
   <div class="card flex-fill">
+    <div class="border border-main card flex-fill">
+      <div class="card-header">
+        <h5 class="card-title mb-0">{{ financialName }} 신청 요청</h5>
+      </div>
+      <table class="table table-hover my-0">
+        <thead>
+          <tr>
+            <th>요청인</th>
+            <th>수락/거절</th>
+          </tr>
+        </thead>
+        <tbody v-if="requestList.length">
+          <tr v-for="(request,index) in requestList"
+          :key="index">
+            <td>{{request.nickname}}</td>
+            <td><button class="btn btn-main" @click="acceptRequest(request)">O</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="h4 text-center m-1" v-if="!requestList.length">
+      요청 내역이 없습니다.
+      </p>
+    </div>
     <div class="row">
       <div class="col-6">
         <h3>예금명</h3>
@@ -66,11 +90,12 @@
         </tr>
       </tbody>
     </table>
+    <button class="btn btn-danger" @click="deleteProduct">삭제</button>
   </div>
 </template>
 
 <script>
-import { fetchDetailFinancial, modifyDetailFinancial, modifyFinancial } from '@/api/bank';
+import { acceptFinancialRequest, deleteFinancial, fetchDetailFinancial, fetchFinancialRequest, modifyDetailFinancial, modifyFinancial } from '@/api/bank';
 import { mapState } from 'vuex';
 export default {
   props:['propsData','dataName'],
@@ -84,7 +109,8 @@ export default {
       financialPeriod:0,
       studentRateList : [],
       financialCredit : [],
-      financialRateList : []
+      financialRateList : [],
+      requestList:[]
     }
   },
   created() {
@@ -100,10 +126,13 @@ export default {
     async fetchFinList() {
       const res = await fetchDetailFinancial(this.propsData.id)
       this.financialList = res.data.financialProductDetailResponse
+      const req = await fetchFinancialRequest(this.propsData.id)
+      this.requestList = req.data
       this.studentList = res.data.studentFindFinancialInfoResponse
       this.financialName = res.data.name
       this.financialId = res.data.id
       this.financialPeriod = this.financialList[0].period
+
       const credit = []
       const creditRate = []
       this.financialList.forEach((el) => {
@@ -126,6 +155,29 @@ export default {
       })
       console.log(this.studentRateList)
       // console.log(this.financialList,this.studentList)
+    },
+    acceptRequest(request) {
+      // 수정으로 뭘보내주지? + 금융상품신청조회 학생아이디 보내야되나?
+      acceptFinancialRequest(request.id)
+    },
+    deleteProduct() {
+      this.$swal({
+        title:'금융상품을 삭제하시겠습니까?',
+        icon:'info',
+        text:'삭제 시 복구 하실 수 없습니다.',
+        confirmButtonText:'삭제',
+        showCancelButton:true,
+        cancelButtonText:'취소'
+      }).then((res) => {
+        if (res.isConfirmed) {
+          deleteFinancial(this.financialId).then(() => {
+            this.$swal({
+              title:'성공적으로 삭제 됐습니다.',
+              icon:'success'
+            })
+          })
+        }
+      })
     },
     financialRate(student) {
       this.financialList.forEach((el) => {

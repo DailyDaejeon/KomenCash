@@ -39,7 +39,7 @@ export default {
     ...mapState({
       groupInfo:state => state.group.groupInfo
     })
-  }
+  },
 }
 </script>
 

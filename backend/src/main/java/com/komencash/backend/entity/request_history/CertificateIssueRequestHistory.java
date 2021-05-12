@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.request_history;
 
+import com.komencash.backend.dto.certificate.CertificateIssueAddRequestDto;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.certificate.Certificate;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,10 @@ public class CertificateIssueRequestHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public CertificateIssueRequestHistory(Certificate certificate, Student student){
+        this.accept = Accept.accept;
+    }
 
     public void updateCertificateAccept(Accept accept){
         this.accept = accept;

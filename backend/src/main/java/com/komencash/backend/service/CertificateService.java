@@ -1,16 +1,15 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.certificate.CertificateAcceptUpdateRequest;
-import com.komencash.backend.dto.certificate.CertificateDetailSelectResponse;
-import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
-import com.komencash.backend.dto.certificate.CertificateSelectResponse;
+import com.komencash.backend.dto.certificate.*;
 import com.komencash.backend.entity.certificate.Certificate;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.CertificateIssueRequestHistory;
+import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.CertificateIssueRequestHistoryRepository;
 import com.komencash.backend.repository.CertificateRepository;
 import com.komencash.backend.repository.GroupRepository;
+import com.komencash.backend.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +25,10 @@ public class CertificateService {
     CertificateIssueRequestHistoryRepository certificateIssueRequestHistoryRepository;
     @Autowired
     GroupRepository groupRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
-
+    
     public boolean saveCertificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest) {
 
         Group group = groupRepository.findById(certificateInsertUpdateRequest.getGroupId()).orElse(null);
@@ -91,6 +92,17 @@ public class CertificateService {
         if(certificateIssueRequestHistory == null) return false;
 
         certificateIssueRequestHistory.updateCertificateAccept(certificateAcceptUpdateRequest.getAccept());
+        certificateIssueRequestHistoryRepository.save(certificateIssueRequestHistory);
+        return true;
+    }
+
+
+    public boolean addCertificateIssue(CertificateIssueAddRequestDto certificateIssueAddRequestDto){
+        Certificate certificate = certificateRepository.findById(certificateIssueAddRequestDto.getCertificateId()).orElse(null);
+        Student student = studentRepository.findById(certificateIssueAddRequestDto.getStudentId()).orElse(null);
+        if(certificate == null || student == null) return false;
+
+        CertificateIssueRequestHistory certificateIssueRequestHistory = new CertificateIssueRequestHistory(certificate, student);
         certificateIssueRequestHistoryRepository.save(certificateIssueRequestHistory);
         return true;
     }

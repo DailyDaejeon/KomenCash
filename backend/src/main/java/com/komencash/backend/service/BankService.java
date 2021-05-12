@@ -50,7 +50,6 @@ public class BankService {
 
         List<Student> students = studentRepository.findByJob_Group_Id(groupId);
         students.forEach(student ->{
-
             List<AccountHistoryFindResponseDto> accountHistoryFindResponseDtos = new ArrayList<>();
 
             List<AccountHistory> accountHistories = accountHistoryRepository.findByStudent_Id(student.getId());
@@ -59,19 +58,14 @@ public class BankService {
                             new AccountHistoryFindResponseDto(
                                     accountHistory.getBalance(),
                                     accountHistory.getBalanceChange(),
-                                    accountHistory.getContent()
-                            )
-                    )
-            );
-
+                                    accountHistory.getContent())));
             accountFindResponseDtos.add(new AccountFindResponseDto(student.getId(), student.getNickname(), accountHistoryFindResponseDtos));
         });
-
         return accountFindResponseDtos;
     }
 
 
-    public int getBalance(int studentId){
+    public int findBalance(int studentId){
         List<AccountHistory> accountHistories = accountHistoryRepository.findByStudent_Id(studentId);
         int balance = accountHistories.size() == 0 ? 0 : accountHistories.get(accountHistories.size() - 1).getBalance();
         return balance;
@@ -224,14 +218,4 @@ public class BankService {
         return true;
     }
 
-    public List<FinancialProductApplyDto> getApplication(int productId) {
-        List<FinancialProductHistory> financialProductHistory =financialProductHistoryRepository.findByFinancialProductDetail_FinancialProduct_Id(productId);
-        List<FinancialProductApplyDto> result = new ArrayList<>();
-        financialProductHistory.forEach(s -> {
-            if(s.getStatus() == Status.before_deposit || s.getStatus() ==Status.before_termination){
-                result.add(new FinancialProductApplyDto(s.getId(), s.getStudent().getNickname(), s.getStatus()));
-            }
-        });
-        return result;
-    }
 }

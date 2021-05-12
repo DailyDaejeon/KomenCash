@@ -12,19 +12,24 @@
           class="list-group-item list-group-item-action" :to="{name:`${listTypeRouteName}`, params: { id:`${data.id}`, propsData:data,dataName:data.name}}"
           
           > -->
-          <router-link 
-          :id="data.name"
-          active-class="active"
-          class="list-group-item list-group-item-action" :to="{name:listTypeRouteName, params: { id:data.id, propsData:data,dataName:data.name}}"
-          
-          >
-          <span v-if="listTypeRouteName==='GroupMemberInfo'">
+          <template v-if="listTypeRouteName==='GroupMemberInfo' || listTypeRouteName==='BankMemberDetail'">
+            <router-link 
+            :id="data.nickname"
+            active-class="active"
+            class="list-group-item list-group-item-action" :to="{name:listTypeRouteName, params: { id:data.id, propsData:data,dataName:data.nickname}}"
+            >
             {{data.nickname}}
-          </span>
-          <span v-else>
-          {{data.name}}
-          </span>
-          </router-link>
+            </router-link>
+          </template>
+          <template v-else>
+            <router-link 
+            :id="data.name"
+            active-class="active"
+            class="list-group-item list-group-item-action" :to="{name:listTypeRouteName, params: { id:data.id, propsData:data,dataName:data.name}}"
+            >
+            {{data.name}}
+            </router-link>
+            </template>
         </div>
       </div>
     </div>

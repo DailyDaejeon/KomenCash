@@ -6,17 +6,17 @@
       <thead>
         <tr>
           <th>거래내역</th>
-          <th>입출금</th>
-          <th class="d-none d-md-table-cell">금액(단위:미소)</th>
+          <th>구매인</th>
+          <th>금액(단위:{{groupInfo.monetaryUnitName}})</th>
           <th>거래날짜</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(history,index) in storeHistoryList" :key="index">
-          <td>{{history.name}}의 일기면제권</td>
-          <td><span class="badge bg-success">입금</span></td>
-          <td class="d-none d-md-table-cell">100</td>
-          <td class="d-none d-md-table-cell">2021.01.01</td>
+          <td>{{history.name}}</td>
+          <td>{{history.studentNickname}}</td>
+          <td>{{history.price}}</td>
+          <td>{{history.perchaseDate.slice(0,10)}}</td>
         </tr>
       </tbody>
     </table>
@@ -52,8 +52,8 @@ export default {
     })
   },
   methods: {
-    fetchStoreHistoryList() {
-      const res = fetchStoreHistory(this.groupInfo.id)
+    async fetchStoreHistoryList() {
+      const res = await fetchStoreHistory(this.groupInfo.id)
       this.storeHistoryList = res.data
     }
   },

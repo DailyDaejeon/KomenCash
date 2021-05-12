@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResumeDetailSelectResponse {
+public class ResumeFindDetailResponseDto {
 
     private int id;
     private String title;
@@ -20,7 +20,7 @@ public class ResumeDetailSelectResponse {
     private int jobId;
     private String jobName;
 
-    public ResumeDetailSelectResponse(ResumeRequestHistory resumeRequestHistory){
+    public ResumeFindDetailResponseDto(ResumeRequestHistory resumeRequestHistory){
         this.id = resumeRequestHistory.getId();
         this.title = resumeRequestHistory.getTitle();
         this.content = resumeRequestHistory.getContent();

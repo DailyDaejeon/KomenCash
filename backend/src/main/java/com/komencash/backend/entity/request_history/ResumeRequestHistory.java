@@ -1,6 +1,5 @@
 package com.komencash.backend.entity.request_history;
 
-import com.komencash.backend.dto.job.JobResumeAcceptRequest;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.job.Job;
 import lombok.AllArgsConstructor;

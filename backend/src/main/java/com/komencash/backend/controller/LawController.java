@@ -1,6 +1,5 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.job.JobInsertUpdateRequest;
 import com.komencash.backend.dto.law.LawAddReqAcceptUpdateRequestDto;
 import com.komencash.backend.dto.law.LawAddReqAddRequestDto;
 import com.komencash.backend.dto.request.LawAddReqFindListResponseDto;

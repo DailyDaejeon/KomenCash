@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PartTimeSelectResponse {
+public class PartTimeFindResponseDto {
 
     private int id;
     private String name;
@@ -16,7 +16,7 @@ public class PartTimeSelectResponse {
     private int salary;
 
 
-    public PartTimeSelectResponse(PartTimeJob partTimeJob) {
+    public PartTimeFindResponseDto(PartTimeJob partTimeJob) {
         this.id = partTimeJob.getId();
         this.name = partTimeJob.getName();
         this.role = partTimeJob.getRole();

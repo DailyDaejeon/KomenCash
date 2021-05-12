@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobSelectResponse {
+public class JobFindResponseDto {
 
     private int id;
     private String name;
@@ -19,7 +19,7 @@ public class JobSelectResponse {
     private int personnel;
     private RecruitType recruitType;
 
-    public JobSelectResponse(Job job) {
+    public JobFindResponseDto(Job job) {
         this.id = job.getId();
         this.name = job.getName();
         this.role = job.getRole();

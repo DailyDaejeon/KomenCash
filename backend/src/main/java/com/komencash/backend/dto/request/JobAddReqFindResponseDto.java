@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobAddReqSelectResponse {
+public class JobAddReqFindResponseDto {
 
     private int id;
     private String name;
@@ -18,7 +18,7 @@ public class JobAddReqSelectResponse {
     private int studentId;
     private String studentNickname;
 
-    public JobAddReqSelectResponse(JobAddRequestHistory jobAddRequestHistory) {
+    public JobAddReqFindResponseDto(JobAddRequestHistory jobAddRequestHistory) {
         this.id = jobAddRequestHistory.getId();
         this.name = jobAddRequestHistory.getName();
         this.content = jobAddRequestHistory.getContent();

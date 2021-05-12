@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobAddRequestAcceptRequest {
-
+public class ResumeUpdateAcceptRequestDto {
     private int id;
     private Accept accept;
 }

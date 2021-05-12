@@ -1,8 +1,9 @@
 package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.job.*;
-import com.komencash.backend.dto.request.JobAddReqSelectResponse;
-import com.komencash.backend.dto.request.ResumeDetailSelectResponse;
+import com.komencash.backend.dto.request.JobAddReqFindResponseDto;
+import com.komencash.backend.dto.request.JobAddReqAcceptRequestDto;
+import com.komencash.backend.dto.request.ResumeFindDetailResponseDto;
 import com.komencash.backend.dto.request.ResumeSelectResponse;
 import com.komencash.backend.service.JobService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,33 +21,33 @@ public class JobController {
     JobService jobService;
 
 
-    @ApiOperation(value = "직업 전체 조회", notes = "그룹 내의 모든 직업 정보를 반환")
-    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
-    @GetMapping("/{group-id}")
-    public List<JobSelectResponse> findJobByGroupId(@PathVariable("group-id") int groupId){
-        return jobService.findJobByGroupId(groupId);
+    @ApiOperation(value = "직업 추가", notes = "입력받은 직업 정보를 add하고 결과를 반환")
+    @PostMapping("")
+    public boolean addJob(@RequestBody JobAddUpdateRequestDto jobAddUpdateRequestDto) {
+        return jobService.addJob(jobAddUpdateRequestDto);
     }
 
 
-    @ApiOperation(value = "직업 추가", notes = "직업 정보를 받아서 추가")
-    @PostMapping("")
-    public boolean saveJob(@RequestBody JobInsertUpdateRequest jobInsertUpdateRequest) {
-        return jobService.saveJob(jobInsertUpdateRequest);
+    @ApiOperation(value = "직업 전체 목록 조회", notes = "그룹아이디의 그룹 내 모든 직업 목록을 조회")
+    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/{group-id}")
+    public List<JobFindResponseDto> getJobListByGroupId(@PathVariable("group-id") int groupId){
+        return jobService.findJobListByGroupId(groupId);
     }
 
 
     @ApiOperation(value = "직업 상세 정보 조회", notes = "입력받은 직업 아이디로 직업 상세 정보 조회")
     @ApiImplicitParam(name = "job-id", value = "job-id(직업 아이디)", dataType = "int", required = true)
     @GetMapping("/detail/{job-id}")
-    public JobDetailResponse findJobDetailById(@PathVariable("job-id") int jobId){
+    public JobDetailResponse getJobDetailById(@PathVariable("job-id") int jobId){
         return jobService.findJobDetailById(jobId);
     }
 
 
-    @ApiOperation(value = "직업 정보 수정", notes = "직업 정보를 받아서 update후 반환")
-    @PutMapping("")
-    public boolean updateJob(@RequestBody JobInsertUpdateRequest jobInsertUpdateRequest) {
-        return jobService.updateJob(jobInsertUpdateRequest);
+    @ApiOperation(value = "직업 정보 수정", notes = "입력받은 직업정보로 직업을 update후 반환")
+    @PutMapping
+    public boolean updateJob(@RequestBody JobAddUpdateRequestDto jobAddUpdateRequestDto) {
+        return jobService.updateJob(jobAddUpdateRequestDto);
     }
 
 
@@ -58,19 +59,18 @@ public class JobController {
     }
 
 
-
     @ApiOperation(value = "미확인 직업 추가 요청 리스트 조회", notes = "그룹 아이디를 받아 미확인된 해당 그룹의 직업 추가 요청 리스트를 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/add-request-list/{group-id}")
-    public List<JobAddReqSelectResponse> findJobAddRequestByGroupId(@PathVariable("group-id") int groupId) {
+    public List<JobAddReqFindResponseDto> findJobAddRequestByGroupId(@PathVariable("group-id") int groupId) {
         return jobService.findJobAddRequestByGroupId(groupId);
     }
 
 
-    @ApiOperation(value = "직업 추가 요청 승인/거절", notes = "직업 추가요청 처리정보를 받아서 update후 반환")
+    @ApiOperation(value = "직업 추가 요청 승인/거절", notes = "직업 추가 요청 처리정보를 받아서 update후 결과를 반환")
     @PutMapping("/add-request/accept")
-    public boolean updateJobAddRequestAccept(@RequestBody JobAddRequestAcceptRequest jobAddRequestAcceptRequest) {
-        return jobService.updateJobAddRequestAccept(jobAddRequestAcceptRequest);
+    public boolean updateJobAddRequestAccept(@RequestBody JobAddReqAcceptRequestDto jobAddReqAcceptRequestDto) {
+        return jobService.updateJobAddRequestAccept(jobAddReqAcceptRequestDto);
     }
 
 
@@ -85,30 +85,30 @@ public class JobController {
     @ApiOperation(value = "이력서 상세 정보 조회", notes = "이력서 아이디를 받아 이력서 상세 정보를 조회")
     @ApiImplicitParam(name = "resume-id", value = "resume-id(이력서 아이디)", dataType = "int", required = true)
     @GetMapping("/resume-detail/{resume-id}")
-    public ResumeDetailSelectResponse findResumeById(@PathVariable("resume-id") int resumeId) {
+    public ResumeFindDetailResponseDto findResumeById(@PathVariable("resume-id") int resumeId) {
         return jobService.findResumeById(resumeId);
     }
 
 
     @ApiOperation(value = "이력서 제출내역 승인/거절", notes = "이력서 제출내역 처리정보를 받아서 update후 반환")
     @PutMapping("/resume-request/accept")
-    public boolean updateResumeAccept(@RequestBody JobResumeAcceptRequest jobResumeAcceptRequest) {
-        return jobService.updateResumeAccept(jobResumeAcceptRequest);
+    public boolean updateResumeAccept(@RequestBody ResumeUpdateAcceptRequestDto resumeUpdateAcceptRequestDto) {
+        return jobService.updateResumeAccept(resumeUpdateAcceptRequestDto);
     }
 
 
-    @ApiOperation(value = "아르바이트 정보 조회", notes = "입력받은 그룹 아이디로 그룹 내의 모든 아르바이트 정보를 반환")
+    @ApiOperation(value = "아르바이트 정보 생성", notes = "입력받은 아르바이트 정보를 생성하고 결과를 반환")
+    @PostMapping("/part-time")
+    public boolean addPartTime(@RequestBody PartTimeAddUpdateRequestDto partTimeAddUpdateRequestDto) {
+        return jobService.addPartTime(partTimeAddUpdateRequestDto);
+    }
+
+
+    @ApiOperation(value = "아르바이트 정보 목록 조회", notes = "입력받은 그룹 아이디로 그룹 내의 모든 아르바이트 정보를 반환")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/part-time-list/{group-id}")
-    public List<PartTimeSelectResponse> findPartTimeByGroupId(@PathVariable("group-id") int groupId){
+    public List<PartTimeFindResponseDto> getPartTimeByGroupId(@PathVariable("group-id") int groupId){
         return jobService.findPartTimeByGroupId(groupId);
-    }
-
-
-    @ApiOperation(value = "아르바이트 정보 추가", notes = "아르바이트 정보를 받아서 추가")
-    @PostMapping("part-time")
-    public boolean savePartTime(@RequestBody PartTimeInsertUpdateRequest partTimeInsertUpdateRequest) {
-        return jobService.savePartTime(partTimeInsertUpdateRequest);
     }
 
 

@@ -2,7 +2,7 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.group.GroupAddUpdateRequestDto;
 import com.komencash.backend.dto.group.GroupFindResponseDto;
-import com.komencash.backend.dto.job.JobInsertUpdateRequest;
+import com.komencash.backend.dto.job.JobAddUpdateRequestDto;
 import com.komencash.backend.entity.job.RecruitType;
 import com.komencash.backend.service.GroupService;
 import com.komencash.backend.service.JobService;
@@ -36,7 +36,7 @@ public class GroupController {
     @PostMapping
     public int addGroup(@RequestBody GroupAddUpdateRequestDto groupAddUpdateRequestDto){
         int groupId = groupService.addGroup(groupAddUpdateRequestDto);
-        jobService.saveJob(new JobInsertUpdateRequest("무직", 0, "무직", "무직", 1000, RecruitType.vote, groupId));
+        jobService.saveJob(new JobAddUpdateRequestDto("무직", 0, "무직", "무직", 1000, RecruitType.vote, groupId));
         return groupId;
     }
 

@@ -6,6 +6,12 @@ function fetchStatisticList(groupId) {
   return instance.get(`statistic/list/${groupId}`)
 }
 
+// 제출 목록 리스트 조회
+function fetchStatisticCredit(groupId) {
+  return instance.get(`credit/statistic-doc/list/${groupId}`)
+}
+
+
 // 제출 목록 생성
 function addStatisticItem(statisData) {
   return instance.post(`statistic`, statisData)
@@ -20,5 +26,6 @@ function deleteStatisticItem(statisId) {
 export {
   fetchStatisticList,
   addStatisticItem,
+  fetchStatisticCredit,
   deleteStatisticItem
 }

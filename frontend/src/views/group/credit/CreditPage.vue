@@ -1,19 +1,21 @@
 <template>
   <div>
+    <GroupCreditPoint/>
     <GroupCreditChart :propsdata="chartData"/>
     <GroupCreditTable :studentList="memberData"/>
   </div>
 </template>
 
 <script>
-import GroupCreditChart from '@/components/credit/GroupCreditChart.vue'
-import GroupCreditTable from '@/components/credit/GroupCreditTable.vue'
-import { fetchCreditList } from '@/api/credit'
+import GroupCreditChart from '@/components/group/credit/GroupCreditChart.vue'
+import GroupCreditTable from '@/components/group/credit/GroupCreditTable.vue'
+import { fetchMemeberCreditList } from '@/api/credit'
 import { mapState } from 'vuex';
+import GroupCreditPoint from '@/components/group/credit/GroupCreditPoint.vue';
 
 
 export default {
-  components: { GroupCreditChart, GroupCreditTable },
+  components: { GroupCreditChart, GroupCreditTable, GroupCreditPoint },
   data() {
     return {
       creditList : {
@@ -42,8 +44,9 @@ export default {
   },
   methods:{
     async fetchCredit() {
-      const res = await fetchCreditList(this.groupInfo.id)
+      const res = await fetchMemeberCreditList(this.groupInfo.id)
       this.memberData = res.data
+
       this.memberData.forEach(element => {
         this.creditList[String(element.grade)].push(element)
       });

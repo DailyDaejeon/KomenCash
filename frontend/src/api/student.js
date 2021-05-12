@@ -22,17 +22,13 @@ function deleteGroupMember(studentId) {
 }
 
 //그룹원 추가요청 수락
-function acceptGroupMember(studentId) {
-    return instance.put(`student/accept`, {
-      student_id:studentId
-    })
+function acceptGroupMember(requestId) {
+  return instance.put(`student/accept`, requestId)
 }
 
 //그룹원 추가요청 거절
-function rejectGroupMember(studentId) {
-    return instance.put(`student/reject`, {
-      student_id:studentId
-    })
+function rejectGroupMember(requestId ) {
+  return instance.put(`student/reject`, requestId)
 }
 
 //그룹원 자격증 취득 목록 조회

@@ -48,7 +48,7 @@ public class UStudentController {
     }
 
     @ApiOperation(value="직업 변경 요청", notes = "직업 변경 요청")
-    @PostMapping("/ustudent/request-job-change")
+    @PostMapping("/request-job-change")
     public boolean requestStudent(@RequestBody StudentJobRequestDto dto){
         return ustudentService.addJobRequestWithResume(dto);
     }

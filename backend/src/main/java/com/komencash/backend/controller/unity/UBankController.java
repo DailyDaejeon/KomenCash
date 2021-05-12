@@ -43,7 +43,7 @@ public class UBankController {
     }
 
     @ApiOperation(value="은행원 - 월급 요청 목록 보기", notes = "월급 요청 목록 보기")
-    @GetMapping("/ubank/salary-payment/{group-id}")
+    @GetMapping("/salary-payment/{group-id}")
     public ResponseEntity<List<SalaryPaymentRequestDto>> getSalaryRequest(@PathVariable("group-id") int groupId){
         return ResponseEntity.status(HttpStatus.OK).body(uBankService.getSalaryRequestList(groupId));
     }

@@ -45,21 +45,21 @@ public class StudentController {
 
     @ApiOperation(value="그룹원 추가 요청 수락", notes = "입력받은 요청 아이디의 요청을 수락")
     @PutMapping("/accept")
-    public ResponseEntity updateGroupMemberAddReqAccept(@RequestBody int requestId){
+    public ResponseEntity<Boolean> updateGroupMemberAddReqAccept(@RequestBody int requestId){
         return ResponseEntity.status(HttpStatus.OK).body(studentService.updateGroupMemberAddReqAccept(requestId));
     }
 
 
     @ApiOperation(value="그룹원 추가 요청 거절", notes = "입력받은 요청 아이디의 요청을 거절")
     @PutMapping("/reject")
-    public ResponseEntity updateGroupMemberAddReqReject(@RequestBody int requestId){
+    public ResponseEntity<Boolean> updateGroupMemberAddReqReject(@RequestBody int requestId){
         return ResponseEntity.status(HttpStatus.OK).body(studentService.updateGroupMemberAddReqReject(requestId));
     }
 
 
     @ApiOperation(value="학생 비밀번호 초기화", notes = "학생 비밀번호 초기화 (1234)")
     @PutMapping("reset-pw")
-    public ResponseEntity updateStudentPasswordInit(@RequestBody int studentId){
+    public ResponseEntity<Boolean> updateStudentPasswordInit(@RequestBody int studentId){
         return ResponseEntity.status(HttpStatus.OK).body(studentService.updateStudentPasswordInit(studentId));
     }
 

@@ -1,172 +1,203 @@
 <template>
-  <main class="d-flex w-100">
-    <div class="container">
-      <div class="row vh-100">
-        <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
-          <div>
-            <div class="card">
-              <div class="card-body">
-                <div class="m-4">
-                  <form @submit.prevent="modifyJobInfo">
-                    <div class="mb-3">
-                      <div class="col-6">
-                      <h3 class="h3 form-label">직업명</h3>
-                      </div>
-                      <div class="col-6 h3 text-end">
-                        <input type="text" class="h3 border border-main"
-                        v-model="jobName"
-                        /> 
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <h3 class="h3 form-label">맡은학생이름</h3>
-                      </div>
-                    <div v-for="member in jobMembers" :key="member.memberId">
-                      
-                      <div class="col-6 h3 text-end">
-                        <input type="text" class="h3 border border-main"
-                        v-model="member.memberName"
-                        /> 
-                      </div>                
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">급여</label>
-                      <input type="text" class="h3"
-                      v-model="jobSalary"
-                      />                    
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">역할</label>
-                      <input type="text" class="h3"
-                      v-model="jobRole"
-                      />                   
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">자격조건</label>
-                      <input type="text" class="h3"
-                      v-model="jobCerti"
-                      />                   
-                    </div>
-                    <div class="text-center mt-3">
-                      <button 
-                      type="submit" class="btn btn-lg btn-main">수정</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</main>
+<div class="card-body">
+  <div class="row">
+    <div v-if="mActive" class="col-12">
+      <h3 class="text-main ">직업 상세 내용을 수정한 뒤 수정완료 버튼을 눌러주세요.</h3>
+    </div>
+    <div class="col-6">
+      <h3>직업명</h3>
+    </div>
+    <div class="col-6">
+      <span class="h3" v-if="!mActive">{{jobData.name}}</span>
+      <span class="h3" v-else>
+        <input class="border border-main" type="text" v-model="jobData.name">
+      </span>
+    </div>
+    <div class="col-6">
+      <h3>급여</h3>
+    </div>
+    <div class="col-6">
+      <span class="h3" v-if="!mActive">{{jobData.salary}}</span>
+      <span class="h3" v-else>
+        <input class="border border-main" type="text" v-model="jobData.salary">
+      </span>
+    </div>
+    
+    <div class="col-6">
+      <h3>역할</h3>
+    </div>
+    <div class="col-6">
+      <span class="h3" v-if="!mActive">{{jobData.role}}</span>
+      <span class="h3" v-else>
+        <input class="border border-main" type="text" v-model="jobData.role">
+      </span>
+    </div>
+    <div class="col-6">
+      <h3>인원</h3>
+    </div>
+    <div class="col-6">
+      <span class="h3" v-if="!mActive">
+        {{jobData.personnel}}
+      </span>
+      <span class="h3" v-else>
+        <input class="border border-main" type="text" v-model="jobData.personnel">
+      </span>
+    </div>
+    <div class="col-6">
+      <h3>자격조건</h3>
+    </div>
+    <div class="col-6">
+      <span class="h3" v-if="!mActive && jobData.qualification">
+        {{jobData.qualification}}
+      </span>
+      <span class="h3" v-else-if="!mActive && !jobData.qualification">
+        자격조건이 없습니다.
+      </span>
+      <span class="h3" v-else-if="mActive">
+        <input class="border border-main" type="text" v-model="jobData.qualification">
+      </span>
+    </div>
+    <div class="col-6">
+      <h3>채용방식</h3>
+    </div>
+    <div class="col-6">
+      <span class="h3" v-if="!mActive && jobData.name === '무직'">
+        없음
+      </span>
+      <span class="h3" v-else-if="!mActive && jobData.recruitType === 'vote'">
+        투표
+      </span>
+      <span class="h3" v-else-if="!mActive && jobData.recruitType === 'resume'">
+        이력서
+      </span>
+      <div class="h3" v-else-if="mActive">
+        <input type="radio"
+          name="recruitType"
+          :id="isRecruitType(true)"
+         :value="isRecruitType(true)" checked
+         @click="changeRecruit(isRecruitType(true))"
+         >
+        <label :for="isRecruitType(true)">
+          <span 
+          class="mr-3" v-if="isRecruitType(true) === 'resume' ">이력서</span>
+          <span class="mr-3" v-else>투표</span>
+        </label>
+        <input type="radio"
+        name="recruitType" 
+        @click="changeRecruit(isRecruitType(false))"
+        :id="isRecruitType(false)"
+         :value="isRecruitType(false)">
+         <label :for="isRecruitType(false)">
+          <span v-if="isRecruitType(false) === 'resume' ">이력서</span>
+          <span v-else>투표</span>
+        </label>
+      </div>
+    </div>
+    <div class="col-6">
+      <h3>해당 직업 그룹원 목록</h3>
+    </div>
+    <div class="col-12">
+      <table v-if="jobData.jobStudentResponses.length" class="table table-hover my-0">
+        <thead>
+          <tr>
+            <th>이름</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(member,index) in jobData.jobStudentResponses"
+          :key="index">
+            <td>{{member.studentNickName}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="h5" v-else>
+        해당 직업인 그룹원이 없습니다.
+      </p>
+    </div>
+
+    <button class="btn btn-main mx-auto" @click="modifyJobInfo">
+      <span v-if="!mActive">
+        직업수정
+      </span>
+      <span v-else>
+        수정완료
+      </span>
+      </button>
+  </div>
+</div>
 </template>
 
 <script>
-import { fetchJobDetail } from '@/api/job';
+import { fetchJobDetail, modifyJob } from '@/api/job';
+import { mapState } from 'vuex';
 export default {
-  props:{
-    JobType:{
-      type:String,
-    },
-    jobId:{
-      type:Number
-    }
-  },
+  props:['id','propsData','dataName'],
   data() {
     return {
-      jobData:[],
-      jobName: "은행원",
-      jobSalary: "100미소",
-      jobRole : "잡다한일..ㅎㅅㅎ",
-      jobPersonnel:2,
-      recruitType:"정직원",
-      jobCerti:"국영수1등급",
-      jobMembers: [{
-        memberId:1,
-        memberName:"박싸피"
+      jobData:{
+        id: 0,
+        jobStudentResponses: [],
+        name: '', 
+        personnel: 0,
+        qualification: '',
+        recruitType: '',
+        role: '',
+        salary: 0,
       },
-      {
-        memberId:2,
-        memberName:"김싸피"
-      }]
+      recruitType:'',
+      mActive:false,
     }
   },
+  created() {
+    this.fetchDetail()
+  },
+  computed: {
+    ...mapState({
+      groupInfo:state => state.group.groupInfo
+    })
+  },
   methods: {
+    changeRecruit(recruit) {
+      this.recruitType = recruit
+    },
+    isRecruitType(boolean) {
+      let res = ''
+      if (boolean) {
+        res = this.jobData.recruitType === 'resume' ? 'resume' : 'vote'
+      } else {
+        res = this.jobData.recruitType === 'resume' ? 'vote' : 'resume'
+      }
+      return res
+    },
     async fetchDetail() {
-      const res = await fetchJobDetail(this.jobId);
+      const res = await fetchJobDetail(this.id);
       this.jobData = res.data
+      this.recruitType = this.jobData.recruitType
     },
     async modifyJobInfo(){
-      if(!this.jobName) {
-        this.$swal({
-        text: "직업 이름을 입력하세요.",
-        customClass: {
-          container: 'swal2-container'
-        },
-        icon: 'info',
-        timer: 1300,
-        showConfirmButton: false,
-      })
-        return;
-      }
-      if(!this.jobSalary) {
-        this.$swal({
-          customClass: {
-          container: 'swal2-container'
-        },
-        text: "급여를 확인하세요.",
-        icon: 'info',
-        timer: 1300,
-        showConfirmButton: false,
-      })
-        return;
-      }
-      if(!this.jobRole) {
-        this.$swal({
-        text: "역할을 설정해주세요.",
-        customClass: {
-          container: 'swal2-container'
-        },
-        icon: 'info',
-        timer: 1300,
-        showConfirmButton: false,
-      })
-        return;
-      }
-      
-      try {
-        const jobData = {
-          jobId : this.jobId,
-          jobName: this.jobName,
-          jobSalary:this.jobSalary,
-          jobRole : this.jobRole,
-          jobPersonnel:this.jobPersonnel,
-          recruitType:this.recruitType,
-          jobCerti:this.jobCerti,
-          jobMembers: this.jobMembers
-        };
-        console.log(jobData)
+      this.mActive = !this.mActive
+      const jobData = {
+        groupId: this.groupInfo.id,
+        id: this.jobData.id,
+        name: this.jobData.name,
+        personnel: this.jobData.personnel,
+        qualification: this.jobData.qualification,
+        recruitType: this.recruitType,
+        role: this.jobData.role,
+        salary: this.jobData.salary
+      };
+        console.log('수정데이터',jobData)
         // await this.$store.dispatch('MODIFY',jobData)
-        this.closeUserInfoModal();
+        if (!this.mActive) {
+        modifyJob(jobData).then(()=> {
           this.$swal({
-          customClass: {
-        container: 'swal2-container'
-        },
           text: '직업정보 수정을 완료했습니다.',
           icon: 'success',
           timer: 1300,
           showConfirmButton: false,
-
-      }).then(()=>{
-        // 정보갱신
-              
-        // window.location.reload();
-        
-      })
-      }catch(err) {
-        console.log(err);
-      }
+          })
+        })
+        }
     },
   }
 }

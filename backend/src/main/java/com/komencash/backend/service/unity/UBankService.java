@@ -118,7 +118,14 @@ public class UBankService {
 
         // 선거로 뽑혔을 경우
         if(student.getJob().getRecruitType() == RecruitType.vote){
-            int tax_change = taxHistory.get(taxHistory.size()-1).getBalance()-salary;
+
+            int tax_change;
+            if(taxHistory.size() != 0){
+                tax_change = taxHistory.get(taxHistory.size()-1).getBalance()-salary;
+            }
+            else{
+                tax_change = -1*salary;
+            }
             // 세금에서 월급을 줌
             TaxHistoryAddUpdateRequestDto dto = new TaxHistoryAddUpdateRequestDto(salary*(-1), student.getJob().getName()+" Salary", groupId);
             newTaxHistory = new TaxHistory(dto, student.getJob().getGroup(), tax_change);
@@ -126,8 +133,14 @@ public class UBankService {
 
         }
         else{
+            int tax_change;
             // 소득세 떼가기
-            int tax_change = taxHistory.get(taxHistory.size()-1).getBalance()+ salaryPaymentRequestHistory.getTaxLoss();
+            if(taxHistory.size() != 0) {
+                tax_change = taxHistory.get(taxHistory.size() - 1).getBalance() + salaryPaymentRequestHistory.getTaxLoss();
+            }
+            else{
+                tax_change = salaryPaymentRequestHistory.getTaxLoss();
+            }
             TaxHistoryAddUpdateRequestDto dto = new TaxHistoryAddUpdateRequestDto(salaryPaymentRequestHistory.getTaxLoss(), student.getJob().getName()+" Salary Tax", groupId);
             newTaxHistory = new TaxHistory(dto, student.getJob().getGroup(), tax_change);
             taxHistoryRepository.save(newTaxHistory);

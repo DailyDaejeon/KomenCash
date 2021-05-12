@@ -14,7 +14,7 @@
           <th>수락/거절</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="requestList.length">
         <tr v-for="(request,index) in requestList"
         :key="index">
           <template v-if='RequestName === "이력서"'>
@@ -54,6 +54,10 @@
         </tr>
       </tbody>
     </table>
+    <p class="h4 text-center m-1" v-if="!requestList.length">
+      요청 내역이 없습니다.
+    </p>
+    
   </div>
 </template>
 
@@ -106,7 +110,7 @@ export default {
       } else if (this.RequestName === "상품추가") {
         const res = await fetchStoreRequestList(this.groupInfo.id)
         this.requestList = res.data
-      } 
+      }
     },
     goDetail(request) {
       if (this.RequestName === "그룹원추가") {

@@ -13,7 +13,7 @@ const router =  new Router({
   routes: [
     {
       path: '/',
-      redirect:{ name: 'MainPage' },
+      redirect: { name: 'Login' },
     },
     {
       path: '/member/join',

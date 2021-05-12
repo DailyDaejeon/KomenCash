@@ -108,7 +108,7 @@ public class StudentService {
 
     public boolean updateStudentPasswordInit(int studentId) {
         Optional<Student> student = studentRepository.findById(studentId);
-        student.get().updatePw();
+        student.get().updatePassword("1234");
         studentRepository.save(student.get());
         return true;
     }

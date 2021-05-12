@@ -35,8 +35,8 @@ public class Student {
         this.job = job;
     }
 
-    public void updatePw(){
-        this.password ="1234";
+    public void updatePassword(String password){
+        this.password = password;
     }
 
     public void updateJob(Job job){

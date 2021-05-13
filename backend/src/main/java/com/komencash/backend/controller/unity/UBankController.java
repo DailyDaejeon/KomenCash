@@ -35,7 +35,10 @@ public class UBankController {
     @ApiOperation(value="금융 상품에 가입하기", notes = "금융상품에 가입하기 신청시 before-deposit으로 넘어가서 승인받아야함")
     @PostMapping("/product-regist")
     public ResponseEntity<Boolean> productRegist(@RequestBody FinancialProductHistoryAddDto request){
-        uBankService.productRegist(request);
+        boolean result = uBankService.productRegist(request);
+        if(!result){
+            return ResponseEntity.status(HttpStatus.OK).body(false);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }
 

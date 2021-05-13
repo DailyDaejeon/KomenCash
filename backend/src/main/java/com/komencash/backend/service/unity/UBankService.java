@@ -66,7 +66,18 @@ public class UBankService {
         FinancialProductDetail financialProductDetail = financialProductDetailRepository.findById(request.getFinancialProductDetailId()).orElse(null);
 
         Student student = studentRepository.findById(request.getStudentId()).orElse(null);
+        List<AccountHistory> accountHistories = accountHistoryRepository.findByStudent_Id(request.getStudentId());
+        AccountHistory temp;
+        if(accountHistories.size()!= 0) {
+             temp = accountHistories.get(accountHistories.size() - 1);
 
+        }
+        else{
+            return false;
+        }
+        if(temp.getBalance() < request.getPrincipal()){
+            return false;
+        }
         Date date = new Date();
         long time = date.getTime();
         Timestamp startDate = new Timestamp(time);

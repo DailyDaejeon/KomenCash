@@ -96,6 +96,13 @@ function fetchGroupMemeberStoreHistory(studentId) {
   return instance.get(`store/history/student/${studentId}`)
 }
 
+
+// 그룹원 월급 지급 요청 생성
+function salaryPaymentRequest(groupId) {
+  return instance.post(`bank/salary-payment-request`, {
+    data: groupId})
+}
+
 export {
   fetchGroupMemberList,
   fetchGroupRequest,
@@ -114,5 +121,6 @@ export {
   fetchMemberStockDeal,
   modifyGroupMemberJobFire,
   acceptStatisDetail,
-  fetchGroupMemeberStoreHistory
+  fetchGroupMemeberStoreHistory,
+  salaryPaymentRequest
 }

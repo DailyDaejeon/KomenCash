@@ -39,7 +39,7 @@
                 </table>
               </div>
             </div>
-            <button class="btn btn-primary" @click="submitModiInfo" v-if="this.mActive">Save changes</button>
+            <button class="btn btn-primary" @click="submitModiInfo" v-if="this.mActive"> 변경내역저장</button>
             <button class="btn btn-main" @click="modiGroupInfo" v-if="!this.mActive">수정</button>
           </div>
         </div>
@@ -104,9 +104,9 @@ export default {
     fetchInfo(){
       console.log(this.groupInfo)
       this.groupName = this.groupInfo.name
-      this.groupInflationRate= this.groupInfo.inflationRate,
+      this.groupInflationRate= this.groupInfo.inflationRate
       this.monetaryUnitName= this.groupInfo.monetaryUnitName
-      this.groupTax=this.groupInfo.tax,
+      // this.groupTax=this.groupInfo.tax
       this.taxRate=this.groupInfo.taxRate
       this.userInfo=this.groupInfo.teacher
     },
@@ -121,21 +121,11 @@ export default {
         inflationRate: this.groupInflationRate,
         monetaryUnitName: this.monetaryUnitName,
         name: this.groupName,
-        taxRate: this.groupTax,
+        taxRate: this.taxRate,
         teacherId: this.userInfo.id
       }
       console.log(groupInfo)
       modifyGroup(groupInfo)
-      // const modifyGroupInfo = {
-      //   code: this.groupInfo.code,
-      //   id: this.groupInfo.id,
-      //   inflationRate: this.groupInflationRate,
-      //   monetary_unit_name: this.monetaryUnitName,
-      //   name: this.groupName,
-      //   tax:this.groupTax,
-      //   tax_rate: this.groupTax,
-      //   teacher: this.userInfo
-      // }
       this.$store.commit('setGroupInfo',groupInfo)
       this.fetchInfo()
       this.mActive = !this.mActive;

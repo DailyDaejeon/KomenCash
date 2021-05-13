@@ -78,16 +78,17 @@
           <thead>
             <tr>
               <th>예금상품명</th>
-              <th>상태</th>
+              <!-- <th>상태</th> -->
               <th>시작일</th>
               <th>만기일</th>
               <th>원금</th>
               </tr>
           </thead>
           <tbody>
-            <tr v-for="(product,index) in memberFinancial" :key="index">
+            <tr v-for="(product,index) in memberFinancial" :key="index"
+            v-show="product.status === 'deposit'"
+            >
               <td>{{product.financialProductName}}</td>
-              <td>{{product.status}}</td>
               <td>{{product.startDate.slice(0,10)}}</td>
               <td>{{product.endDate.slice(0,10)}}</td>
               <td>{{product.principal}}</td>
@@ -248,7 +249,7 @@ export default {
     jobFire(sId) {
       this.$swal({
         icon: 'info',
-        text: `'${this.memberInfo.nickname}님의 직업을 ${this.memberInfo.job.name}에서 '무직'으로 변경 하시겠습니까?'`,
+        text: `${this.memberInfo.nickname}님의 직업을 ${this.memberInfo.job.name}에서 '무직'으로 변경 하시겠습니까?`,
         confirmButtonText:'변경',
         showCancelButton: true,
         cancelButtonText:'취소'

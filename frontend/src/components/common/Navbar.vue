@@ -10,8 +10,8 @@
 						<i class="align-middle" data-feather="settings"></i>
 					</span>
 					<!-- dropdown-toggle -->
-					<span class="nav-link  d-none d-sm-inline-block"  data-bs-toggle="dropdown">
-						<span class="text-dark">{{groupInfo.teacher.nickname}} 선생님</span>
+					<span class="nav-link d-inline-block"  data-bs-toggle="dropdown">
+						<span class="text-dark">{{userInfo.nickname}} 선생님</span>
 					</span>
 				</li>
 			</ul>
@@ -29,7 +29,8 @@ export default {
 	},
 	computed: {
 		...mapState({
-			groupInfo : state => state.group.groupInfo
+			groupInfo : state => state.group.groupInfo,
+			userInfo:state=>state.user.userInfo
 		})
 	},
 	methods : {

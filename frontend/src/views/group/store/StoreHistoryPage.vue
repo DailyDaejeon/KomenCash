@@ -4,18 +4,18 @@
       <h1 class="h3 mb-3">상품 거래내역</h1>
       <table class="table table-hover my-0">
       <thead>
-        <tr>
+        <tr class="text-center">
           <th>거래내역</th>
           <th>구매인</th>
-          <th>금액(단위:{{groupInfo.monetaryUnitName}})</th>
+          <th>금액({{groupInfo.monetaryUnitName}})</th>
           <th>거래날짜</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-center">
         <tr v-for="(history,index) in storeHistoryList" :key="index">
           <td>{{history.name}}</td>
           <td>{{history.studentNickname}}</td>
-          <td>{{history.price}}</td>
+          <td >{{history.price}}</td>
           <td>{{history.perchaseDate.slice(0,10)}}</td>
         </tr>
       </tbody>

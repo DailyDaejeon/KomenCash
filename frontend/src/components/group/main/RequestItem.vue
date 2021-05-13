@@ -66,7 +66,7 @@ import { acceptGroupMember, fetchGroupRequest, rejectGroupMember } from '@/api/s
 import { mapState } from 'vuex';
 import { acceptLawRequest, fetchLawRequest, fetchLawRequestDetail } from '@/api/law';
 import { acceptStoreRequest, fetchStoreRequestDetail, fetchStoreRequestList } from '@/api/store';
-import { acceptJobRequest, acceptJobResumeRequest, fetchJobRequestList, fetchJobResumeList } from '@/api/job';
+import { acceptJobRequest, acceptJobResumeRequest, fetchJobRequestList, fetchJobResumeDetail, fetchJobResumeList } from '@/api/job';
 import { acceptCase, fetchCaseList } from '@/api/case';
 
 export default {
@@ -121,11 +121,17 @@ export default {
         })
       } else if (this.RequestName === "이력서") {
         console.log(request,'-->',this.RequestName,'요청내용없니')
-
-        this.$swal({
-          title: `${request.studentNickname}님의 "${request.jobName}" 이력서`,
-          text: `${request.title}`
+        fetchJobResumeDetail(request.id).then((res) => {
+          console.log(res,'이력서상세')
+          this.$swal({
+          title: `${res.data.studentNickname}님의 "${res.data.jobName}" 이력서`,
+          text: `${res.data.title}`,
+          html:'<div id="swal2-content" class="swal2-html-container" style="display: block;">'
+          +'<p class="swal2-text" >'+'이력서 제목 : '+`${res.data.title}`+'</p>'
+            +'<p class="swal2-text" >'+'이력서 내용 : '+`${res.data.content}`+'</p>' +'</div>'
         })
+        })
+        
        
       } else if (this.RequestName === "경위서") {
         console.log(request,'-->',this.RequestName,'요청내용없니')

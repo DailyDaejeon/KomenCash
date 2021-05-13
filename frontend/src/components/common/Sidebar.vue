@@ -6,9 +6,9 @@
 			</router-link>
 
 			<ul class="sidebar-nav">
-				<li class="sidebar-header">
+				<!-- <li class="sidebar-header">
 					GroupName
-				</li>
+				</li> -->
 
 				<li class="sidebar-item" id="MainPage"
 				:class="[toActive === 'MainPage'? 'active' : '']">
@@ -23,7 +23,8 @@
 				:class="[toActive === 'JobPage'? 'active' : '']"
 				>
 					<router-link class="sidebar-link" :to="{name:'JobPage'}" >
-						<i class="fas fa-user-tag align-middle"></i> <span class="align-middle" >직업</span>
+						<i class="fas fa-tags align-middle"></i>
+						<span class="align-middle" >직업</span>
 					</router-link>
 				</li>
 
@@ -39,13 +40,13 @@
 				:class="[toActive === 'TaxPage'? 'active' : '']"
 				>
 					<router-link class="sidebar-link" :to="{name:'TaxPage'}" >
-						<i class="fas fa-tenge align-middle"></i> <span class="align-middle" >국세청</span>
+						<i class="fas fa-university  align-middle"></i> <span class="align-middle" >국세청</span>
 					</router-link>
 				</li>
 
 				<li class="sidebar-item" id="BankPage"> 
 					<span data-bs-toggle="collapse" class="sidebar-link collapsed">
-						<i class="fas fa-piggy-bank align-middle"></i> <span class="align-middle">은행</span>
+						<i class="fas fa-won-sign align-middle"></i> <span class="align-middle">은행</span>
 					</span>
 					<ul id="bank" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
 						<!-- collapse -->
@@ -65,15 +66,25 @@
 					</router-link>
 				</li>
 
-				<li class="sidebar-item" id="CreditPage" :class="[toActive === 'CreditPage'? 'active' : '']">
-					<router-link class="sidebar-link" :to="{name:'CreditPage'}">
-						<i class="fas fa-chart-bar align-middle"></i> <span class="align-middle" >신용</span>
-					</router-link>
+				<li class="sidebar-item" id="CreditStatisticPage"> 
+					<span data-bs-toggle="collapse" class="sidebar-link collapsed">
+						<i class="fas fa-chart-bar align-middle"></i></i><span class="align-middle">신용</span>
+					</span>
+					<ul id="CreditPage" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
+						<!-- collapse -->
+						<li class="sidebar-item"
+						id="StoreListPage"
+						:class="[toActive === 'CreditPage'? 'active' : '']"><router-link :to="{name:'CreditPage'}" class="sidebar-link">
+							신용등급 조회 </router-link></li>
+						<li class="sidebar-item" 
+						id="StatisticPage"
+						:class="[toActive === 'StatisticPage'? 'active' : '']"><router-link class="sidebar-link" :to="{name:'StatisticPage'}" >제출물 관리</router-link></li>	
+						</ul>
 				</li>
 
 				<li class="sidebar-item" id="StorePage"> 
 					<span data-bs-toggle="collapse" class="sidebar-link collapsed">
-						<i class="fas fa-store align-middle"></i><span class="align-middle">상점</span>
+						<i class="fas fa-building align-middle"></i><span class="align-middle">상점</span>
 					</span>
 					<ul id="store" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
 						<!-- collapse -->
@@ -89,7 +100,7 @@
 
 				<li class="sidebar-item" id="GroupSettingPage"> 
 					<span data-bs-toggle="collapse" class="sidebar-link collapsed">
-						<i class="fas fa-store align-middle"></i><span class="align-middle">그룹관리</span>
+						<i class="fas fa-cogs align-middle"></i><span class="align-middle">그룹관리</span>
 					</span>
 					<ul class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
 						<!-- collapse -->

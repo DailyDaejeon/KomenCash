@@ -36,6 +36,11 @@ function requestCertificate(certiData) {
   return instance.put(`certificate/issue-request`,certiData)
 }
 
+// 자격증 발급 요청 내역 삭제
+function deleteMemberCertificate(certiData) {
+  return instance.delete(`certificate/issue-request`, certiData)
+}
+
 export {
   fetchCertiList,
   addCertificate,
@@ -43,5 +48,6 @@ export {
   deleteCertificate,
   addCertiIssue,
   addCertiIssueRequest,
-  requestCertificate
+  requestCertificate,
+  deleteMemberCertificate
 }

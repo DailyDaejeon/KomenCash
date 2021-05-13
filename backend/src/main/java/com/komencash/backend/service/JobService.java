@@ -97,7 +97,7 @@ public class JobService {
         if(job == null) return false;
 
         // 삭제되는 직업과 관련된 학생들은 무직으로 바꿔준다.
-        Job defaultJob = jobRepository.findByName("무직");
+        Job defaultJob = jobRepository.findByNameAndGroup_Id("무직", job.getGroup().getId());
         List<Student> students = studentRepository.findByJob_Id(jobId);
         for(Student student : students) {
             student.updateJob(defaultJob);

@@ -118,7 +118,7 @@ public class StudentService {
         Student student = studentRepository.findById(studentId).orElse(null);
         if(student == null) return false;
 
-        Job job = jobRepository.findByName("무직");
+        Job job = jobRepository.findByNameAndGroup_Id("무직", student.getJob().getGroup().getId());
         if(job == null) return false;
 
         student.updateJob(job);

@@ -9,5 +9,5 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 
     List<Job> findByGroup_id(int groupId);
 
-    Job findByName(String jobName);
+    Job findByNameAndGroup_Id(String name, int groupId);
 }

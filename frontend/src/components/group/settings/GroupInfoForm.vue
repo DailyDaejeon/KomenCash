@@ -25,7 +25,7 @@
                   </tr>
                   <tr>
                     <th>물가상승율</th>
-                    <td class="p-3" v-if="!mActive">{{groupInfo.inflationRate *100}}(%)</td>
+                    <td class="p-3" v-if="!mActive">{{groupInfo.inflationRate }}(%)</td>
                     <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputInflationRate" v-model="groupInflationRate"></td>
                   </tr>
                   <tr v-if="!mActive">
@@ -89,7 +89,7 @@ export default {
       monetaryUnitName: '',
       groupTax:'',
       taxRate:'',
-      userInfo:'',
+      // userInfo:'',
     }
   },
   created() {
@@ -106,11 +106,11 @@ export default {
     fetchInfo(){
       console.log(this.groupInfo)
       this.groupName = this.groupInfo.name
-      this.groupInflationRate= this.groupInfo.inflationRate *100
+      this.groupInflationRate= this.groupInfo.inflationRate 
       this.monetaryUnitName= this.groupInfo.monetaryUnitName
       // this.groupTax=this.groupInfo.tax
       this.taxRate=this.groupInfo.taxRate * 100
-      this.userInfo=this.groupInfo.teacher
+      // this.userInfo=this.groupInfo.teacher
     },
     modiGroupInfo() {
       this.mActive = !this.mActive;
@@ -120,7 +120,7 @@ export default {
       const groupInfo = {
         code: this.groupInfo.code,
         id: this.groupInfo.id,
-        inflationRate: this.groupInflationRate /100,
+        inflationRate: this.groupInflationRate ,
         monetaryUnitName: this.monetaryUnitName,
         name: this.groupName,
         taxRate: this.taxRate / 100,
@@ -128,7 +128,7 @@ export default {
       }
       const infData = {
         groupId : this.groupInfo.id,
-        taxRate: this.groupInflationRate / 100
+        taxRate: this.groupInflationRate 
       }
       modifyInfRate (infData)
       console.log(groupInfo)

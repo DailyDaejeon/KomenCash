@@ -3,13 +3,13 @@
     <div class="card-header">
       <h5 class="card-title mb-0">{{propsData.nickname}}님의 은행거래내역</h5>
     </div>
-    <table class="table table-hover my-0">
+    <table class="text-center table table-hover my-0">
       <thead>
         <tr>
           <th>거래내역</th>
           <th>입출금</th>
-          <th>금액(단위:{{groupInfo.monetaryUnitName}})</th>
-          <th>잔액</th>
+          <th>금액({{groupInfo.monetaryUnitName}})</th>
+          <th>잔액({{groupInfo.monetaryUnitName}})</th>
         </tr>
       </thead>
       <tbody>

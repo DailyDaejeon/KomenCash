@@ -30,6 +30,15 @@
             {{data.nickname}}
             </router-link>
           </template>
+          <template v-else-if="listTypeRouteName==='StatisticDetail'">
+            <router-link 
+            :id="data.id"
+            active-class="active"
+            class="list-group-item list-group-item-action" :to="{name:listTypeRouteName, params: { id:data.id, propsData:data}}"
+            >
+            {{data}}
+            </router-link>
+          </template>
           <template v-else>
             <router-link 
             :id="data.name"
@@ -96,6 +105,9 @@ export default {
       } else if (this.listType === "job") {
         this.listTypeName = "직업"
         this.listTypeRouteName = "JobDetail"
+      } else if (this.listType === "statistic") {
+        this.listTypeName = "제출물"
+        this.listTypeRouteName = "StatisticDetail"
       }
     }
   },

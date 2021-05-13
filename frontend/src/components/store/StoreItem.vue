@@ -14,7 +14,7 @@
         
         <span 
         @click="deleteItem(product.id)"
-        class="text-danger">삭제</span>
+        class="text-danger"><i class="fas fa-trash-alt"></i>삭제</span>
       </div>
     </div>
   </div>
@@ -57,9 +57,26 @@ export default {
 
     },
   deleteItem(id) {
-    deleteStoreProduct(id)
-  }
-
+    this.$swal({
+      title:'상품을 삭제하시겠습니까?',
+      icon:'warning',
+      text:'상품 삭제 시 복구할 수 없습니다.',
+      showCancleButton: true,
+      confirmButtonText:'삭제',
+      cancelButtonText:'취소'
+    })
+    .then((res) => {
+      if (res.isConfirmed) {
+        deleteStoreProduct(id).then(() => {
+          this.$swal({
+            title:'상품 삭제가 완료됐습니다.',
+            icon:'success',
+            timer: 1500
+          })
+        })
+      }
+    })
+    }
   },
 };
 </script>

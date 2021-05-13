@@ -59,6 +59,7 @@ function acceptFinancialRequest(finHisId) {
 }
 
 
+
 export {
   fetchGroupMemberAccountList,
   fetchFinancialList,

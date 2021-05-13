@@ -11,10 +11,8 @@ import com.komencash.backend.entity.request_history.SalaryPaymentRequestHistory;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -257,9 +255,13 @@ public class BankService {
         FinancialProductHistory history = financialProductHistoryRepository.findById(financialProductHistoryId).orElse(null);
         if(history.getStatus() == Status.before_deposit) {
             history.acceptRequest(Status.deposit);
+            String content = "금융 상품[" + history.getFinancialProductDetail().getFinancialProduct().getName() + "] 가입";
+            addAccountHistory(new AccountHistoryAddUpdateRequestDto(history.getStudent().getId(), -history.getPrincipal(), content));
         }
         else if(history.getStatus() == Status.before_termination){
             history.acceptRequest(Status.termination);
+            String content = "금융 상품[" + history.getFinancialProductDetail().getFinancialProduct().getName() + "] 중도 해지";
+            addAccountHistory(new AccountHistoryAddUpdateRequestDto(history.getStudent().getId(), history.getPrincipal(), content));
         }
         financialProductHistoryRepository.save(history);
         return true;

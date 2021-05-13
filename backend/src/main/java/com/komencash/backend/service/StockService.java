@@ -112,8 +112,12 @@ public class StockService {
         Student student = studentRepository.findById(stockDealHistoryAddRequestDto.getStudentId()).orElse(null);
         if(stock == null || student == null) return false;
 
+
+
         int price = stockDealHistoryAddRequestDto.getPrice();
         int amount = stockDealHistoryAddRequestDto.getAmount();
+        if(bankService.findBalance(student.getId()) < (price * amount)) return false;
+
         String content = "주식 거래(" + student.getNickname() + ") : " + stock.getName();
         bankService.addAccountHistory(new AccountHistoryAddUpdateRequestDto(student.getId(), -(price * amount), content));
 

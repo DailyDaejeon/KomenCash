@@ -141,12 +141,12 @@ public class StoreService {
 
         String itemName = onlineStoreItem.getName();
         int itemPrice = onlineStoreItem.getPrice();
+
+        if(bankService.findBalance(student.getId()) < itemPrice) return false;
+
         String content = "온라인 스토어 물품 구매(" + student.getNickname() + ") : " + itemName;
-
         onlineStorePerchaseHistoryRepository.save(new OnlineStorePerchaseHistory(itemName, itemPrice, student));
-
         bankService.addAccountHistory(new AccountHistoryAddUpdateRequestDto(student.getId(), -itemPrice, content));
-
         taxService.addTaxHistory(new TaxHistoryAddUpdateRequestDto(itemPrice, content, student.getJob().getGroup().getId()));
 
         return true;

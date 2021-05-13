@@ -161,6 +161,11 @@ const router =  new Router({
       path: '/group/credit/statistic',
       name: 'StatisticPage',
       component: () => import('@/views/group/credit/StatisticPage.vue'),
+      children: [{
+        path: ':id',
+        name: 'StatisticDetail',
+        component: () => import('@/components/group/credit/GroupStatisticDetail.vue'),
+      }]
     },
     {
       path: '/group/store/products',

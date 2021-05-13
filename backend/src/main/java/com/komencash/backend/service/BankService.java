@@ -11,8 +11,10 @@ import com.komencash.backend.entity.request_history.SalaryPaymentRequestHistory;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -145,7 +147,6 @@ public class BankService {
 
 
     public FinancialProductFindDetailResponseDto findFinancialProductListDetail(int productId){
-
         FinancialProduct financialProduct = financialProuctRepository.findById(productId).orElse(null);
         if(financialProduct == null) return null;
 
@@ -174,8 +175,36 @@ public class BankService {
 
         return new FinancialProductFindDetailResponseDto(financialProduct, financialProductDetailResponse, studentFindFinancialInfoDtos);
     }
+    // Scheduler 함수
+    public void updateFinancialProductHistory(){
+        Date currentDate = new Date();
+        List<FinancialProductHistory> list = financialProductHistoryRepository.findAll();
+        list.forEach(s ->{
+            // 상태가 예금 상태이고, 현재 시간이 end Date 보다 최신이면
+            // 내 통장에 + 이율 해서 넣기
+            if (s.getStatus()== Status.deposit && currentDate.compareTo(s.getEndDate()) == 1) {
+                //상태를 만료로 저장
+                FinancialProductHistory history = new FinancialProductHistory(
+                        s.getId(),
+                        s.getPrincipal(),
+                        s.getStartDate(),
+                        s.getEndDate(),
+                        Status.maturity,
+                        s.getStudent(),
+                        s.getFinancialProductDetail()
+                );
+                financialProductHistoryRepository.save(history);
 
-
+                // 내 통장에 추가
+                List<AccountHistory> accountHistory = accountHistoryRepository.findByStudent_Id(s.getStudent().getId());
+                AccountHistory lastAccount= accountHistory.get(accountHistory.size()-1);
+                int lastBalance = (int) (lastAccount.getBalance()+(s.getPrincipal()* s.getFinancialProductDetail().getRate()));
+                int balanceChange = (int)(s.getPrincipal()* s.getFinancialProductDetail().getRate());
+                AccountHistory newHistory = new AccountHistory(balanceChange, lastBalance, "예금 만기, 이율+"+s.getFinancialProductDetail().getRate(), s.getStudent());
+                accountHistoryRepository.save(newHistory);
+            }
+        });
+    }
     public List<FinancialProductHistoryFindResponseDto> findFinancialProductHistoryByStudentId(int studentId){
         List<FinancialProductHistoryFindResponseDto> financialProductHistoryFindResponsDtos = new ArrayList<>();
 

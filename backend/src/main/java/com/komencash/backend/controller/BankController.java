@@ -110,7 +110,7 @@ public class BankController {
 
     @ApiOperation(value="학생 월급 지급 요청 생성", notes = "입력받은 그룹 아이디의 모든 학생 월급 지급 요청을 생성하고 그 결과를 반환")
     @PostMapping("/salary-payment-request")
-    public boolean addSalaryPaymentRequest(@RequestBody int groupId){
+    public boolean addSalaryPaymentRequest(@RequestBody Integer groupId){
         return bankService.addSalaryPaymentRequest(groupId);
     }
 }

@@ -20,12 +20,12 @@
                   </tr>
                   <tr>
                     <th>세율</th>
-                    <td class="p-3" v-if="!mActive">{{groupInfo.taxRate}}(%)</td>
+                    <td class="p-3" v-if="!mActive">{{groupInfo.taxRate*100}}(%)</td>
                     <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputTaxRate" v-model="taxRate"></td>
                   </tr>
                   <tr>
                     <th>물가상승율</th>
-                    <td class="p-3" v-if="!mActive">{{groupInfo.inflationRate}}(%)</td>
+                    <td class="p-3" v-if="!mActive">{{groupInfo.inflationRate *100}}(%)</td>
                     <td class="p-3" v-else><input type="text" class="form-control d-inline-block ml-2 w-50" id="inputInflationRate" v-model="groupInflationRate"></td>
                   </tr>
                   <tr v-if="!mActive">
@@ -77,6 +77,7 @@
 <script>
 import { deleteGroup, modifyGroup } from '@/api/group';
 import { mapState } from 'vuex';
+import { modifyInfRate } from '@/api/tax';
 
 export default {
   data() {
@@ -97,17 +98,18 @@ export default {
   computed: {
     ...mapState({
       groupInfo : state => state.group.groupInfo,
-      groupMemberCnt : state => state.group.groupMemberCnt
+      groupMemberCnt : state => state.group.groupMemberCnt,
+      userInfo: state=> state.user.userInfo
     })
   },
   methods: {
     fetchInfo(){
       console.log(this.groupInfo)
       this.groupName = this.groupInfo.name
-      this.groupInflationRate= this.groupInfo.inflationRate
+      this.groupInflationRate= this.groupInfo.inflationRate *100
       this.monetaryUnitName= this.groupInfo.monetaryUnitName
       // this.groupTax=this.groupInfo.tax
-      this.taxRate=this.groupInfo.taxRate
+      this.taxRate=this.groupInfo.taxRate * 100
       this.userInfo=this.groupInfo.teacher
     },
     modiGroupInfo() {
@@ -118,12 +120,17 @@ export default {
       const groupInfo = {
         code: this.groupInfo.code,
         id: this.groupInfo.id,
-        inflationRate: this.groupInflationRate,
+        inflationRate: this.groupInflationRate /100,
         monetaryUnitName: this.monetaryUnitName,
         name: this.groupName,
-        taxRate: this.taxRate,
+        taxRate: this.taxRate / 100,
         teacherId: this.userInfo.id
       }
+      const infData = {
+        groupId : this.groupInfo.id,
+        taxRate: this.groupInflationRate / 100
+      }
+      modifyInfRate (infData)
       console.log(groupInfo)
       modifyGroup(groupInfo)
       this.$store.commit('setGroupInfo',groupInfo)

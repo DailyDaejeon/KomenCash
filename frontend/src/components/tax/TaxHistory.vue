@@ -6,19 +6,24 @@
       <thead>
         <tr>
           <th>내역</th>
-          <th>입출금</th>
-          <th>금액(단위:미소)</th>
+          <th>상태</th>
+          <th>금액({{groupInfo.monetaryUnitName}})</th>
           <th>거래날짜</th>
-          <th>잔액</th>
+          <th>잔액({{groupInfo.monetaryUnitName}})</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(history,index) in taxHistoryList" :key="index">
           <td>{{history.content}}</td>
+          <template v-if="history.balanceChange>=0">
+            <td><span class="badge bg-success">입금</span></td>
+          </template>
+          <template v-else>
           <td><span class="badge bg-danger">출금</span></td>
+          </template>
           <td>{{history.balanceChange}}</td>
           <td>{{history.createdDate.slice(0,10)}}</td>
-          <td>100,000,000미소</td>
+          <td>{{history.balance}}</td>
         </tr>
       </tbody>
     </table>

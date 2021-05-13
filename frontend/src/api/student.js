@@ -53,9 +53,7 @@ function fetchGroupMemeberCase(studentId) {
 
 // 그룹원 직업 무직으로 변경
 function modifyGroupMemberJobFire(studentId) {
-    return instance.put(`student/job/fire`, {
-        studentId :studentId
-    })
+  return instance.put(`student/job/fire`, { studentId: studentId})
 }
 
 //그룹원 비밀번호초기화

@@ -8,6 +8,7 @@
         <thead>
           <tr>
             <th>요청인</th>
+            <th>신청내용</th>
             <th>수락/거절</th>
           </tr>
         </thead>
@@ -15,6 +16,12 @@
           <tr v-for="(request,index) in requestList"
           :key="index">
             <td>{{request.nickname}}</td>
+            <td v-if="request.status === 'before_termination'">
+              <span class="badge bg-danger">중도해지</span>
+            </td>
+            <td v-else>
+              <span class="badge bg-success">가입신청</span>
+            </td>
             <td><button class="btn btn-main" @click="acceptRequest(request)">O</button>
             </td>
           </tr>

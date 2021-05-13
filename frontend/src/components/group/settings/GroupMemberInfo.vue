@@ -49,7 +49,7 @@
           <button class="btn btn-main" @click="addCerti">자격증 추가</button>
       </div>
       <div class="col-12">
-        <table v-if="memberInfo.certificateSelectResponseList.length" class="table table-hover my-0">
+        <table v-if="memberInfo.certificateSelectResponseList.length" class="text-center table table-hover my-0">
           <thead>
             <tr>
               <th>자격증명</th>
@@ -74,7 +74,7 @@
         <h3>예금</h3>
       </div>
       <div class="col-12">
-        <table v-if="memberFinancial.length" class="table table-hover my-0">
+        <table v-if="memberFinancial.length" class="text-center table table-hover my-0">
           <thead>
             <tr>
               <th>예금상품명</th>
@@ -103,20 +103,30 @@
         <h3>주식</h3>
       </div>
       <div class="col-12">
-        <table v-if="memberStock.length" class="table table-hover my-0">
+        <table v-if="memberStock.length" class="text-center table table-hover my-0">
           <thead>
             <tr>
-              <th>주식명</th>
-              <th>주가</th>
-              <th>수량</th>
+              <th>종목명</th>
+              <th>현재가</th>
+              <th>평균매수가</th>
+              <th>보유량</th>
+              <th>수익률</th>
               <th>매수일</th>
               </tr>
           </thead>
           <tbody>
             <tr v-for="(product,index) in memberStock" :key="index">
               <td>{{product.stockName}}</td>
-              <td>{{product.price}}</td>
+              <td>{{memberStockDetail[index].curPrice}}</td>
+              <td>{{memberStockDetail[index].avgDealPrice}}</td>
               <td>{{product.amount}}</td>
+              <td>
+                <span
+                class="badge"
+                 :class="{'bg-success':memberStockDetail[index].changePercent>= 0,'bg-danger':memberStockDetail[index].changePercent< 0}">
+                {{memberStockDetail[index].changePercent}} (%)
+                </span>
+                </td>
               <td>{{product.createdDate.slice(0,10)}}</td>
             </tr>
           </tbody>
@@ -130,7 +140,7 @@
         <h3>경위서</h3>
       </div>
       <div class="col-12">
-        <table v-if="memberCaseList.length" class="table table-hover my-0">
+        <table v-if="memberCaseList.length" class="text-center table table-hover my-0">
           <thead>
             <tr>
               <th>사건명</th>
@@ -156,7 +166,7 @@
         <h3>상품 구매내역</h3>
       </div>
       <div class="col-12">
-        <table v-if="memberShopList.length" class="table table-hover my-0">
+        <table v-if="memberShopList.length" class="text-center table table-hover my-0">
           <thead>
             <tr>
               <th>상품명</th>
@@ -192,7 +202,7 @@
 </template>
 
 <script>
-import { deleteGroupMember, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, modifyGroupMemberJobFire, resetGroupMemberPw } from '@/api/student';
+import { deleteGroupMember, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, fetchMemberStockDealStatus, modifyGroupMemberJobFire, resetGroupMemberPw } from '@/api/student';
 import { mapState } from 'vuex';
 import { addCertiIssue, fetchCertiList } from '@/api/certificate';
 
@@ -207,11 +217,12 @@ export default {
       memberInfo:[],
       memberFinancial:[],
       memberStock:[],
+      memberStockDetail:[],
       memberCredit:0,
       memberCaseList : [],
       memberShopList: [],
       groupCertiList : [],
-      groupCertiName:[]
+      groupCertiName:[],
     }
   },
   created() {
@@ -228,6 +239,7 @@ export default {
       const remain = await fetchMemberBalance(this.id)
       const financial = await fetchMemberFinancial(this.id)
       const stock = await fetchMemberStockDeal(this.id)
+      const stockDetail = await fetchMemberStockDealStatus(this.id)
       const credit = await fetchMemberCredit(this.id)
       const caseList = await fetchGroupMemeberCase(this.id)
       const shop = await fetchGroupMemeberStoreHistory(this.id) 
@@ -237,6 +249,7 @@ export default {
       this.memberMoney = remain.data
       this.memberFinancial = financial.data
       this.memberStock = stock.data
+      this.memberStockDetail = stockDetail.data
       this.memberCredit = credit.data
       this.memberCaseList = caseList.data
       this.memberShopList = shop.data

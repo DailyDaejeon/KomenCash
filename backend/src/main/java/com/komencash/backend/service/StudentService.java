@@ -116,10 +116,8 @@ public class StudentService {
 
     public boolean updateStudentJobFire(int studentId) {
         Student student = studentRepository.findById(studentId).orElse(null);
-        if(student == null) return false;
-
         Job job = jobRepository.findByNameAndGroup_Id("무직", student.getJob().getGroup().getId());
-        if(job == null) return false;
+        if(student == null || job == null) return false;
 
         student.updateJob(job);
         studentRepository.save(student);

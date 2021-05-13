@@ -3,6 +3,7 @@ package com.komencash.backend.controller;
 import com.komencash.backend.dto.request.GroupMemberAddReqFindRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentFindResponseDto;
+import com.komencash.backend.dto.student.StudentUpdateJobPwRequestDto;
 import com.komencash.backend.service.StudentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,15 +60,15 @@ public class StudentController {
 
     @ApiOperation(value="학생 비밀번호 초기화", notes = "학생 비밀번호 초기화 (1234)")
     @PutMapping("reset-pw")
-    public ResponseEntity<Boolean> updateStudentPasswordInit(@RequestBody int studentId){
-        return ResponseEntity.status(HttpStatus.OK).body(studentService.updateStudentPasswordInit(studentId));
+    public ResponseEntity<Boolean> updateStudentPasswordInit(@RequestBody StudentUpdateJobPwRequestDto studentUpdateJobPwRequestDto){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.updateStudentPasswordInit(studentUpdateJobPwRequestDto.getStudentId()));
     }
 
 
     @ApiOperation(value="학생 직업 무직으로 변경", notes = "입력받은 학생 아이디의 직업을 무직으로 변경")
     @PutMapping("/job/fire")
-    public boolean updateStudentJobFire(@RequestBody int studentId){
-        return studentService.updateStudentJobFire(studentId);
+    public boolean updateStudentJobFire(@RequestBody StudentUpdateJobPwRequestDto studentUpdateJobPwRequestDto){
+        return studentService.updateStudentJobFire(studentUpdateJobPwRequestDto.getStudentId());
     }
 
 

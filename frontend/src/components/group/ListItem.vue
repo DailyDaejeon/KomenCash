@@ -36,7 +36,7 @@
             active-class="active"
             class="list-group-item list-group-item-action" :to="{name:listTypeRouteName, params: { id:data.id, propsData:data}}"
             >
-            {{data}}
+            {{data.submitContent}}
             </router-link>
           </template>
           <template v-else>

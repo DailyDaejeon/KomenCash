@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CertificateIssueRequestHistoryRepository extends JpaRepository<CertificateIssueRequestHistory, Integer> {
-    List<CertificateIssueRequestHistory> findAllByStudent_Id(int studentId);
+    List<CertificateIssueRequestHistory> findByStudent_Id(int studentId);
+    CertificateIssueRequestHistory findByStudent_IdAndCertificate_Id(int studentId, int certificateId);
 }

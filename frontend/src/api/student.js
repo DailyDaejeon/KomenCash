@@ -84,6 +84,11 @@ function fetchMemberStockDeal(studentId) {
   return instance.get(`stock/deal/student/${studentId}`)
 }
 
+// 학생별 주식 보유현황 조회
+function fetchMemberStockDealStatus(stockId) {
+  return instance.get(`stock/deal/holding-status/${stockId}`)
+}
+
 // 그룹원 제출 내역 수정
 function acceptStatisDetail(statisData) {
   return instance.put(`statistic/detail`, statisData)
@@ -117,6 +122,7 @@ export {
   fetchMemberBalance,
   fetchMemberFinancial,
   fetchMemberStockDeal,
+  fetchMemberStockDealStatus,
   modifyGroupMemberJobFire,
   acceptStatisDetail,
   fetchGroupMemeberStoreHistory,

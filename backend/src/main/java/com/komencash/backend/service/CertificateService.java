@@ -66,7 +66,7 @@ public class CertificateService {
 
         List<CertificateSelectResponse> certificateSelectResponses = new ArrayList<>();
         List<CertificateIssueRequestHistory> certificateIssueRequestHistories
-                = certificateIssueRequestHistoryRepository.findAllByStudent_Id(studentId);
+                = certificateIssueRequestHistoryRepository.findByStudent_Id(studentId);
 
         certificateIssueRequestHistories.forEach(certificateIssueRequestHistory -> {
             if(certificateIssueRequestHistory.getAccept().equals(Accept.accept))
@@ -97,9 +97,9 @@ public class CertificateService {
     }
 
 
-    public boolean addCertificateIssue(CertificateIssueAddRequestDto certificateIssueAddRequestDto){
-        Certificate certificate = certificateRepository.findById(certificateIssueAddRequestDto.getCertificateId()).orElse(null);
-        Student student = studentRepository.findById(certificateIssueAddRequestDto.getStudentId()).orElse(null);
+    public boolean addCertificateIssue(CertificateIssueAddDelRequestDto certificateIssueAddDelRequestDto){
+        Certificate certificate = certificateRepository.findById(certificateIssueAddDelRequestDto.getCertificateId()).orElse(null);
+        Student student = studentRepository.findById(certificateIssueAddDelRequestDto.getStudentId()).orElse(null);
         if(certificate == null || student == null) return false;
 
         CertificateIssueRequestHistory certificateIssueRequestHistory = new CertificateIssueRequestHistory(certificate, student, Accept.accept);
@@ -108,9 +108,21 @@ public class CertificateService {
     }
 
 
-    public boolean addCertificateIssueReq(CertificateIssueAddRequestDto certificateIssueAddRequestDto){
-        Certificate certificate = certificateRepository.findById(certificateIssueAddRequestDto.getCertificateId()).orElse(null);
-        Student student = studentRepository.findById(certificateIssueAddRequestDto.getStudentId()).orElse(null);
+    public boolean deleteCertificateIssueHistory(CertificateIssueAddDelRequestDto certificateIssueAddDelRequestDto){
+        Student student = studentRepository.findById(certificateIssueAddDelRequestDto.getStudentId()).orElse(null);
+        Certificate certificate = certificateRepository.findById(certificateIssueAddDelRequestDto.getCertificateId()).orElse(null);
+        if(student == null || certificate == null) return false;
+
+        CertificateIssueRequestHistory certificateIssueRequestHistory = certificateIssueRequestHistoryRepository
+                .findByStudent_IdAndCertificate_Id(student.getId(), certificate.getId());
+        certificateIssueRequestHistoryRepository.delete(certificateIssueRequestHistory);
+        return true;
+    }
+
+
+    public boolean addCertificateIssueReq(CertificateIssueAddDelRequestDto certificateIssueAddDelRequestDto){
+        Certificate certificate = certificateRepository.findById(certificateIssueAddDelRequestDto.getCertificateId()).orElse(null);
+        Student student = studentRepository.findById(certificateIssueAddDelRequestDto.getStudentId()).orElse(null);
         if(certificate == null || student == null) return false;
 
         CertificateIssueRequestHistory certificateIssueRequestHistory = new CertificateIssueRequestHistory(certificate, student, Accept.before_confirm);

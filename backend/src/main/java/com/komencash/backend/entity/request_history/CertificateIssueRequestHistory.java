@@ -1,6 +1,5 @@
 package com.komencash.backend.entity.request_history;
 
-import com.komencash.backend.dto.certificate.CertificateIssueAddRequestDto;
 import com.komencash.backend.entity.student.Student;
 import com.komencash.backend.entity.certificate.Certificate;
 import lombok.AllArgsConstructor;

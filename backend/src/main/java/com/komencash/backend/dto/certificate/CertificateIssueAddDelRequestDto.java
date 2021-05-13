@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CertificateIssueAddRequestDto {
+public class CertificateIssueAddDelRequestDto {
     private int studentId;
     private int certificateId;
 

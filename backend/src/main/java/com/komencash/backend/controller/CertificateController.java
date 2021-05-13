@@ -62,16 +62,23 @@ public class CertificateController {
     }
 
 
+    @ApiOperation(value = "자격증 발급 내역 삭제", notes = "자격증 발금 삭제 처리정보를 받아서 delete후 결과를 반환")
+    @DeleteMapping("/issue-request")
+    public boolean deleteCertificateIssueHistory(@RequestBody CertificateIssueAddDelRequestDto certificateIssueAddDelRequestDto) {
+        return certificateService.deleteCertificateIssueHistory(certificateIssueAddDelRequestDto);
+    }
+
+
     @ApiOperation(value = "자격증 발급 정보 생성", notes = "학생과 자격증 아이디를 입력받아 자격증 발급 정보를 생성하고 결과를 반환")
     @PostMapping("/issue")
-    public boolean addCertificateIssue(@RequestBody CertificateIssueAddRequestDto certificateIssueAddRequestDto) {
-        return certificateService.addCertificateIssue(certificateIssueAddRequestDto);
+    public boolean addCertificateIssue(@RequestBody CertificateIssueAddDelRequestDto certificateIssueAddDelRequestDto) {
+        return certificateService.addCertificateIssue(certificateIssueAddDelRequestDto);
     }
 
 
     @ApiOperation(value = "자격증 발급 요청 생성", notes = "학생과 자격증 아이디를 입력받아 자격증 발급 요청를 생성하고 결과를 반환")
     @PostMapping("/issue-request")
-    public boolean addCertificateIssueReq(@RequestBody CertificateIssueAddRequestDto certificateIssueAddRequestDto) {
-        return certificateService.addCertificateIssueReq(certificateIssueAddRequestDto);
+    public boolean addCertificateIssueReq(@RequestBody CertificateIssueAddDelRequestDto certificateIssueAddDelRequestDto) {
+        return certificateService.addCertificateIssueReq(certificateIssueAddDelRequestDto);
     }
 }

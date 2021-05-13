@@ -52,7 +52,7 @@ public class StudentService {
         Student student = studentRepository.findById(studentId).orElse(null);
         if(student == null) return null;
 
-        List<CertificateIssueRequestHistory> certificateIssueRequestHistories = certificateIssueRequestHistoryRepository.findAllByStudent_Id(studentId);
+        List<CertificateIssueRequestHistory> certificateIssueRequestHistories = certificateIssueRequestHistoryRepository.findByStudent_Id(studentId);
         certificateIssueRequestHistories.forEach(certificateIssueRequestHistory -> {
             if(certificateIssueRequestHistory.getAccept().equals(Accept.accept))
                 certificateSelectResponseList.add(new CertificateSelectResponse(certificateIssueRequestHistory.getCertificate()));

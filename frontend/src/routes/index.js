@@ -153,9 +153,14 @@ const router =  new Router({
       props: true
     },
     {
-      path: '/group/credit',
+      path: '/group/credit/chart',
       name: 'CreditPage',
       component: () => import('@/views/group/credit/CreditPage.vue'),
+    },
+    {
+      path: '/group/credit/statistic',
+      name: 'StatisticPage',
+      component: () => import('@/views/group/credit/StatisticPage.vue'),
     },
     {
       path: '/group/store/products',

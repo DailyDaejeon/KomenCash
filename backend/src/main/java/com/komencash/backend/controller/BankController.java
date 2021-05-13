@@ -72,6 +72,14 @@ public class BankController {
     }
 
 
+    @ApiOperation(value="금융 상품 신청 조회", notes = "입력받은 상품에서 가입 신청한 목록 조회")
+    @ApiImplicitParam(name = "product-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
+    @GetMapping("/financial-product/apply/{product-id}")
+    public ResponseEntity<List<FinancialProductApplyListResponseDto>> getFinancialProductApplyList(@PathVariable("product-id") int productId){
+        return ResponseEntity.status(HttpStatus.OK).body(bankService.findFinancialProductApplyList(productId));
+    }
+
+
     @ApiOperation(value = "금융 상품 정보 수정", notes = "입력받은 금융 상품 정보를 update후 결과 반환")
     @PutMapping("/financial-product")
     public boolean updateFinancialProduct(@RequestBody FinancialProductAddUpdateRequestDto financialProductAddUpdateRequestDto) {

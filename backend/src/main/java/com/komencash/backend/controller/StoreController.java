@@ -20,22 +20,29 @@ public class StoreController {
     StoreService storeService;
 
 
-    @ApiOperation(value = "온라인스토어 물품 목록 조회", notes = "입력받은 그룹 아이디로 그룹 내의 모든 온라인스토어 물품 목록을 반환")
-    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
-    @GetMapping("/list/{group-id}")
-     public List<StoreItemResponse> selectStoreItem(@PathVariable("group-id") int groupId){
-        return storeService.selectStoreItem(groupId);
+    @ApiOperation(value = "온라인스토어 상품 정보 생성", notes = "입력받은 온라인스토어 물품 정보를 생성하고 결과를 반환")
+    @PostMapping
+    public boolean insertStoreItem(@RequestBody StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
+        return storeService.insertStoreItem(storeItemInsertUpdateRequest);
     }
 
 
-    @ApiOperation(value = "온라인스토어 물품 정보 수정", notes = "입력받은 온라인스토어 물품 정보로 수정하고 결과를 반환")
-    @PutMapping("")
+    @ApiOperation(value = "온라인스토어 상품 목록 조회", notes = "입력받은 그룹 아이디로 그룹 내의 모든 온라인스토어 물품 목록을 반환")
+    @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
+    @GetMapping("/list/{group-id}")
+     public List<StoreItemFindResponseDto> getStoreItemList(@PathVariable("group-id") int groupId){
+        return storeService.findStoreItemList(groupId);
+    }
+
+
+    @ApiOperation(value = "온라인스토어 상품 정보 수정", notes = "입력받은 온라인스토어 물품 정보로 수정하고 결과를 반환")
+    @PutMapping
     public boolean updateStoreItem(@RequestBody StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
         return storeService.updateStoreItem(storeItemInsertUpdateRequest);
     }
 
 
-    @ApiOperation(value = "온라인스토어 물품 정보 삭제", notes = "입력받은 store-item-id의 물품 정보를 삭제하고 결과를 반환")
+    @ApiOperation(value = "온라인스토어 상품 정보 삭제", notes = "입력받은 store-item-id의 물품 정보를 삭제하고 결과를 반환")
     @ApiImplicitParam(name = "store-item-id", value = "store_item-id(물품 아이디)", dataType = "int", required = true)
     @DeleteMapping("/{store-item-id}")
     public boolean deleteStoreItem(@PathVariable("store-item-id") int storeItemId) {
@@ -43,11 +50,7 @@ public class StoreController {
     }
 
 
-    @ApiOperation(value = "온라인스토어 물품 정보 추가", notes = "입력받은 온라인스토어 물품 정보를 추가하고 결과를 반환")
-    @PostMapping("")
-    public boolean insertStoreItem(@RequestBody StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
-        return storeService.insertStoreItem(storeItemInsertUpdateRequest);
-    }
+
 
 
     @ApiOperation(value = "미확인된 상품 추가 요청 목록 조회", notes = "입력받은 그룹 아이디로 그룹 내 미확인된 상품 추가 요청 목록을 반환")

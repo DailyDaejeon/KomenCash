@@ -12,7 +12,6 @@ import com.komencash.backend.entity.request_history.OnlineStoreItemAddRequestHis
 import com.komencash.backend.entity.store.OnlineStoreItem;
 import com.komencash.backend.entity.store.OnlineStorePerchaseHistory;
 import com.komencash.backend.entity.student.Student;
-import com.komencash.backend.entity.tax.TaxHistory;
 import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,26 +24,32 @@ public class StoreService {
 
     @Autowired
     OnlineStoreItemRepository onlineStoreItemRepository;
+
     @Autowired
     GroupRepository groupRepository;
+
     @Autowired
     OnlineStoreItemAddRequestHistoryRepository onlineStoreItemAddRequestHistoryRepository;
+
     @Autowired
     OnlineStorePerchaseHistoryRepository onlineStorePerchaseHistoryRepository;
+
     @Autowired
     StudentRepository studentRepository;
+
     @Autowired
     BankService bankService;
+
     @Autowired
     TaxService taxService;
 
-    public List<StoreItemResponse> selectStoreItem(int groupId){
-        List<StoreItemResponse> storeItemResponses = new ArrayList<>();
+    public List<StoreItemFindResponseDto> findStoreItemList(int groupId){
+        List<StoreItemFindResponseDto> storeItemFindResponseDtos = new ArrayList<>();
 
         List<OnlineStoreItem> onlineStoreItems = onlineStoreItemRepository.findByGroup_Id(groupId);
-        for(OnlineStoreItem onlineStoreItem : onlineStoreItems) storeItemResponses.add(new StoreItemResponse(onlineStoreItem));
+        onlineStoreItems.forEach(onlineStoreItem -> storeItemFindResponseDtos.add(new StoreItemFindResponseDto(onlineStoreItem)));
 
-        return storeItemResponses;
+        return storeItemFindResponseDtos;
     }
 
 

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FinancialProductApplyDto {
+public class FinancialProductApplyListResponseDto {
     private int id;
     private String nickname;
     private Status status;

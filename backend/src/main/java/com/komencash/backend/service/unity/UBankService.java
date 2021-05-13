@@ -52,7 +52,8 @@ public class UBankService {
                         new AccountHistoryFindResponseDto(
                                 accountHistory.getBalance(),
                                 accountHistory.getBalanceChange(),
-                                accountHistory.getContent()
+                                accountHistory.getContent(),
+                                accountHistory.getCreatedDate()
                         )
                 )
         );

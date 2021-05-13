@@ -53,7 +53,7 @@
           <thead>
             <tr>
               <th>자격증명</th>
-              <th>수정</th>
+              <th>자격조건</th>
               <th>삭제</th>
               </tr>
           </thead>
@@ -61,8 +61,10 @@
             <tr v-for="(certi,index) in memberInfo.certificateSelectResponseList"
             :key="index">
               <td>{{certi.name}}</td>
-              <td><button class="btn btn-main"><i class="fas fa-edit"></i></button></td>
-              <td><button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></td>
+              <td>자격조건.{{certi}}.</td>
+              <td><button 
+              @click="deleteCerti(certi.id)"
+              class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></td>
             </tr>
           </tbody>
         </table>
@@ -204,7 +206,7 @@
 <script>
 import { deleteGroupMember, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, fetchMemberStockDealStatus, modifyGroupMemberJobFire, resetGroupMemberPw } from '@/api/student';
 import { mapState } from 'vuex';
-import { addCertiIssue, fetchCertiList } from '@/api/certificate';
+import { addCertiIssue, deleteMemberCertificate, fetchCertiList } from '@/api/certificate';
 
 export default {
   props: ['id','propsData','dataName'],
@@ -295,6 +297,14 @@ export default {
           addCertiIssue(certi)
         }
       })
+    },
+    deleteCerti(cId) {
+      const deleletData = {
+        certificateId: cId,
+        studentId: this.memberInfo.id
+      }
+      // console.log('??',deleletData)
+      deleteMemberCertificate(deleletData)
     },
     deleteMember(sId) {
       this.$swal({

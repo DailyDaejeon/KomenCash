@@ -27,11 +27,20 @@ function deleteStatisticItem(statisId) {
   return instance.delete(`statistic/financial-product/${statisId}`)
 }
 
+// 제출 내역 신용등급관리위원회로 제출
+function submitStatisticList(statisId) {
+  return instance.put(`statistic/submit`,{
+    statisId: statisId
+  })
+}
+
+
 
 export {
   fetchStatisticList,
   fetchStatisticDetail,
   addStatisticItem,
   fetchStatisticCredit,
-  deleteStatisticItem
+  deleteStatisticItem,
+  submitStatisticList
 }

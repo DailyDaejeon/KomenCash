@@ -6,6 +6,11 @@ function fetchStatisticList(groupId) {
   return instance.get(`statistic/list/${groupId}`)
 }
 
+// 제출 목록 상세 조회
+function fetchStatisticDetail(statisId) {
+  return instance.get(`statistic/detail/${statisId}`)
+}
+
 // 제출 목록 리스트 조회
 function fetchStatisticCredit(groupId) {
   return instance.get(`credit/statistic-doc/list/${groupId}`)
@@ -25,6 +30,7 @@ function deleteStatisticItem(statisId) {
 
 export {
   fetchStatisticList,
+  fetchStatisticDetail,
   addStatisticItem,
   fetchStatisticCredit,
   deleteStatisticItem

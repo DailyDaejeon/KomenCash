@@ -165,6 +165,7 @@ const router =  new Router({
         path: ':id',
         name: 'StatisticDetail',
         component: () => import('@/components/group/credit/GroupStatisticDetail.vue'),
+        props: true
       }]
     },
     {

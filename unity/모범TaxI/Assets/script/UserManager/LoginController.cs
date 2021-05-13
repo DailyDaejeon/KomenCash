@@ -54,7 +54,7 @@ public class LoginController : MonoBehaviour
 
     /*UserData test = JsonUtility.FromJson<UserData>(str); //json -> Object 형변환*/
 
-    using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "ustudent/student/login", json))
+    using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "ustudent/login", json))
     {
       byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
       request.uploadHandler = new UploadHandlerRaw(jsonToSend);
@@ -100,7 +100,7 @@ public class LoginController : MonoBehaviour
 
   private IEnumerator fetchStatInfo(string sId)
   {
-    using (UnityWebRequest request = UnityWebRequest.Get(baseURL + "ustudent/student/" + sId))
+    using (UnityWebRequest request = UnityWebRequest.Get(baseURL + "ustudent/" + sId))
     {
       request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
       request.SetRequestHeader("Accept", "application/json, text/plain, */*");

@@ -21,7 +21,7 @@
             {{data.nickname}}
             </router-link>
           </template>
-          <template v-else-if=" listTypeRouteName==='BankMemberDetail'">
+          <template v-else-if=" listTypeRouteName ==='BankMemberDetail'">
             <router-link 
             :id="data.nickname"
             active-class="active"
@@ -38,7 +38,7 @@
             >
             {{data.name}}
             </router-link>
-            </template>
+          </template>
         </div>
       </div>
     </div>

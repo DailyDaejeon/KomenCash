@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { acceptFinancialRequest, deleteFinancial, fetchDetailFinancial, fetchFinancialRequest, modifyDetailFinancial, modifyFinancial } from '@/api/bank';
+import { acceptFinancialRequest, deleteFinancial, fetchDetailFinancial,  fetchFinancialRequest,  modifyDetailFinancial, modifyFinancial } from '@/api/bank';
 import { mapState } from 'vuex';
 export default {
   props:['propsData','dataName'],
@@ -124,6 +124,7 @@ export default {
   },
   methods: {
     async fetchFinList() {
+      console.log('예금 item',this.propsData)
       const res = await fetchDetailFinancial(this.propsData.id)
       this.financialList = res.data.financialProductDetailResponse
       const req = await fetchFinancialRequest(this.propsData.id)

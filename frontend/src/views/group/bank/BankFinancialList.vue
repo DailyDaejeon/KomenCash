@@ -14,36 +14,7 @@ export default {
   components: { ListItem },
   data() {
     return {
-      financialData : [
-        {
-          id:3,
-          name:"새싹적금",
-          studentsList : [{
-            id:0,
-            name:"김싸피",
-            rate:"10%"
-          },
-          {
-            id:1,
-            name:"박싸피",
-            rate:"20%"
-          }]
-        },
-        {
-          id:4,
-          name:"짧고굵게예금",
-          studentsList : [{
-            id:2,
-            name:"최싸피",
-            rate:"30%"
-          },
-          {
-            id:3,
-            name:"정싸피",
-            rate:"40%"
-          }]
-        }
-      ]
+      financialData : []
     }
   },
   created() {
@@ -58,7 +29,7 @@ export default {
     async fetchFinancialData() {
       const res = await fetchFinancialList(this.groupInfo.id)
       this.financialData = res.data
-      console.log('부모finan',this.financialData)
+      // console.log('부모finan',this.financialData)
     },
     createFinancial() {
       this.$swal.queue([

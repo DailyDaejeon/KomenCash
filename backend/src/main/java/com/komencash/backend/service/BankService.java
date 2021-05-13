@@ -187,6 +187,24 @@ public class BankService {
     }
 
 
+    public List<FinancialProductApplyListResponseDto> findFinancialProductApplyList(int productId) {
+        List<FinancialProductHistory> financialProductHistories =financialProductHistoryRepository.findByFinancialProductDetail_FinancialProduct_Id(productId);
+        List<FinancialProductApplyListResponseDto> financialProductApplyListResponseDtos = new ArrayList<>();
+        financialProductHistories.forEach(financialProductHistory -> {
+            Status status = financialProductHistory.getStatus();
+            if(status == Status.before_deposit || status == Status.before_termination){
+                financialProductApplyListResponseDtos.add(
+                        new FinancialProductApplyListResponseDto(
+                                financialProductHistory.getId(),
+                                financialProductHistory.getStudent().getNickname(),
+                                financialProductHistory.getStatus()));
+            }
+        });
+        return financialProductApplyListResponseDtos;
+    }
+
+
+
     public boolean updateFinancialProduct (FinancialProductAddUpdateRequestDto financialProductAddUpdateRequestDto){
         FinancialProduct financialProduct = financialProuctRepository.findById(financialProductAddUpdateRequestDto.getId()).orElse(null);
         if(financialProduct == null) return false;

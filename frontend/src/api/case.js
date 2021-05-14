@@ -16,10 +16,15 @@ function acceptCase(caseData) {
   return instance.put(`case/accept`,caseData)
 }
 
+// 사건경위서 사건 처리
+function createCase(caseData) {
+  return instance.post(`case`, caseData)
+}
 
 
 export {
   fetchCaseList,
   fetchCaseDetail,
-  acceptCase
+  acceptCase,
+  createCase
 }

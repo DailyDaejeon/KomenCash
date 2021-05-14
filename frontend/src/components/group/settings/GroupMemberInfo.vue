@@ -49,7 +49,7 @@
           <button class="btn btn-main" @click="addCerti">자격증 추가</button>
       </div>
       <div class="col-12">
-        <table v-if="memberInfo.certificateSelectResponseList.length" class="text-center table table-hover my-0">
+        <table v-if="memberCertiList.length" class="text-center table table-hover my-0">
           <thead>
             <tr>
               <th>자격증명</th>
@@ -58,10 +58,10 @@
               </tr>
           </thead>
           <tbody>
-            <tr v-for="(certi,index) in memberInfo.certificateSelectResponseList"
+            <tr v-for="(certi,index) in memberCertiList"
             :key="index">
               <td>{{certi.name}}</td>
-              <td>자격조건.{{certi}}.</td>
+              <td>{{certi.acquisitionCondition}}</td>
               <td><button 
               @click="deleteCerti(certi.id)"
               class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></td>
@@ -204,7 +204,7 @@
 </template>
 
 <script>
-import { deleteGroupMember, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, fetchMemberStockDealStatus, modifyGroupMemberJobFire, resetGroupMemberPw } from '@/api/student';
+import { deleteGroupMember, fetchGroupMemberCertificate, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, fetchMemberStockDealStatus, modifyGroupMemberJobFire, resetGroupMemberPw } from '@/api/student';
 import { mapState } from 'vuex';
 import { addCertiIssue, deleteMemberCertificate, fetchCertiList } from '@/api/certificate';
 
@@ -225,6 +225,7 @@ export default {
       memberShopList: [],
       groupCertiList : [],
       groupCertiName:[],
+      memberCertiList: []
     }
   },
   created() {
@@ -246,6 +247,7 @@ export default {
       const caseList = await fetchGroupMemeberCase(this.id)
       const shop = await fetchGroupMemeberStoreHistory(this.id) 
       const certi = await fetchCertiList(this.groupInfo.id)
+      const memberCerti = await fetchGroupMemberCertificate(this.id)
       
       this.memberInfo = res.data
       this.memberMoney = remain.data
@@ -255,6 +257,7 @@ export default {
       this.memberCredit = credit.data
       this.memberCaseList = caseList.data
       this.memberShopList = shop.data
+      this.memberCertiList = memberCerti.data
       this.groupCertiList = certi.data
       certi.data.forEach((el)=>{
         const name= `${el.name}(${el.acquisitionCondition})`

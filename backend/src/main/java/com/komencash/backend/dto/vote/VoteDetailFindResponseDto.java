@@ -17,16 +17,16 @@ public class VoteDetailFindResponseDto {
     private int studentId;
     private String studentNickname;
     private List<VoteItemFindResponseDto> voteItemResultResponses;
-    private List<VoteAttendFindResponseDto> voteAttendFindResponsDtos;
+    private List<VoteAttendFindResponseDto> voteAttendFindResponseDtos;
 
 
-    public VoteDetailFindResponseDto(VoteFindResponseDto voteFindResponseDto, List<VoteAttendFindResponseDto> voteAttendFindResponsDtos) {
+    public VoteDetailFindResponseDto(VoteFindResponseDto voteFindResponseDto, List<VoteAttendFindResponseDto> voteAttendFindResponseDtos) {
         this.id = voteFindResponseDto.getId();
         this.title = voteFindResponseDto.getTitle();
         this.content = voteFindResponseDto.getContent();
         this.studentId = voteFindResponseDto.getStudentId();
         this.studentNickname = voteFindResponseDto.getStudentNickname();
         this.voteItemResultResponses = voteFindResponseDto.getVoteItemResultResponses();
-        this.voteAttendFindResponsDtos = voteAttendFindResponsDtos;
+        this.voteAttendFindResponseDtos = voteAttendFindResponseDtos;
     }
 }

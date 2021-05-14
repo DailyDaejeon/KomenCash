@@ -42,6 +42,10 @@ export default {
           title: "그룹 정보",
         },
         {
+          name: "UserInfoPage",
+          title: "내 정보",
+        },
+        {
           name: "GroupCertificate",
           title: "자격증 정보",
         },

@@ -257,13 +257,14 @@ public class BankService {
             history.acceptRequest(Status.deposit);
             String content = "금융 상품[" + history.getFinancialProductDetail().getFinancialProduct().getName() + "] 가입";
             addAccountHistory(new AccountHistoryAddUpdateRequestDto(history.getStudent().getId(), -history.getPrincipal(), content));
+            financialProductHistoryRepository.save(history);
         }
         else if(history.getStatus() == Status.before_termination){
-            history.acceptRequest(Status.termination);
             String content = "금융 상품[" + history.getFinancialProductDetail().getFinancialProduct().getName() + "] 중도 해지";
             addAccountHistory(new AccountHistoryAddUpdateRequestDto(history.getStudent().getId(), history.getPrincipal(), content));
+            financialProductHistoryRepository.delete(history);
         }
-        financialProductHistoryRepository.save(history);
+        
         return true;
     }
 

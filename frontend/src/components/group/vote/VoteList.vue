@@ -143,7 +143,7 @@ export default {
     async fetchVote() {
       const res = await fetchVoteList(this.groupInfo.id)
       console.log(res)
-      // this.voteList = res.data
+      this.voteList = res.data
     },
     goVoteDetail(vid){ //vid
       this.$router.push({name: 'VoteDetail', params: {id:vid}});

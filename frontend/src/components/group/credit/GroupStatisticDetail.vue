@@ -64,7 +64,7 @@ export default {
     },
     submitStatis(student) {
       const submitData = {
-        statisticListId:student.id,
+        statisticListId:this.statisticDetail.id,
         studentId:student.studentId
       }
       acceptStatisDetail(submitData)

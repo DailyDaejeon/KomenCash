@@ -3,21 +3,25 @@
     <div class="card vl-width">
       <div class="card-header">
         <div v-if="voteList.length != 0">
-          <table class="table table-hover my-0">
+          <table class="text-center table table-hover my-0">
             <thead>
               <tr>
-                <th>투표 명</th>
-                <th class="d-none d-table-cell">작성자</th>
-                <th class="d-none d-table-cell">참여율</th>
-                <th class="d-none d-table-cell ta-center">삭제</th>
+                <th>투표명</th>
+                <th>작성자</th>
+                <th>상세보기</th>
+                <th>삭제</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="vote in voteList" :key="vote.id">
-                <td @click="goVoteDetail(vote.id)">{{vote.title}}</td> <!-- @click="goVoteDetail(vote.id)" -->
-                <td class="d-none d-table-cell">{{vote.studentNickname}}</td>
-                <td class="d-none d-table-cell">{{voteAttandRate}}%</td>
-                <td class="d-none d-table-cell ta-center" @click="removeVote(index,vote)"> <!-- remove(index) -->
+                <td>{{vote.title}}</td>
+                <td>{{vote.studentNickname}}</td>
+                <td>
+                  <button 
+                  class="btn btn-main"
+                  @click="goVoteDetail(vote.id)">자세히</button>
+                </td>
+                <td @click="removeVote(index,vote)">
                   <i class="fas fa-trash-alt"></i>
                 </td>
               </tr>
@@ -157,11 +161,17 @@ export default {
         showCancelButton:true,
         cancelButtonText:'취소',
       }).then((result)=>{
-        if(result.value) {
+        if(result.isConfirmed) {
         const vote = this.voteList[index];
         this.voteList.slice(index, 1);
         console.log(vote);
-        deleteVote(voteData.id)
+        deleteVote(voteData.id).then(() => {
+          this.$swal({
+            title:'성공적으로 삭제됐습니다.',
+            icon:'success',
+            timer:1500
+          })
+        })
         }
       })
     }

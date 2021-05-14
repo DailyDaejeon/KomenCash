@@ -1,9 +1,9 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.bank.AccountHistoryAddUpdateRequestDto;
-import com.komencash.backend.dto.request.CaseAcceptRequest;
+import com.komencash.backend.dto.request.CaseUpdateAcceptRequestDto;
 import com.komencash.backend.dto.request.CaseAddRequestDto;
-import com.komencash.backend.dto.request.CaseSelectResponse;
+import com.komencash.backend.dto.request.CaseFindListResponseDto;
 import com.komencash.backend.dto.tax.TaxHistoryAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
@@ -37,42 +37,42 @@ public class CaseService {
     StudentRepository studentRepository;
 
 
-    public List<CaseSelectResponse> selectCaseList(int groupId){
-        List<CaseSelectResponse> caseSelectResponses = new ArrayList<>();
+    public List<CaseFindListResponseDto> findCaseList(int groupId){
+        List<CaseFindListResponseDto> caseFindListResponseDtos = new ArrayList<>();
 
         List<CaseRequestHistory> caseRequestHistories = caseRequestHistoryRepository.findByPolice_Job_Group_Id(groupId);
-        for(CaseRequestHistory caseRequestHistory : caseRequestHistories) caseSelectResponses.add(new CaseSelectResponse(caseRequestHistory));
+        for(CaseRequestHistory caseRequestHistory : caseRequestHistories) caseFindListResponseDtos.add(new CaseFindListResponseDto(caseRequestHistory));
 
-        return caseSelectResponses;
+        return caseFindListResponseDtos;
     }
 
 
-    public CaseSelectResponse selectCase(int caseId){
+    public CaseFindListResponseDto findCase(int caseId){
         CaseRequestHistory caseRequestHistory = caseRequestHistoryRepository.findById(caseId).orElse(null);
         if(caseRequestHistory == null) return null;
 
-        return new CaseSelectResponse(caseRequestHistory);
+        return new CaseFindListResponseDto(caseRequestHistory);
     }
 
 
-    public List<CaseSelectResponse> selectCaseListByStudent (int studentId){
-        List<CaseSelectResponse> caseSelectResponses = new ArrayList<>();
+    public List<CaseFindListResponseDto> findCaseListByStudent (int studentId){
+        List<CaseFindListResponseDto> caseFindListResponseDtos = new ArrayList<>();
 
         List<CaseRequestHistory> caseRequestHistories = caseRequestHistoryRepository.findByStudent_Id(studentId);
-        for(CaseRequestHistory caseRequestHistory : caseRequestHistories) caseSelectResponses.add(new CaseSelectResponse(caseRequestHistory));
+        for(CaseRequestHistory caseRequestHistory : caseRequestHistories) caseFindListResponseDtos.add(new CaseFindListResponseDto(caseRequestHistory));
 
-        return caseSelectResponses;
+        return caseFindListResponseDtos;
     }
 
 
-    public boolean updateCaseAccept(CaseAcceptRequest caseAcceptRequest) {
-        CaseRequestHistory caseRequestHistory = caseRequestHistoryRepository.findById(caseAcceptRequest.getCaseId()).orElse(null);
+    public boolean updateCaseAccept(CaseUpdateAcceptRequestDto caseUpdateAcceptRequestDto) {
+        CaseRequestHistory caseRequestHistory = caseRequestHistoryRepository.findById(caseUpdateAcceptRequestDto.getCaseId()).orElse(null);
         if(caseRequestHistory == null) return false;
 
-        if(caseAcceptRequest.getAccept().equals(Accept.accept)) {
+        if(caseUpdateAcceptRequestDto.getAccept().equals(Accept.accept)) {
 
             // 사건 처리 수락이면 accpet를 accpet로 바꾸고 저장
-            caseRequestHistory.updateCaseAccept(caseAcceptRequest.getAccept());
+            caseRequestHistory.updateCaseAccept(caseUpdateAcceptRequestDto.getAccept());
             caseRequestHistoryRepository.save(caseRequestHistory);
 
             // 학생 계좌 히스토리에 벌금 빼고 저장
@@ -90,9 +90,10 @@ public class CaseService {
             return true;
         }
 
+
         // 사건 처리 거절이면 accept만 reject로 바꾸고 저장
-        else if(caseAcceptRequest.getAccept().equals(Accept.reject)){
-            caseRequestHistory.updateCaseAccept(caseAcceptRequest.getAccept());
+        else if(caseUpdateAcceptRequestDto.getAccept().equals(Accept.reject)){
+            caseRequestHistory.updateCaseAccept(caseUpdateAcceptRequestDto.getAccept());
             caseRequestHistoryRepository.save(caseRequestHistory);
         }
         return true;

@@ -91,7 +91,7 @@ const router =  new Router({
         //   props: true
         // },
         {
-          path: ':lawType',
+          path: ':id',
           name: 'LawType',
           component: () => import('@/components/group/law/LawType.vue'),
           props: true

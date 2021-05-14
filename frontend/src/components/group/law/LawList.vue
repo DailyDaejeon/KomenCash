@@ -10,7 +10,7 @@
               >
               <router-link 
               active-class="active"
-              :to="{name:'LawType',params:{lawType:law,lawData:lawData[law]}}">{{law}}
+              :to="{name:'LawType',params:{id:lawData.id,lawType:law,lawData:lawData[law]}}">{{law}}
               </router-link>
               </span>
             </div>

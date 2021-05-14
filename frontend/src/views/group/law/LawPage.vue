@@ -9,12 +9,12 @@
       </div>
       <button @click="addLaw" class="btn btn-main">헌법추가</button>
       <!-- 1. 헌법 관리 -->
-      <LawList />
+      <LawList/>
     </div>
 
     <!-- 2. 법률 제안 요청 관리 -->
-    <div class="row mb-2 mb-xl-3">
-      <div class="col-auto d-none d-sm-block">
+    <div class="row mb-2 mb-3">
+      <div class="col-auto  d-block">
         <h3><strong>법률 제안 요청</strong> 관리</h3>
       </div>
     </div>
@@ -67,14 +67,14 @@
 </template>
 
 <script>
-import LawList from '@/components/group/law/LawList.vue'
 import RequestItem from '@/components/group/main/RequestItem.vue'
 // import Modal from '@/components/common/Modal.vue'
 // import VoteItemInput from '@/components/group/vote/VoteItemInput.vue'
 // import VoteItemList from '@/components/group/vote/VoteItemList.vue'
 import VoteList from '@/components/group/vote/VoteList.vue'
 import { mapState } from 'vuex'
-import { addLawItem } from '@/api/law'
+import { addLawItem, fetchLawList } from '@/api/law'
+import LawList from '@/components/group/law/LawList.vue'
 // import VoteList from '../../../components/group/vote/VoteList.vue'
 
 export default {
@@ -84,17 +84,34 @@ export default {
       voteItemList:[],
       voteTitle:'',
       voteContent:'',
+      activetab: 1,
+      lawData:{}
     }
   },
-  components: { LawList, RequestItem, VoteList }, //Modal, VoteItemInput, VoteItemList, 
-
+  components: { RequestItem, VoteList, LawList }, //Modal, VoteItemInput, VoteItemList, 
+  
+  created() {
+    this.fetchLawData()
+  },
   computed: {
     ...mapState({
       groupInfo:state => state.group.groupInfo
     })
   },
   methods: {
+    async fetchLawData() {
+      this.lawData = {};
+      const res = await fetchLawList(this.groupInfo.id)
+      res.data.forEach((el) => {
+        if (this.lawData[el.lawType]) {
+          this.lawData[el.lawType].push(el)
+        } else {
+          this.lawData[el.lawType] = [el]
+        }
+      })
+      console.log('헌법리스트',this.lawData)
 
+    },
     addLaw() {
       this.$swal({
         title: '헌법추가',
@@ -243,4 +260,5 @@ export default {
   width: 500px;
   height: 500px;
 }
+
 </style>

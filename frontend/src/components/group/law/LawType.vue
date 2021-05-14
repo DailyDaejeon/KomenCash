@@ -1,10 +1,6 @@
 <template>
   <div class="law-type">
-    <!-- <ul class="law-type-title">
-      <li v-for="(article, index) in lawData" :key="index">
-        <a href="#article{{article.article}}">{{article.article}} 조</a>
-      </li>
-    </ul> -->
+    <!-- {{lawData}} -->
     <div class="law-content">
       <div v-for="(law,index) in lawData" :key="index">
         <!-- 수정 폼을 여기에 만들어야 하나...? -->
@@ -22,14 +18,14 @@ export default {
       lawList: []
     }
   },
-  props: ['lawType','lawData'],
+  props: ['lawType','lawData','id'],
   created() {
     this.fetchData()
   },
   methods: {
     fetchData() {
       this.lawList = this.lawData
-      console.log(this.lawList)
+      console.log('이건들어왔니?',this.lawList)
     }
   },
 }

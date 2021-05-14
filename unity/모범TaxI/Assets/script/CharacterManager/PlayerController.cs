@@ -171,6 +171,7 @@ public class PlayerController : MonoBehaviour
         bank.Enter(this);
         _typing = true;
       }
+      if (nearObject.tag == "Job") { }
     }
   }
 

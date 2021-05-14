@@ -208,7 +208,7 @@ public class BankService {
 
         List<FinancialProductHistory> financialProductHistories = financialProductHistoryRepository.findByStudent_Id(studentId);
         financialProductHistories.forEach(financialProductHistory ->
-                financialProductHistoryFindResponsDtos.add(new FinancialProductHistoryFindResponseDto(financialProductHistory)));
+                financialProductHistoryFindResponsDtos.add(new FinancialProductHistoryFindResponseDto(financialProductHistory, financialProductHistory.getFinancialProductDetail().getRate())));
 
         return financialProductHistoryFindResponsDtos;
     }

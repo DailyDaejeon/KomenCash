@@ -1,6 +1,7 @@
 package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.request.GroupMemberAddReqFindRequestDto;
+import com.komencash.backend.dto.request.GroupMemberUpdateAcceptRequestDto;
 import com.komencash.backend.dto.student.StudentDetailResponseDto;
 import com.komencash.backend.dto.student.StudentFindResponseDto;
 import com.komencash.backend.dto.student.StudentUpdateJobPwRequestDto;
@@ -46,15 +47,15 @@ public class StudentController {
 
     @ApiOperation(value="그룹원 추가 요청 수락", notes = "입력받은 요청 아이디의 요청을 수락")
     @PutMapping("/accept")
-    public ResponseEntity<Boolean> updateGroupMemberAddReqAccept(@RequestBody int requestId){
-        return ResponseEntity.status(HttpStatus.OK).body(studentService.updateGroupMemberAddReqAccept(requestId));
+    public ResponseEntity<Boolean> updateGroupMemberAddReqAccept(@RequestBody GroupMemberUpdateAcceptRequestDto groupMemberUpdateAcceptRequestDto){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.updateGroupMemberAddReqAccept(groupMemberUpdateAcceptRequestDto.getRequestId()));
     }
 
 
     @ApiOperation(value="그룹원 추가 요청 거절", notes = "입력받은 요청 아이디의 요청을 거절")
     @PutMapping("/reject")
-    public ResponseEntity<Boolean> updateGroupMemberAddReqReject(@RequestBody int requestId){
-        return ResponseEntity.status(HttpStatus.OK).body(studentService.updateGroupMemberAddReqReject(requestId));
+    public ResponseEntity<Boolean> updateGroupMemberAddReqReject(@RequestBody GroupMemberUpdateAcceptRequestDto groupMemberUpdateAcceptRequestDto ){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.updateGroupMemberAddReqReject(groupMemberUpdateAcceptRequestDto.getRequestId()));
     }
 
 

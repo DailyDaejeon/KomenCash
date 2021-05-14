@@ -72,7 +72,7 @@ public class VoteService {
         Vote vote = voteRepository.findById(voteAttendAddRequestDto.getVoteId()).orElse(null);
         if(vote == null) return false;
 
-        Student student = studentRepository.findById(voteAttendAddRequestDto.getVoteId()).orElse(null);
+        Student student = studentRepository.findById(voteAttendAddRequestDto.getStudentId()).orElse(null);
         if(student == null) return false;
 
         voteAttendRepository.save(new VoteAttend(voteAttendAddRequestDto.getVoteItemNum(), vote, student));
@@ -86,10 +86,12 @@ public class VoteService {
 
         List<VoteAttendFindResponseDto> voteAttendFindResponsDtos = new ArrayList<>();
         List<VoteAttend> voteAttends = voteAttendRepository.findByVote_Id(voteId);
-        voteAttends.forEach(voteAttend -> voteAttendFindResponsDtos.add(new VoteAttendFindResponseDto(voteAttend)));
+        voteAttends.forEach(voteAttend -> {
+            String content = voteItemRepository.findByItemNumAndVote_Id(voteAttend.getChoiceItemNum(), voteAttend.getVote().getId()).getContent();
+            voteAttendFindResponsDtos.add(new VoteAttendFindResponseDto(voteAttend, content));
+        });
 
         VoteDetailFindResponseDto voteDetailFindResponseDto = new VoteDetailFindResponseDto(voteFindResponseDto, voteAttendFindResponsDtos);
-
         return voteDetailFindResponseDto;
     }
 

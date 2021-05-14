@@ -27,7 +27,7 @@
         <tr v-for="(student, index) in studentList" :key="index">
           <td>{{index+1}}</td>
           <td>{{student.studentNickname}}</td>
-          <td>{{chartLabel[student.choiceItenNum+1]}}</td>
+          <td>{{student.choiceItemContent}}</td>
         </tr>
       </table>
       <!-- <div class="row">

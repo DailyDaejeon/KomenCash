@@ -22,7 +22,7 @@
                   @click="goVoteDetail(vote.id)">자세히</button>
                 </td>
                 <td @click="removeVote(index,vote)">
-                  <i class="fas fa-trash-alt"></i>
+                  <i class="text-danger fas fa-trash-alt"></i>
                 </td>
               </tr>
             </tbody>

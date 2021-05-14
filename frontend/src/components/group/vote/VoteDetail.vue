@@ -8,6 +8,29 @@
         </div>
       </div>
       <div class="row">
+        <div class="col-12">
+          <div class="card flex-fill w-100">
+            <div class="card-body">
+              <div class="chart">
+                <canvas ref="barChart" id="barChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <table class="table table-hover text-center">
+        <tr>
+          <th>No.</th>
+          <th>이름</th>
+          <th>투표항목</th>
+        </tr>
+        <tr v-for="(student, index) in studentList" :key="index">
+          <td>{{index+1}}</td>
+          <td>{{student.studentNickname}}</td>
+          <td>{{chartLabel[student.choiceItenNum+1]}}</td>
+        </tr>
+      </table>
+      <!-- <div class="row">
         <div class="vote-result">
           <div class="card-header border" v-for="(item,index) in voteInfo.voteItemResultResponses" :key="item.id">
             <p>{{item.content}}</p>
@@ -18,7 +41,7 @@
             ></k-progress>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </main>
 </template>
@@ -26,66 +49,18 @@
 <script>
 import { fetchVoteDetail } from '@/api/vote';
 export default {
+  props: ['id'],
   data() {
     return {
-      voteInfo: {
-        id: 1,
-        title: "반장선거",
-        content:"2021년 햇반의 반장선거를 실시합니다. 지지하는 입후보자에게 투표해주세요.",
-        studentId:1,
-        studentNickname:"박싸피",
-        voteAttendResponses: [
-          {
-            choiceItemNum: 1,
-            studentId: 1,
-            studentNickname: "고재석",
-          },
-          {
-            choiceItemNum: 2,
-            studentId: 2,
-            studentNickname: "박수아",
-          },
-          {
-            choiceItemNum: 3,
-            studentId: 3,
-            studentNickname: "배상웅",
-          },
-          {
-            choiceItemNum: 4,
-            studentId: 4,
-            studentNickname: "정혜림",
-          },
-        ],
-        voteItemResultResponses: [
-          {
-            id: 1,
-            content: "고재석",
-            itemNum: 1,
-            resultCnt: 1
-          },
-          {
-            id:2,
-            content: "박수아",
-            itemNum: 2,
-            resultCnt: 1
-          },
-          {
-            id:3,
-            content: "배상웅",
-            itemNum: 3,
-            resultCnt: 1
-          },
-          {
-            id:4,
-            content: "정혜림",
-            itemNum: 4,
-            resultCnt: 1
-          }
-        ]
-      }
+      lightColor :"#fff0de",
+      mainColor :"#e7ab3c",
+      voteInfo: {},
+      chartData:[],
+      chartLabel:[],
+      chartBgColor:[],
+      studentList:[]
     }
   },
-  props: ['id'],
   created() {
     this.fetchVoteInfo();
   },
@@ -93,7 +68,75 @@ export default {
     async fetchVoteInfo() {
       const res = await fetchVoteDetail(this.id)
       console.log(res)
-      // this.voteInfo = res.data
+      this.voteInfo = res.data
+      this.chartLabel = []
+      this.chartData = []
+      this.chartBgColor = []
+      this.studentList = res.data.voteAttendFindResponsDtos
+      let MAX = [];
+      let MAXNUM = 0
+      res.data.voteItemResultResponses.forEach((el)=>{
+        this.chartLabel.push(el.content)
+        this.chartData.push(el.resultCnt)
+        if (el.resultCnt > MAXNUM) {
+          MAXNUM = el.resultCnt
+          MAX = [el.content]
+        } else if (el.resultCnt == MAXNUM) {
+          MAX.push(el.content)
+        } 
+      })
+      this.chartLabel.forEach((el) => {
+        if (MAX.includes(el)) {
+          this.chartBgColor.push(this.mainColor)
+        } else {
+          this.chartBgColor.push(this.lightColor)
+        }
+      })
+      // console.log(this.chartBgColor,'색뭐야')
+      this.fetchChart()
+    },
+    fetchChart() {
+      const ctx = this.$refs.barChart.getContext('2d');
+      new this.$_Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.chartLabel,
+        datasets: [{
+          label: "해당투표 명수",
+          backgroundColor:this.chartBgColor,
+          borderColor: this.mainColor,
+          hoverBackgroundColor: this.mainColor,
+          hoverBorderColor: this.mainColor,
+          data: this.chartData,
+          barPercentage: .75,
+          categoryPercentage: .5,
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            gridLines: {
+              display: false
+            },
+            stacked: false,
+            ticks: {
+              stepSize: 1,
+              min:0
+            }
+          }],
+          xAxes: [{
+            stacked: false,
+            gridLines: {
+              color: "transparent"
+            }
+          }]
+        }
+      }
+    });
     },
     getPercent(idx){
       let totalNum = 0;

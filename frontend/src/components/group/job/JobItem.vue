@@ -1,25 +1,33 @@
 <template>
   <div class="card flex-fill">
-    <table class="table table-hover my-0">
+    <table class="text-center table table-hover my-0">
       <thead>
         <tr>
           <th>{{JobType}}</th>
           <th>역할</th>
           <th>급여</th>
-          <th>자격조건</th>
-          <th>인원수</th>
-          <th>채용방식</th>
+          <th :class="{'d-none' :JobType ==='PartTime'}">자격조건</th>
+          <th :class="{'d-none' :JobType ==='PartTime'}">인원수</th>
+          <th :class="{'d-none' :JobType ==='PartTime'}">채용방식</th>
+          <th :class="{'d-none' :JobType ==='PartTime'}">상세보기</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(job,index) in jobData" :key="index" @click="goDetail(job)">
+        <tr v-for="(job,index) in jobData" :key="index" >
           <td>{{job.name}}</td>
           <td>{{job.role}}</td>
           <td>{{job.salary}}</td>
-          <td v-if="job.qualification">{{job.qualification}}</td>
-          <td v-else-if="!job.qualification">없음</td>
-          <td>{{job.personnel}}</td>
-          <td>{{job.recruitType}}</td>
+          <td v-if="job.qualification"
+          :class="{'d-none' :JobType ==='PartTime'}"
+          >{{job.qualification}}</td>
+          <td v-else-if="!job.qualification"
+          :class="{'d-none' :JobType ==='PartTime'}"
+          >없음</td>
+          <td :class="{'d-none' :JobType ==='PartTime'}">{{job.personnel}}</td>
+          <td v-if="job.name !=='무직' && job.recruitType === 'resume'" :class="{'d-none' :JobType ==='PartTime'}" >이력서</td>
+          <td v-else-if="job.name !=='무직' && job.recruitType === 'vote'">투표</td>
+          <td v-else :class="{'d-none' :JobType ==='PartTime'}">없음</td>
+          <td :class="{'d-none' :JobType ==='PartTime'}"><button class="btn btn-main" @click="goDetail(job)">자세히</button></td>
         </tr>
       </tbody>
     </table>

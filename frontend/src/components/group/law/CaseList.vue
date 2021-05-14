@@ -3,7 +3,7 @@
     <table class="text-center table table-hover my-0">
       <thead>
         <tr>
-          <th>제출자(경찰)</th>
+          <th>제출자</th>
           <th>이름</th>
           <th>내용</th>
           <th>벌금({{groupInfo.monetaryUnitName}})</th>

@@ -191,6 +191,11 @@ const router =  new Router({
           name: 'GroupInfo',
           component: () => import('@/components/group/settings/GroupInfoForm.vue'),
           props: true
+        }, {
+          path: 'userInfo',
+          name: 'UserInfoPage',
+          component: () => import('@/components/group/settings/UserInfoPage.vue'),
+          props: true
         },
         {
           path: 'certificate',

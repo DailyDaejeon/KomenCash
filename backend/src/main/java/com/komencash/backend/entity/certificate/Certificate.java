@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.certificate;
 
-import com.komencash.backend.dto.certificate.CertificateInsertUpdateRequest;
+import com.komencash.backend.dto.certificate.CertificateAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,14 +33,14 @@ public class Certificate {
     private Group group;
 
 
-    public void updateCertificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest) {
-        this.name = certificateInsertUpdateRequest.getName();
-        this.acquisitionCondition = certificateInsertUpdateRequest.getAcquisitionCondition();
+    public void updateCertificate(CertificateAddUpdateRequestDto certificateAddUpdateRequestDto) {
+        this.name = certificateAddUpdateRequestDto.getName();
+        this.acquisitionCondition = certificateAddUpdateRequestDto.getAcquisitionCondition();
     }
 
-    public Certificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest, Group group){
-        this.name = certificateInsertUpdateRequest.getName();
-        this.acquisitionCondition = certificateInsertUpdateRequest.getAcquisitionCondition();
+    public Certificate(CertificateAddUpdateRequestDto certificateAddUpdateRequestDto, Group group){
+        this.name = certificateAddUpdateRequestDto.getName();
+        this.acquisitionCondition = certificateAddUpdateRequestDto.getAcquisitionCondition();
         this.group = group;
     }
 }

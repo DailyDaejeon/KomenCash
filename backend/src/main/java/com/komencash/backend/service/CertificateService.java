@@ -21,59 +21,44 @@ public class CertificateService {
 
     @Autowired
     CertificateRepository certificateRepository;
+
     @Autowired
     CertificateIssueRequestHistoryRepository certificateIssueRequestHistoryRepository;
+
     @Autowired
     GroupRepository groupRepository;
+
     @Autowired
     StudentRepository studentRepository;
 
 
-    public boolean saveCertificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest) {
-
-        Group group = groupRepository.findById(certificateInsertUpdateRequest.getGroupId()).orElse(null);
+    public boolean addCertificate(CertificateAddUpdateRequestDto certificateAddUpdateRequestDto) {
+        Group group = groupRepository.findById(certificateAddUpdateRequestDto.getGroupId()).orElse(null);
         if(group == null) return false;
 
-        Certificate certificate = new Certificate(certificateInsertUpdateRequest, group);
+        Certificate certificate = new Certificate(certificateAddUpdateRequestDto, group);
         certificateRepository.save(certificate);
         return true;
     }
 
 
-    public boolean updateCertificate(CertificateInsertUpdateRequest certificateInsertUpdateRequest){
-
-        Certificate certificate = certificateRepository.findById(certificateInsertUpdateRequest.getId()).orElse(null);
-        if(certificate == null) return false;
-
-        certificate.updateCertificate(certificateInsertUpdateRequest);
-        certificateRepository.save(certificate);
-        return true;
-    }
-
-
-    public List<CertificateDetailSelectResponse> findCertificateListByGroup(int groupId){
-
-        List<CertificateDetailSelectResponse> certificateDetailSelectResponses = new ArrayList<>();
+    public List<CertificateFindListResponseDto> findCertificateListByGroup(int groupId){
+        List<CertificateFindListResponseDto> certificateFindListResponseDtos = new ArrayList<>();
 
         List<Certificate> certificates = certificateRepository.findByGroup_IdOrderByNameAsc(groupId);
-        certificates.forEach(certificate -> certificateDetailSelectResponses.add(new CertificateDetailSelectResponse(certificate)));
+        certificates.forEach(certificate -> certificateFindListResponseDtos.add(new CertificateFindListResponseDto(certificate)));
 
-        return certificateDetailSelectResponses;
+        return certificateFindListResponseDtos;
     }
 
 
-    public List<CertificateDetailSelectResponse> findCertificateListByStudent(int studentId) {
+    public boolean updateCertificate(CertificateAddUpdateRequestDto certificateAddUpdateRequestDto){
+        Certificate certificate = certificateRepository.findById(certificateAddUpdateRequestDto.getId()).orElse(null);
+        if(certificate == null) return false;
 
-        List<CertificateDetailSelectResponse> certificateSelectResponses = new ArrayList<>();
-        List<CertificateIssueRequestHistory> certificateIssueRequestHistories
-                = certificateIssueRequestHistoryRepository.findByStudent_Id(studentId);
-
-        certificateIssueRequestHistories.forEach(certificateIssueRequestHistory -> {
-            if(certificateIssueRequestHistory.getAccept().equals(Accept.accept))
-                certificateSelectResponses.add(new CertificateDetailSelectResponse(certificateIssueRequestHistory.getCertificate()));
-        });
-
-        return certificateSelectResponses;
+        certificate.updateCertificate(certificateAddUpdateRequestDto);
+        certificateRepository.save(certificate);
+        return true;
     }
 
 
@@ -86,23 +71,38 @@ public class CertificateService {
     }
 
 
-    public boolean updateCertificateAccept(CertificateAcceptUpdateRequest certificateAcceptUpdateRequest){
-        CertificateIssueRequestHistory certificateIssueRequestHistory
-                = certificateIssueRequestHistoryRepository.findById(certificateAcceptUpdateRequest.getRequestId()).orElse(null);
-        if(certificateIssueRequestHistory == null) return false;
-
-        certificateIssueRequestHistory.updateCertificateAccept(certificateAcceptUpdateRequest.getAccept());
-        certificateIssueRequestHistoryRepository.save(certificateIssueRequestHistory);
-        return true;
-    }
-
-
     public boolean addCertificateIssue(CertificateIssueAddRequestDto certificateIssueAddRequestDto){
         Certificate certificate = certificateRepository.findById(certificateIssueAddRequestDto.getCertificateId()).orElse(null);
         Student student = studentRepository.findById(certificateIssueAddRequestDto.getStudentId()).orElse(null);
         if(certificate == null || student == null) return false;
 
         CertificateIssueRequestHistory certificateIssueRequestHistory = new CertificateIssueRequestHistory(certificate, student, Accept.accept);
+        certificateIssueRequestHistoryRepository.save(certificateIssueRequestHistory);
+        return true;
+    }
+
+
+    public List<CertificateFindListResponseDto> findCertificateAcceptList(int studentId) {
+
+        List<CertificateFindListResponseDto> certificateSelectResponses = new ArrayList<>();
+        List<CertificateIssueRequestHistory> certificateIssueRequestHistories
+                = certificateIssueRequestHistoryRepository.findByStudent_Id(studentId);
+
+        certificateIssueRequestHistories.forEach(certificateIssueRequestHistory -> {
+            if(certificateIssueRequestHistory.getAccept().equals(Accept.accept))
+                certificateSelectResponses.add(new CertificateFindListResponseDto(certificateIssueRequestHistory.getCertificate()));
+        });
+
+        return certificateSelectResponses;
+    }
+
+
+    public boolean updateCertificateAccept(CertificateAcceptUpdateRequestDto certificateAcceptUpdateRequestDto){
+        CertificateIssueRequestHistory certificateIssueRequestHistory
+                = certificateIssueRequestHistoryRepository.findById(certificateAcceptUpdateRequestDto.getRequestId()).orElse(null);
+        if(certificateIssueRequestHistory == null) return false;
+
+        certificateIssueRequestHistory.updateCertificateAccept(certificateAcceptUpdateRequestDto.getAccept());
         certificateIssueRequestHistoryRepository.save(certificateIssueRequestHistory);
         return true;
     }

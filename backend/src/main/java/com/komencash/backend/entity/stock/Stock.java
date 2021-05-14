@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.stock;
 
-import com.komencash.backend.dto.stock.StockInsertUpdateRequest;
+import com.komencash.backend.dto.stock.StockAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,16 +33,16 @@ public class Stock {
     private Group group;
 
 
-    public void update(StockInsertUpdateRequest stockInsertUpdateRequest, Group group) {
-        this.name = stockInsertUpdateRequest.getName();
-        this.hint = stockInsertUpdateRequest.getHint();
+    public void update(StockAddUpdateRequestDto stockAddUpdateRequestDto, Group group) {
+        this.name = stockAddUpdateRequestDto.getName();
+        this.hint = stockAddUpdateRequestDto.getHint();
         this.group = group;
     }
 
 
-    public Stock(StockInsertUpdateRequest stockInsertUpdateRequest, Group group) {
-        this.name = stockInsertUpdateRequest.getName();
-        this.hint = stockInsertUpdateRequest.getHint();
+    public Stock(StockAddUpdateRequestDto stockAddUpdateRequestDto, Group group) {
+        this.name = stockAddUpdateRequestDto.getName();
+        this.hint = stockAddUpdateRequestDto.getHint();
         this.group = group;
     }
 }

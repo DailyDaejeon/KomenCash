@@ -1,6 +1,5 @@
 package com.komencash.backend.entity.stock;
 
-import com.komencash.backend.dto.stock.StockHistoryInsertRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

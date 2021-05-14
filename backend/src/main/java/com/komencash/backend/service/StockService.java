@@ -19,74 +19,88 @@ public class StockService {
 
     @Autowired
     StockRepository stockRepository;
+
     @Autowired
     StockHistoryRepository stockHistoryRepository;
+
     @Autowired
     StockDealHistoryRepository stockDealHistoryRepository;
+
     @Autowired
     GroupRepository groupRepository;
+
     @Autowired
     StudentRepository studentRepository;
+
     @Autowired
     BankService bankService;
 
 
-    public boolean saveStock(StockInsertUpdateRequest stockInsertUpdateRequest){
-        Group group = groupRepository.findById(stockInsertUpdateRequest.getGroupId()).orElse(null);
+    public boolean addStock(StockAddUpdateRequestDto stockAddUpdateRequestDto){
+        Group group = groupRepository.findById(stockAddUpdateRequestDto.getGroupId()).orElse(null);
         if(group == null) return false;
 
-        Stock stock = new Stock(stockInsertUpdateRequest, group);
+        Stock stock = new Stock(stockAddUpdateRequestDto, group);
         stockRepository.save(stock);
         return true;
     }
 
 
-    public List<StockSelectResponse> selectStockList(int groupId){
-        List<StockSelectResponse> stockSelectResponses = new ArrayList<>();
+    public boolean addStockHistory(StockHistoryAddRequestDto stockHistoryAddRequestDto){
+        Stock stock = stockRepository.findById(stockHistoryAddRequestDto.getStockId()).orElse(null);
+        if(stock == null) return false;
+
+        StockHistory stockHistory = new StockHistory(stockHistoryAddRequestDto.getPrice(), stock);
+        stockHistoryRepository.save(stockHistory);
+        return true;
+    }
+
+
+    public List<StockFindResponseDto> findStockList(int groupId){
+        List<StockFindResponseDto> stockFindResponseDtos = new ArrayList<>();
 
         List<Stock> stocks = stockRepository.findByGroup_Id(groupId);
-        for(Stock stock : stocks) {
+        stocks.forEach(stock -> {
             List<StockHistory> stockHistories = stockHistoryRepository.findByStock_Id(stock.getId());
             int price = stockHistories.size() == 0 ? 0 : stockHistories.get(stockHistories.size() - 1).getPrice();
             int prePrice = stockHistories.size() < 2 ? 0 : stockHistories.get(stockHistories.size() - 2).getPrice();
-            stockSelectResponses.add(new StockSelectResponse(stock, price, prePrice));
-        }
+            stockFindResponseDtos.add(new StockFindResponseDto(stock, price, prePrice));
+        });
 
-        return stockSelectResponses;
+        return stockFindResponseDtos;
     }
 
 
-    public List<StockHistorySelectResponse> selectStockHistory(int stockId) {
-        List<StockHistorySelectResponse> stockHistorySelectResponses = new ArrayList<>();
+    public List<StockHistoryFindListResponseDto> findStockHistoryList(int stockId) {
+        List<StockHistoryFindListResponseDto> stockHistoryFindListResponseDtos = new ArrayList<>();
 
         List<StockHistory> stockHistories = stockHistoryRepository.findByStock_Id(stockId);
-        for(StockHistory stockHistory : stockHistories) stockHistorySelectResponses.add(new StockHistorySelectResponse(stockHistory));
+        stockHistories.forEach(stockHistory -> stockHistoryFindListResponseDtos.add(new StockHistoryFindListResponseDto(stockHistory)));
 
-        return stockHistorySelectResponses;
+        return stockHistoryFindListResponseDtos;
     }
 
-    public List<StockDealHistoryResponse> selectStockDealHistory(int studentId){
-        List<StockDealHistoryResponse> stockDealHistoryResponses = new ArrayList<>();
+
+    public List<StockDealHistoryFindListResponseDto> findStockDealHistoryList(int studentId){
+        List<StockDealHistoryFindListResponseDto> stockDealHistoryFindListResponseDtos = new ArrayList<>();
 
         List<StockDealHistory> stockDealHistories = stockDealHistoryRepository.findByStudent_Id(studentId);
-        for(StockDealHistory stockDealHistory : stockDealHistories)
-            stockDealHistoryResponses.add(new StockDealHistoryResponse(stockDealHistory));
+        stockDealHistories.forEach(stockDealHistory -> stockDealHistoryFindListResponseDtos.add(new StockDealHistoryFindListResponseDto(stockDealHistory)));
 
-        return stockDealHistoryResponses;
+        return stockDealHistoryFindListResponseDtos;
     }
 
 
-    public boolean updateStock (StockInsertUpdateRequest stockInsertUpdateRequest) {
-        Stock stock = stockRepository.findById(stockInsertUpdateRequest.getId()).orElse(null);
-        if(stock == null) return false;
+    public boolean updateStock (StockAddUpdateRequestDto stockAddUpdateRequestDto) {
+        Stock stock = stockRepository.findById(stockAddUpdateRequestDto.getId()).orElse(null);
+        Group group = groupRepository.findById(stockAddUpdateRequestDto.getGroupId()).orElse(null);
+        if(stock == null || group == null) return false;
 
-        Group group = groupRepository.findById(stockInsertUpdateRequest.getGroupId()).orElse(null);
-        if(group == null) return false;
-
-        stock.update(stockInsertUpdateRequest, group);
+        stock.update(stockAddUpdateRequestDto, group);
         stockRepository.save(stock);
         return true;
     }
+
 
     public boolean deleteStock(int stockId){
         Stock stock = stockRepository.findById(stockId).orElse(null);
@@ -97,22 +111,10 @@ public class StockService {
     }
 
 
-    public boolean saveStockHistory(StockHistoryInsertRequest stockHistoryInsertRequest){
-        Stock stock = stockRepository.findById(stockHistoryInsertRequest.getStockId()).orElse(null);
-        if(stock == null) return false;
-
-        StockHistory stockHistory = new StockHistory(stockHistoryInsertRequest.getPrice(), stock);
-        stockHistoryRepository.save(stockHistory);
-        return true;
-    }
-
-
     public boolean addStockDealHistory(StockDealHistoryAddRequestDto stockDealHistoryAddRequestDto) {
         Stock stock = stockRepository.findById(stockDealHistoryAddRequestDto.getStockId()).orElse(null);
         Student student = studentRepository.findById(stockDealHistoryAddRequestDto.getStudentId()).orElse(null);
         if(stock == null || student == null) return false;
-
-
 
         int price = stockDealHistoryAddRequestDto.getPrice();
         int amount = stockDealHistoryAddRequestDto.getAmount();

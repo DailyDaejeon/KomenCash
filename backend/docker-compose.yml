@@ -1,0 +1,18 @@
+version: "3"
+services:
+  spring-mysql:
+    container_name: spring-mysql
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: komencash
+      MYSQL_ROOT_PASSWORD: ^b203root
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 3306:3306
+
+  test_application:
+    build: .
+    ports:
+      - 8081:8081
+    depends_on:
+      - spring-mysql

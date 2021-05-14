@@ -16,7 +16,7 @@
           <td>{{student.policeNickname}}</td>
           <td>{{student.studentNickname}}</td>
           <td>{{student.fine}}</td>
-          <td><button class="btn btn-main">자세히</button></td>
+          <td><button class="btn btn-main" @click="alertDetail(student)">자세히</button></td>
           </template>
         </tr>
       </tbody>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { fetchCaseList } from '@/api/case';
+import { fetchCaseDetail, fetchCaseList } from '@/api/case';
 import { mapState } from 'vuex';
 export default {
   data() {
@@ -48,6 +48,23 @@ export default {
     async fetchCase() {
       const res = await fetchCaseList(this.groupInfo.id)
       this.caseList = res.data
+    },
+    alertDetail(student) {
+      fetchCaseDetail(student.id).then((r) => {
+        const request = r.data 
+        this.$swal({
+        title: `경위서`,
+        // text: `${request.content}`,
+        html: 
+          '<div id="swal2-content" class="swal2-html-container" style="display: block;">'
+          +'<p class="swal2-text">'+'제출인 : '+`${request.policeNickname}`+'</p>' +
+          '<p class="swal2-text">'+'벌금내는 학생 : '+`${request.studentNickname}`+'</p>' +
+          '<p class="swal2-text">'+'벌금 : '+`${request.fine}`+'</p>' + 
+          '<p class="swal2-text">'+'내용 : '+`${request.content}`+'</p>'
+          +'</div>',
+        })
+      })
+      
     }
   }
 };

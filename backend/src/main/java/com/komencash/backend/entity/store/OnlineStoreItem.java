@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.store;
 
-import com.komencash.backend.dto.store.StoreItemInsertUpdateRequest;
+import com.komencash.backend.dto.store.StoreItemAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,14 +32,14 @@ public class OnlineStoreItem {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    public void updateStoreItem(StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
-        this.name = storeItemInsertUpdateRequest.getName();
-        this.price = storeItemInsertUpdateRequest.getPrice();
+    public void updateStoreItem(StoreItemAddUpdateRequestDto storeItemAddUpdateRequestDto) {
+        this.name = storeItemAddUpdateRequestDto.getName();
+        this.price = storeItemAddUpdateRequestDto.getPrice();
     }
 
-    public OnlineStoreItem(StoreItemInsertUpdateRequest storeItemInsertUpdateRequest, Group group) {
-        this.name = storeItemInsertUpdateRequest.getName();
-        this.price = storeItemInsertUpdateRequest.getPrice();
+    public OnlineStoreItem(StoreItemAddUpdateRequestDto storeItemAddUpdateRequestDto, Group group) {
+        this.name = storeItemAddUpdateRequestDto.getName();
+        this.price = storeItemAddUpdateRequestDto.getPrice();
         this.group = group;
     }
 }

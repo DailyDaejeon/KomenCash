@@ -1,9 +1,10 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.bank.AccountHistoryAddUpdateRequestDto;
+import com.komencash.backend.dto.request.ItemAddReqAcceptUpdateRequestDto;
 import com.komencash.backend.dto.request.ItemAddReqAddRequestDto;
-import com.komencash.backend.dto.request.ItemAddReqDetailResponse;
-import com.komencash.backend.dto.request.ItemAddReqSelectResponse;
+import com.komencash.backend.dto.request.ItemAddReqFindDetailResponseDto;
+import com.komencash.backend.dto.request.ItemAddReqFindResponseDto;
 import com.komencash.backend.dto.store.*;
 import com.komencash.backend.dto.tax.TaxHistoryAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
@@ -43,6 +44,17 @@ public class StoreService {
     @Autowired
     TaxService taxService;
 
+
+    public boolean addStoreItem(StoreItemAddUpdateRequestDto storeItemAddUpdateRequestDto) {
+        Group group = groupRepository.findById(storeItemAddUpdateRequestDto.getGroupId()).orElse(null);
+        if(group == null) return false;
+
+        OnlineStoreItem onlineStoreItem = new OnlineStoreItem(storeItemAddUpdateRequestDto, group);
+        onlineStoreItemRepository.save(onlineStoreItem);
+        return true;
+    }
+
+
     public List<StoreItemFindResponseDto> findStoreItemList(int groupId){
         List<StoreItemFindResponseDto> storeItemFindResponseDtos = new ArrayList<>();
 
@@ -53,11 +65,11 @@ public class StoreService {
     }
 
 
-    public boolean updateStoreItem(StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
-        OnlineStoreItem onlineStoreItem = onlineStoreItemRepository.findById(storeItemInsertUpdateRequest.getId()).orElse(null);
+    public boolean updateStoreItem(StoreItemAddUpdateRequestDto storeItemAddUpdateRequestDto) {
+        OnlineStoreItem onlineStoreItem = onlineStoreItemRepository.findById(storeItemAddUpdateRequestDto.getId()).orElse(null);
         if(onlineStoreItem == null) return false;
 
-        onlineStoreItem.updateStoreItem(storeItemInsertUpdateRequest);
+        onlineStoreItem.updateStoreItem(storeItemAddUpdateRequestDto);
 
         onlineStoreItemRepository.save(onlineStoreItem);
         return true;
@@ -73,64 +85,62 @@ public class StoreService {
     }
 
 
-    public boolean insertStoreItem(StoreItemInsertUpdateRequest storeItemInsertUpdateRequest) {
-        Group group = groupRepository.findById(storeItemInsertUpdateRequest.getGroupId()).orElse(null);
-        if(group == null) return false;
-
-        OnlineStoreItem onlineStoreItem = new OnlineStoreItem(storeItemInsertUpdateRequest, group);
-        onlineStoreItemRepository.save(onlineStoreItem);
-        return true;
-    }
-
-    public List<ItemAddReqSelectResponse> selectItemAddReqList(int groupId) {
-        List<ItemAddReqSelectResponse> itemAddReqSelectResponses =  new ArrayList<>();
+    public List<ItemAddReqFindResponseDto> findItemAddReqList(int groupId) {
+        List<ItemAddReqFindResponseDto> itemAddReqFindResponseDtos =  new ArrayList<>();
         List<OnlineStoreItemAddRequestHistory> onlineStoreItemAddRequestHistories = onlineStoreItemAddRequestHistoryRepository.findByStudent_Job_Group_Id(groupId);
 
-        for(OnlineStoreItemAddRequestHistory onlineStoreItemAddRequestHistory : onlineStoreItemAddRequestHistories){
-            if(!onlineStoreItemAddRequestHistory.getAccept().equals(Accept.before_confirm)) continue;
-            itemAddReqSelectResponses.add(new ItemAddReqSelectResponse(onlineStoreItemAddRequestHistory));
-        }
-        return itemAddReqSelectResponses;
+        onlineStoreItemAddRequestHistories.forEach(onlineStoreItemAddRequestHistory -> {
+            if(onlineStoreItemAddRequestHistory.getAccept().equals(Accept.before_confirm)) {
+                itemAddReqFindResponseDtos.add(new ItemAddReqFindResponseDto(onlineStoreItemAddRequestHistory));
+            }
+        });
+        return itemAddReqFindResponseDtos;
     }
 
 
-    public boolean updateStoreItemAddRequestAccept(StoreItemAddRequestAcceptUpdateRequest storeItemAddRequestAcceptUpdateRequest){
+    public boolean updateStoreItemAddReqAccept(ItemAddReqAcceptUpdateRequestDto itemAddReqAcceptUpdateRequestDto){
         OnlineStoreItemAddRequestHistory onlineStoreItemAddRequestHistory =
-                onlineStoreItemAddRequestHistoryRepository.findById(storeItemAddRequestAcceptUpdateRequest.getId()).orElse(null);
+                onlineStoreItemAddRequestHistoryRepository.findById(itemAddReqAcceptUpdateRequestDto.getId()).orElse(null);
         if(onlineStoreItemAddRequestHistory == null) return false;
 
         if(onlineStoreItemAddRequestHistory.getAccept().equals(Accept.before_confirm))
-            onlineStoreItemAddRequestHistory.updateAccept(storeItemAddRequestAcceptUpdateRequest.getAccept());
+            onlineStoreItemAddRequestHistory.updateAccept(itemAddReqAcceptUpdateRequestDto.getAccept());
         onlineStoreItemAddRequestHistoryRepository.save(onlineStoreItemAddRequestHistory);
         return true;
     }
 
 
 
-    public ItemAddReqDetailResponse selectItemAddReq(int requestId){
+    public ItemAddReqFindDetailResponseDto findItemAddReq(int requestId){
         OnlineStoreItemAddRequestHistory onlineStoreItemAddRequestHistory = onlineStoreItemAddRequestHistoryRepository.findById(requestId).orElse(null);
         if(onlineStoreItemAddRequestHistory == null) return null;
-        return new ItemAddReqDetailResponse(onlineStoreItemAddRequestHistory);
+        return new ItemAddReqFindDetailResponseDto(onlineStoreItemAddRequestHistory);
     }
 
 
-    public List<StoreItemPerchaseHistoryResponse> selectPerchaseHistoryList(int groupId) {
-        List<StoreItemPerchaseHistoryResponse> responses = new ArrayList<>();
+    public List<StoreItemPurchaseHistoryResponseDto> findPurchaseHistoryList(int groupId) {
+        List<StoreItemPurchaseHistoryResponseDto> storeItemPurchaseHistoryResponseDtos = new ArrayList<>();
 
-        List<OnlineStorePerchaseHistory> onlineStorePerchaseHistories = onlineStorePerchaseHistoryRepository.findByStudent_Job_Group_Id(groupId);
-        for(OnlineStorePerchaseHistory history : onlineStorePerchaseHistories) responses.add(new StoreItemPerchaseHistoryResponse(history));
+        List<OnlineStorePerchaseHistory> onlineStorePurchaseHistories = onlineStorePerchaseHistoryRepository.findByStudent_Job_Group_Id(groupId);
+        onlineStorePurchaseHistories.forEach(onlineStorePurchaseHistory -> {
+            storeItemPurchaseHistoryResponseDtos.add(new StoreItemPurchaseHistoryResponseDto(onlineStorePurchaseHistory));
+        });
 
-        return responses;
+        return storeItemPurchaseHistoryResponseDtos;
     }
 
-    public List<StoreItemPerchaseHistoryResponse> selectPerchaseHistoryListByStudent(int studentId) {
-        List<StoreItemPerchaseHistoryResponse> responses = new ArrayList<>();
+
+    public List<StoreItemPurchaseHistoryResponseDto> findPurchaseHistoryListByStudentId(int studentId) {
+        List<StoreItemPurchaseHistoryResponseDto> storeItemPurchaseHistoryResponseDtos = new ArrayList<>();
 
         List<OnlineStorePerchaseHistory> onlineStorePerchaseHistories = onlineStorePerchaseHistoryRepository.findByStudent_Id(studentId);
-        for(OnlineStorePerchaseHistory history : onlineStorePerchaseHistories) responses.add(new StoreItemPerchaseHistoryResponse(history));
+        onlineStorePerchaseHistories.forEach(onlineStorePerchaseHistory -> {
+            storeItemPurchaseHistoryResponseDtos.add(new StoreItemPurchaseHistoryResponseDto(onlineStorePerchaseHistory));
+        });
 
-        return responses;
+        return storeItemPurchaseHistoryResponseDtos;
     }
+
 
     public boolean addPurchaseHistory(StorePerchaseHistoryAddRequestDto storePerchaseHistoryAddRequestDto){
 

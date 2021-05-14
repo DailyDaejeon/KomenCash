@@ -5,6 +5,7 @@
         <div class="col-auto d-sm-block w-100">
           <h3 class="d-inline-block">[{{voteInfo.title}}] 투표 결과</h3>
           <p class="d-inline-block float-right">투표 개최자 : {{voteInfo.studentNickname}}</p>
+          <h3 class="d-inline-block">{{voteInfo.content}}</h3>
         </div>
       </div>
       <div class="row">
@@ -72,7 +73,7 @@ export default {
       this.chartLabel = []
       this.chartData = []
       this.chartBgColor = []
-      this.studentList = res.data.voteAttendFindResponsDtos
+      this.studentList = res.data.voteAttendFindResponseDtos
       let MAX = [];
       let MAXNUM = 0
       res.data.voteItemResultResponses.forEach((el)=>{

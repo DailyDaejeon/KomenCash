@@ -98,12 +98,12 @@ const router =  new Router({
         }
       ]
     },
-    // {
-    //   path: 'list',
-    //   name: 'LawList',
-    //   component: () => import('@/components/group/law/LawList.vue'),
-    //   props: true
-    // },
+    {
+      path: '/group/case',
+      name: 'CasePage',
+      component: () => import('@/views/group/law/CasePage.vue'),
+      props: true
+    },
     {
       path: '/group/vote/:id',
       name: 'VoteDetail',

@@ -1,5 +1,6 @@
 package com.komencash.backend.dto.student;
 
+import com.komencash.backend.dto.certificate.CertificateDetailSelectResponse;
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class StudentState {
     private int balance;
     private String jobName;
     private int jobSalary;
-    private List<CertificateSelectResponse> certificates;
+    private List<CertificateDetailSelectResponse> certificates;
 
 
 

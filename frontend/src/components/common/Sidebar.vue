@@ -28,13 +28,22 @@
 					</router-link>
 				</li>
 
-				<li class="sidebar-item" id="LawPage"
-				:class="[toActive === 'LawPage'? 'active' : '']"
-				>
-					<router-link class="sidebar-link" :to="{name:'LawPage'}" >
-						<i class="fas fa-balance-scale align-middle"></i><span class="align-middle" >국회</span>
-					</router-link>
+				<li class="sidebar-item" id="LawCasePage"> 
+					<span data-bs-toggle="collapse" class="sidebar-link collapsed">
+						<i class="fas fa-balance-scale align-middle"></i> <span class="align-middle">국회</span>
+					</span>
+					<ul id="law" class="sidebar-dropdown list-unstyled" data-bs-parent="#sidebar">
+						<!-- collapse -->
+						<li class="sidebar-item" 
+						id="LawPage"
+				:class="[toActive === 'LawPage'? 'active' : '']"><router-link :to="{name:'LawPage'}" class="sidebar-link">
+							법률 및 투표 </router-link></li>
+						<li class="sidebar-item" 
+						id="CasePage"
+					:class="[toActive === 'CasePage'? 'active' : '']"><router-link class="sidebar-link" :to="{name:'CasePage'}" >경위서</router-link></li>	
+						</ul>
 				</li>
+
 
 				<li class="sidebar-item" id="TaxPage"
 				:class="[toActive === 'TaxPage'? 'active' : '']"

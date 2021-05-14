@@ -48,8 +48,8 @@ public static class DataController
     groupData.id = sGroup["id"].AsInt;
     groupData.code = sGroup["code"].Value;
     groupData.name = sGroup["name"].Value;
-    groupData.monetary_unit_name = sGroup["monetary_unit_name"].Value;
-    groupData.tax_rate = sGroup["tax_rate"].AsDouble;
+    groupData.monetary_unit_name = sGroup["monetaryUnitName"].Value;
+    groupData.tax_rate = sGroup["taxRate"].AsDouble;
     groupData.tax = sGroup["tax"].AsInt;
     groupData.inflationRate = sGroup["inflationRate"].AsDouble;
     student.group = groupData;
@@ -103,5 +103,10 @@ public static class DataController
   public static int GetStudentId()
   {
     return student.id;
+  }
+
+  public static string GetMonetaryUnitName()
+  {
+    return student.group.monetary_unit_name;
   }
 }

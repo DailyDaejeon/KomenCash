@@ -42,7 +42,7 @@ public class CertificateController {
     @ApiOperation(value = "학생별 자격증 취득 목록 조회", notes = "입력받은 학생아이디로 자격증 취득 목록을 조회")
     @ApiImplicitParam(name = "student-id", value = "student-id(학생 아이디)", dataType = "int", required = true)
     @GetMapping("/student/{student-id}")
-    public List<CertificateSelectResponse> findCertificateListByStudent(@PathVariable("student-id") int studentId){
+    public List<CertificateDetailSelectResponse> findCertificateListByStudent(@PathVariable("student-id") int studentId){
         return certificateService.findCertificateListByStudent(studentId);
     }
 
@@ -64,21 +64,21 @@ public class CertificateController {
 
     @ApiOperation(value = "자격증 발급 내역 삭제", notes = "자격증 발금 삭제 처리정보를 받아서 delete후 결과를 반환")
     @DeleteMapping("/issue-request")
-    public boolean deleteCertificateIssueHistory(@RequestBody CertificateIssueAddDelRequestDto certificateIssueAddDelRequestDto) {
-        return certificateService.deleteCertificateIssueHistory(certificateIssueAddDelRequestDto);
+    public boolean deleteCertificateIssueHistory(int studentId, int certificateId) {
+        return certificateService.deleteCertificateIssueHistory(studentId, certificateId);
     }
 
 
     @ApiOperation(value = "자격증 발급 정보 생성", notes = "학생과 자격증 아이디를 입력받아 자격증 발급 정보를 생성하고 결과를 반환")
     @PostMapping("/issue")
-    public boolean addCertificateIssue(@RequestBody CertificateIssueAddDelRequestDto certificateIssueAddDelRequestDto) {
-        return certificateService.addCertificateIssue(certificateIssueAddDelRequestDto);
+    public boolean addCertificateIssue(@RequestBody CertificateIssueAddRequestDto certificateIssueAddRequestDto) {
+        return certificateService.addCertificateIssue(certificateIssueAddRequestDto);
     }
 
 
     @ApiOperation(value = "자격증 발급 요청 생성", notes = "학생과 자격증 아이디를 입력받아 자격증 발급 요청를 생성하고 결과를 반환")
     @PostMapping("/issue-request")
-    public boolean addCertificateIssueReq(@RequestBody CertificateIssueAddDelRequestDto certificateIssueAddDelRequestDto) {
-        return certificateService.addCertificateIssueReq(certificateIssueAddDelRequestDto);
+    public boolean addCertificateIssueReq(@RequestBody CertificateIssueAddRequestDto certificateIssueAddRequestDto) {
+        return certificateService.addCertificateIssueReq(certificateIssueAddRequestDto);
     }
 }

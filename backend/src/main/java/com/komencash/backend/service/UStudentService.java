@@ -1,5 +1,6 @@
 package com.komencash.backend.service;
 
+import com.komencash.backend.dto.certificate.CertificateDetailSelectResponse;
 import com.komencash.backend.dto.certificate.CertificateSelectResponse;
 import com.komencash.backend.dto.job.JobFindResponseDto;
 import com.komencash.backend.dto.student.*;
@@ -95,7 +96,7 @@ public class UStudentService {
     public StudentState getStudentState(int studentId) {
         Student student = studentRepository.findById(studentId).orElse(null);
         List<AccountHistory> account = accountHistoryRepository.findByStudent_Id(studentId);
-        List<CertificateSelectResponse> certificates = certificateService.findCertificateListByStudent(studentId);
+        List<CertificateDetailSelectResponse> certificates = certificateService.findCertificateListByStudent(studentId);
         certificates.forEach(s -> {
             System.out.println(s);
         });

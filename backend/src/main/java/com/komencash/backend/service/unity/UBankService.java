@@ -80,7 +80,7 @@ public class UBankService {
         }
         Date date = new Date();
         long time = date.getTime();
-        long endTime = date.getTime() + Long.valueOf(financialProductDetail.getPeriod() * 24 * 60 * 60 * 1000);
+        long endTime = (long) date.getTime() +  ((long) financialProductDetail.getPeriod() * 24 * 60 * 60 * 1000L);
         Timestamp startDate = new Timestamp(time);
         Timestamp endDate = new Timestamp(endTime);
         System.out.println("기간 : " + startDate + "~" + endDate);

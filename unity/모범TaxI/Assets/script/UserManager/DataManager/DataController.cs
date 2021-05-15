@@ -89,6 +89,11 @@ public static class DataController
     student.certificateList = list;
   }
 
+  public static void setSalary(int salary)
+  {
+    student.job.salary = salary;
+  }
+
   //로그인 한 유저 정보 불러오는 메서드
   public static StudentDTO LoadUserInfo()
   {
@@ -108,5 +113,10 @@ public static class DataController
   public static string GetMonetaryUnitName()
   {
     return student.group.monetary_unit_name;
+  }
+
+  public static int GetBalance()
+  {
+    return student.balance;
   }
 }

@@ -119,7 +119,7 @@ public class BankService {
         students.forEach(student -> {
             Job job = student.getJob();
             int salary = job.getSalary();
-            int taxLoss = (int) (job.getGroup().getTaxRate() * salary);
+            int taxLoss = (int) (job.getGroup().getTaxRate()*0.01 * salary);
             SalaryPaymentRequestHistory salaryPaymentRequestHistory = new SalaryPaymentRequestHistory(salary, taxLoss, student);
             salaryPaymentRequestHistoryRepository.save(salaryPaymentRequestHistory);
         });

@@ -94,15 +94,16 @@ const router =  new Router({
       meta: { auth: true },
       component: () => import('@/views/group/law/LawPage.vue'),
       props: true,
-      children:[
+      children: [
         // {
-        //   path: 'list',
+        //   path: '/group/law/list',
         //   name: 'LawList',
         //   component: () => import('@/components/group/law/LawList.vue'),
-        //   props: true
+        //   meta: { auth: true },
+        //   props: true,
         // },
         {
-          path: ':id',
+          path: ':lawType',
           name: 'LawType',
           meta: { auth: true },
           component: () => import('@/components/group/law/LawType.vue'),

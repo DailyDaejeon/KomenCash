@@ -14,7 +14,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="vote in paginatedData" :key="vote.id">
+              <tr v-for="(vote,index) in paginatedData" :key="vote.id">
                 <td>{{index+1+10*(pageNum)}}</td>
                 <td>{{vote.title}}</td>
                 <td>{{vote.studentNickname}}</td>

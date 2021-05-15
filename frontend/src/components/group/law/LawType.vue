@@ -25,25 +25,31 @@ export default {
       pageNum:0,
     }
   },
-  props: ['lawType','lawData','id'],
+  props: ['lawType','lawData'],
   created() {
     this.fetchData()
   },
   computed : {
     pageCount() {
-      let listLeng = this.lawData.length,
+      if (this.lawList.length) {
+      let listLeng = this.lawList.length,
           listSize = this.pageSize,
           page = Math.floor(listLeng / listSize);
 
       if(listLeng % listSize > 0) page += 1;
 
       return page;
+      }
+      return 0
     },
     paginatedData() {
+      if (this.lawList.length) {
       const start = this.pageNum * this.pageSize,
             end = start + this.pageSize;
 
-      return this.lawData.slice(start, end);
+      return this.lawList.slice(start, end);
+      }
+      return []
     }
   },
   methods: {
@@ -54,7 +60,7 @@ export default {
       this.pageNum -= 1;
     },
     fetchData() {
-      this.lawList = this.lawData
+      this.lawList = this.$route.params.lawData
       console.log('이건들어왔니?',this.lawList)
     }
   },

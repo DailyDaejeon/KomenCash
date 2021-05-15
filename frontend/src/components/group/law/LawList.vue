@@ -6,11 +6,10 @@
           <div class="tabs">
             <div class="tabs" >
               <!-- {{lawData}} -->
-              <span v-for="(law,index) in Object.keys(lawData)" :key="index"
-              >
+              <span v-for="(law,index) in lawName" :key="index">
               <router-link 
               active-class="active"
-              :to="{name:'LawType',params:{id:lawData.id,lawType:law,lawData:lawData[law]}}">{{law}}
+              :to="{name:'LawType',params:{lawType:law,lawData:lawData[law]}}">{{law}}
               </router-link>
               </span>
             </div>
@@ -31,7 +30,8 @@ export default {
   data() {
     return {
       activetab: 1,
-      lawData:{}
+      lawData:{},
+      lawName:[]
 
     }
   },
@@ -46,12 +46,14 @@ export default {
   methods : {
     async fetchLawData() {
       this.lawData = {};
+      this.lawName = [];
       const res = await fetchLawList(this.groupInfo.id)
       res.data.forEach((el) => {
-        if (this.lawData[el.lawType]) {
-          this.lawData[el.lawType].push(el)
+        if (this.lawData[el.lawFindByLawTypeResponseDtoList[0].lawType]) {
+          this.lawData[el.lawFindByLawTypeResponseDtoList[0].lawType].push(el.lawFindByLawTypeResponseDtoList)
         } else {
-          this.lawData[el.lawType] = [el]
+          this.lawData[el.lawFindByLawTypeResponseDtoList[0].lawType] = el.lawFindByLawTypeResponseDtoList
+          this.lawName.push(el.lawFindByLawTypeResponseDtoList[0].lawType)
         }
       })
       console.log('헌법리스트',this.lawData)

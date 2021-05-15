@@ -11,8 +11,7 @@ public interface LawRepository extends JpaRepository<Law, Integer> {
 
     List<Law> findByGroup_Id(int groupId);
 
-    @Query(value = "select l from Law l group by l.lawType")
-    List<Law> findByGroup_IdGroupByLawType(int groupId);
+    @Query(value = "select l.lawType from Law l where l.group.id = :groupId group by l.lawType")
+    List<String> findByGroup_IdGroupByLawType(int groupId);
 
-    List<Law> findByLawType(String lawType);
 }

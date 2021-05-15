@@ -1,15 +1,4 @@
 //login
-.sns-login-logo {
-  display: inline-block;
-  margin-right: 2rem;
-  margin-left: 2rem;
-  text-align: center;
-  & button {
-    border: none;
-    background-color: #fff;
-  }
-}
-
 .temp-bc.login {
   margin-top: 0 !important;
 }
@@ -17,10 +6,6 @@
 .login-form {
   display: block !important;
   text-align: center;
-}
-
-.sns-login-form {
-  display: block !important;
 }
 
 .sign-setting {

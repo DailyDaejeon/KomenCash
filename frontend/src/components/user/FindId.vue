@@ -1,7 +1,8 @@
 <template>
   <b-container class="container-setting">
-    <template v-if="showCertiForm">
-      <phone-certification @checkCertification="checkCertification"></phone-certification>
+    <template 
+    v-if="showCertiForm"> 
+      <PhoneCertification @checkCertification="checkCertification"/>
     </template>
     <b-col class="showID" :style="{ display: idDisplay }">
       고객님의 아이디는
@@ -15,9 +16,8 @@
 </template>
 
 <script>
-import '@/css/index.css'
 import PhoneCertification from './PhoneCertification.vue';
-import store from '@/stores/modules/user';
+import { mapState } from 'vuex';
 
 export default {
   components: { PhoneCertification },
@@ -28,12 +28,17 @@ export default {
       showCertiForm: true,
     };
   },
+  computed: {
+    ...mapState({
+      userInfo:state => state.user.userInfo
+    })
+  },
   methods: {
-    checkCertification() {
+    checkCertification(event) {
       this.idDisplay = 'block';
       this.showCertiForm = false;
-      if (store.state.userInfo.u_email) {
-        this.userId = store.state.userInfo.u_email;
+      if (event.email) {
+        this.userId = event.email;
       } else {
         this.$swal({
           customClass: {

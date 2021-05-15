@@ -68,10 +68,9 @@ public class UBankController {
     // 국무총리, 부총리 인 경우 (vote인 경우) 는 세금에서 빼서 어카운트에 추가
     // 나머지 직업군들은 원래 salary에서 세금을 떼고 추가 , 세금에는 세금뗀 값을 추가
     @ApiOperation(value="은행원 - 월급 요청 수락하기", notes = "수락 버튼 누르면 voted, resume 직업별로 tax 적용해서 월급 적용, 요청은 삭제처리")
-    @DeleteMapping("/salary-payment")
-    public ResponseEntity<Boolean> salaryRequestAllow(@RequestBody SalaryPaymentRequestDto request){
-        System.out.println(request.getId()+", "+ request.getStudent_id());
-        uBankService.salaryRequestAllow(request);
+    @DeleteMapping("/salary-payment/{studentId}/{salaryId}")
+    public ResponseEntity<Boolean> salaryRequestAllow(@PathVariable("studentId") int studentId, @PathVariable("salaryId") int id){
+        uBankService.salaryRequestAllow(new SalaryPaymentRequestDto(id,studentId));
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }
 

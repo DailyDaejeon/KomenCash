@@ -53,12 +53,14 @@ public class LawService {
     public List<LawFindResponseDto> findLawByGroupId(int groupId) {
         List<LawFindResponseDto> lawFindResponseDtos = new ArrayList<>();
 
-        List<Law> lawGroupList = lawRepository.findByGroup_IdGroupByLawType(groupId);
-        lawGroupList.forEach(lawGroup ->{
+        List<Law> laws = lawRepository.findByGroup_Id(groupId);
+        List<String> lawTypeList = lawRepository.findByGroup_IdGroupByLawType(groupId);
+        lawTypeList.forEach(lawType ->{
             List<LawFindByLawTypeResponseDto> lawFindByLawTypeResponseDtoList = new ArrayList<>();
-            String lawType = lawGroup.getLawType();
-            List<Law> laws = lawRepository.findByLawType(lawType);
-            laws.forEach(law -> lawFindByLawTypeResponseDtoList.add(new LawFindByLawTypeResponseDto(law)));
+            laws.forEach(law -> {
+                if(law.getLawType().equals(lawType))
+                    lawFindByLawTypeResponseDtoList.add(new LawFindByLawTypeResponseDto(law));
+            });
 
             lawFindResponseDtos.add(new LawFindResponseDto(lawFindByLawTypeResponseDtoList));
         });

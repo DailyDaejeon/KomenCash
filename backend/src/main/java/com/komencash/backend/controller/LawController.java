@@ -1,11 +1,8 @@
 package com.komencash.backend.controller;
 
-import com.komencash.backend.dto.law.LawAddReqAcceptUpdateRequestDto;
-import com.komencash.backend.dto.law.LawAddReqAddRequestDto;
+import com.komencash.backend.dto.law.*;
 import com.komencash.backend.dto.request.LawAddReqFindListResponseDto;
 import com.komencash.backend.dto.request.LawAddReqFindDetailResponseDto;
-import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
-import com.komencash.backend.dto.law.LawFindResponseDto;
 import com.komencash.backend.service.LawService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +19,13 @@ public class LawController {
     LawService lawService;
 
 
+    @ApiOperation(value = "헌법 추가", notes = "입력받은 헌법 정보로 추가하고 결과 반환")
+    @PostMapping
+    public boolean addLaw(@RequestBody LawAddUpdateRequestDto lawAddUpdateRequestDto) {
+        return lawService.addLaw(lawAddUpdateRequestDto);
+    }
+
+
     @ApiOperation(value = "헌법 목록 조회", notes = "입력받은 그룹 아이디의 헌법 목록 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/{group-id}")
@@ -30,15 +34,8 @@ public class LawController {
     }
 
 
-    @ApiOperation(value = "헌법 추가", notes = "입력받은 헌법 정보로 추가하고 결과 반환")
-    @PostMapping
-    public boolean addLaw(@RequestBody LawAddUpdateRequestDto lawAddUpdateRequestDto) {
-        return lawService.addLaw(lawAddUpdateRequestDto);
-    }
-
-
     @ApiOperation(value = "헌법 정보 수정", notes = "입력받은 헌법 정보로 update 후 결과 반환")
-    @PutMapping("")
+    @PutMapping
     public boolean updateLaw(@RequestBody LawAddUpdateRequestDto lawAddUpdateRequestDto) {
         return lawService.updateLaw(lawAddUpdateRequestDto);
     }

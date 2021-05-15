@@ -1,11 +1,8 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.law.LawAddReqAcceptUpdateRequestDto;
-import com.komencash.backend.dto.law.LawAddReqAddRequestDto;
+import com.komencash.backend.dto.law.*;
 import com.komencash.backend.dto.request.LawAddReqFindListResponseDto;
 import com.komencash.backend.dto.request.LawAddReqFindDetailResponseDto;
-import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
-import com.komencash.backend.dto.law.LawFindResponseDto;
 import com.komencash.backend.dto.vote.VoteFindResponseDto;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.request_history.Accept;
@@ -42,15 +39,6 @@ public class LawService {
     VoteService voteService;
 
 
-    public List<LawFindResponseDto> findLawByGroupId(int groupId) {
-        List<LawFindResponseDto> resultList = new ArrayList();
-
-        List<Law> laws =  lawRepository.findByGroup_Id(groupId);
-        laws.forEach(law -> resultList.add(new LawFindResponseDto(law)));
-
-        return resultList;
-    }
-
 
     public boolean addLaw(LawAddUpdateRequestDto lawAddUpdateRequestDto) {
         Group group = groupRepository.findById(lawAddUpdateRequestDto.getGroupId()).orElse(null);
@@ -59,6 +47,23 @@ public class LawService {
         Law law = new Law(lawAddUpdateRequestDto, group);
         lawRepository.save(law);
         return true;
+    }
+
+
+    public List<LawFindResponseDto> findLawByGroupId(int groupId) {
+        List<LawFindResponseDto> lawFindResponseDtos = new ArrayList<>();
+
+        List<Law> lawGroupList = lawRepository.findByGroup_IdGroupByLawType(groupId);
+        lawGroupList.forEach(lawGroup ->{
+            List<LawFindByLawTypeResponseDto> lawFindByLawTypeResponseDtoList = new ArrayList<>();
+            String lawType = lawGroup.getLawType();
+            List<Law> laws = lawRepository.findByLawType(lawType);
+            laws.forEach(law -> lawFindByLawTypeResponseDtoList.add(new LawFindByLawTypeResponseDto(law)));
+
+            lawFindResponseDtos.add(new LawFindResponseDto(lawFindByLawTypeResponseDtoList));
+        });
+
+        return lawFindResponseDtos;
     }
 
 

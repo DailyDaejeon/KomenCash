@@ -59,7 +59,7 @@ public class UBankController {
 
 
     @ApiOperation(value = "그룹 내 금융상품 관련 요청 조회", notes = "해당 그룹의 금융상품 신청/중도해지 요청을 조회")
-    @GetMapping("/ubank/financial-product/request-list/{group-id}")
+    @GetMapping("/financial-product/request-list/{group-id}")
     public ResponseEntity<List<FinancialProductReqResponseDto>> getFinancialProductRequestList(@PathVariable("group-id") int groupId){
         return ResponseEntity.status(HttpStatus.OK).body(uBankService.getFinancialProductRequestList(groupId));
     }

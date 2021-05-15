@@ -179,20 +179,18 @@ export default {
         confirmButtonText: '로그아웃',
         confirmButtonColor: "#fc3c44",
       }).then((result) => {
-        if(result.value) {
+        if(result.isConfirmed) {
           this.$swal({
             text: '로그아웃했습니다.',
             icon: 'success',
             timer: 1300,
             customClass: {
-          container: 'swal2-container'
-        },
+							container: 'swal2-container'
+						},
             showConfirmButton: false,
-          }).then(()=>{
-            this.$store.commit('user/logout')
-            // window.location.href = '/'
-
           })
+				this.$store.commit('logout')
+				this.$router.push('{name:"Login"}')
         } 
       })
      

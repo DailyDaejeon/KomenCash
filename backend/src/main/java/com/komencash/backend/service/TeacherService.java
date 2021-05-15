@@ -28,7 +28,10 @@ public class TeacherService{
 
     public int findTeacherByEmail(String email){
         Teacher teacher = teacherRepository.findByEmail(email).orElse(null);
-        return teacher.getId();
+        if(teacher != null) {
+            return teacher.getId();
+        }
+        return -1;
     }
 
 

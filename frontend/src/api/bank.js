@@ -58,6 +58,10 @@ function acceptFinancialRequest(finHisId) {
   return instance.put(`bank/financial-status-accept/${finHisId}`)
 }
 
+// 학생 계좌 내역 생성
+function sendMoney(balanceData) {
+  return instance.post(`bank/send`, balanceData)
+}
 
 
 export {
@@ -71,5 +75,6 @@ export {
   fetchDetailFinancial,
   createSalaryRequest,
   fetchFinancialRequest,
-  acceptFinancialRequest
+  acceptFinancialRequest,
+  sendMoney
 }

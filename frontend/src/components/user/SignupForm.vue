@@ -55,19 +55,18 @@
                       </span>
                     </p>
 										<div class="mb-3">
-											<label class="form-label">Password</label>
+											<h4 class="form-label">Password
+                        <!-- 눈 모양 클릭하면 아이콘 바뀌면서 비밀번호 표출 -->
+                        <span class="btn btn-main" @click="viewPassword">
+                          <font-awesome-icon :icon="['far', fwName ]" :style="{color:'#495057'}" />
+                        </span>
+                      </h4>
 											<input 
                       class="form-control form-control-lg"
                       name="password" 
                       v-model="password"
                       :type="passwordType"
                       placeholder="8자 이상 입력해주세요." />
-                    <!-- 눈 모양 클릭하면 아이콘 바뀌면서 비밀번호 표출 -->
-                      <div class="input-group-append">
-                        <div class="input-group-text input-group-button" @click="viewPassword">
-                          <font-awesome-icon :icon="['far', fwName ]" :style="{color:'#495057'}" />
-                        </div>
-                      </div>
 										</div>
                     <div>
                       <input
@@ -169,6 +168,7 @@ export default {
       authenResult:'휴대폰 인증',
       idCheck:false,
       nickCheck:false,
+      signUpTerm:{}
     };
   },
   computed: {

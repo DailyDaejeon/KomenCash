@@ -73,7 +73,7 @@ import RequestItem from '@/components/group/main/RequestItem.vue'
 // import VoteItemList from '@/components/group/vote/VoteItemList.vue'
 import VoteList from '@/components/group/vote/VoteList.vue'
 import { mapState } from 'vuex'
-import { addLawItem, fetchLawList } from '@/api/law'
+import { addLawItem } from '@/api/law'
 import LawList from '@/components/group/law/LawList.vue'
 // import VoteList from '../../../components/group/vote/VoteList.vue'
 
@@ -89,29 +89,14 @@ export default {
     }
   },
   components: { RequestItem, VoteList, LawList }, //Modal, VoteItemInput, VoteItemList, 
-  
-  created() {
-    this.fetchLawData()
-  },
+ 
   computed: {
     ...mapState({
       groupInfo:state => state.group.groupInfo
     })
   },
   methods: {
-    async fetchLawData() {
-      this.lawData = {};
-      const res = await fetchLawList(this.groupInfo.id)
-      res.data.forEach((el) => {
-        if (this.lawData[el.lawType]) {
-          this.lawData[el.lawType].push(el)
-        } else {
-          this.lawData[el.lawType] = [el]
-        }
-      })
-      console.log('헌법리스트',this.lawData)
 
-    },
     addLaw() {
       this.$swal({
         title: '헌법추가',

@@ -6,6 +6,7 @@
           <table class="text-center table table-hover my-0">
             <thead>
               <tr>
+                <th>No.</th>
                 <th>투표명</th>
                 <th>작성자</th>
                 <th>상세보기</th>
@@ -13,7 +14,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="vote in voteList" :key="vote.id">
+              <tr v-for="vote in paginatedData" :key="vote.id">
+                <td>{{index+1+10*(pageNum)}}</td>
                 <td>{{vote.title}}</td>
                 <td>{{vote.studentNickname}}</td>
                 <td>
@@ -27,6 +29,11 @@
               </tr>
             </tbody>
           </table>
+          <div  v-if="paginatedData.length" class="btn-cover text-center">
+            <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+            <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+            <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+        </div>
         </div>
         <div class="ta-center" v-else>
           <span>생성된 투표가 없습니다. 투표를 생성해보세요.</span>
@@ -42,97 +49,10 @@ import { deleteVote, fetchVoteList } from '@/api/vote';
 export default {
   data() {
     return {
-      voteList:[
-        {
-          id:1,
-          title:"반장선거",
-          content:"2021년 햇반의 반장선거를 실시합니다. 지지하는 입후보자에게 투표해주세요.",
-          studentId:1,
-          studentNickname:"박싸피",
-          voteItemResultResponses: [
-            {
-              id: 1,
-              content: "고재석",
-              itemNum: 1,
-              resultCnt: 6
-            },
-            {
-              id:2,
-              content: "박수아",
-              itemNum: 2,
-              resultCnt: 5
-            },
-            {
-              id:3,
-              content: "배상웅",
-              itemNum: 3,
-              resultCnt: 8
-            },
-            {
-              id:4,
-              content: "정혜림",
-              itemNum: 4,
-              resultCnt: 3
-            }
-          ]
-        },
-      ],
-      voteInfo: {
-        id: 1,
-        title: "반장선거",
-        content:"2021년 햇반의 반장선거를 실시합니다. 지지하는 입후보자에게 투표해주세요.",
-        studentId:1,
-        studentNickname:"박싸피",
-        voteAttendResponses: [
-          {
-            choiceItemNum: 1,
-            studentId: 1,
-            studentNickname: "고재석",
-          },
-          {
-            choiceItemNum: 2,
-            studentId: 2,
-            studentNickname: "박수아",
-          },
-          {
-            choiceItemNum: 3,
-            studentId: 3,
-            studentNickname: "배상웅",
-          },
-          {
-            choiceItemNum: 4,
-            studentId: 4,
-            studentNickname: "정혜림",
-          },
-        ],
-        voteItemResultResponses: [
-          {
-            id: 1,
-            content: "고재석",
-            itemNum: 1,
-            resultCnt: 1
-          },
-          {
-            id:2,
-            content: "박수아",
-            itemNum: 2,
-            resultCnt: 1
-          },
-          {
-            id:3,
-            content: "배상웅",
-            itemNum: 3,
-            resultCnt: 1
-          },
-          {
-            id:4,
-            content: "정혜림",
-            itemNum: 4,
-            resultCnt: 1
-          }
-        ]
-      },
-      voteAttandRate: 0,
+      pageSize:10,
+      pageNum:0,
+      voteList:[],
+      voteInfo: {}
     }
   },
   created() {
@@ -141,9 +61,30 @@ export default {
   computed: {
     ...mapState({
       groupInfo: state=>state.group.groupInfo
-    })
+    }),
+    pageCount() {
+      let listLeng = this.voteList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.voteList.slice(start, end);
+    }
   },
   methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     async fetchVote() {
       const res = await fetchVoteList(this.groupInfo.id)
       console.log(res)

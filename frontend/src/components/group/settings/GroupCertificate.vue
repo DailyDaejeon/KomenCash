@@ -14,14 +14,19 @@
                   <th>수정</th>
                   <th>삭제</th>
                 </tr>
-                <tr v-for="(certi, index) in certiList" :key="index">
-                  <td>{{index+1}}</td>
+                <tr v-for="(certi, index) in paginatedData" :key="index">
+                  <td>{{index+1+10*(pageNum)}}</td>
                   <td class="cursor-pointer">{{certi.name}}</td>
                   <td>{{certi.acquisitionCondition}}</td>
                   <td><button class="btn btn-main" @click="alertDetail(certi)"><i class="fas fa-pencil-alt"></i></button></td>
                   <td><button class="btn btn-danger" @click="deleteCerti(certi)"><i class="fas fa-trash-alt"></i></button></td>
                 </tr>
               </table>
+              <div v-if="paginatedData.length" class="btn-cover text-center">
+                <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+                <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+                <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+            </div>
             </div>
           </div>
         </div>
@@ -33,8 +38,16 @@ import { mapState } from 'vuex'
 import { addCertificate, deleteCertificate, fetchCertiList, modifyCertificate } from '@/api/certificate'
 
 export default {
+  props:{
+    pageSize: {
+      type:Number,
+      required: false,
+      default: 10
+    },
+  },
   data() {
     return {
+      pageNum:0,
       certiList : [],
       certiName: new Set()
     }
@@ -46,9 +59,30 @@ export default {
   computed:{
     ...mapState({
       groupInfo: state=> state.group.groupInfo
-    })
+    }),
+    pageCount() {
+      let listLeng = this.certiList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.certiList.slice(start, end);
+    }
   },
   methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     deleteCerti(certi) {
       this.$swal({
         title:"삭제하시겠습니까?",

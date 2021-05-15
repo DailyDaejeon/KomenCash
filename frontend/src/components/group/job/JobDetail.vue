@@ -97,19 +97,26 @@
       <h3>해당 직업 그룹원 목록</h3>
     </div>
     <div class="col-12">
-      <table v-if="jobData.jobStudentResponses.length" class="table table-hover my-0">
+      <table v-if="jobData.jobStudentResponses.length" class="text-center table table-hover my-0">
         <thead>
           <tr>
+            <th>No.</th>
             <th>이름</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(member,index) in jobData.jobStudentResponses"
+          <tr v-for="(member,index) in paginatedData"
           :key="index">
+            <td>{{index+1+10*(pageNum)}}</td>
             <td>{{member.studentNickName}}</td>
           </tr>
         </tbody>
       </table>
+      <div  v-if="paginatedData.length" class="btn-cover text-center">
+        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+        <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+        <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+    </div>
       <p class="h5" v-else>
         해당 직업인 그룹원이 없습니다.
       </p>
@@ -134,6 +141,8 @@ export default {
   props:['id','propsData','dataName'],
   data() {
     return {
+      pageSize:10,
+      pageNum:0,
       jobData:{
         id: 0,
         jobStudentResponses: [],
@@ -154,9 +163,30 @@ export default {
   computed: {
     ...mapState({
       groupInfo:state => state.group.groupInfo
-    })
+    }),
+    pageCount() {
+      let listLeng = this.jobData.jobStudentResponses.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.jobData.jobStudentResponses.slice(start, end);
+    }
   },
   methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     changeRecruit(recruit) {
       this.recruitType = recruit
     },

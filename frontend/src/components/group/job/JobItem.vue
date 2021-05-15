@@ -3,6 +3,7 @@
     <table class="text-center table table-hover my-0">
       <thead>
         <tr>
+          <th>No.</th>
           <th>{{JobType}}</th>
           <th>역할</th>
           <th>급여</th>
@@ -13,7 +14,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(job,index) in jobData" :key="index" >
+        <tr v-for="(job,index) in paginatedData" :key="index" >
+          <td>{{index+1+10*(pageNum)}}</td>
           <td>{{job.name}}</td>
           <td>{{job.role}}</td>
           <td>{{job.salary}}</td>
@@ -31,6 +33,11 @@
         </tr>
       </tbody>
     </table>
+    <div v-if="paginatedData.length" class="btn-cover text-center">
+    <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+    <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+    <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+  </div>
   </div>
 </template>
 
@@ -38,10 +45,16 @@
 export default {
   data() {
     return {
+      pageNum:0,
       jobDetail:[]
     }
   },
   props: {
+    pageSize: {
+      type:Number,
+      required: false,
+      default: 10
+    },
     JobType: {
       type: String
     },
@@ -49,7 +62,30 @@ export default {
       type: Array
     }
   },
+  computed : {
+    pageCount() {
+      let listLeng = this.jobData.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.jobData.slice(start, end);
+    }
+  },
   methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     async goDetail(job) {
       this.$router.push({name:"JobDetail",params: {
         dataName : job.name,

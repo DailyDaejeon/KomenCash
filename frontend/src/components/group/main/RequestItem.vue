@@ -6,6 +6,7 @@
     <table class="table table-hover my-0">
       <thead>
         <tr>
+          <th>No.</th>
           <th>내용</th>
           <!-- <th class="d-none d-xl-table-cell">Date</th> -->
           <!-- <th>Date</th> -->
@@ -15,8 +16,9 @@
         </tr>
       </thead>
       <tbody v-if="requestList.length">
-        <tr v-for="(request,index) in requestList"
+        <tr v-for="(request,index) in paginatedData"
         :key="index">
+          <td>{{index+1+10*(pageNum)}}</td>
           <template v-if='RequestName === "이력서"'>
             <td>{{request.jobName}}</td>
             <!-- <td><span class="badge bg-success">날짜</span></td> -->
@@ -54,6 +56,11 @@
         </tr>
       </tbody>
     </table>
+    <div v-if="requestList.length" class="btn-cover text-center">
+        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+        <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+        <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+    </div>
     <p class="h4 text-center m-1" v-if="!requestList.length">
       요청 내역이 없습니다.
     </p>
@@ -71,12 +78,19 @@ import { acceptCase, fetchCaseList } from '@/api/case';
 
 export default {
   props:{
+    pageSize: {
+      type:Number,
+      required: false,
+      default: 10
+    },
     RequestType : {
       type:String
     }
   },
   data() {
     return {
+      pageNum:0,
+
       RequestName: "",
       requestList: []
     }
@@ -87,9 +101,30 @@ export default {
   computed: {
     ...mapState({
       groupInfo : state => state.group.groupInfo
-    })
+    }),
+    pageCount() {
+      let listLeng = this.requestList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.requestList.slice(start, end);
+    }
   },
   methods : {
+     nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     async fetchRequest() {
       this.RequestName = this.RequestType;
       if (this.RequestName === "그룹원추가") {

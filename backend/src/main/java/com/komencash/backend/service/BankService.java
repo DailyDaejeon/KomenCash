@@ -196,7 +196,7 @@ public class BankService {
                 // 내 통장에 추가
                 List<AccountHistory> accountHistory = accountHistoryRepository.findByStudent_Id(s.getStudent().getId());
                 AccountHistory lastAccount= accountHistory.get(accountHistory.size()-1);
-                int lastBalance = (int) (lastAccount.getBalance()+(s.getPrincipal()* s.getFinancialProductDetail().getRate()));
+                int lastBalance = (int) (lastAccount.getBalance()+(s.getPrincipal()* s.getFinancialProductDetail().getRate() * 0.01));
                 int balanceChange = (int)(s.getPrincipal()* s.getFinancialProductDetail().getRate());
                 AccountHistory newHistory = new AccountHistory(balanceChange, lastBalance, "예금 만기, 이율+"+s.getFinancialProductDetail().getRate(), s.getStudent());
                 accountHistoryRepository.save(newHistory);

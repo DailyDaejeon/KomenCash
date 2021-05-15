@@ -4,9 +4,10 @@
       <div class="card-header">
         <h5 class="card-title mb-0">{{ financialName }} 신청 요청</h5>
       </div>
-      <table class="table table-hover my-0">
+      <table class="text-center table table-hover my-0">
         <thead>
           <tr>
+            <th>No.</th>
             <th>요청인</th>
             <th>신청내용</th>
             <th>수락/거절</th>
@@ -15,6 +16,7 @@
         <tbody v-if="requestList.length">
           <tr v-for="(request,index) in requestList"
           :key="index">
+            <td>{{index+1}}</td>
             <td>{{request.nickname}}</td>
             <td v-if="request.status === 'before_termination'">
               <span class="badge bg-danger">중도해지</span>
@@ -54,15 +56,17 @@
         <h3>신용등급별 금리</h3>
       </div>
       <div class="col-12">
-        <table class="table table-hover my-0">
+        <table class="text-center table table-hover my-0">
           <thead>
             <tr>
+              <th>No.</th>
               <th>신용등급</th>
               <th>금리</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(credit,index) in financialList" :key="index">
+              <td>{{index+1}}</td>
               <td v-if="!mActive">{{financialCredit[index]}}급</td>
               <td v-else>
                  <input class="border border-main" type="text" v-model="financialCredit[index]">
@@ -77,26 +81,33 @@
       </div>
     </div>
     <button class="btn btn-main" @click="modifyDetail">수정</button>
-    <table class="table table-hover my-0">
+    <table class="text-center table table-hover my-0">
       <thead>
         <tr>
+          <th>No.</th>
           <th>이름</th>
           <th>신용등급</th>
-          <th>금리</th>
+          <th>금리(%)</th>
           <th>기간</th>
           <th>금액</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(student,index) in studentList" :key="index">
+        <tr v-for="(student,index) in paginatedData" :key="index">
+          <td>{{index+1+10*(pageNum)}}</td>
           <td>{{student.studentNickname}}</td>
           <td>{{student.studentCreditGrade}}</td>
-          <td>{{studentRateList[index]}}</td>
+          <td>{{studentRateList[index]}}%</td>
           <td>{{student.startDate.slice(0,10)}}</td>
           <td>{{student.principal}}</td>
         </tr>
       </tbody>
     </table>
+    <div  v-if="paginatedData.length" class="btn-cover text-center">
+        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+        <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+        <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+    </div>
     <button class="btn btn-danger" @click="deleteProduct">삭제</button>
   </div>
 </template>
@@ -108,6 +119,8 @@ export default {
   props:['propsData','dataName'],
   data() {
     return {
+      pageSize:10,
+      pageNum:0,
       mActive:false,
       financialList : [],
       financialName: '',
@@ -127,9 +140,29 @@ export default {
     ...mapState({
       groupInfo : state => state.group.groupInfo
     }),
-    
+    pageCount() {
+      let listLeng = this.studentList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.studentList.slice(start, end);
+    }
   },
   methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     async fetchFinList() {
       console.log('예금 item',this.propsData)
       const res = await fetchDetailFinancial(this.propsData.id)

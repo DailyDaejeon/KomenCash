@@ -2,11 +2,16 @@
   <div class="law-type">
     <!-- {{lawData}} -->
     <div class="law-content">
-      <div v-for="(law,index) in lawData" :key="index">
+      <div v-for="(law,index) in paginatedData" :key="index">
         <!-- 수정 폼을 여기에 만들어야 하나...? -->
         <p class="law-item-title">{{lawType}} 제 {{law.article}}조 {{law.paragraph}}항</p>
         <p class="law-item-content">{{law.content}}</p>
       </div>
+      <div  v-if="paginatedData.length" class="btn-cover text-center">
+        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+        <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+        <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+    </div>
     </div>
   </div>
 </template>
@@ -15,14 +20,39 @@
 export default {
   data() {
     return {
-      lawList: []
+      lawList: [],
+      pageSize:10,
+      pageNum:0,
     }
   },
   props: ['lawType','lawData','id'],
   created() {
     this.fetchData()
   },
+  computed : {
+    pageCount() {
+      let listLeng = this.lawData.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.lawData.slice(start, end);
+    }
+  },
   methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     fetchData() {
       this.lawList = this.lawData
       console.log('이건들어왔니?',this.lawList)

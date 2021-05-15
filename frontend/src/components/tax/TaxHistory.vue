@@ -2,9 +2,10 @@
   <div class="container-fluid p-0">
     <h1 class="h3 mb-3 d-inline-block ">세금사용내역</h1>
     <button  @click="addTaxHistory" class="btn btn-main float-right">세금내역추가</button>
-    <table class="table table-hover my-0">
+    <table class="text-center table table-hover my-0">
       <thead>
         <tr>
+          <th>No.</th>
           <th>내역</th>
           <th class="text-center">상태</th>
           <th class="text-center">금액({{groupInfo.monetaryUnitName}})</th>
@@ -13,7 +14,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(history,index) in taxHistoryList" :key="index">
+        <tr v-for="(history,index) in paginatedData" :key="index">
+          <td>{{index+1+10*(pageNum)}}</td>
           <td>{{history.content}}</td>
           <template v-if="history.balanceChange>=0">
             <td class="text-center"><span class="badge bg-success">입금</span></td>
@@ -27,6 +29,11 @@
         </tr>
       </tbody>
     </table>
+    <div  v-if="paginatedData.length" class="btn-cover text-center">
+      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+      <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+      <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+  </div>
   </div>
 </template>
 
@@ -34,7 +41,36 @@
 import { addTaxData } from '@/api/tax';
 export default {
   props :['taxHistoryList','groupInfo'],
+  data() {
+    return {
+      pageSize:10,
+      pageNum:0,
+    }
+  },
+  computed : {
+    pageCount() {
+      let listLeng = this.taxHistoryList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.taxHistoryList.slice(start, end);
+    }
+  },
   methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     addTaxHistory() {
       this.$swal.queue([
         {

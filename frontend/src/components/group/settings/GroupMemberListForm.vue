@@ -13,13 +13,18 @@
                   <th>직업</th>
                   <th>상세보기</th>
                 </tr>
-                <tr v-for="(student, index) in studentList" :key="index">
-                  <td>{{studentList.length-index}}</td>
+                <tr v-for="(student, index) in paginatedData" :key="index">
+                <td>{{index+1+10*(pageNum)}}</td>
                   <td class="cursor-pointer">{{student.nickname}}</td>
                   <td>{{student.job.name}}</td>
                   <td @click="goDetail(student.id)"><button class="btn btn-main">자세히</button></td>
                 </tr>
               </table>
+              <div  v-if="paginatedData.length" class="btn-cover text-center">
+                <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+                <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+                <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+            </div>
             </div>
           </div>
         </div>
@@ -33,37 +38,17 @@ import { fetchGroupMemberList } from '@/api/student';
 import { mapState } from 'vuex';
 
 export default {
+  props:{
+    pageSize: {
+      type:Number,
+      required: false,
+      default: 10
+    },
+  },
   data() {
     return {
-      studentList:[
-        {
-          job:{
-            group:{
-              code:"23133322",
-              id:1, //그룹 id
-              monetaryUnitName:"미소",
-              name:"햇반",
-              tax:1000,
-              tax_rate:0,
-              teacher:{
-                id:1, //선생님 id
-                email:"test@test.com",
-                nickname: "박싸피",
-                password: "test1234",
-                phoneNumber: "01012345678"
-              }
-            },
-            id:1, //직업 id
-            name:"은행원",
-            personnel: 2, //인원 수
-            recruitType: "resume",
-            role: "계좌 관리 및 금융 상품 판매",
-            salary: 100,
-          },
-          id:1, //학생 id
-          nickname: "김학생"
-        }
-      ],
+      pageNum:0,
+      studentList:[],
     }
   },
   created() {
@@ -72,9 +57,30 @@ export default {
   computed : {
     ...mapState({
       groupInfo : state => state.group.groupInfo
-    })
+    }),
+    pageCount() {
+      let listLeng = this.studentList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.studentList.slice(start, end);
+    }
   },
   methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     async fetchMemberList(){
       //그룹원 리스트 조회 api
       const res = await fetchGroupMemberList(this.groupInfo.id);

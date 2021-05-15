@@ -19,18 +19,23 @@
           </div>
         </div>
       </div>
-      <table class="table table-hover text-center">
+      <table class="text-center table table-hover text-center">
         <tr>
           <th>No.</th>
           <th>이름</th>
           <th>투표항목</th>
         </tr>
-        <tr v-for="(student, index) in studentList" :key="index">
-          <td>{{index+1}}</td>
+        <tr v-for="(student, index) in paginatedData" :key="index">
+          <td>{{index+1+10*(pageNum)}}</td>
           <td>{{student.studentNickname}}</td>
           <td>{{student.choiceItemContent}}</td>
         </tr>
       </table>
+      <div  v-if="paginatedData.length" class="btn-cover text-center">
+        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
+        <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
+        <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
+    </div>
       <!-- <div class="row">
         <div class="vote-result">
           <div class="card-header border" v-for="(item,index) in voteInfo.voteItemResultResponses" :key="item.id">
@@ -53,6 +58,8 @@ export default {
   props: ['id'],
   data() {
     return {
+      pageNum:0,
+      pageSize:10,
       lightColor :"#fff0de",
       mainColor :"#e7ab3c",
       voteInfo: {},
@@ -65,7 +72,30 @@ export default {
   created() {
     this.fetchVoteInfo();
   },
+  computed:{
+    pageCount() {
+      let listLeng = this.studentList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize);
+
+      if(listLeng % listSize > 0) page += 1;
+
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.studentList.slice(start, end);
+    }
+  },
   methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
     async fetchVoteInfo() {
       const res = await fetchVoteDetail(this.id)
       console.log(res)

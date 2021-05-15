@@ -206,7 +206,7 @@ public class UBankService {
         List<SalaryPaymentRequestHistory> list = salaryPaymentRequestHistoryRepository.findByStudent_Job_Group_Id(groupId);
         List<SalaryPaymentRequestDto> dtos = new ArrayList<>();
         list.forEach(s ->{
-            dtos.add(new SalaryPaymentRequestDto(s.getId(), s.getSalary(), s.getTaxLoss(), s.getAccept(), s.getStudent().getId()));
+            dtos.add(new SalaryPaymentRequestDto(s.getId(), s.getSalary(), s.getTaxLoss(), s.getAccept(),s.getStudent().getId(), s.getStudent().getNickname()));
         });
         return dtos;
     }

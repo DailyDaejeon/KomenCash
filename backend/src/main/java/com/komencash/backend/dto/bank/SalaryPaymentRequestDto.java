@@ -14,6 +14,7 @@ public class SalaryPaymentRequestDto {
     private int tax_loss;
     private Accept accept;
     private int student_id;
+    private String student_nickname;
 
     public SalaryPaymentRequestDto(int id, int student_id) {
         this.id = id;

@@ -30,7 +30,7 @@
                   </tr>
                   <tr v-if="!mActive">
                     <th>그룹코드</th>
-                    <td class="p-3">{{groupInfo.code}}</td>
+                    <td class="p-3">{{groupInfo.code}} <button @click="copyCode(groupInfo.code)" class="ml-2 btn btn-main"><i class="fas fa-copy"></i> 그룹코드복사</button></td>
                   </tr>
                   <tr v-if="!mActive">
                     <th>그룹원</th>
@@ -161,7 +161,19 @@ export default {
           }
         })
       }
-    }
+    },
+    copyToClipboard(code) {
+      const text = document.createElement('textarea');
+      document.body.appendChild(text);
+      text.value = code;
+      text.select();
+      document.execCommand('copy');
+      document.body.removeChild(text)
+    },
+    copyCode(code) {
+      this.copyToClipboard(code)
+      console.log('복사됨!!')
+    } 
   },
 }
 </script>

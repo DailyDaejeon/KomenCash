@@ -1,6 +1,7 @@
 package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.bank.*;
+import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
 import com.komencash.backend.service.BankService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,13 @@ public class BankController {
 
     @Autowired
     BankService bankService;
+
+
+    @ApiOperation(value = "학생 계좌 내역 생성", notes = "입력받은 정보로 학생 계좌에 입금 내역을 생성하고 결과를 반환")
+    @PostMapping("/send")
+    public boolean addAccountHistory(@RequestBody AccountHistoryAddUpdateRequestDto accountHistoryAddUpdateRequestDto) {
+        return bankService.addAccountHistory(accountHistoryAddUpdateRequestDto);
+    }
 
 
     @ApiOperation(value="그룹 전체 계좌 목록 조회", notes = "입력받은 그룹 아이디의 모든 학생 계좌 정보 조회")

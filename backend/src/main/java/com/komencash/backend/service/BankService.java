@@ -173,6 +173,8 @@ public class BankService {
 
         return new FinancialProductFindDetailResponseDto(financialProduct, financialProductDetailResponse, studentFindFinancialInfoDtos);
     }
+
+
     // Scheduler 함수
     public void updateFinancialProductHistory(){
         Date currentDate = new Date();
@@ -203,6 +205,8 @@ public class BankService {
             }
         });
     }
+
+
     public List<FinancialProductHistoryFindResponseDto> findFinancialProductHistoryByStudentId(int studentId){
         List<FinancialProductHistoryFindResponseDto> financialProductHistoryFindResponsDtos = new ArrayList<>();
 

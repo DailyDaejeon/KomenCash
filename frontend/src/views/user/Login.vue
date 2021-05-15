@@ -1,6 +1,7 @@
 <template>
   <div>
-    <LoginForm v-on:showModalForm="showModalForm"></LoginForm>
+    <LoginForm @showModalForm="showModalForm"/>
+    
 
     <Modal v-if="showModal" @click="$emit('closeModal')" >
       <h3 slot="header">
@@ -9,7 +10,6 @@
           <i
             class="fa fa-times"
             aria-hidden="true"
-            
           ></i>
         </span>
         <hr />

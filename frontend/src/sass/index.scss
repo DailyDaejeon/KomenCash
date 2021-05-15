@@ -1,15 +1,11 @@
 @import 'abstracts/variables';
 @import 'abstracts/mixins';
 
-// Bootstrap -> 전부말고 부분적으로 가져오고 싶다면 바꿈
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
 
-@import 'base/base';
-@import 'base/typo';
 @import 'base/utilities';
 
-@import 'layout/header';
 @import 'layout/navbar';
 @import 'layout/sidebar';
 @import 'layout/form';
@@ -18,6 +14,7 @@
 @import 'layout/footer';
 
 @import 'components/user';
+@import 'components/modal';
 @import 'components/accordion';
 @import 'components/alert';
 @import 'components/buttons';

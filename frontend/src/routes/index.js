@@ -26,6 +26,7 @@ const router =  new Router({
       path: '/member/login',
       name: 'Login',
       component: () => import('@/views/user/Login.vue'),
+      redirect:'/member/login/findid',
       children: [
         {
           path: 'findid',

@@ -2,15 +2,21 @@
     <!-- <b-col class="col-setting col-center"> -->
       <div class="phoneNum-form  mb-3">
         <form @submit.prevent="sendCertificationNumber">
-          <label class="form-label fw-bold">휴대폰 번호  </label><input type="text" @focus="isAuthen" class="form-control form-control-lg" v-model="userPhoneNum" placeholder="휴대폰 번호를 입력하세요(-제외한 숫자만 입력)"/>
-          <button class="btn btn-normal btn-authentic" :disabled="!putPhoneNum">
-            휴대폰 인증</button>
+          <h4 class="mr-2 fw-bold">휴대폰 번호
+          <button class="btn btn-main btn-authentic" :disabled="!putPhoneNum">
+            인증</button>
+          </h4>
+          <input type="text" @focus="isAuthen" class="w-60 form-control form-control-lg" v-model="userPhoneNum" placeholder="휴대폰 번호를 입력하세요(-제외한 숫자만 입력)"/>
           <br />
         </form>
-        <div class="authentic-form" :style="{ display: authenDisplay }">
-          {{ resTimeData }} <input type="text" class="form-control form-control-lg authentic" v-model="authenNum" @keydown.enter="checkCertification"/>
-          <button class="btn btn-normal btn-authentic" @click="checkCertification" :disabled="!putAuthenNum">인증하기</button>
-          <p class="authentic-text" :style="{display:resetBtnDisplay}">인증 문자가 도착하지 않았다면? <b class="" @click="smsReset">다시보내기</b></p>
+        <div class="mt-3 authentic-form" :style="{ display: authenDisplay }">
+          <h4 class="fw-bold ">인증번호
+           <span class="text-danger h4 mx-2">{{ resTimeData }}</span>
+          <button class="btn btn-main btn-authentic" @click="checkCertification" :disabled="!putAuthenNum">인증</button>            
+          </h4>
+           <input type="text" class=" form-control form-control-lg authentic" v-model="authenNum" @keydown.enter="checkCertification"/>
+          
+          <p class="mt-3 authentic-text" :style="{display:resetBtnDisplay}">인증 문자가 도착하지 않았다면? <b class="text-danger" @click="smsReset">다시보내기</b></p>
         </div>
       </div>
     <!-- </b-col> -->
@@ -19,7 +25,7 @@
 <script>
 import { validatePhoneNum } from '@/utils/validations';
 import { phoneAuth } from '@/api/user';
-import store from '@/stores/index';
+// import store from '@/stores/index';
 import { mapState } from 'vuex';
 
 export default {
@@ -59,7 +65,7 @@ export default {
   },
   methods: {
     isAuthen(){
-      if(this.getIdChk == "") {
+      if(!this.getIdChk) {
         this.$emit('idChkFocus');
         if(!this.getIdChk && !this.getUserId){
           this.$swal({
@@ -82,7 +88,7 @@ export default {
         phoneNumber  : this.userPhoneNum
         })
       console.log('휴대폰인증',response)
-      // this.userId = response.data.u_email;
+      // this.userId = response.data.email;
       // this.confirmNum = response.data.auth_number;
       this.$swal({
         customClass: {
@@ -94,7 +100,7 @@ export default {
         showConfirmButton: false,
       })
       this.start();
-      this.authenDisplay = 'block';
+      this.authenDisplay = '';
     },
     checkCertification() {
       if (this.confirmNum === this.authenNum) {
@@ -110,9 +116,13 @@ export default {
         this.timeStop();
         this.resetBtnDisplay = 'none';
       })
-        store.commit('setEmail', this.userId);
-        store.commit('setPhonenum',this.userPhoneNum);
-        this.$emit('checkCertification',this.userPhoneNum)
+        const userData = {
+          email : this.userId,
+          phoneNumber :this.userPhoneNum
+        }
+        // store.commit('setEmail', this.userId);
+        // store.commit('setPhonenum',this.userPhoneNum);
+        this.$emit('checkCertification',userData)
       
       } else {
         this.$swal({

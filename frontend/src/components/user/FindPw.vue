@@ -2,29 +2,32 @@
     <b-container class="container-setting find-idpw block">
         <template v-if="showCertiForm">
           <div class="form-sort id-chk">
-              아이디: <input type="text" v-model="userId" ref="idChk" class="form-control form-control-lg find" placeholder="example@example.com" @keydown.enter="checkId"/>
-              <button class="btn btn-normal btn-authentic" @click="checkId" :disabled="!isUserIdValid">아이디 확인</button>
+              <h4 class="mr-3 fw-bold">아이디 
+                <button class="btn btn-main btn-authentic" @click="checkId" :disabled="userId && !isUserIdValid">아이디 확인</button>
+                </h4>  <input type="text" v-model="userId" ref="idChk" class="form-control form-control-lg find" placeholder="example@example.com" @keydown.enter="checkId"/>
+              
           </div>
-          <div> 
-            <phone-certification @idChkFocus="idChkFocus" @checkCertification="checkCertification" :getIdChk="authenId" :getUserId="userId"></phone-certification>
+          <div class="mt-3"> 
+            <PhoneCertification
+            @idChkFocus="idChkFocus" @checkCertification="checkCertification" :getIdChk="authenId" :getUserId="userId"/>
           </div>
-            <hr>
         </template>
 
           <b-col :style="{display:pwDisplay}">
           <div class="newPW-form">
             <form @submit.prevent="submitChangePw">
               <div class="newPW-form-move">
-                <div class="right-sort form-sort">
-                  <p class="form-sort-text">새 비밀번호:</p>
-                  <p class="form-sort-text">비밀번호 확인:</p>
+                <div class="right-sort form-sort mb-3">
+                  <h4  class="mr-3 fw-bold">새 비밀번호</h4>
+                  
+                  <input v-model="newPw" class="form-control form-control-lg find" type="password"/>
                 </div>
-                <div class="form-sort">
-                  <input v-model="newPw" class="form-control form-control-lg find" type="password"/> <br>
+                <div class="mb-3 form-sort">
+                  <h4  class="mr-3 fw-bold">비밀번호 확인</h4>
                   <input v-model="newPwConfirm" class="form-control form-control-lg find" type="password"/>
                 </div>
               </div>
-              <button class="btn btn-normal btn-middle newPWBtn-move" :disabled="isPasswordChangeValid">비밀번호 변경</button>
+              <button class="btn btn-main btn-middle newPWBtn-move" :disabled="newPw && newPwConfirm && isPasswordChangeValid">비밀번호 변경</button>
             </form>
           </div>
         </b-col>
@@ -42,7 +45,7 @@ export default {
     data() {
         return {
             userId: "",
-            authenId:"",
+            authenId:false,
             newPw: "",
             newPwConfirm: "",
             pwDisplay:'none',
@@ -83,8 +86,8 @@ export default {
     methods: {
         async checkId(){
           const response = await userIdChk(this.userId)
-          this.authenId = response.data;
-          if (!this.authenId) {
+          // id존재하면 false
+          if (response.data) {
             this.$swal({
               customClass: {
                 container: 'swal2-container'
@@ -96,6 +99,7 @@ export default {
             })
             this.userId = ""
           }else{
+            this.authenId=true
             this.$swal({
               customClass: {
                 container: 'swal2-container'
@@ -127,8 +131,8 @@ export default {
           },
         submitChangePw() {
           const userData = {
-            u_email:this.userId,
-            u_pw: this.newPw,
+            email:this.userId,
+            password: this.newPw,
           };
           changePw(userData).then(()=>{
             this.$swal({
@@ -157,6 +161,15 @@ export default {
         },
         idChkFocus(){
           this.$refs.idChk.focus();
+          this.$swal({
+            customClass: {
+              container: 'swal2-container'
+            },
+            text: "아이디 체크를 먼저 진행해주세요",
+            icon: 'info',
+            timer: 1300,
+            showConfirmButton: false,
+          })
         }
     },
 }

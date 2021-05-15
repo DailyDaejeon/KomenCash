@@ -38,6 +38,7 @@ const mutations = {
 
     },
     logout(state) {
+        console.log('여기들어왔음')
         state.token = ''
         state.isLogin = false
         state.isLoginError = false

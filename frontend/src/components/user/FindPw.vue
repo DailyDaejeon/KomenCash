@@ -3,13 +3,12 @@
         <template v-if="showCertiForm">
           <div class="form-sort id-chk">
               <h4 class="mr-3 fw-bold">아이디 
-                <button class="btn btn-main btn-authentic" @click="checkId" :disabled="userId && !isUserIdValid">아이디 확인</button>
-                </h4>  <input type="text" v-model="userId" ref="idChk" class="form-control form-control-lg find" placeholder="example@example.com" @keydown.enter="checkId"/>
-              
+                <button class="btn btn-main btn-authentic" @click="checkId" :disabled="userEmail && !isUserIdValid">아이디 확인</button>
+                </h4>  <input type="text" v-model="userEmail" ref="idChk" class="form-control form-control-lg find" placeholder="example@example.com" @keydown.enter="checkId"/>
           </div>
           <div class="mt-3"> 
             <PhoneCertification
-            @idChkFocus="idChkFocus" @checkCertification="checkCertification" :getIdChk="authenId" :getUserId="userId"/>
+            @idChkFocus="idChkFocus" @checkCertification="checkCertification" :getIdChk="userId" :getUserId="userEmail"/>
           </div>
         </template>
 
@@ -44,8 +43,8 @@ export default {
     components: { PhoneCertification },
     data() {
         return {
-            userId: "",
-            authenId:false,
+            userEmail: "",
+            userId:0,
             newPw: "",
             newPwConfirm: "",
             pwDisplay:'none',
@@ -54,10 +53,10 @@ export default {
     },
     computed : {
       isUserIdValid() {
-        if (!this.userId) {
+        if (!this.userEmail) {
           return true;
         }
-        return validateEmail(this.userId);
+        return validateEmail(this.userEmail);
       },
       isPasswordValid() {
         if (!this.newPw) {
@@ -85,9 +84,9 @@ export default {
     },
     methods: {
         async checkId(){
-          const response = await userIdChk(this.userId)
-          // id존재하면 false
-          if (response.data) {
+          const response = await userIdChk(this.userEmail)
+          // id존재하면 id값, 존재하지 않으면 -1
+          if (response.data === -1) {
             this.$swal({
               customClass: {
                 container: 'swal2-container'
@@ -97,9 +96,9 @@ export default {
               timer: 1300,
               showConfirmButton: false,
             })
-            this.userId = ""
+            this.userEmail = ""
           }else{
-            this.authenId=true
+            this.userId=response.data
             this.$swal({
               customClass: {
                 container: 'swal2-container'
@@ -113,7 +112,7 @@ export default {
           return;
         },
         idChkConfirm(){
-          if(!this.userId || !this.authenId) {
+          if(!this.userEmail || !this.userId) {
             this.$swal({
               customClass: {
                 container: 'swal2-container'
@@ -131,7 +130,7 @@ export default {
           },
         submitChangePw() {
           const userData = {
-            email:this.userId,
+            id:this.userId,
             password: this.newPw,
           };
           changePw(userData).then(()=>{
@@ -174,8 +173,3 @@ export default {
     },
 }
 </script>
-
-<style>
-
-</style>
-

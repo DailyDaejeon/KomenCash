@@ -13,37 +13,41 @@
 								<div class="m-sm-4">
 									<form @submit.prevent="submitSignup">
 										<div class="mb-3">
-											<label class="form-label">Name</label>
+											<h4 class="form-label">Name
+                        <span class="text-main icon-inline-block" v-show="!isUserNickNameEmpty && nickCheck">
+                      <!-- 체크표시 아이콘 -->
+                        <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
+                      </span>
+                      <!-- 중복 닉네임일 때 표출 -->
+                      <span class="text-danger icon-inline-block" v-show="!isUserNickNameEmpty && !nickCheck">
+                      <!-- 엑스표시 아이콘 -->
+                        <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
+                      </span>
+                      </h4>
+                      <!-- 중복 닉네임이 아닐 때 표출 -->
+                      
 											<input 
                       v-model="username"
                       class="form-control form-control-lg" type="text" name="name" placeholder="이름을 입력하세요." />
-                      <!-- 중복 닉네임이 아닐 때 표출 -->
-                      <p class="icon-inline-block" v-show="!isUserNickNameEmpty && nickCheck">
-                      <!-- 체크표시 아이콘 -->
-                        <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
-                      </p>
-                      <!-- 중복 닉네임일 때 표출 -->
-                      <p class="icon-inline-block" v-show="!isUserNickNameEmpty && !nickCheck">
-                      <!-- 엑스표시 아이콘 -->
-                        <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
-                      </p>
 										</div>
 										<div class="mb-3">
-											<label class="form-label">Email</label>
+											<h4 class="form-label">Email
+                        <!-- 중복 아이디가 아닐 때 표출 -->
+                      <span class="text-main icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && !idCheck">
+                      <!-- 체크표시 아이콘 -->
+                        <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
+                      </span>
+                      <!-- 중복 아이디일 때 표출 -->
+                      <span class="text-danger icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && idCheck">
+                      <!-- 엑스표시 아이콘 -->
+                        <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
+                      </span>
+                      </h4>
 											<input 
                       v-model="userId"
                       autocapitalize="off"
                       class="form-control form-control-lg" type="email" name="email" placeholder="moneyJam@moneyJam.com" />
-                      <!-- 중복 아이디가 아닐 때 표출 -->
-                      <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && idCheck">
-                      <!-- 체크표시 아이콘 -->
-                        <font-awesome-icon class="fw-icon fwCheck" :icon="['fas', 'check' ]" />
-                      </p>
-                      <!-- 중복 아이디일 때 표출 -->
-                      <p class="icon-inline-block" v-show="!isUserIdEmpty && isUserIdValid && !idCheck">
-                      <!-- 엑스표시 아이콘 -->
-                        <font-awesome-icon class="fw-icon fwTimes" :icon="['fas', 'times' ]" />
-                      </p>
+                      
 										</div>
                     <p class="warning-form warning-signup">
                       <span class="warning-text" v-if="!isUserIdValid">
@@ -268,6 +272,9 @@ export default {
       try{
         const response = await userIdChk(this.userId);
         this.idCheck = response.data;
+        if (this.idCheck === -1) {
+          this.idCheck = false
+        }
         // console.log('아이디체크?',response,this.idCheck)
       }catch(err) {
         console.log(err);
@@ -322,9 +329,8 @@ export default {
         this.isTerm.icon4 = 'far'
       }
     },
-    // 우리서버이용
     async submitSignup() {
-      if(!this.idCheck){
+      if(this.idCheck){
         this.$swal({
         text: "이미 사용중인 아이디입니다.",
         icon: 'info',

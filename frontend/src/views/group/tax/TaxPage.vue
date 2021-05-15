@@ -47,15 +47,15 @@ export default {
     modifyTax() {
       this.$swal({
         title: '소득세율 수정',
-        text: "소득세율을 수정해주세요!(%)",
+        text: "소득세율을 수정해주세요!(00%)",
         input: 'text',
-        inputPlaceholder: `${this.groupInfo.taxRate * 100} (%)`,
+        inputPlaceholder: `${this.groupInfo.taxRate } (%)`,
         showCancelButton: true,
       }).then((result) => {
         if (result.value) {
           const ans = {
             groupId: this.groupInfo.id,
-            taxRate: result.value/100
+            taxRate: result.value
           }
           modifyTaxRate(ans).then(() => {
             this.$swal({
@@ -69,7 +69,7 @@ export default {
             inflationRate: this.groupInfo.inflationRate,
             monetaryUnitName: this.groupInfo.monetaryUnitName,
             name: this.groupInfo.name,
-            taxRate: result.value/100,
+            taxRate: result.value
           }
           this.$store.commit('setGroupInfo',group)
           })

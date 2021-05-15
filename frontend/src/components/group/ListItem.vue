@@ -23,7 +23,6 @@
           </template>
           <template v-else-if=" listTypeRouteName ==='BankMemberDetail'">
             <router-link 
-            :id="data.nickname"
             active-class="active"
             class="list-group-item list-group-item-action" :to="{name:listTypeRouteName, params: { id:data.student_id, propsData:data,dataName:data.nickname}}"
             >

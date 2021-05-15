@@ -39,6 +39,7 @@
 
 <script>
 import { addTaxData } from '@/api/tax';
+
 export default {
   props :['taxHistoryList','groupInfo'],
   data() {
@@ -49,19 +50,24 @@ export default {
   },
   computed : {
     pageCount() {
-      let listLeng = this.taxHistoryList.length,
-          listSize = this.pageSize,
-          page = Math.floor(listLeng / listSize);
+      if (this.taxHistoryList.length) {
+        let listLeng = this.taxHistoryList.length,
+            listSize = this.pageSize,
+            page = Math.floor(listLeng / listSize);
 
-      if(listLeng % listSize > 0) page += 1;
+        if(listLeng % listSize > 0) page += 1;
 
-      return page;
+        return page;
+      }
+      return 0
     },
     paginatedData() {
-      const start = this.pageNum * this.pageSize,
-            end = start + this.pageSize;
-
-      return this.taxHistoryList.slice(start, end);
+      if (this.taxHistoryList.length) {
+        const start = this.pageNum * this.pageSize,
+              end = start + this.pageSize;
+        return this.taxHistoryList.slice(start, end);
+      } 
+      return []
     }
   },
   methods: {

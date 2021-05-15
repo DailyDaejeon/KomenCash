@@ -17,6 +17,11 @@ public class MyInfoController : MonoBehaviour
 
   void Start()
   {
+    setUserInfo();
+  }
+
+  public void setUserInfo()
+  {
     try
     {
       data = DataController.LoadUserInfo();

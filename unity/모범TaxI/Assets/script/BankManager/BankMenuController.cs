@@ -15,7 +15,15 @@ public class EarlyRedemptionData
 public class FinanProdRegistData
 {
   public string financialProductDetailId;
+  public int principal;
   public int studentId;
+}
+
+[System.Serializable]
+public class SalaryPaymentData
+{
+  public string id;
+  public string student_id;
 }
 
 public class BankMenuController : MonoBehaviour
@@ -52,7 +60,6 @@ public class BankMenuController : MonoBehaviour
   //생성해야하는 prefab
 
   //내 통장 내역 보기
-  [SerializeField]
   private GameObject noneAccountHistory;
   private GameObject noneAHClone;
   private RectTransform nAHRect;
@@ -62,7 +69,6 @@ public class BankMenuController : MonoBehaviour
   private List<GameObject> AHClone;
 
   //가입한 금융 상품 보기
-  [SerializeField]
   private GameObject noneMyFinanProd;
   private GameObject noneMyFPClone;
 
@@ -73,7 +79,6 @@ public class BankMenuController : MonoBehaviour
 
 
   //금융 상품 목록 보기
-  [SerializeField]
   private GameObject noneFinanProd;
   private GameObject noneFPClone;
 
@@ -81,6 +86,11 @@ public class BankMenuController : MonoBehaviour
   private List<GameObject> FPClone;
   private GameObject finanProdDetail;
   private GameObject FPDClone;
+
+  //그룹원 월급 관리
+  private GameObject noneSRClone;
+  private GameObject SRClone;
+  private List<GameObject> memberSalaryList;
 
 
   void Start()
@@ -142,7 +152,14 @@ public class BankMenuController : MonoBehaviour
       }
     }
     if (FPDClone != null) Destroy(FPDClone);
-
+    if (noneSRClone != null) Destroy(noneSRClone.gameObject);
+    if (memberSalaryList != null)
+    {
+      foreach (GameObject item in memberSalaryList)
+      {
+        Destroy(item);
+      }
+    }
     _isExit = true;
   }
 
@@ -168,8 +185,9 @@ public class BankMenuController : MonoBehaviour
         {
           //통장 내역이 없으면 noneAccountHistory 프리팹 생성해서 안내문 출력
           Transform parent = GameObject.Find("B1AHContent").GetComponent<Transform>();
-          noneAHClone = Instantiate(noneAccountHistory);
-          nAHRect = noneAHClone.GetComponent<RectTransform>();
+          noneAHClone = NoneContentMsgController.Show("통장 내역이 없습니다ㅠ.ㅠ").gameObject;
+          // noneAHClone = Instantiate(noneAccountHistory);
+          // nAHRect = noneAHClone.GetComponent<RectTransform>();
 
           noneAHClone.transform.SetParent(parent);
         }
@@ -223,7 +241,7 @@ public class BankMenuController : MonoBehaviour
           GContentForm.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
 
           Transform parent = GameObject.Find("B2Content").GetComponent<Transform>();
-          noneMyFPClone = Instantiate(noneMyFinanProd);
+          noneMyFPClone = NoneContentMsgController.Show("아직 가입한 금융 상품이 없습니다!").gameObject;
 
           RectTransform noneMyFPCRect = noneMyFPClone.GetComponent<RectTransform>();
           noneMyFPClone.transform.SetParent(parent);
@@ -387,7 +405,7 @@ public class BankMenuController : MonoBehaviour
           GContentForm.transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
 
           Transform parent = GameObject.Find("B3Content").GetComponent<Transform>();
-          noneFPClone = Instantiate(noneFinanProd);
+          noneFPClone = NoneContentMsgController.Show("우리반에는 아직 금융 상품이 없습니다ㅜ.ㅜ").gameObject;
 
           RectTransform noneFPCRect = noneFPClone.GetComponent<RectTransform>();
           noneFPClone.transform.SetParent(parent);
@@ -466,33 +484,23 @@ public class BankMenuController : MonoBehaviour
         FPDCRect.offsetMax = new Vector2(0, 0);
         FPDCRect.offsetMin = new Vector2(0, 0);
 
-        //!!!!내 등급에 맞는 예금 id 뽑아서 넘겨주기!!!!!!
-        GetStudentCreditGrade();
+        StartCoroutine(GetStudentCreditGrade());
         string myPDId = "";
 
         for (int i = 0; i < root["financialProductDetailResponse"].Count; i++)
         {
           JSONNode now = root["financialProductDetailResponse"][i];
-
-          if (now["creditGrade"].AsInt == sCreditGrade) myPDId = now["id"].Value;
+          if (now["creditGrade"].AsInt == sCreditGrade)
+          {
+            myPDId = now["id"].Value;
+          }
         }
 
-        //   if (myPDId.Equals(""))
-        //   {
-        //     for (int i = 0; i < root["financialProductDetailResponse"].Count - 1; i++)
-        //     {
-        //       JSONNode now = root["financialProductDetailResponse"][i];
-        //       JSONNode next = root["financialProductDetailResponse"][i + 1];
-
-        //       if (now["creditGrade"].AsInt < sCreditGrade && next["creditGrade"].AsInt > sCreditGrade) myPDId = now["id"].Value;
-        //       else if (i == root["financialProductDetailResponse"].Count - 2 && next["creditGrade"].AsInt < sCreditGrade) myPDId = next["id"].Value;
-        //     }
-        //   }
-
-        //   prodRegisterButton.onClick.AddListener(delegate ()
-        //   {
-        //     StartCoroutine(OnPressProdRegister(myPDId));
-        //   });
+        prodRegisterButton.onClick.AddListener(delegate ()
+        {
+          ShowInputPrincipalAlert(myPDId);
+          // StartCoroutine(OnPressProdRegister(myPDId));
+        });
       }
     }
   }
@@ -519,10 +527,11 @@ public class BankMenuController : MonoBehaviour
   }
 
   //5. 금융 상품 신청하기
-  private IEnumerator OnPressProdRegister(string pdId)
+  private IEnumerator OnPressProdRegister(string pdId, int principal)
   {
     FinanProdRegistData data = new FinanProdRegistData();
     data.financialProductDetailId = pdId;
+    data.principal = principal;
     data.studentId = sId;
 
     string json = JsonUtility.ToJson(data);
@@ -547,7 +556,7 @@ public class BankMenuController : MonoBehaviour
     }
   }
 
-  //6. 월급 확인 리스트
+  //7. 그룹원 월급 관리
   private IEnumerator GetSCList() //Salary Confirm List
   {
     using (UnityWebRequest request = UnityWebRequest.Get(baseURL + "ubank/salary-payment/" + gId))
@@ -561,6 +570,110 @@ public class BankMenuController : MonoBehaviour
       else
       {
         Debug.Log("response : " + request.downloadHandler.text);
+
+        string result = request.downloadHandler.text;
+        JSONNode root = JSON.Parse(result);
+
+        if (root.Count <= 0)
+        {
+          Transform parent = GameObject.Find("GroupMemberList").GetComponent<Transform>();
+          noneSRClone = NoneContentMsgController.Show("오늘은 월급날이 아닙니다!").gameObject;
+
+          noneSRClone.transform.SetParent(parent);
+        }
+        else
+        {
+          Transform parent = GameObject.Find("GroupMemberList").GetComponent<Transform>();
+          SRClone = Resources.Load("MemberSalaryItem") as GameObject;
+          for (int i = 0; i < root.Count; i++)
+          {
+            if (root[i]["accept"].Equals("before_confirm"))
+            {
+              GameObject clone = Instantiate(SRClone);
+              Text sId = clone.transform.GetChild(0).GetComponent<Text>();
+              Text sMemId = clone.transform.GetChild(1).GetComponent<Text>();
+              Text sMemName = clone.transform.GetChild(2).GetComponent<Text>();
+              Text sMemSalary = clone.transform.GetChild(3).GetComponent<Text>();
+              Text sMemTax = clone.transform.GetChild(4).GetComponent<Text>();
+              Button sendSalaryBtn = clone.transform.GetChild(5).GetComponent<Button>();
+
+              sId.text = root[i]["id"].Value;
+              sMemId.text = root[i]["student_id"].Value;
+              sMemName.text = root[i]["student_nickname"].Value;
+              sMemSalary.text = root[i]["salary"].Value;
+              sMemTax.text = root[i]["tax_loss"].Value;
+
+              clone.transform.SetParent(parent);
+
+              sendSalaryBtn.onClick.AddListener(delegate ()
+              {
+                int salary = DataController.GetBalance() + int.Parse(sMemSalary.text) - int.Parse(sMemTax.text);
+                DataController.setSalary(salary);
+                Text statBalance = GameObject.Find("balance").GetComponent<Text>();
+                statBalance.text = "통장 잔액 : " + salary;
+                StartCoroutine(OnPressSalaryPayment(sId.text, sMemId.text));
+                Destroy(clone);
+              });
+
+              memberSalaryList.Add(clone);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //8. 그룹원에게 월급 보내기
+  private IEnumerator OnPressSalaryPayment(string sId, string sMemId)
+  {
+    // SalaryPaymentData data = new SalaryPaymentData();
+    // data.id = sId;
+    // data.student_id = sMemId;
+
+    // string json = JsonUtility.ToJson(data);
+
+    using (UnityWebRequest request = UnityWebRequest.Delete(baseURL + "ubank/salary-payment/" + sMemId + "/" + sId))
+    {
+      yield return request.SendWebRequest();
+
+      if (request.error != null)
+      {
+        Debug.Log(request.error);
+      }
+      else
+      {
+        ShowSuccessSendSalaryAlert();
+      }
+    }
+  }
+
+  //9. 금융상품 가입/해지 요청 메서드
+  private IEnumerator GetFinanProdRequestList()
+  {
+    using (UnityWebRequest request = UnityWebRequest.Get(baseURL + "ubank/financial-product/request-list/" + gId))
+    {
+      yield return request.SendWebRequest();
+
+      if (request.error != null)
+      {
+        Debug.Log(request.error);
+      }
+      else
+      {
+        string result = request.downloadHandler.text;
+        JSONNode root = JSON.Parse(result);
+
+        if (root.Count <= 0)
+        {
+          // Transform parent = GameObject.Find("GroupMemberList").GetComponent<Transform>();
+          // noneSRClone = NoneContentMsgController.Show("오늘은 월급날이 아닙니다!").gameObject;
+
+          // noneSRClone.transform.SetParent(parent);
+        }
+        else
+        {
+
+        }
       }
     }
   }
@@ -593,6 +706,15 @@ public class BankMenuController : MonoBehaviour
       }
     }
     if (FPDClone != null) Destroy(FPDClone);
+    if (noneSRClone != null) Destroy(noneSRClone.gameObject);
+    if (memberSalaryList != null)
+    {
+      foreach (GameObject item in memberSalaryList)
+      {
+        Destroy(item);
+      }
+    }
+
     ObjectActive("GenericMember", -1);
   }
 
@@ -623,6 +745,14 @@ public class BankMenuController : MonoBehaviour
       }
     }
     if (FPDClone != null) Destroy(FPDClone);
+    if (noneSRClone != null) Destroy(noneSRClone.gameObject);
+    if (memberSalaryList != null)
+    {
+      foreach (GameObject item in memberSalaryList)
+      {
+        Destroy(item);
+      }
+    }
 
     ObjectActive("JobMember", -1);
   }
@@ -650,6 +780,7 @@ public class BankMenuController : MonoBehaviour
 
   public void OnPressSalarySetting()
   {
+    memberSalaryList = new List<GameObject>();
     StartCoroutine(GetSCList());
     ObjectActive("JobContentForms", 0);
   }
@@ -729,6 +860,14 @@ public class BankMenuController : MonoBehaviour
     AlertViewController.Show(title, message);
   }
 
+  public void ShowSuccessSendSalaryAlert()
+  {
+    string title = "";
+    string message = "월급이 지급 되었습니다!";
+
+    AlertViewController.Show(title, message);
+  }
+
   public void ShowFailElaryRedAlert()
   {
     string title = "";
@@ -737,11 +876,38 @@ public class BankMenuController : MonoBehaviour
     AlertViewController.Show(title, message);
   }
 
+  public void ShowInputPrincipalAlert(string myPDId)
+  {
+    string title = "입금 금액 입력하기";
+    string message = "예금 상품에 넣을 금액을 입력해주세요!";
+
+    AlertViewController.Show(title, message, new AlertViewOptions
+    {
+      cancelButtonTitle = "취소하기",
+      cancelButtonDelegate = () => { },
+      okButtonTitle = "신청하기",
+      okButtonDelegate = () =>
+      {
+        Text pText = GameObject.Find("AlterViewInputFieldText").GetComponent<Text>();
+
+        int principal = int.Parse(pText.text);
+        Debug.Log("예금 금액 : " + principal);
+        StartCoroutine(OnPressProdRegister(myPDId, principal));
+      }
+    }, new InputFormOptions
+    {
+      inputFormTitle = "예금 금액을 숫자로만 입력하세요.(ex. 300)"
+    });
+  }
   public void ShowSuccessProdRegistAlert()
   {
     string title = "";
     string message = "상품 가입 신청이 완료되었습니다!";
 
     AlertViewController.Show(title, message);
+  }
+
+  public void test()
+  {
   }
 }

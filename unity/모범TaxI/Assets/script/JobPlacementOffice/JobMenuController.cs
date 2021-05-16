@@ -377,8 +377,6 @@ public class JobMenuController : MonoBehaviour
     }
   }
 
-  //4. 아르바이트 신청하기 (없음)
-
   //버튼 클릭하면 창 전환하는 메서드
   public void OnPressGenericButton()
   {

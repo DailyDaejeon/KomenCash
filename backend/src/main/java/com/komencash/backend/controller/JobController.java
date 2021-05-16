@@ -72,7 +72,11 @@ public class JobController {
     public boolean updateJobAddRequestAccept(@RequestBody JobAddReqAcceptRequestDto jobAddReqAcceptRequestDto) {
         return jobService.updateJobAddRequestAccept(jobAddReqAcceptRequestDto);
     }
-
+    @ApiOperation(value = "학생 직업 변경", notes = "직업 아이디, 학생 아이디로 학생 직업 변경")
+    @PutMapping("/job-change")
+    public boolean updateJobAddRequestAccept(@RequestBody StudentJobUpdateDto studentJobUpdateDto) {
+        return jobService.updateStudentJob(studentJobUpdateDto);
+    }
 
     @ApiOperation(value = "미확인 이력서 리스트 조회", notes = "그룹 아이디를 받아 미확인된 해당 그룹의 이력서 리스트를 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)

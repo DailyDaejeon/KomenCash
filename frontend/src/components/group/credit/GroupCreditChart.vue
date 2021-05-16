@@ -14,33 +14,91 @@
         </div>
       </div>
     </div>
+    <div class="card">
+    <div class="card-body">
+      <div class="flex-fill">
+        <h5 class="card-title mb-0">Group Member Credit Info</h5>
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <table class="table table-hover text-center">
+                <tr>
+                  <th>No.</th>
+                  <th>신용등급</th>
+                  <th>신용점수</th>
+                  <th>닉네임</th>
+                </tr>
+                <tr v-for="(student, index) in memberData" :key="index">
+                  <td>{{index+1}}</td>
+                  <td>{{student.grade}}</td>
+                  <td>{{priceToString(student.creditPoint)}}</td>
+                  <td>{{student.studentNickname}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </main>
 </template>
 
 <script>
+import { fetchMemeberCreditList } from '@/api/credit'
+import { mapState } from 'vuex'
 
 export default {
-  props:['propsdata'],
   data() {
     return {
+      creditList : {
+        "1":[],
+        "2":[],
+        "3":[],
+        "4":[],
+        "5":[],
+        "6":[],
+        "7":[],
+        "8":[],
+        "9":[],
+        "10":[],
+      },
       mainColor :"#e7ab3c",
       chartData:[],
+      memberData:[],
       barChart:''
     }
   },
   created() {
-    this.fetchData()
-
+    this.fetchCredit()
   },
   mounted() {
     if (this.propsdata.length) {
     this.fetchChart()
     }
   },
+  computed: {
+    ...mapState({
+      groupInfo: state=>state.group.groupInfo
+    })
+  },
   methods: {
-    fetchData() {
-      this.chartData = this.propsdata
-      console.log(this.chartData)
+    async fetchCredit() {
+      const res = await fetchMemeberCreditList(this.groupInfo.id)
+      this.memberData = res.data
+
+      this.memberData.forEach(element => {
+        this.creditList[String(element.grade)].push(element)
+      });
+      for (let i = 1; i < 11; i++) {
+        const element = this.creditList[String(i)].length;
+        this.chartData.push(element)
+        
+      }
+      this.fetchChart()
+    },
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
     },
     fetchChart() {
       const ctx = this.$refs.barChart.getContext('2d');
@@ -69,7 +127,7 @@ export default {
           borderColor: this.mainColor,
           hoverBackgroundColor: this.mainColor,
           hoverBorderColor: this.mainColor,
-          data: this.propsdata,
+          data: this.chartData,
           barPercentage: .75,
           categoryPercentage: .5
         }]

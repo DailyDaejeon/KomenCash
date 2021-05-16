@@ -17,7 +17,7 @@
       <h3>급여</h3>
     </div>
     <div class="col-6">
-      <span class="h3" v-if="!mActive">{{jobData.salary}}</span>
+      <span class="h3" v-if="!mActive">{{priceToString(jobData.salary)}}</span>
       <span class="h3" v-else>
         <input class="border border-main" type="text" v-model="jobData.salary">
       </span>
@@ -37,7 +37,7 @@
     </div>
     <div class="col-6">
       <span class="h3" v-if="!mActive">
-        {{jobData.personnel}}
+        {{priceToString(jobData.personnel)}}
       </span>
       <span class="h3" v-else>
         <input class="border border-main" type="text" v-model="jobData.personnel">
@@ -181,6 +181,9 @@ export default {
     }
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     nextPage() {
       this.pageNum += 1;
     },

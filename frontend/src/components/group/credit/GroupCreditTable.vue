@@ -16,7 +16,7 @@
                 <tr v-for="(student, index) in studentList" :key="index">
                   <td>{{index+1}}</td>
                   <td>{{student.grade}}</td>
-                  <td>{{student.creditPoint}}</td>
+                  <td>{{priceToString(student.creditPoint)}}</td>
                   <td>{{student.studentNickname}}</td>
                 </tr>
               </table>
@@ -36,6 +36,11 @@ export default {
       // studentList:[],
     }
   },
+  methods:{
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
+  }
 }
 </script>
 

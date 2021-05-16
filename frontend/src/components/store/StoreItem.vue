@@ -5,7 +5,7 @@
       <h3 v-if="modify" class="card-title mb-4">{{product.name}}</h3>
       <input v-else v-model="productName" class="h3 border border-main card-title mb-4" type="text" :placeholder="product.name">
 
-      <h3 v-if="modify" class="mt-1 mb-3">{{product.price}} {{moneyUnit}}</h3>
+      <h3 v-if="modify" class="mt-1 mb-3">{{priceToString(product.price)}} {{moneyUnit}}</h3>
       <input v-else v-model="productPrice" class="h3 mt-1 mb-3 border border-main" type="text" :placeholder="product.price">
 
       <div class="mb-1">
@@ -41,6 +41,9 @@ export default {
   })
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     modifyStoreItem() {
       this.modify = false;
     },

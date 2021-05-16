@@ -17,7 +17,7 @@
           <td>{{index+1+10*(pageNum)}}</td>
           <td>{{student.policeNickname}}</td>
           <td>{{student.studentNickname}}</td>
-          <td>{{student.fine}}</td>
+          <td>{{priceToString(student.fine)}}</td>
           <td><button class="btn btn-main" @click="alertDetail(student)">자세히</button></td>
           </template>
         </tr>
@@ -69,6 +69,9 @@ export default {
     }
   },
   methods : {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     nextPage() {
       this.pageNum += 1;
     },

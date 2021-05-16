@@ -23,9 +23,9 @@
           <template v-else>
           <td class="text-center"><span class="badge bg-danger">출금</span></td>
           </template>
-          <td class="text-center">{{history.balanceChange}}</td>
+          <td class="text-center">{{priceToString(history.balanceChange)}}</td>
           <td class="text-center">{{history.createdDate.slice(0,10)}}</td>
-          <td class="text-center">{{history.balance}}</td>
+          <td class="text-center">{{priceToString(history.balance)}}</td>
         </tr>
       </tbody>
     </table>
@@ -71,6 +71,9 @@ export default {
     }
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     nextPage() {
       this.pageNum += 1;
     },

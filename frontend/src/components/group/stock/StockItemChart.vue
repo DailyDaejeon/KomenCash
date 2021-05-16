@@ -13,11 +13,11 @@
       <p class="h2">오늘의 HINT : {{stockHint}}</p>
       </div>
       <div class="text-center d-flex mt-1 mb-3 align-items-baseline">
-        <span :class="arrowColor" class="display-3">{{nowMoney}} </span>
+        <span :class="arrowColor" class="display-3">{{priceToString(nowMoney)}} </span>
         <div>
         <span class="h1 mr-3" :class="arrowColor"> <i :class="arrow"></i></span>
-        <span :class="arrowColor" class="h1 mr-3">{{changeMoney}}</span>
-        <span :class="arrowColor" class="h1">({{money}}%)</span>
+        <span :class="arrowColor" class="h1 mr-3">{{priceToString(changeMoney)}}</span>
+        <span :class="arrowColor" class="h1">({{priceToString(money)}}%)</span>
         </div>
       </div>
       </div>
@@ -74,6 +74,9 @@ export default {
     })
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     async fetchStockMoney() {
       const res = await fetchStockHistory(this.stockData.id)
       res.data.forEach(element => {

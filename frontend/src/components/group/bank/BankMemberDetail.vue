@@ -21,8 +21,8 @@
           <td>{{history.content}}</td>
           <td v-if="history.balanceChange >= 0"><span class="badge bg-success">입금</span></td>
           <td v-else><span class="badge bg-danger">출금</span></td>
-          <td>{{history.balanceChange}}</td>
-          <td>{{history.balance}}</td>
+          <td>{{priceToString(history.balanceChange)}}</td>
+          <td>{{priceToString(history.balance)}}</td>
         </tr>
       </tbody>
     </table>
@@ -69,6 +69,9 @@ export default {
     }
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     alertSend() {
       this.$swal({
         title:`${this.propsData.nickname}님에게 입금`,

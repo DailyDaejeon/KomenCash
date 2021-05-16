@@ -19,7 +19,7 @@
           <div class="card" @click="goDetail(group)">
             <div class="card-body" style="padding-top:60px;padding-bottom:60px;text-align:center">
               <h3 class="mt-1 mb-3">{{group.group.name}}</h3>
-              <span class="text-danger">{{group.studentCnt}}명</span><br>
+              <span class="text-danger">{{priceToString(group.studentCnt)}}명</span><br>
             </div>
           </div>
         </div>
@@ -46,6 +46,9 @@ import { saveGroup } from '@/api/group'
 export default {
   props:['userInfo', 'groupList'],
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     goDetail(group) {
       this.$store.commit('setGroupInfo',group.group)
       this.$store.commit('setGroupMemberCnt',group)

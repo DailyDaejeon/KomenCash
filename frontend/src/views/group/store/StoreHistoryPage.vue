@@ -17,7 +17,7 @@
           <td>{{index+1+10*(pageNum)}}</td>
           <td>{{history.name}}</td>
           <td>{{history.studentNickname}}</td>
-          <td >{{history.price}}</td>
+          <td >{{priceToString(history.price)}}</td>
           <td>{{history.perchaseDate.slice(0,10)}}</td>
         </tr>
       </tbody>
@@ -67,6 +67,9 @@ export default {
     }
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     nextPage() {
       this.pageNum += 1;
     },

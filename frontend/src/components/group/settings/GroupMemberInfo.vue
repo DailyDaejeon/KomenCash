@@ -31,7 +31,7 @@
       </div>
       <div class="col-6">
         <span class="h3">
-          {{memberMoney}} {{groupInfo.monetaryUnitName}}
+          {{priceToString(memberMoney)}} {{groupInfo.monetaryUnitName}}
         </span>
       </div>
       <div class="col-6">
@@ -39,7 +39,7 @@
       </div>
       <div class="col-6">
         <span class="h3" >
-          {{memberCredit.creditGrade}}등급 (신용점수: {{memberCredit.point}})
+          {{memberCredit.creditGrade}}등급 (신용점수: {{priceToString(memberCredit.point)}})
         </span>
       </div>
       <div class="col-6">
@@ -93,7 +93,7 @@
               <td>{{product.financialProductName}}</td>
               <td>{{product.startDate.slice(0,10)}}</td>
               <td>{{product.endDate.slice(0,10)}}</td>
-              <td>{{product.principal}}</td>
+              <td>{{priceToString(product.principal)}}</td>
             </tr>
           </tbody>
         </table>
@@ -119,9 +119,9 @@
           <tbody>
             <tr v-for="(product,index) in memberStock" :key="index">
               <td>{{product.stockName}}</td>
-              <td>{{memberStockDetail[index].curPrice}}</td>
-              <td>{{memberStockDetail[index].avgDealPrice}}</td>
-              <td>{{product.amount}}</td>
+              <td>{{priceToString(memberStockDetail[index].curPrice)}}</td>
+              <td>{{priceToString(memberStockDetail[index].avgDealPrice)}}</td>
+              <td>{{priceToString(product.amount)}}</td>
               <td>
                 <span
                 class="badge"
@@ -155,7 +155,7 @@
             <tr v-for="(caseItem,index) in memberCaseList" :key="index">
               <td>{{caseItem.policeNickname}}</td>
               <td>{{caseItem.content}}</td>
-              <td>{{product.fine}}</td>
+              <td>{{priceToString(product.fine)}}</td>
               <td>{{product.accept}}</td>
             </tr>
           </tbody>
@@ -179,7 +179,7 @@
           <tbody>
             <tr v-for="(shop,index) in memberShopList" :key="index">
               <td>{{shop.name}}</td>
-              <td>{{shop.price}} {{groupInfo.monetaryUnitName}}</td>
+              <td>{{priceToString(shop.price)}} {{groupInfo.monetaryUnitName}}</td>
               <td>{{shop.perchaseDate.slice(0,10)}}</td>
             </tr>
           </tbody>
@@ -237,6 +237,9 @@ export default {
     })
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     async fetchInfo(){
       const res = await fetchGroupMemberDetail(this.id)
       const remain = await fetchMemberBalance(this.id)

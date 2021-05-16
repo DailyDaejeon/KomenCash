@@ -45,7 +45,6 @@ export default {
     async fetchGroupCredit() {
       const credit = await fetchCreditList()
       this.creditList = credit.data
-      console.log(this.creditList,'??')
     }
   }
 };

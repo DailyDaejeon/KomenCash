@@ -18,7 +18,7 @@
           <td>{{index+1+10*(pageNum)}}</td>
           <td>{{job.name}}</td>
           <td>{{job.role}}</td>
-          <td>{{job.salary}}</td>
+          <td>{{priceToString(job.salary)}}</td>
           <td v-if="job.qualification"
           :class="{'d-none' :JobType ==='PartTime'}"
           >{{job.qualification}}</td>
@@ -80,6 +80,9 @@ export default {
     }
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     nextPage() {
       this.pageNum += 1;
     },

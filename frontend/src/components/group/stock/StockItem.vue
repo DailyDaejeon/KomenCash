@@ -3,11 +3,11 @@
     <div class="card-body">
       <h5 class="card-title mb-4 text-center">{{stockData.name}}</h5>
       <div class="text-center  mt-1 mb-3">
-        <span :class="arrowColor" class="h1">{{stockData.price}} </span>
+        <span :class="arrowColor" class="h1">{{priceToString(stockData.price)}} </span>
         <div class="mt-3 d-flex justify-content-center">
         <span class="h2 mr-3" :class="arrowColor"> <i :class="arrow"></i></span>
-        <span :class="arrowColor" class="h4 mr-3">{{changeMoney}}</span>
-        <span :class="arrowColor" class="h4">({{money}}%)</span>
+        <span :class="arrowColor" class="h4 mr-3">{{priceToString(changeMoney)}}</span>
+        <span :class="arrowColor" class="h4">({{priceToString(money)}}%)</span>
         </div>
       </div>
     </div>
@@ -32,6 +32,9 @@ export default {
     this.fetchMoney()
   },
   methods : {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     fetchMoney() {
       this.changeMoney = Math.abs(this.stockData.price - this.stockData.prePrice)
       this.money = (((this.stockData.price - this.stockData.prePrice)/this.stockData.prePrice)*100).toFixed(2)

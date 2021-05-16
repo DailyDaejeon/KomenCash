@@ -61,9 +61,29 @@ public class PlayerController : MonoBehaviour
     eDown = Input.GetButtonDown("Interation");
   }
 
+  private void GetEnterState()
+  {
+    if (!eDown && nearObject != null) //콜라이더 영역에 들어가기만 하고 아직 e버튼은 안눌렀을 때
+    {
+      _typing = false;
+      isStop = false;
+    }
+    else if (eDown && nearObject != null) //콜라이더 영역에 들어가서 e버튼 눌렀을 때
+    {
+      _typing = true;
+      isStop = true;
+    }
+    else if (nearObject == null) //콜라이더 영역에 안들어갔을 떄
+    {
+      _typing = false;
+      isStop = false;
+    }
+  }
+
   private void GetMenuState()
   {
     BankMenuController bank = GameObject.Find("SM_Bld_CityHall_01").GetComponent<BankMenuController>();
+    JobMenuController job = GameObject.Find("SM_Bld_OfficeOld_Large_01").GetComponent<JobMenuController>();
     if (bank.GetExitState())
     {
       _typing = false;
@@ -169,28 +189,39 @@ public class PlayerController : MonoBehaviour
       {
         BankMenuController bank = nearObject.GetComponent<BankMenuController>();
         bank.Enter(this);
-        _typing = true;
       }
-      if (nearObject.tag == "Job") { }
+      else if (nearObject.tag == "Job")
+      {
+        JobMenuController job = nearObject.GetComponent<JobMenuController>();
+        job.Enter(this);
+        // _typing = true;
+        StartCoroutine(JobMenuController.GetGenericJobList());
+      }
+      _typing = true;
     }
   }
 
   private void OnTriggerEnter(Collider other)
   {
+    Transform position = null;
     if (other.tag == "Bank")
     {
       nearObject = other.gameObject;
+      position = GameObject.Find("BankBuilding").GetComponent<Transform>();
+      buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
     }
-
-    Transform position = GameObject.Find("BankBuilding").GetComponent<Transform>();
-    buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
-
+    else if (other.tag == "Job")
+    {
+      nearObject = other.gameObject;
+      position = GameObject.Find("JobPlaceBuilding").GetComponent<Transform>();
+      buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
+    }
     isStop = true;
   }
 
   private void OnTriggerStay(Collider other)
   {
-    if (other.tag == "Bank")
+    if (other.tag == "Bank" || other.tag == "Job")
     {
       nearObject = other.gameObject;
     }
@@ -204,6 +235,14 @@ public class PlayerController : MonoBehaviour
       bank.Exit();
       // MenuController bankMenu = nearObject.GetComponent<MenuController>();
       // bankMenu.Close();
+      Destroy(buildingPSClone);
+      nearObject = null;
+      isStop = false;
+    }
+    else if (other.tag == "Job")
+    {
+      JobMenuController job = nearObject.GetComponent<JobMenuController>();
+      job.Exit();
       Destroy(buildingPSClone);
       nearObject = null;
       isStop = false;

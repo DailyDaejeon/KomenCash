@@ -480,7 +480,6 @@ public class BankMenuController : MonoBehaviour
 
         FPDClone.transform.SetParent(parent);
         RectTransform FPDCRect = FPDClone.GetComponent<RectTransform>();
-        FPDClone.transform.SetParent(parent);
         FPDCRect.offsetMax = new Vector2(0, 0);
         FPDCRect.offsetMin = new Vector2(0, 0);
 
@@ -905,9 +904,5 @@ public class BankMenuController : MonoBehaviour
     string message = "상품 가입 신청이 완료되었습니다!";
 
     AlertViewController.Show(title, message);
-  }
-
-  public void test()
-  {
   }
 }

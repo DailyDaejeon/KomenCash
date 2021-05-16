@@ -1,10 +1,7 @@
 package com.komencash.backend.service;
 
 import com.komencash.backend.dto.job.*;
-import com.komencash.backend.dto.request.JobAddReqFindResponseDto;
-import com.komencash.backend.dto.request.JobAddReqAcceptRequestDto;
-import com.komencash.backend.dto.request.ResumeFindDetailResponseDto;
-import com.komencash.backend.dto.request.ResumeSelectResponse;
+import com.komencash.backend.dto.request.*;
 import com.komencash.backend.dto.student.StudentUpdateJobRequest;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
@@ -105,6 +102,16 @@ public class JobService {
         }
 
         jobRepository.delete(job);
+        return true;
+    }
+
+
+    public boolean addJobAddReq(JobAddReqAddRequestDto jobAddReqAddRequestDto){
+        Student student = studentRepository.findById(jobAddReqAddRequestDto.getStudentId()).orElse(null);
+        if(student == null) return false;
+
+        JobAddRequestHistory jobAddRequestHistory = new JobAddRequestHistory(jobAddReqAddRequestDto, student);
+        jobAddRequestHistoryRepository.save(jobAddRequestHistory);
         return true;
     }
 

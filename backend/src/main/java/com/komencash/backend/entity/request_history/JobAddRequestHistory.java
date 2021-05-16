@@ -1,5 +1,6 @@
 package com.komencash.backend.entity.request_history;
 
+import com.komencash.backend.dto.request.JobAddReqAddRequestDto;
 import com.komencash.backend.entity.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +36,12 @@ public class JobAddRequestHistory {
     @JoinColumn(name = "student_id")
     private Student student;
 
+    public JobAddRequestHistory(JobAddReqAddRequestDto jobAddReqAddRequestDto, Student student){
+        this.name = jobAddReqAddRequestDto.getJobName();
+        this.content = jobAddReqAddRequestDto.getContent();
+        this.accept = Accept.before_confirm;
+        this.student = student;
+    }
 
     public void updateJobAddRequestAccept(Accept accept){
         this.accept = accept;

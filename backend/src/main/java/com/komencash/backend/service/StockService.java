@@ -124,6 +124,15 @@ public class StockService {
         bankService.addAccountHistory(new AccountHistoryAddUpdateRequestDto(student.getId(), -(price * amount), content));
 
         StockDealHistory stockDealHistory = new StockDealHistory(stockDealHistoryAddRequestDto, stock, student);
+        // 내가 팔려고하는 개수가 내가 갖고 있는 것보다 많을 때
+        if(stockDealHistory.getAmount() < 0){
+            return false;
+        }
+        // 다 팔았을 때
+        else if(stockDealHistory.getAmount() == 0){
+            stockDealHistoryRepository.delete(stockDealHistory);
+            return true;
+        }
         stockDealHistoryRepository.save(stockDealHistory);
         return true;
     }

@@ -251,7 +251,7 @@ const router =  new Router({
       ]
     },
     {
-      path: '/group/member/',
+      path: '/group/member',
       name: 'GroupMemberDetail',
       meta: { auth: true },
       component: () => import('@/views/group/GroupMemberDetail.vue'),

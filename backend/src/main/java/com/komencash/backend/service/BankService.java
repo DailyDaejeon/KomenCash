@@ -129,7 +129,7 @@ public class BankService {
 
 
     public boolean addAccountHistory(AccountHistoryAddUpdateRequestDto accountHistoryAddUpdateRequestDto) {
-        List<AccountHistory> accountHistories = accountHistoryRepository.findAll();
+        List<AccountHistory> accountHistories = accountHistoryRepository.findByStudent_Id(accountHistoryAddUpdateRequestDto.getStudentId());
         int preBalance = accountHistories.size() == 0 ? 0 : accountHistories.get(accountHistories.size() - 1).getBalance();
 
         int balanceChange = accountHistoryAddUpdateRequestDto.getBalanceChange();

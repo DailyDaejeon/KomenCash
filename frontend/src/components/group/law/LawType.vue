@@ -1,10 +1,10 @@
 <template>
   <div class="law-type">
     <div class="law-content">
-      <!-- {{lawData}} -->
       <div v-for="(law,index) in paginatedData" :key="index">
-        <!-- 수정 폼을 여기에 만들어야 하나...? -->
-        <p class="law-item-title">{{lawType}} 제 {{law.article}}조 {{law.paragraph}}항</p>
+        <p class="h5 fw-bold law-item-title">제 {{law.article}}조 {{law.paragraph}}항
+          <button @click="alertModi(law)" class="text-main"><i class="fas fa-edit"></i></button>
+        </p>
         <p class="law-item-content">{{law.content}}</p>
       </div>
       <div  v-if="paginatedData.length" class="btn-cover text-center">
@@ -17,11 +17,15 @@
 </template>
 
 <script>
+import { modifyLawItem } from '@/api/law';
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
       pageSize:10,
       pageNum:0,
+      mActive:false
     }
   },
   props: ['lawType','lawData'],
@@ -29,6 +33,9 @@ export default {
     this.fetchData()
   },
   computed : {
+    ...mapState({
+      groupInfo:state => state.group.groupInfo
+    }),
     pageCount() {
       if (this.lawData.length) {
       let listLeng = this.lawData.length,
@@ -58,7 +65,45 @@ export default {
     prevPage() {
       this.pageNum -= 1;
     },
-
+    alertModi(law) {
+      this.$swal({
+        title: `${this.lawType} 법률 수정`,
+        html:
+        '<div id="swal2-content" class="swal2-html-container" style="display: block;">수정할 내용만 입력 해주세요.</div>'+'<input id="swal-input-lawtype" class="swal2-input" type="text" placeholder="'+law.lawType+'">'
+        +'<input id="swal-input-content" class="swal2-input" type="text" placeholder="'+law.content+'">'+
+        '<input id="swal-input-article" class="swal2-input-custom" type="number" min=0 placeholder="'+law.article+'조">'+'<input id="swal-input-paragraph" class="swal2-input-custom" type="number" min=0 placeholder="'+law.paragraph+'항">',
+        focusConfirm: false,
+        preConfirm: () => {
+          return [
+            document.getElementById('swal-input-lawtype').value,
+            document.getElementById('swal-input-content').value,
+            document.getElementById('swal-input-article').value,
+            document.getElementById('swal-input-paragraph').value,
+          ]
+        },
+        confirmButtonText: '수정',
+        showCancelButton: true,
+      }).then((res)=>{
+        if (res.isConfirmed) {
+          const modiData = {
+            article: res.value[2] === "" ? law.article:res.value[2],
+            content: res.value[1] === "" ? law.content:res.value[1],
+            groupId: this.groupInfo.id,
+            id: law.id,
+            lawType: res.value[0] === "" ? law.lawType:res.value[0],
+            paragraph: res.value[3] === "" ? law.paragraph:res.value[3]
+          }
+          console.log(modiData,'수정할 법률')
+          modifyLawItem(modiData).then(() => {
+            this.$swal({
+              title:'법률 수정이 완료되었습니다.',
+              icon:'success',
+              timer:1500
+            })
+          })
+        } 
+      })
+    }
   },
 }
 </script>

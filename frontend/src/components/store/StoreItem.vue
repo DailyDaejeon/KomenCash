@@ -1,70 +1,27 @@
 <template>
-  <div>
-    <div class="route" id="buy"></div>
-<section class="giftcard">
+<section class="giftcard pointer">
   <section class="giftcard-cover">
     <i class="fas fa-gift"></i>
   </section>
-  <div class="giftcard-content">
-    <h2>Your order will be shipped to:</h2>
-    <address>
-      <h3>David Khourshid</h3>    
-      <a href="https://www.github.com/davidkpiano" target="_blank">www.github.com/davidkpiano</a>    
-      <a href="https://www.twitter.com/davidkpiano" target="_blank">www.twitter.com/davidkpiano</a>    
-    </address>
-    <div class="subtext">Available to ship: 1 business day</div>    
-  </div>
   <footer class="giftcard-footer">
     <div class="giftcard-text">
-      <h1>Gift Card</h1>
-      <h2>$25.00</h2>
+      <template v-if="modify">
+      <h1>{{product.name}}</h1>
+      <h2>{{priceToString(product.price)}} {{moneyUnit}} <button
+      @click="modifyStoreItem" class="text-main"><i class="fas fa-pencil-alt"></i></button></h2>
+      </template>
+      <template v-else>
+        <input v-model="productName" class="border border-main" type="text" :placeholder="product.name">
+        <button class="text-main mr-3" @click="completeModify(product)"><i class="fas fa-pencil-alt"></i>수정완료</button>
+        <input v-model="productPrice" class="border border-main" type="text" :placeholder="product.price">
+        <button 
+        @click="deleteItem(product.id)"
+        class="text-danger"><i class="fas fa-trash-alt"></i>삭제</button>
+      </template>
     </div>
-    <div class="ribbon">
-      <div class="giftwrap">
-        <a href="#buy" class="button">Buy</a>
-      </div>
-      <div class="bow">
-        <i class="fa fa-bookmark"></i>
-        <i class="fa fa-bookmark"></i>
-      </div>
-    </div>
-    <div class="giftcard-info">
-      <div>
-        <input type="text" name="" id="" placeholder="Enter a gift message" />
-      </div>
-      <div>
-        <a href="#" class="button secondary">Checkout</a>
-      </div>
-    </div>
+    
   </footer>
-</section>
-
-  </div>
-  <!-- <div class="text-center card cursor-pointer">
-    <div class="card-body">
-
-      <h3 v-if="modify" class="card-title mb-4">{{product.name}} <span  class="text-primary mr-3" @click="modifyStoreItem"><i class="fas fa-pencil-alt"></i></span>
-      <span 
-        @click="deleteItem(product.id)"
-        class="text-danger"><i class="fas fa-trash-alt"></i></span>
-      </h3>
-      <input v-else v-model="productName" class="h3 border border-main card-title mb-4" type="text" :placeholder="product.name">
-
-      <span class="mb-1">
-        <span v-if="modify" class="text-primary mr-3" @click="modifyStoreItem"><i class="fas fa-pencil-alt"></i></span>
-        <span v-else class="text-primary mr-3" @click="completeModify(product)"><i class="fas fa-pencil-alt"></i>수정완료</span>
-        
-        <span 
-        @click="deleteItem(product.id)"
-        class="text-danger"><i class="fas fa-trash-alt"></i></span>
-      </span>
-
-      <h3 v-if="modify" class="mt-1 mb-3">{{priceToString(product.price)}} {{moneyUnit}}</h3>
-      <input v-else v-model="productPrice" class="h3 mt-1 mb-3 border border-main" type="text" :placeholder="product.price">
-
-      
-    </div>
-  </div> -->
+  </section>
 </template>
 
 <script>
@@ -101,9 +58,10 @@ export default {
         name: this.productName,
         price: Number(this.productPrice)
       }
-      console.log('수정내역',product,'-->',item)
-      modifyStoreProduct(item)
-      this.modify = true;
+      modifyStoreProduct(item).then(()=>{
+        this.$emit('updateData')
+        this.modify = true;
+      })
 
     },
   deleteItem(id) {
@@ -118,6 +76,7 @@ export default {
     .then((res) => {
       if (res.isConfirmed) {
         deleteStoreProduct(id).then(() => {
+          this.$emit("updateData")
           this.$swal({
             title:'상품 삭제가 완료됐습니다.',
             icon:'success',

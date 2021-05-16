@@ -5,7 +5,7 @@
         <div class="d-block">
           <h3 class="d-inline-block mr-3"><strong>{{groupInfo.name}}</strong> 세금</h3>
             <button  @click="modifyTax" class="btn btn-main float-right">소득세율수정</button>
-          <h1 class="display-4"><i class="fas fa-money-bill-alt"></i>총 {{totalTax || 0}} {{groupInfo.monetaryUnitName}}</h1>
+          <h1 class="display-4"><i class="fas fa-money-bill-alt"></i>총 {{priceToString(totalTax) || 0}} {{groupInfo.monetaryUnitName}}</h1>
         </div>  
       </div>
     </div>
@@ -38,6 +38,9 @@ export default {
     })
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     async fetchTax() {
       const res = await fetchTaxList(this.groupInfo.id)
       this.taxList = res.data

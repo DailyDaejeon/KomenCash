@@ -855,7 +855,7 @@ public class BankMenuController : MonoBehaviour
     }
   }
 
-  //해지 신청 완료 alert
+  //alert 생성 메서드
   public void ShowSuccessElaryRedAlert()
   {
     string title = "";
@@ -895,7 +895,7 @@ public class BankMenuController : MonoBehaviour
         Text pText = GameObject.Find("AlterViewInputFieldText").GetComponent<Text>();
 
         int principal = int.Parse(pText.text);
-        Debug.Log("예금 금액 : " + principal);
+        // Debug.Log("예금 금액 : " + principal);
         StartCoroutine(OnPressProdRegister(myPDId, principal));
       }
     }, new InputFormOptions

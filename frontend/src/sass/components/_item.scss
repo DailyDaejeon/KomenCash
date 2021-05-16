@@ -1,0 +1,109 @@
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,700);
+
+
+.giftcard {
+  height: $card-height;
+  width: $card-width;
+  font-family: PT Sans, sans-serif;
+  overflow: hidden;
+  border-radius: 1.5rem/2rem;
+  box-shadow: 8px 10px 16px rgba(0,0,0,0.1);
+  transform: translateZ(0);
+}
+
+.giftcard-content, .giftcard-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(100% - #{$footer-height});
+  width: 100%;
+}
+
+.giftcard-cover {
+  background: $color-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  
+  > .fa-gift {
+    color: white;
+    font-size: 6rem;
+  }
+}
+
+.giftcard-content {
+  padding: 1rem 2rem;
+  color: $color-gray;
+  z-index: 1;
+  background: white;
+  
+  > * {
+    transform: translateX(3rem);
+    opacity: 0;    
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+  }
+  h3 {
+    font-size: 1rem;
+    margin: 0;
+    font-weight: normal;
+  }
+  h2, h3 {
+    color: #232323;
+  }
+  div { font-size: 1rem; }
+  address {
+    font-style: normal;
+    margin-bottom: 1rem;
+  }
+  
+  a, .subtext { color: $color-gray; }
+  
+  a {
+    display: block;
+    text-decoration: none;
+  }
+}
+
+.giftcard-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: $footer-height;
+  width: 100%;
+  background: white;
+  z-index: 3;
+  transform: translateZ(0);
+  
+  > * {
+    float: left;
+  }
+}
+
+
+.giftcard-text {
+  height: 100%;
+  padding: 1rem;
+  
+  > h1, > h2 {
+    margin: 0;
+    font-weight: normal;
+    line-height: 1.1;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    color: $color-primary;
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+    color: $color-gray;    
+  }
+}
+
+

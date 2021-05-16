@@ -7,7 +7,7 @@
       </div>
       <div class="row">
       <div class="col-4" v-for="(product,index) in productList" :key="index">
-        <StoreItem :product="product" :moneyUnit="groupInfo.monetaryUnitName"
+        <StoreItem @updateData="updateData" :product="product" :moneyUnit="groupInfo.monetaryUnitName"
         />
         </div>
       </div>
@@ -36,6 +36,9 @@ export default {
     })
   },
   methods: {
+    updateData() {
+      this.fetchStoreProducts()
+    },
     async fetchStoreProducts() {
       const res = await fetchStoreList(this.groupInfo.id)
       this.productList = res.data;
@@ -68,23 +71,20 @@ export default {
       },
       ]).then((result) => {
       if (result.value) {
-        const answers = JSON.stringify(result.value)
         const product = {
           groupId: this.groupInfo.id,
           id: null,
           name: result.value[0],
           price: result.value[1]
         }
-      this.$swal({
-          title: '상품이 생성됐어요!',
-          html: `
-            Your answers:
-            <pre><code>${answers}</code></pre>
-          `,
-          confirmButtonText: 'Lovely!'
-        }).then(() => {
-          addStoreProduct(product)
+        addStoreProduct(product).then(()=> {
           this.productList.push(product)
+
+          this.$swal({
+          title: '상품이 생성됐어요!',
+          icon:'success',
+          timer:1500
+        })
         })
       }
       })

@@ -15,7 +15,8 @@ const router =  new Router({
   routes: [
     {
       path: '/',
-      redirect: { name: 'Login' },
+      name: 'AboutPage',
+      component: () => import('@/components/common/AboutPage.vue'),
     },
     {
       path: '/member/join',

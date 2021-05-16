@@ -92,6 +92,11 @@ public class BankMenuController : MonoBehaviour
   private GameObject SRClone;
   private List<GameObject> memberSalaryList;
 
+  /* 금융 상품 요청 리스트 */
+
+  //금융 상품 신청 요청
+
+  //금융 상품 중도 해지 요청
 
   void Start()
   {

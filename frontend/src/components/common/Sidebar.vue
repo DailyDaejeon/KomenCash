@@ -2,7 +2,7 @@
   <nav id="sidebar" class="sidebar">
 		<div class="sidebar-content js-simplebar">
 			<router-link class="sidebar-brand" :to="{name:'GroupList'}">
-				<span class="align-middle">MONEY JAM</span>
+				<span class="align-middle" @click="deleteGroup">MONEY JAM</span>
 			</router-link>
 
 			<ul class="sidebar-nav">
@@ -190,11 +190,16 @@ export default {
             showConfirmButton: false,
           })
 				this.$store.commit('logout')
-				this.$router.push('{name:"Login"}')
-        } 
-      })
+				this.$store.commit('deleteGroupInfo')				
+				this.$router.push({name:"Login"})
+				}
+			})
      
     },
+		deleteGroup() {
+				this.$store.commit('deleteGroupInfo')				
+
+		}
 	},
 }
 </script>

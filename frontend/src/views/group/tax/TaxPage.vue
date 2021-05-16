@@ -9,7 +9,7 @@
         </div>  
       </div>
     </div>
-    <TaxHistory :taxHistoryList="taxList.reverse()" :groupInfo="groupInfo"/>
+    <TaxHistory :taxHistoryList="taxList" :groupInfo="groupInfo"/>
   </main>
 </template>
 
@@ -44,7 +44,8 @@ export default {
     async fetchTax() {
       const res = await fetchTaxList(this.groupInfo.id)
       this.taxList = res.data
-      console.log(this.taxList)
+      this.taxList = this.taxList.reverse()
+      // console.log(this.taxList)
       this.totalTax = this.taxList[this.taxList.length-1].balance
     },
     modifyTax() {

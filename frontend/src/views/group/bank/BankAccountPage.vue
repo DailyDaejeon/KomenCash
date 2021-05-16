@@ -16,16 +16,7 @@ export default {
   components: { ListItem },
   data() {
     return {
-      students : [
-        {
-          id:0,
-          name:"김싸피"
-        },
-        {
-          id:1,
-          name:"박싸피"
-        }
-      ]
+      students : []
     }
   },
   created() {

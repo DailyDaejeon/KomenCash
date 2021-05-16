@@ -2,10 +2,12 @@
   <div class="row">
     <div class="w-100">
       <div class="card-header">
+        <button @click="addLaw" class="btn btn-main">헌법추가</button>
         <div id="tab" class="container">
           <div class="tabs">
             <div class="tabs" >
               <!-- {{lawData}} -->
+             
               <span v-for="(law,index) in lawName" :key="index">
               <router-link 
               active-class="active"
@@ -14,7 +16,7 @@
               </span>
             </div>
             <div class="tabcontent">
-                <router-view></router-view>
+                <router-view @updateData="updateData"></router-view>
             </div>
           </div>
         </div>
@@ -24,7 +26,7 @@
 </template>
 
 <script>
-import { fetchLawList } from '@/api/law';
+import { fetchLawList,addLawItem } from '@/api/law';
 import { mapState } from 'vuex';
 export default {
   data() {
@@ -44,6 +46,56 @@ export default {
     })
   },
   methods : {
+    addLaw() {
+      this.$swal({
+        title: '헌법추가',
+        html:
+        '<div id="swal2-content" class="swal2-html-container" style="display: block;">추가할 법률을 적어주세요.</div>'+'<input id="swal-input1" class="swal2-input" type="text" placeholder="OO법">' +
+        '<input id="swal-input2" class="swal2-input-custom" min="0" type="number" placeholder="0조">'+
+        '<input id="swal-input3" class="swal2-input-custom" min="0" type="number" placeholder="0항">'+
+        '<input id="swal-input4" class="swal2-input"  type="text" placeholder="그룹의 주권은 국민에게 있고, 모든 권력은 국민으로부터 나온다.">',
+        focusConfirm: false,
+        preConfirm: () => {
+          return [
+            document.getElementById('swal-input1').value,
+            document.getElementById('swal-input2').value,
+            document.getElementById('swal-input3').value,
+            document.getElementById('swal-input4').value,
+          ]
+        },
+        confirmButtonText: '추가',
+        showCancelButton: true,
+      }).then((res) => {
+      if (res.value.length===4) {
+        const lawData = {
+          groupId: this.groupInfo.id,
+          lawType: res.value[0],
+          article: Number(res.value[1]),
+          paragraph: Number(res.value[2]),
+          content: res.value[3],
+        }
+        console.log(lawData,'?')
+        addLawItem(lawData).then(() => {
+          this.fetchLawData()
+          this.$swal({
+            text:'법률이 추가 되었습니다.',
+            icon:'success'
+          })
+          // window.location.reload()
+        })
+      } else {
+        this.$swal({
+          title:'법률 추가에 실패했습니다. ',
+          text:'조건에 맞게 다시 작성해주세요.',
+          icon:'error'
+          
+        })
+      }
+    })
+    },
+    updateData() {
+      this.fetchLawData()
+    },
     async fetchLawData() {
       this.lawData = {};
       this.lawName = [];

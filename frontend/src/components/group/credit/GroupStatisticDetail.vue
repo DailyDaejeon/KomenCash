@@ -67,7 +67,10 @@ export default {
         statisticListId:this.statisticDetail.id,
         studentId:student.studentId
       }
-      acceptStatisDetail(submitData)
+      acceptStatisDetail(submitData).then(()=>{
+        this.fetchStatistic()
+      })
+      // window.location.reload()
     },
     deleteStatis() {
       this.$swal({
@@ -85,6 +88,8 @@ export default {
               icon:'success',
               timer:1500
             })
+            window.location.reload()
+            // this.$router.go(-1)
           })
         }
       })

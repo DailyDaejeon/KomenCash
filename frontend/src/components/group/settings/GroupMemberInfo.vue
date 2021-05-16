@@ -103,7 +103,7 @@
         <h3>주식</h3>
       </div>
       <div class="col-12">
-        <table v-if="memberStock.length" class="text-center table table-hover my-0">
+        <table v-if="memberStockDetail.length" class="text-center table table-hover my-0">
           <thead>
             <tr>
               <th>종목명</th>
@@ -111,23 +111,21 @@
               <th>평균매수가</th>
               <th>보유량</th>
               <th>수익률</th>
-              <th>매수일</th>
-              </tr>
+            </tr>
           </thead>
           <tbody>
-            <tr v-for="(product,index) in memberStock" :key="index">
+            <tr v-for="(product,index) in memberStockDetail" :key="index">
               <td>{{product.stockName}}</td>
-              <td>{{priceToString(memberStockDetail[index].curPrice)}}</td>
-              <td>{{priceToString(memberStockDetail[index].avgDealPrice)}}</td>
-              <td>{{priceToString(product.amount)}}</td>
+              <td>{{priceToString(product.curPrice.toFixed(2))}}</td>
+              <td>{{product.avgDealPrice.toFixed(2)}}</td>
+              <td>{{priceToString(product.curAmount)}}</td>
               <td>
                 <span
                 class="badge"
-                 :class="{'bg-success':memberStockDetail[index].changePercent>= 0,'bg-danger':memberStockDetail[index].changePercent< 0}">
-                {{memberStockDetail[index].changePercent}} (%)
+                 :class="{'bg-success':product.changePercent>= 0,'bg-danger':product.changePercent< 0}">
+                {{product.changePercent.toFixed(2)}} (%)
                 </span>
                 </td>
-              <td>{{product.createdDate.slice(0,10)}}</td>
             </tr>
           </tbody>
         </table>
@@ -202,7 +200,7 @@
 </template>
 
 <script>
-import { deleteGroupMember, fetchGroupMemberCertificate, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, fetchMemberStockDealStatus, modifyGroupMemberJob, resetGroupMemberPw } from '@/api/student';
+import { deleteGroupMember, fetchGroupMemberCertificate, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial,  fetchMemberStockDealStatus, modifyGroupMemberJob, resetGroupMemberPw } from '@/api/student';
 import { mapState } from 'vuex';
 import { addCertiIssue, deleteMemberCertificate, fetchCertiList } from '@/api/certificate';
 import { fetchJobList } from '@/api/job';
@@ -224,7 +222,8 @@ export default {
       memberShopList: [],
       groupCertiList : [],
       groupCertiName:[],
-      memberCertiList: [],groupJobList:[],
+      memberCertiList: [],
+      groupJobList:[],
       groupJobName:[]
     }
   },
@@ -240,11 +239,19 @@ export default {
     priceToString(price) {
       return price.toLocaleString('ko-KR')
     },
+    async fetchGroupMemberInfo() {
+      const res = await fetchGroupMemberDetail(this.id)
+      this.memberInfo = res.data
+    },
+    async fetchMemberCerti() {
+      const memberCerti = await fetchGroupMemberCertificate(this.id)
+      this.memberCertiList = memberCerti.data
+    },
     async fetchInfo(){
       const res = await fetchGroupMemberDetail(this.id)
       const remain = await fetchMemberBalance(this.id)
       const financial = await fetchMemberFinancial(this.id)
-      const stock = await fetchMemberStockDeal(this.id)
+      // const stock = await fetchMemberStockDeal(this.id)
       const stockDetail = await fetchMemberStockDealStatus(this.id)
       const credit = await fetchMemberCredit(this.id)
       const caseList = await fetchGroupMemeberCase(this.id)
@@ -256,7 +263,7 @@ export default {
       this.memberInfo = res.data
       this.memberMoney = remain.data
       this.memberFinancial = financial.data
-      this.memberStock = stock.data
+      // this.memberStock = stock.data
       this.memberStockDetail = stockDetail.data
       this.memberCredit = credit.data
       this.memberCaseList = caseList.data
@@ -289,6 +296,7 @@ export default {
             studentId: sId
           }
           modifyGroupMemberJob(jobData).then(() => {
+            this.fetchGroupMemberInfo()
             this.$swal({
               icon: 'success',
               text: `'${this.memberInfo.nickname}님의 직업이 '${this.groupJobList[Number(res.value)].name}'으로 변경됐습니다.'`,
@@ -312,7 +320,9 @@ export default {
             certificateId:this.groupCertiList[Number(res.value)].id,
             studentId:this.memberInfo.id
           }
-          addCertiIssue(certi)
+          addCertiIssue(certi).then(()=>{
+            this.fetchMemberCerti()
+          })
         }
       })
     },
@@ -322,7 +332,9 @@ export default {
         studentId: this.memberInfo.id
       }
       // console.log('??',deleletData)
-      deleteMemberCertificate(deleletData)
+      deleteMemberCertificate(deleletData).then(()=>{
+        this.fetchMemberCerti()
+      })
     },
     deleteMember(sId) {
       this.$swal({
@@ -337,6 +349,8 @@ export default {
             this.$swal({
               icon: 'success',
               text: `'${this.memberInfo.nickname}님이 ${this.groupInfo.name}에서 탈퇴됐습니다.'`,
+            }).then(() => {
+              this.$router.push({name:"GroupMemberList"})
             })
           })
         }

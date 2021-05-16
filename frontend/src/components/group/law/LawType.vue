@@ -95,6 +95,7 @@ export default {
           }
           console.log(modiData,'수정할 법률')
           modifyLawItem(modiData).then(() => {
+            this.$emit('updateData')
             this.$swal({
               title:'법률 수정이 완료되었습니다.',
               icon:'success',

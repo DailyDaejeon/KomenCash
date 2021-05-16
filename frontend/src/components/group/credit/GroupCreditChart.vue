@@ -27,14 +27,16 @@ export default {
       chartData:[]
     }
   },
-  mounted() {
+  created() {
     this.fetchData()
   },
   methods: {
     fetchData() {
+      if (this.propsdata.length) {
       this.chartData = this.propsdata
       console.log(this.chartData)
       this.fetchChart()
+      }
     },
     fetchChart() {
       const ctx = this.$refs.barChart.getContext('2d');

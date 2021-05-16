@@ -82,7 +82,6 @@ export default {
       }
       ]).then((result) => {
       if (result.value) {
-        const answers = JSON.stringify(result.value)
         const groupInfo = {
           name:result.value[0],
           monetaryUnitName:result.value[1],
@@ -92,17 +91,15 @@ export default {
           inflationRate: 0,
           teacherId:this.userInfo.id,
         }
-        this.$swal({
-            title: '그룹 생성 전, 정보를 확인해주세요!',
-            html: `
-              Your answers:
-              <pre><code>${answers}</code></pre>
-            `,
-            confirmButtonText: 'Lovely!'
-          }).then(()=>{
-            saveGroup(groupInfo)
-            this.$emit('createGroup')
+        saveGroup(groupInfo).then(()=>{
+          this.$emit('createGroup')
+          this.$swal({
+            title: '그룹 생성이 완료됐습니다.',
+            icon:'success',
+            timer:1500
           })
+        })
+        
         }
       })
     }

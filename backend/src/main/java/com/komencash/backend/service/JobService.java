@@ -199,4 +199,12 @@ public class JobService {
         partTimeJobRepository.delete(partTimeJob);
         return true;
     }
+
+    public boolean updateStudentJob(StudentJobUpdateDto studentJobUpdateDto) {
+        Student student = studentRepository.findById(studentJobUpdateDto.getStudentId()).orElse(null);
+        Job job = jobRepository.findById(studentJobUpdateDto.getJobId()).orElse(null);
+        student.updateJob(job);
+        studentRepository.save(student);
+        return true;
+    }
 }

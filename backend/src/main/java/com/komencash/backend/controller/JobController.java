@@ -1,10 +1,7 @@
 package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.job.*;
-import com.komencash.backend.dto.request.JobAddReqFindResponseDto;
-import com.komencash.backend.dto.request.JobAddReqAcceptRequestDto;
-import com.komencash.backend.dto.request.ResumeFindDetailResponseDto;
-import com.komencash.backend.dto.request.ResumeSelectResponse;
+import com.komencash.backend.dto.request.*;
 import com.komencash.backend.service.JobService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -59,6 +56,13 @@ public class JobController {
     }
 
 
+    @ApiOperation(value = "직업 추가 요청 생성", notes = "새로운 직업 추가 요청을 생성하고 결과를 반환")
+    @PostMapping("/add-request")
+    public boolean addJobAddReq(@RequestBody JobAddReqAddRequestDto jobAddReqAddRequestDto) {
+        return jobService.addJobAddReq(jobAddReqAddRequestDto);
+    }
+
+
     @ApiOperation(value = "미확인 직업 추가 요청 리스트 조회", notes = "그룹 아이디를 받아 미확인된 해당 그룹의 직업 추가 요청 리스트를 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)
     @GetMapping("/add-request-list/{group-id}")
@@ -72,11 +76,14 @@ public class JobController {
     public boolean updateJobAddRequestAccept(@RequestBody JobAddReqAcceptRequestDto jobAddReqAcceptRequestDto) {
         return jobService.updateJobAddRequestAccept(jobAddReqAcceptRequestDto);
     }
+
+
     @ApiOperation(value = "학생 직업 변경", notes = "직업 아이디, 학생 아이디로 학생 직업 변경")
     @PutMapping("/job-change")
     public boolean updateJobAddRequestAccept(@RequestBody StudentJobUpdateDto studentJobUpdateDto) {
         return jobService.updateStudentJob(studentJobUpdateDto);
     }
+
 
     @ApiOperation(value = "미확인 이력서 리스트 조회", notes = "그룹 아이디를 받아 미확인된 해당 그룹의 이력서 리스트를 조회")
     @ApiImplicitParam(name = "group-id", value = "group-id(그룹 아이디)", dataType = "int", required = true)

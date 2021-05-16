@@ -1,7 +1,7 @@
 <template>
   <main class="content">
     <button class="mr-3 btn btn-main"  @click="createFinancial">예금상품추가</button>
-    <ListItem listType="financial" :propsData="financialData"/>
+    <ListItem @updateData="updateData" listType="financial" :propsData="financialData"/>
   </main>
 </template>
 
@@ -26,6 +26,11 @@ export default {
     })
   },
   methods: {
+    updateData(e) {
+      console.log(e)
+      this.fetchFinancialData()
+      this.$router.push({name:"BankFinancialPage"})
+    },
     async fetchFinancialData() {
       const res = await fetchFinancialList(this.groupInfo.id)
       this.financialData = res.data
@@ -113,11 +118,13 @@ export default {
           detailFinancial(financialInfo)
         }
       })
+      this.fetchFinancialData()
       this.$swal({
           title: '예금상품이 생성됐어요!',
           icon:'success',
-          confirmButtonText: 'Lovely!'
-        })
+          timer:1500
+      })
+        window.location.reload()
       }
       })
     }

@@ -55,7 +55,8 @@
               <h5 class="card-title mb-0">{{listTypeName}}리스트</h5>
             </div>
             <div class="card-body">
-              <router-view :key="$route.fullPath"></router-view>
+              <router-view :key="$route.fullPath"
+              @updateData="updateData"></router-view>
 
             </div>
           </div>
@@ -82,6 +83,10 @@ export default {
     this.fetchTypeName();
   },
   methods: {
+    updateData(e) {
+      console.log('2여긴 ListItem')
+      this.$emit('updateData',e)
+    },
     fetchTypeName() {
       if (this.listType === "account") {
         this.listTypeName = "계좌"

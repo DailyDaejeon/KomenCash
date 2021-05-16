@@ -7,7 +7,7 @@
           <h3><strong>{{groupInfo.name}}</strong>의 헌법</h3>
         </div>
       </div>
-      <button @click="addLaw" class="btn btn-main">헌법추가</button>
+      
       <!-- 1. 헌법 관리 -->
       <LawList/>
     </div>
@@ -73,7 +73,6 @@ import RequestItem from '@/components/group/main/RequestItem.vue'
 // import VoteItemList from '@/components/group/vote/VoteItemList.vue'
 import VoteList from '@/components/group/vote/VoteList.vue'
 import { mapState } from 'vuex'
-import { addLawItem } from '@/api/law'
 import LawList from '@/components/group/law/LawList.vue'
 // import VoteList from '../../../components/group/vote/VoteList.vue'
 
@@ -97,51 +96,7 @@ export default {
   },
   methods: {
 
-    addLaw() {
-      this.$swal({
-        title: '헌법추가',
-        html:
-        '<div id="swal2-content" class="swal2-html-container" style="display: block;">추가할 법률을 적어주세요.</div>'+'<input id="swal-input1" class="swal2-input" type="text" placeholder="OO법">' +
-        '<input id="swal-input2" class="swal2-input-custom" min="0" type="number" placeholder="0조">'+
-        '<input id="swal-input3" class="swal2-input-custom" min="0" type="number" placeholder="0항">'+
-        '<input id="swal-input4" class="swal2-input"  type="text" placeholder="그룹의 주권은 국민에게 있고, 모든 권력은 국민으로부터 나온다.">',
-        focusConfirm: false,
-        preConfirm: () => {
-          return [
-            document.getElementById('swal-input1').value,
-            document.getElementById('swal-input2').value,
-            document.getElementById('swal-input3').value,
-            document.getElementById('swal-input4').value,
-          ]
-        },
-        confirmButtonText: '추가',
-        showCancelButton: true,
-      }).then((res) => {
-      if (res.value.length===4) {
-        const lawData = {
-          groupId: this.groupInfo.id,
-          lawType: res.value[0],
-          article: Number(res.value[1]),
-          paragraph: Number(res.value[2]),
-          content: res.value[3],
-        }
-        console.log(lawData,'?')
-        addLawItem(lawData).then(() => {
-          this.$swal({
-            text:'법률이 추가 되었습니다.',
-            icon:'success'
-          })
-        })
-      } else {
-        this.$swal({
-          title:'법률 추가에 실패했습니다. ',
-          text:'조건에 맞게 다시 작성해주세요.',
-          icon:'error'
-          
-        })
-      }
-    })
-    },
+    
     addVote() {
       // this.showModal = true;
       this.$swal({

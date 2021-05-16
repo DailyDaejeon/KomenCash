@@ -2,7 +2,7 @@
   <main class="content">
     <div class="container-fluid p-0">
       <h1 class="h3 mb-3">그룹원 전체 계좌</h1>
-      <ListItem listType="account" :propsData="students"/>
+      <ListItem @updateData="updateData" listType="account" :propsData="students"/>
     </div>
   </main>
 </template>
@@ -42,6 +42,12 @@ export default {
     })
   },
   methods : {
+    updateData(e) {
+      console.log('3여긴 BankAccountPage',e)
+      this.fetchAccountList()
+      // window.location.reload()
+      // this.$router.replace({name:"BankMemberDetail",params:{id:e}})
+    },
     async fetchAccountList() {
       const res = await fetchGroupMemberAccountList(this.groupInfo.id)
       this.students = res.data

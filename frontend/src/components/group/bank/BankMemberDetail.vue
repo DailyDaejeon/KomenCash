@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <tr v-for="(history,index) in paginatedData" :key="index">
-          <td>{{index+1+10*(pageNum)}}</td>
+          <td>{{reverseData.length - (index+10*(pageNum))}}</td>
           <td>{{history.content}}</td>
           <td v-if="history.balanceChange >= 0"><span class="badge bg-success">입금</span></td>
           <td v-else><span class="badge bg-danger">출금</span></td>
@@ -42,18 +42,22 @@ export default {
   props:['propsData','dataName','id'],
   data() {
     return {
+      reverseData:[],
       pageSize:10,
       pageNum:0,
       studentList : this.propsData,
       studentName: this.dataName,
     }
   },
+  created() {
+    this.fetchData()
+  },
   computed:{
     ...mapState({
       groupInfo:state => state.group.groupInfo
     }),
     pageCount() {
-      let listLeng = this.propsData.accountHistory.length,
+      let listLeng = this.reverseData.length,
           listSize = this.pageSize,
           page = Math.floor(listLeng / listSize);
 
@@ -64,11 +68,13 @@ export default {
     paginatedData() {
       const start = this.pageNum * this.pageSize,
             end = start + this.pageSize;
-
-      return this.propsData.accountHistory.slice(start, end);
+      return this.reverseData.slice(start, end);
     }
   },
   methods: {
+    fetchData() {
+      this.reverseData = this.propsData.accountHistory.reverse()
+    },
     priceToString(price) {
       return price.toLocaleString('ko-KR')
     },
@@ -108,11 +114,15 @@ export default {
             studentId: this.propsData.student_id
           }
           sendMoney(sendData).then(()=>{
+            console.log('1여긴 BankMemberDetail')
+            this.$emit('updateData',this.propsData.student_id)
             this.$swal({
               title:'입금이 완료되었습니다.',
               icon:'success',
               timer:1500
             })
+            // window.location.reload()
+            // this.$router.push({name:"BankMemberDetail",params:{id:`${this.id}`}})
           })
           
         } else {

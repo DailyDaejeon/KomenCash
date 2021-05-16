@@ -155,9 +155,7 @@ export default {
           text: `${request.nickname}님의 요청입니다.`
         })
       } else if (this.RequestName === "이력서") {
-        console.log(request,'-->',this.RequestName,'요청내용없니')
         fetchJobResumeDetail(request.id).then((res) => {
-          console.log(res,'이력서상세')
           this.$swal({
           title: `${res.data.studentNickname}님의 "${res.data.jobName}" 이력서`,
           text: `${res.data.title}`,
@@ -169,8 +167,6 @@ export default {
         
        
       } else if (this.RequestName === "경위서") {
-        console.log(request,'-->',this.RequestName,'요청내용없니')
-
         this.$swal({
           title: `경위서`,
           // text: `${request.content}`,
@@ -234,27 +230,40 @@ export default {
           accept:"reject"
         }
       if (this.RequestName === "그룹원추가") {
-        rejectGroupMember(id)
+        rejectGroupMember(id).then(()=>{
+        this.fetchRequest();
+
+        })
       } else if (this.RequestName === "이력서") {
-        console.log(this.RequestName,'거절api')
-        acceptJobResumeRequest(requestData)
+        acceptJobResumeRequest(requestData).then(()=>{
+              this.fetchRequest();
+
+        })
       } else if (this.RequestName === "경위서") {
-        acceptCase(requestData)
-        console.log(this.RequestName,'거절api')
+        acceptCase(requestData).then(()=>{
+              this.fetchRequest();
+
+        })
        
       } else if (this.RequestName === "직업추가") {
-        console.log(this.RequestName,'거절api')
-        acceptJobRequest(requestData)
+        acceptJobRequest(requestData).then(()=>{
+              this.fetchRequest();
+
+        })
         
       } else if (this.RequestName === "법률추가") {
-        console.log(this.RequestName,'거절api')
-        acceptLawRequest(requestData)
+        acceptLawRequest(requestData).then(()=>{
+              this.fetchRequest();
+
+        })
        
       } else if (this.RequestName === "상품추가") {
-        console.log(this.RequestName,'거절api')
-        acceptStoreRequest(requestData)
-       
+        acceptStoreRequest(requestData).then(()=>{
+              this.fetchRequest();
+
+        })
       }
+      
     },
     acceptRequest(id) {
       const requestData = {
@@ -262,27 +271,39 @@ export default {
           accept:"accept"
         }
       if (this.RequestName === "그룹원추가") {
-        acceptGroupMember(id)
+        acceptGroupMember(id).then(()=>{
+              this.fetchRequest();
+
+        })
       } else if (this.RequestName === "이력서") {
-        console.log(this.RequestName,'수락api')
-        acceptJobResumeRequest(requestData)
+        acceptJobResumeRequest(requestData).then(()=>{
+              this.fetchRequest();
+
+        })
 
       } else if (this.RequestName === "경위서") {
-        console.log(this.RequestName,'수락api')
-        acceptCase(requestData)
+        acceptCase(requestData).then(()=>{
+              this.fetchRequest();
+
+        })
        
       } else if (this.RequestName === "직업추가") {
-        console.log(this.RequestName,'수락api')
-        acceptJobRequest(requestData)
+        acceptJobRequest(requestData).then(()=>{
+             this.fetchRequest();
+
+        })
         
       } else if (this.RequestName === "법률추가") {
-        acceptLawRequest(requestData)
-        console.log(this.RequestName,'수락api')
+        acceptLawRequest(requestData).then(()=>{
+             this.fetchRequest();
+
+        })
        
       } else if (this.RequestName === "상품추가") {
-        console.log(this.RequestName,'수락api')
-        acceptStoreRequest(requestData)
-       
+        acceptStoreRequest(requestData).then(()=>{
+             this.fetchRequest();
+
+        })
       }
     }
   }

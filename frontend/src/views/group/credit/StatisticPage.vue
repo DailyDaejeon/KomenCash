@@ -68,6 +68,7 @@ export default {
           endDate:result.value[1]
         }
         addStatisticItem(statis).then(()=> {
+          this.fetchStatistic()
           this.$swal({
           title: '제출물이 생성됐습니다',
           icon:'success',

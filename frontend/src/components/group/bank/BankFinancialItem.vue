@@ -24,7 +24,7 @@
             <td v-else>
               <span class="badge bg-success">가입신청</span>
             </td>
-            <td><button class="btn btn-main" @click="acceptRequest(request)">O</button>
+            <td><button class="btn btn-main" @click="acceptRequest(request,index)">O</button>
             </td>
           </tr>
         </tbody>
@@ -80,7 +80,7 @@
         </table>
       </div>
     </div>
-    <button class="btn btn-main" @click="modifyDetail">수정</button>
+    <button class="btn btn-main" @click="modifyDetail">예금상품수정</button>
     <table class="text-center table table-hover my-0">
       <thead>
         <tr>
@@ -99,7 +99,7 @@
           <td>{{student.studentCreditGrade}}</td>
           <td>{{studentRateList[index]}}%</td>
           <td>{{student.startDate.slice(0,10)}}</td>
-          <td>{{student.principal}}</td>
+          <td>{{priceToString(student.principal)}}</td>
         </tr>
       </tbody>
     </table>
@@ -108,7 +108,7 @@
         <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
         <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
     </div>
-    <button class="btn btn-danger" @click="deleteProduct">삭제</button>
+    <button class="btn btn-danger" @click="deleteProduct">예금상품삭제</button>
   </div>
 </template>
 
@@ -157,6 +157,9 @@ export default {
     }
   },
   methods: {
+    priceToString(price) {
+      return price.toLocaleString('ko-KR')
+    },
     nextPage() {
       this.pageNum += 1;
     },
@@ -182,8 +185,8 @@ export default {
       })
       this.financialCredit = credit
       this.financialRateList = creditRate
+      const temp = []
       this.studentList.forEach((el) => {
-        const temp = []
         let flag = false;
         for (let i = 0; i < this.financialList.length; i++) {
           const element = this.financialList[i];
@@ -194,12 +197,12 @@ export default {
         }
         this.studentRateList = temp
       })
-      console.log(this.studentRateList)
-      // console.log(this.financialList,this.studentList)
+      // console.log('학생등급리스트',this.studentRateList)
     },
-    acceptRequest(request) {
-      // 수정으로 뭘보내주지? + 금융상품신청조회 학생아이디 보내야되나?
-      acceptFinancialRequest(request.id)
+    acceptRequest(request,index) {
+      acceptFinancialRequest(request.id).then(()=>{
+        this.requestList.splice(index,1)
+      })
     },
     deleteProduct() {
       this.$swal({
@@ -212,10 +215,15 @@ export default {
       }).then((res) => {
         if (res.isConfirmed) {
           deleteFinancial(this.financialId).then(() => {
+            this.$emit('updateData',this.propsData.id)
             this.$swal({
               title:'성공적으로 삭제 됐습니다.',
-              icon:'success'
+              icon:'success',
+              timer:1500
             })
+            // this.$router.push('{name:"BankFinancialPage"}')
+            // this.$router.go(-1)
+            // window.location.reload()
           })
         }
       })

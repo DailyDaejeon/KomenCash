@@ -11,6 +11,7 @@
           <th :class="{'d-none' :JobType ==='PartTime'}">인원수</th>
           <th :class="{'d-none' :JobType ==='PartTime'}">채용방식</th>
           <th :class="{'d-none' :JobType ==='PartTime'}">상세보기</th>
+          <th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +31,7 @@
           <td v-else-if="job.name !=='무직' && job.recruitType === 'vote'">투표</td>
           <td v-else :class="{'d-none' :JobType ==='PartTime'}">없음</td>
           <td :class="{'d-none' :JobType ==='PartTime'}"><button class="btn btn-main" @click="goDetail(job)">자세히</button></td>
+          <td><button @click="deleteJobData(job,index)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></td>
         </tr>
       </tbody>
     </table>
@@ -42,6 +44,7 @@
 </template>
 
 <script>
+import { deleteJob, deletePartTime } from '@/api/job';
 export default {
   data() {
     return {
@@ -80,6 +83,39 @@ export default {
     }
   },
   methods: {
+    deleteJobData(job) {
+      this.$swal({
+        title:`${job.name}을 삭제하시겠습니까?`,
+        text:'삭제 시 정보를 복구할 수 없습니다.',
+        icon:'warning',
+        showCancleButton:true,
+        confirmButtonText:'삭제'
+      }).then((res)=>{
+        if (res.isConfirmed) {
+          if (this.JobType === "PartTime") {
+            deletePartTime(job.id).then(()=> {
+              this.$emit("updateData")
+               this.$swal({
+            title:'삭제가 완료됐습니다.',
+            icon:'success',
+            timer:1000
+          })
+            })
+          } else {
+            deleteJob(job.id).then(()=> {
+              this.$emit("updateData")
+               this.$swal({
+            title:'삭제가 완료됐습니다.',
+            icon:'success',
+            timer:1000
+          })
+            })
+          }
+          
+         
+        }
+      })
+    },
     priceToString(price) {
       return price.toLocaleString('ko-KR')
     },

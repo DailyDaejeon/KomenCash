@@ -107,6 +107,7 @@ export default {
         this.voteList.slice(index, 1);
         console.log(vote);
         deleteVote(voteData.id).then(() => {
+          this.fetchVote();
           this.$swal({
             title:'성공적으로 삭제됐습니다.',
             icon:'success',

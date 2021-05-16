@@ -1,7 +1,7 @@
 <template>
   <div class="law-type">
-    <!-- {{lawData}} -->
     <div class="law-content">
+      <!-- {{lawData}} -->
       <div v-for="(law,index) in paginatedData" :key="index">
         <!-- 수정 폼을 여기에 만들어야 하나...? -->
         <p class="law-item-title">{{lawType}} 제 {{law.article}}조 {{law.paragraph}}항</p>
@@ -20,7 +20,6 @@
 export default {
   data() {
     return {
-      lawList: [],
       pageSize:10,
       pageNum:0,
     }
@@ -31,8 +30,8 @@ export default {
   },
   computed : {
     pageCount() {
-      if (this.lawList.length) {
-      let listLeng = this.lawList.length,
+      if (this.lawData.length) {
+      let listLeng = this.lawData.length,
           listSize = this.pageSize,
           page = Math.floor(listLeng / listSize);
 
@@ -43,11 +42,11 @@ export default {
       return 0
     },
     paginatedData() {
-      if (this.lawList.length) {
+      if (this.lawData.length) {
       const start = this.pageNum * this.pageSize,
             end = start + this.pageSize;
 
-      return this.lawList.slice(start, end);
+      return this.lawData.slice(start, end);
       }
       return []
     }
@@ -59,10 +58,7 @@ export default {
     prevPage() {
       this.pageNum -= 1;
     },
-    fetchData() {
-      this.lawList = this.$route.params.lawData
-      console.log('이건들어왔니?',this.lawList)
-    }
+
   },
 }
 </script>

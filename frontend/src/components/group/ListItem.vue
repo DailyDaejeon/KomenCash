@@ -6,15 +6,9 @@
           <h5 class="card-title mb-0">{{listTypeName}} 조회</h5>
         </div>
         <div class="pointer list-group list-group-flush" role="tablist" v-for="(data,index) in propsData" :key="index"> 
-          <!-- <router-link 
-          :id="data.name"
-          active-class="active"
-          class="list-group-item list-group-item-action" :to="{name:`${listTypeRouteName}`, params: { id:`${data.id}`, propsData:data,dataName:data.name}}"
-          
-          > -->
           <template v-if="listTypeRouteName==='GroupMemberInfo'">
             <router-link 
-            :id="data.nickname"
+            :id="data.id"
             active-class="active"
             class="list-group-item list-group-item-action" :to="{name:listTypeRouteName, params: { id:data.id, propsData:data,dataName:data.nickname}}"
             >
@@ -61,7 +55,7 @@
               <h5 class="card-title mb-0">{{listTypeName}}리스트</h5>
             </div>
             <div class="card-body">
-              <router-view></router-view>
+              <router-view :key="$route.fullPath"></router-view>
 
             </div>
           </div>

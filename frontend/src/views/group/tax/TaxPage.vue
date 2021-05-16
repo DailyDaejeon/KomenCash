@@ -9,7 +9,7 @@
         </div>  
       </div>
     </div>
-    <TaxHistory :taxHistoryList="taxList" :groupInfo="groupInfo"/>
+    <TaxHistory :taxHistoryList="taxList.reverse()" :groupInfo="groupInfo"/>
   </main>
 </template>
 

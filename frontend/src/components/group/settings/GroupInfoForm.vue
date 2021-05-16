@@ -172,7 +172,11 @@ export default {
     },
     copyCode(code) {
       this.copyToClipboard(code)
-      console.log('복사됨!!')
+      this.$swal({
+        title:'그룹코드가 복사됐습니다.',
+        icon:'success',
+        timer:1500
+      })
     } 
   },
 }

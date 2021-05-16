@@ -20,11 +20,9 @@
       </div>
       <div class="col-6">
         <span class="h3">{{memberInfo.job.name}}</span>
-        <span v-if="memberInfo.job.name !== '무직'">
-          <button class="ml-3 btn btn-main" @click="jobFire(memberInfo.id)">
-            무직으로 변경
-          </button>
-        </span>
+        <button class="ml-3 btn btn-main" @click="jobChange(memberInfo.id)">
+          직업변경
+        </button>
       </div>
       <div class="col-6">
         <h3>잔고</h3>
@@ -204,9 +202,10 @@
 </template>
 
 <script>
-import { deleteGroupMember, fetchGroupMemberCertificate, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, fetchMemberStockDealStatus, modifyGroupMemberJobFire, resetGroupMemberPw } from '@/api/student';
+import { deleteGroupMember, fetchGroupMemberCertificate, fetchGroupMemberDetail, fetchGroupMemeberCase, fetchGroupMemeberStoreHistory, fetchMemberBalance, fetchMemberCredit, fetchMemberFinancial, fetchMemberStockDeal, fetchMemberStockDealStatus, modifyGroupMemberJob, resetGroupMemberPw } from '@/api/student';
 import { mapState } from 'vuex';
 import { addCertiIssue, deleteMemberCertificate, fetchCertiList } from '@/api/certificate';
+import { fetchJobList } from '@/api/job';
 
 export default {
   props: ['id','propsData','dataName'],
@@ -225,7 +224,8 @@ export default {
       memberShopList: [],
       groupCertiList : [],
       groupCertiName:[],
-      memberCertiList: []
+      memberCertiList: [],groupJobList:[],
+      groupJobName:[]
     }
   },
   created() {
@@ -251,7 +251,8 @@ export default {
       const shop = await fetchGroupMemeberStoreHistory(this.id) 
       const certi = await fetchCertiList(this.groupInfo.id)
       const memberCerti = await fetchGroupMemberCertificate(this.id)
-      
+      const job = await fetchJobList(this.groupInfo.id)
+
       this.memberInfo = res.data
       this.memberMoney = remain.data
       this.memberFinancial = financial.data
@@ -266,20 +267,31 @@ export default {
         const name= `${el.name}(${el.acquisitionCondition})`
         this.groupCertiName.push(name)
       })
+      this.groupJobList = job.data
+      job.data.forEach((el) => {
+        const name = `${el.name}(급여 : ${el.salary}${this.groupInfo.monetaryUnitName}, 자격 : ${el.qualification})`
+        this.groupJobName.push(name)
+      })
     },
-    jobFire(sId) {
+    jobChange(sId) {
       this.$swal({
         icon: 'info',
-        text: `${this.memberInfo.nickname}님의 직업을 ${this.memberInfo.job.name}에서 '무직'으로 변경 하시겠습니까?`,
-        confirmButtonText:'변경',
+        title: `${this.memberInfo.nickname}님의 직업을 변경 하시겠습니까?`,
+        input: 'select',
+        inputOptions:this.groupJobName,
+        inputPlaceholder: '변경할 직업 선택해 주세요.',
+        confirmButtonText: '변경',
         showCancelButton: true,
-        cancelButtonText:'취소'
       }).then((res)=>{
-        if (res.value) {
-          modifyGroupMemberJobFire(sId).then(() => {
+        if (res.value && res.isConfirmed) {
+          const jobData = {
+            jobId: this.groupJobList[Number(res.value)].id,
+            studentId: sId
+          }
+          modifyGroupMemberJob(jobData).then(() => {
             this.$swal({
               icon: 'success',
-              text: `'${this.memberInfo.nickname}님의 직업이 '무직'으로 변경됐습니다.'`,
+              text: `'${this.memberInfo.nickname}님의 직업이 '${this.groupJobList[Number(res.value)].name}'으로 변경됐습니다.'`,
             })
           })
         }

@@ -41,14 +41,14 @@ function modifyGroupMemberCertificate(studentData) {
     return instance.put(`student/certificate`, studentData)
 }
 
-//그룹원 직업변경
-function modifyGroupMemberJob(studentData) {
-    return instance.put(`student/job`, studentData)
-}
-
 //그룹원 전과조회
 function fetchGroupMemeberCase(studentId) {
   return instance.get(`case/student/${studentId}`)
+}
+
+//그룹원 직업변경
+function modifyGroupMemberJob(studentData) {
+  return instance.put(`job/job-change`, studentData)
 }
 
 // 그룹원 직업 무직으로 변경

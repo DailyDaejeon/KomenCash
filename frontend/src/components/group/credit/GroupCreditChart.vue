@@ -24,23 +24,27 @@ export default {
   data() {
     return {
       mainColor :"#e7ab3c",
-      chartData:[]
+      chartData:[],
+      barChart:''
     }
   },
   created() {
     this.fetchData()
+
+  },
+  mounted() {
+    if (this.propsdata.length) {
+    this.fetchChart()
+    }
   },
   methods: {
     fetchData() {
-      if (this.propsdata.length) {
       this.chartData = this.propsdata
       console.log(this.chartData)
-      this.fetchChart()
-      }
     },
     fetchChart() {
       const ctx = this.$refs.barChart.getContext('2d');
-      new this.$_Chart(ctx, {
+      const myBarChart =  new this.$_Chart(ctx, {
       type: 'bar',
       data: {
         labels: ["1등급", "2등급", "3등급", "4등급", "5등급", "6등급", "7등급", "8등급", "9등급", "10등급"],
@@ -65,7 +69,7 @@ export default {
           borderColor: this.mainColor,
           hoverBackgroundColor: this.mainColor,
           hoverBorderColor: this.mainColor,
-          data: this.chartData,
+          data: this.propsdata,
           barPercentage: .75,
           categoryPercentage: .5
         }]
@@ -82,7 +86,8 @@ export default {
             },
             stacked: false,
             ticks: {
-              stepSize: 20
+              stepSize: 1,
+              min:0
             }
           }],
           xAxes: [{
@@ -94,6 +99,7 @@ export default {
         }
       }
     });
+    this.barChart = myBarChart
     }
   }
   

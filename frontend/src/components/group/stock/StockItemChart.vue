@@ -17,7 +17,7 @@
         <div>
         <span class="h1 mr-3" :class="arrowColor"> <i :class="arrow"></i></span>
         <span :class="arrowColor" class="h1 mr-3">{{priceToString(changeMoney)}}</span>
-        <span :class="arrowColor" class="h1">({{priceToString(money)}}%)</span>
+        <span :class="arrowColor" class="h1">({{isNaN(priceToString(money)) ? 0 : priceToString(money) }}%)</span>
         </div>
       </div>
       </div>
@@ -88,7 +88,9 @@ export default {
     fetchMoney(stockData) {
       this.nowMoney = stockData.price
       this.changeMoney = Math.abs(stockData.price - stockData.prePrice).toFixed(2)
+  
       this.money = (((stockData.price - stockData.prePrice)/stockData.prePrice)*100).toFixed(2)
+  
       if (this.money < 0 ) {
         this.arrow = this.downArrow
         this.arrowColor = "text-primary"
@@ -254,13 +256,15 @@ export default {
         cancelButtonText:'취소'
       }).then((result) => {
         if (result.value) {
-          deleteStock(this.stockData.id)
+          deleteStock(this.stockData.id).then(()=> {
           this.$swal({
             title: '주식이 삭제됐습니다.',
             icon:"success",
-            confirmButtonText: 'Lovely!'
+            timer:1500
           })
           this.$router.push({name:"StockPage"})
+
+          })
         }
       })
     }

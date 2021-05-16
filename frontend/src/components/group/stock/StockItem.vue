@@ -1,5 +1,21 @@
 <template>
-  <div class="card" @click="goDetail">
+  <section @click="goDetail" class="giftcard pointer">
+    <section class="giftcard-cover">
+      <i class="fas fa-chart-line"></i>
+    </section>
+    <footer class="giftcard-footer">
+      <div class="giftcard-text">
+        <h1>{{stockData.name}}</h1>
+        <h2>{{priceToString(stockData.price)}}
+          <span class="h2 mr-3" :class="arrowColor"> <i :class="arrow"></i></span>
+        <span :class="arrowColor" class="h4 mr-3">{{priceToString(changeMoney)}}</span>
+        <span :class="arrowColor" class="h4">({{isNaN(priceToString(money)) ? 0 : priceToString(money)}}%)</span>
+        </h2>
+      </div>
+      
+    </footer>
+  </section>
+  <!-- <div class="card" @click="goDetail">
     <div class="card-body">
       <h5 class="card-title mb-4 text-center">{{stockData.name}}</h5>
       <div class="text-center  mt-1 mb-3">
@@ -11,7 +27,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>

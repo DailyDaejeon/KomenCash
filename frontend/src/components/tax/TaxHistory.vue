@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         <tr v-for="(history,index) in paginatedData" :key="index">
-          <td>{{index+1+10*(pageNum)}}</td>
+          <td>{{taxHistoryList.length - (index+10*(pageNum))}}</td>
           <td>{{history.content}}</td>
           <template v-if="history.balanceChange>=0">
             <td class="text-center"><span class="badge bg-success">입금</span></td>

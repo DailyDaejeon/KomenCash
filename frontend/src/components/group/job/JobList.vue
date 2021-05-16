@@ -5,7 +5,7 @@
         <h4 class="card-title mb-0 d-inline-block">Job list</h4>
         <button class="btn btn-main m-3" @click="createJob">직업추가</button>
         <JobItem
-        @updateData="updateData('JOB')"
+        @updateData="updateData('Job')"
          JobType="Job" :jobData="jobList"/>
       </div>
       <div class="card-header">

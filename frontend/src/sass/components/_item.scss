@@ -2,8 +2,8 @@
 
 
 .giftcard {
-  height: $card-height;
-  width: $card-width;
+  height: $giftcard-height;
+  width: $giftcard-width;
   font-family: PT Sans, sans-serif;
   overflow: hidden;
   border-radius: 1.5rem/2rem;
@@ -20,7 +20,7 @@
 }
 
 .giftcard-cover {
-  background: $color-primary;
+  background: $main;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +34,7 @@
 
 .giftcard-content {
   padding: 1rem 2rem;
-  color: $color-gray;
+  color: $giftcard-gray;
   z-index: 1;
   background: white;
   
@@ -56,12 +56,9 @@
     color: #232323;
   }
   div { font-size: 1rem; }
-  address {
-    font-style: normal;
-    margin-bottom: 1rem;
-  }
+
   
-  a, .subtext { color: $color-gray; }
+  a, .subtext { color: $giftcard-gray; }
   
   a {
     display: block;
@@ -97,12 +94,12 @@
   
   h1 {
     font-size: 1.5rem;
-    color: $color-primary;
+    color: $main;
   }
   
   h2 {
     font-size: 1.2rem;
-    color: $color-gray;    
+    color: $giftcard-gray;    
   }
 }
 

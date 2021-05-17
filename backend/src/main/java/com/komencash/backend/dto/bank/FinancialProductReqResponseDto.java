@@ -14,6 +14,7 @@ public class FinancialProductReqResponseDto {
 
     private int productId;
     private String productName;
+    private int historyId;
     private int principal;
     private double rate;
     private Date startDate;

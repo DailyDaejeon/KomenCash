@@ -1,7 +1,7 @@
 package com.komencash.backend.service;
 
-import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
-import com.komencash.backend.dto.board.BoardSelectResponse;
+import com.komencash.backend.dto.board.BoardAddUpdateRequestDto;
+import com.komencash.backend.dto.board.BoardFindResponseDto;
 import com.komencash.backend.entity.board.Board;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.repository.BoardRepository;
@@ -20,38 +20,40 @@ public class BoardService {
     @Autowired
     GroupRepository groupRepository;
 
-    public List<BoardSelectResponse> findBoardList(int groupId){
-        List<BoardSelectResponse> boardSelectResponses = new ArrayList<>();
+    public List<BoardFindResponseDto> findBoardList(int groupId){
+        List<BoardFindResponseDto> boardFindResponseDtos = new ArrayList<>();
 
         List<Board> boards = boardRepository.findByGroup_Id(groupId);
-        for (Board board : boards) boardSelectResponses.add(new BoardSelectResponse(board));
+        boards.forEach(board -> boardFindResponseDtos.add(new BoardFindResponseDto(board)));
 
-        return boardSelectResponses;
+        return boardFindResponseDtos;
     }
 
-    public BoardSelectResponse findBoard(int boardId){
+
+    public BoardFindResponseDto findBoard(int boardId){
         Board board = boardRepository.findById(boardId).orElse(null);
         if(board == null) return null;
 
-        BoardSelectResponse boardSelectResponse = new BoardSelectResponse(board);
-        return boardSelectResponse;
+        BoardFindResponseDto boardFindResponseDto = new BoardFindResponseDto(board);
+        return boardFindResponseDto;
     }
 
-    public boolean saveBoard(BoardInsertUpdateRequest boardInsertUpdateRequest){
-        Group group = groupRepository.findById(boardInsertUpdateRequest.getGroupId()).orElse(null);
+
+    public boolean addBoard(BoardAddUpdateRequestDto boardAddUpdateRequestDto){
+        Group group = groupRepository.findById(boardAddUpdateRequestDto.getGroupId()).orElse(null);
         if(group == null) return false;
 
-        Board board = new Board(boardInsertUpdateRequest, group);
+        Board board = new Board(boardAddUpdateRequestDto, group);
         boardRepository.save(board);
         return true;
     }
 
 
-    public boolean updateBoard(BoardInsertUpdateRequest boardInsertUpdateRequest) {
-        Board board = boardRepository.findById(boardInsertUpdateRequest.getId()).orElse(null);
+    public boolean updateBoard(BoardAddUpdateRequestDto boardAddUpdateRequestDto) {
+        Board board = boardRepository.findById(boardAddUpdateRequestDto.getId()).orElse(null);
         if(board == null) return false;
 
-        board.updateBoard(boardInsertUpdateRequest);
+        board.updateBoard(boardAddUpdateRequestDto);
         boardRepository.save(board);
         return true;
     }

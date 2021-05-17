@@ -185,6 +185,7 @@ public class UBankService {
                         new FinancialProductReqResponseDto(
                                 financialProduct.getId(),
                                 financialProduct.getName(),
+                                financialProductHistory.getId(),
                                 financialProductHistory.getPrincipal(),
                                 financialProductDetail.getRate(),
                                 financialProductHistory.getStartDate(),

@@ -14,6 +14,15 @@ public class ResumeData
   public int studentId;
 }
 
+[System.Serializable]
+public class AddJobData
+{
+  public string content;
+  public string jobName;
+  public int studentId;
+}
+
+
 public class JobMenuController : MonoBehaviour
 {
   private static string baseURL = "https://k4b203.p.ssafy.io/api/";
@@ -32,6 +41,9 @@ public class JobMenuController : MonoBehaviour
 
   [SerializeField]
   private Button AddJobButton; //직업 추가 요청 버튼
+
+  [SerializeField]
+  private GameObject AddJobRequestContent; //직업 추가 요청 폼
 
   //해당 영역 나가면 한 번에 지울 수 있게 오브젝트 담을 리스트
   private static List<GameObject> objectList = new List<GameObject>();
@@ -71,6 +83,7 @@ public class JobMenuController : MonoBehaviour
     objectList.Add(GenericJobContent);
     objectList.Add(PartTimeContent);
     objectList.Add(JobResumeContent);
+    objectList.Add(AddJobRequestContent);
 
     sId = DataController.GetStudentId();
     gId = DataController.GetGroupId();
@@ -377,6 +390,56 @@ public class JobMenuController : MonoBehaviour
     }
   }
 
+  //4. 직업 추가 요청 보내기
+  private IEnumerator AddJobRequest()
+  {
+    InputField jobName = AddJobRequestContent.transform.GetChild(0).GetChild(1).GetComponent<InputField>();
+    InputField jobContent = AddJobRequestContent.transform.GetChild(1).GetChild(1).GetComponent<InputField>();
+
+    AddJobData data = new AddJobData();
+    data.jobName = jobName.text;
+    data.content = jobContent.text;
+    data.studentId = sId;
+
+    string json = JsonUtility.ToJson(data);
+
+    Debug.Log("job name : " + jobName.text + ", job content : " + jobContent.text + ", student id : " + sId);
+
+    using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "job/add-request", json))
+    {
+      byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+      request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+
+      request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
+      request.SetRequestHeader("Accept", "application/json, text/plain, */*");
+
+      yield return request.downloadHandler.text;
+
+      if (request.error != null)
+      {
+        Debug.Log(request.error);
+      }
+      else
+      {
+
+        string result = request.downloadHandler.text;
+        Debug.Log("result : " + result);
+
+        if (result.Equals("true"))
+        {
+          ShowSuccessSendRequestAlert();
+          jobName.text = "";
+          jobContent.text = "";
+        }
+        else
+        {
+          ShowFailSendRequestAlert();
+        }
+      }
+    }
+  }
+
+
   //버튼 클릭하면 창 전환하는 메서드
   public void OnPressGenericButton()
   {
@@ -438,6 +501,52 @@ public class JobMenuController : MonoBehaviour
   {
     StartCoroutine(SubmitResume());
   }
+
+  public void OnPressAddJobRequestButton()
+  {
+    ObjectActive("AddJobRequestForm", -1);
+  }
+
+  public void OnPressSubmitJobRequestButton()
+  {
+    StartCoroutine(AddJobRequest());
+  }
+
+  public void OnPressCancelJobRequestButton()
+  {
+    InputField jobName = AddJobRequestContent.transform.GetChild(0).GetChild(1).GetComponent<InputField>();
+    InputField jobContent = AddJobRequestContent.transform.GetChild(1).GetChild(1).GetComponent<InputField>();
+
+    jobName.text = "";
+    jobContent.text = "";
+    OnPressGenericButton();
+  }
+
+
+  //Alert view
+  private void ShowSuccessSendRequestAlert()
+  {
+    string title = "";
+    string message = "요청이 성공적으로 전송되었습니다!";
+
+    AlertViewController.Show(title, message, new AlertViewOptions
+    {
+      okButtonTitle = "확인",
+      okButtonDelegate = () =>
+      {
+        OnPressGenericButton();
+      }
+    });
+  }
+
+  private void ShowFailSendRequestAlert()
+  {
+    string title = "";
+    string message = "요청 전송 도중 오류가 발생했습니다ㅠ.ㅠ";
+
+    AlertViewController.Show(title, message);
+  }
+
 
   //해당 오브젝트만 활성화 시키는 메서드
   private static void ObjectActive(string ojName, int index)

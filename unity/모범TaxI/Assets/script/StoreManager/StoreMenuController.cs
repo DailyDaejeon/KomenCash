@@ -351,7 +351,7 @@ public class StoreMenuController : MonoBehaviour
 
   private void OnPressBuyItemButton(string itemId, string itemPrice)
   {
-    StartCoroutine(BuyItem(itemId, itemPrice));
+    ShowConfirmBuyItemAlert(itemId, itemPrice);
   }
 
   public void OnPressAddItemRequest()
@@ -368,6 +368,22 @@ public class StoreMenuController : MonoBehaviour
   }
 
   //Alert 불러오는 메서드
+  private void ShowConfirmBuyItemAlert(string itemId, string itemPrice)
+  {
+    string title = "";
+    string message = "상품을 구매하겠습니까?";
+
+    AlertViewController.Show(title, message, new AlertViewOptions
+    {
+      okButtonTitle = "구매하기",
+      okButtonDelegate = () =>
+      {
+        StartCoroutine(BuyItem(itemId, itemPrice));
+      },
+      cancelButtonTitle = "취소하기",
+      cancelButtonDelegate = () => { }
+    });
+  }
   private void ShowSuccessBuyItemAlert()
   {
     string title = "";

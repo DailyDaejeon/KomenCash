@@ -1,6 +1,8 @@
 # unity file
 *.unity
 *.meta
+*.zip
+*.unitypackage
 
 #Assets folder
 AssetsList/
@@ -18,5 +20,6 @@ Temp/
 Font/
 obj/
 .vscode/
+CodeMonkey/
 *.sln
 *.csproj

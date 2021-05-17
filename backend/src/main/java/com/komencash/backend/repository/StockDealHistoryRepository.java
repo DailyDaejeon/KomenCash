@@ -8,4 +8,5 @@ import java.util.List;
 public interface StockDealHistoryRepository extends JpaRepository<StockDealHistory, Integer> {
 
     List<StockDealHistory> findByStudent_Id(int studentId);
+    List<StockDealHistory> findByStudent_IdAndStock_Id(int studentId, int stockId);
 }

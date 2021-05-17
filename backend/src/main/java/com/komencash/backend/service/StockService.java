@@ -116,24 +116,27 @@ public class StockService {
         Student student = studentRepository.findById(stockDealHistoryAddRequestDto.getStudentId()).orElse(null);
         if(stock == null || student == null) return false;
 
+        // 사는 경우에는 거래 후 남는 계좌 잔액은 음수일 수 없다.
         int price = stockDealHistoryAddRequestDto.getPrice();
         int amount = stockDealHistoryAddRequestDto.getAmount();
-        if(bankService.findBalance(student.getId()) < (price * amount)) return false;
+        int changeBalance = price * amount;
+        if(bankService.findBalance(student.getId()) < changeBalance
+                && stockDealHistoryAddRequestDto.getAmount() > 0) return false;
+
+        // 거래 후 남는 주식 수량은 음수일 수 없다.
+        int remainAmount = 0;
+        List<StockDealHistory> stockDealHistories = stockDealHistoryRepository.findByStudent_IdAndStock_Id(student.getId(),stock.getId());
+        for(int i=0; i<stockDealHistories.size(); i++){
+            remainAmount += stockDealHistories.get(i).getAmount();
+        }
+        remainAmount += stockDealHistoryAddRequestDto.getAmount();
+        if(remainAmount < 0) return false;
+
 
         String content = "주식 거래(" + student.getNickname() + ") : " + stock.getName();
         bankService.addAccountHistory(new AccountHistoryAddUpdateRequestDto(student.getId(), -(price * amount), content));
 
-        StockDealHistory stockDealHistory = new StockDealHistory(stockDealHistoryAddRequestDto, stock, student);
-        // 내가 팔려고하는 개수가 내가 갖고 있는 것보다 많을 때
-        if(stockDealHistory.getAmount() < 0){
-            return false;
-        }
-        // 다 팔았을 때
-        else if(stockDealHistory.getAmount() == 0){
-            stockDealHistoryRepository.delete(stockDealHistory);
-            return true;
-        }
-        stockDealHistoryRepository.save(stockDealHistory);
+        stockDealHistoryRepository.save(new StockDealHistory(stockDealHistoryAddRequestDto, stock, student));
         return true;
     }
 

@@ -16,7 +16,7 @@ public class ResumeData
 
 public class JobMenuController : MonoBehaviour
 {
-  private static string baseURL = "http://k4b203.p.ssafy.io:8081/api/";
+  private static string baseURL = "https://k4b203.p.ssafy.io/api/";
   public RectTransform uiGroup;
   PlayerController enterPlayer;
 

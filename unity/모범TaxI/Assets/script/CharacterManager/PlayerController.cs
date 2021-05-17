@@ -61,29 +61,31 @@ public class PlayerController : MonoBehaviour
     eDown = Input.GetButtonDown("Interation");
   }
 
-  private void GetEnterState()
-  {
-    if (!eDown && nearObject != null) //콜라이더 영역에 들어가기만 하고 아직 e버튼은 안눌렀을 때
-    {
-      _typing = false;
-      isStop = false;
-    }
-    else if (eDown && nearObject != null) //콜라이더 영역에 들어가서 e버튼 눌렀을 때
-    {
-      _typing = true;
-      isStop = true;
-    }
-    else if (nearObject == null) //콜라이더 영역에 안들어갔을 떄
-    {
-      _typing = false;
-      isStop = false;
-    }
-  }
+  // private void GetEnterState()
+  // {
+  //   if (!eDown && nearObject != null) //콜라이더 영역에 들어가기만 하고 아직 e버튼은 안눌렀을 때
+  //   {
+  //     _typing = false;
+  //     isStop = false;
+  //   }
+  //   else if (eDown && nearObject != null) //콜라이더 영역에 들어가서 e버튼 눌렀을 때
+  //   {
+  //     _typing = true;
+  //     isStop = true;
+  //   }
+  //   else if (nearObject == null) //콜라이더 영역에 안들어갔을 떄
+  //   {
+  //     _typing = false;
+  //     isStop = false;
+  //   }
+  // }
 
   private void GetMenuState()
   {
     BankMenuController bank = GameObject.Find("SM_Bld_CityHall_01").GetComponent<BankMenuController>();
     JobMenuController job = GameObject.Find("SM_Bld_OfficeOld_Large_01").GetComponent<JobMenuController>();
+    StoreMenuController store = GameObject.Find("StoreBuilding").GetComponent<StoreMenuController>();
+
     if (bank.GetExitState())
     {
       _typing = false;
@@ -197,6 +199,11 @@ public class PlayerController : MonoBehaviour
         // _typing = true;
         StartCoroutine(JobMenuController.GetGenericJobList());
       }
+      else if (nearObject.tag == "Store")
+      {
+        StoreMenuController store = nearObject.GetComponent<StoreMenuController>();
+        store.Enter(this);
+      }
       _typing = true;
     }
   }
@@ -216,12 +223,18 @@ public class PlayerController : MonoBehaviour
       position = GameObject.Find("JobPlaceBuilding").GetComponent<Transform>();
       buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
     }
+    else if (other.tag == "Store")
+    {
+      nearObject = other.gameObject;
+      position = GameObject.Find("StoreBuilding").GetComponent<Transform>();
+      buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
+    }
     isStop = true;
   }
 
   private void OnTriggerStay(Collider other)
   {
-    if (other.tag == "Bank" || other.tag == "Job")
+    if (other.tag == "Bank" || other.tag == "Job" || other.tag == "Store")
     {
       nearObject = other.gameObject;
     }
@@ -243,6 +256,14 @@ public class PlayerController : MonoBehaviour
     {
       JobMenuController job = nearObject.GetComponent<JobMenuController>();
       job.Exit();
+      Destroy(buildingPSClone);
+      nearObject = null;
+      isStop = false;
+    }
+    else if (other.tag == "Store")
+    {
+      StoreMenuController store = nearObject.GetComponent<StoreMenuController>();
+      store.Exit();
       Destroy(buildingPSClone);
       nearObject = null;
       isStop = false;

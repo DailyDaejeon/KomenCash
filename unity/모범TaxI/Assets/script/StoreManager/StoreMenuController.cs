@@ -50,6 +50,9 @@ public class StoreMenuController : MonoBehaviour
   //상품 추가 요청 하기
 
   //상품 구매 내역 보기
+  private GameObject noneMSHClone;
+  private GameObject myStoreHistory;
+  private List<GameObject> MSHClone;
 
 
   void Start()
@@ -76,6 +79,23 @@ public class StoreMenuController : MonoBehaviour
   {
     uiGroup.anchoredPosition = Vector3.down * -1000;
     ObjectActive("StudentStoreMenu", -1);
+
+    if (noneSIClone != null) Destroy(noneSIClone);
+    if (SIClone != null)
+    {
+      foreach (GameObject item in SIClone)
+      {
+        Destroy(item);
+      }
+    }
+    if (noneMSHClone != null) Destroy(noneMSHClone);
+    if (MSHClone != null)
+    {
+      foreach (GameObject item in MSHClone)
+      {
+        Destroy(item);
+      }
+    }
     _isExit = true;
   }
 
@@ -94,7 +114,6 @@ public class StoreMenuController : MonoBehaviour
       }
       else
       {
-
         string result = request.downloadHandler.text;
         JSONNode root = JSON.Parse(result);
 
@@ -111,10 +130,12 @@ public class StoreMenuController : MonoBehaviour
         }
         else
         {
+          Debug.Log("상품 리스트 있음!" + result);
           Transform parent = GameObject.Find("StoreItemListContent").GetComponent<Transform>();
+          storeItem = Resources.Load("StoreItem") as GameObject;
           for (int i = 0; i < root.Count; i++)
           {
-            GameObject clone = Resources.Load("StoreItem") as GameObject;
+            GameObject clone = Instantiate(storeItem);
 
             Text itemId = clone.transform.GetChild(0).GetComponent<Text>();
             Text itemName = clone.transform.GetChild(1).GetComponent<Text>();
@@ -124,13 +145,14 @@ public class StoreMenuController : MonoBehaviour
             itemName.text = root[i]["name"].Value;
             itemPrice.text = root[i]["price"].Value;
 
+            clone.transform.SetParent(parent);
             SIClone.Add(clone);
 
             Button itemBtn = clone.GetComponent<Button>();
 
             itemBtn.onClick.AddListener(delegate ()
             {
-              OnPressBuyItemButton(itemId.text);
+              OnPressBuyItemButton(itemId.text, itemPrice.text);
             });
           }
         }
@@ -139,7 +161,7 @@ public class StoreMenuController : MonoBehaviour
   }
 
   //2. 상품 구매
-  private IEnumerator BuyItem(string itemId)
+  private IEnumerator BuyItem(string itemId, string itemPrice)
   {
     BuyItemData data = new BuyItemData();
     data.itemId = int.Parse(itemId);
@@ -167,6 +189,10 @@ public class StoreMenuController : MonoBehaviour
 
         if (result.Equals("true"))
         {
+          int balance = DataController.GetBalance() - int.Parse(itemPrice);
+          DataController.setBalance(balance);
+          Text statBalance = GameObject.Find("balance").GetComponent<Text>();
+          statBalance.text = "통장 잔액 : " + balance;
           ShowSuccessBuyItemAlert();
         }
         else
@@ -180,10 +206,10 @@ public class StoreMenuController : MonoBehaviour
   //3. 상품 추가 요청
   private void ShowAddRequestForm()
   {
-    InputField itemName = GameObject.Find("AddItemRequest").transform.GetChild(1).GetComponent<InputField>();
-    InputField itemReason = GameObject.Find("AddItemRequest").transform.GetChild(3).GetComponent<InputField>();
-    Button submitButton = GameObject.Find("AddItemRequest").transform.GetChild(4).GetComponent<Button>();
-    Button cancelButton = GameObject.Find("AddItemRequest").transform.GetChild(5).GetComponent<Button>();
+    InputField itemName = StoreForm.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<InputField>();
+    InputField itemReason = StoreForm.transform.GetChild(1).GetChild(1).GetChild(3).GetComponent<InputField>();
+    Button submitButton = StoreForm.transform.GetChild(1).GetChild(1).GetChild(4).GetComponent<Button>();
+    Button cancelButton = StoreForm.transform.GetChild(1).GetChild(1).GetChild(5).GetComponent<Button>();
 
     submitButton.onClick.AddListener(delegate ()
     {
@@ -211,6 +237,12 @@ public class StoreMenuController : MonoBehaviour
 
     using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "store/add-request", json))
     {
+      byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+      request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+
+      request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
+      request.SetRequestHeader("Accept", "application/json, text/plain, */*");
+
       yield return request.SendWebRequest();
 
       if (request.error != null)
@@ -233,7 +265,83 @@ public class StoreMenuController : MonoBehaviour
     }
   }
 
+  private IEnumerator ShowMyStoreHistory()
+  {
+    using (UnityWebRequest request = UnityWebRequest.Get(baseURL + "store/history/student/" + sId))
+    {
+      yield return request.SendWebRequest();
+
+      if (request.error != null)
+      {
+        Debug.Log(request.error);
+      }
+      else
+      {
+        string result = request.downloadHandler.text;
+        JSONNode root = JSON.Parse(result);
+
+        if (root.Count <= 0)
+        {
+          Transform parent = GameObject.Find("StoreHistoryContent").GetComponent<Transform>();
+          noneMSHClone = NoneContentMsgController.Show("상품을 구매한 이력이 없습니다!").gameObject;
+
+          RectTransform noneMSHRect = noneMSHClone.GetComponent<RectTransform>();
+          noneMSHClone.transform.SetParent(parent);
+
+          noneMSHRect.offsetMin = new Vector2(0, 0);
+          noneMSHRect.offsetMax = new Vector2(0, 0);
+        }
+        else
+        {
+          Transform parent = GameObject.Find("StoreHistoryContent").GetComponent<Transform>();
+          myStoreHistory = Resources.Load("StoreHistoryItem") as GameObject;
+          for (int i = root.Count - 1; i >= 0; i--)
+          {
+            GameObject clone = Instantiate(myStoreHistory);
+
+            Text itemName = clone.transform.GetChild(0).GetComponent<Text>();
+            Text itemPrice = clone.transform.GetChild(1).GetComponent<Text>();
+            Text purchaseDate = clone.transform.GetChild(2).GetComponent<Text>();
+            Text studentName = clone.transform.GetChild(3).GetComponent<Text>();
+
+            itemName.text = root[i]["name"].Value;
+            itemPrice.text = root[i]["price"].Value;
+            purchaseDate.text = root[i]["perchaseDate"].Value.Split('T')[0];
+            studentName.text = root[i]["studentNickname"].Value;
+
+            clone.transform.SetParent(parent);
+            MSHClone.Add(clone);
+          }
+        }
+      }
+    }
+  }
+
   //버튼 클릭 시, 실행될 메서드 연결시키는 메서드
+  public void OnPressBackButton()
+  {
+    if (StoreMenu.activeSelf == false)
+    {
+      if (noneSIClone != null) Destroy(noneSIClone);
+      if (SIClone != null)
+      {
+        foreach (GameObject item in SIClone)
+        {
+          Destroy(item);
+        }
+      }
+      if (noneMSHClone != null) Destroy(noneMSHClone);
+      if (MSHClone != null)
+      {
+        foreach (GameObject item in MSHClone)
+        {
+          Destroy(item);
+        }
+      }
+      ObjectActive("StudentStoreMenu", -1);
+    }
+  }
+
   public void OnPressShowStoreList()
   {
     SIClone = new List<GameObject>();
@@ -241,23 +349,22 @@ public class StoreMenuController : MonoBehaviour
     ObjectActive("GenericContentForms", 0);
   }
 
-  private void OnPressBuyItemButton(string itemId)
+  private void OnPressBuyItemButton(string itemId, string itemPrice)
   {
-    StartCoroutine(BuyItem(itemId));
+    StartCoroutine(BuyItem(itemId, itemPrice));
   }
 
-  private void OnPressAddItemRequest()
+  public void OnPressAddItemRequest()
   {
-    if (noneSIClone != null) Destroy(noneSIClone);
-    if (SIClone != null)
-    {
-      foreach (GameObject item in SIClone)
-      {
-        Destroy(item);
-      }
-    }
     ShowAddRequestForm();
     ObjectActive("GenericContentForms", 1);
+  }
+
+  public void OnPressMyStoreHistory()
+  {
+    MSHClone = new List<GameObject>();
+    StartCoroutine(ShowMyStoreHistory());
+    ObjectActive("GenericContentForms", 2);
   }
 
   //Alert 불러오는 메서드
@@ -286,8 +393,8 @@ public class StoreMenuController : MonoBehaviour
       okButtonTitle = "확인",
       okButtonDelegate = () =>
       {
-        InputField itemName = GameObject.Find("AddItemRequest").transform.GetChild(1).GetComponent<InputField>();
-        InputField itemReason = GameObject.Find("AddItemRequest").transform.GetChild(3).GetComponent<InputField>();
+        InputField itemName = StoreForm.transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<InputField>();
+        InputField itemReason = StoreForm.transform.GetChild(1).GetChild(1).GetChild(3).GetComponent<InputField>();
 
         itemName.text = "";
         itemReason.text = "";

@@ -94,6 +94,11 @@ public static class DataController
     student.job.salary = salary;
   }
 
+  public static void setBalance(int balance)
+  {
+    student.balance = balance;
+  }
+
   //로그인 한 유저 정보 불러오는 메서드
   public static StudentDTO LoadUserInfo()
   {

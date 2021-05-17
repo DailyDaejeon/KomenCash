@@ -11,9 +11,9 @@ import java.io.FileNotFoundException;
 @Service
 public class DownloadService {
 
-    public InputStreamResource executeFile() throws FileNotFoundException {
+    public File executeFile(){
 
         String filePath = "/home/ubuntu/client-download-file/MoneyJam.zip";
-        return new InputStreamResource(new FileInputStream(new File(filePath)));
+        return new File(filePath);
     }
 }

@@ -106,6 +106,11 @@ function salaryPaymentRequest(groupId) {
     data: groupId})
 }
 
+// 그룹원 월급 지급 요청 생성
+function downloadUnity() {
+  return instance.get(`download`)
+}
+
 export {
   fetchGroupMemberList,
   fetchGroupRequest,
@@ -126,5 +131,6 @@ export {
   modifyGroupMemberJobFire,
   acceptStatisDetail,
   fetchGroupMemeberStoreHistory,
-  salaryPaymentRequest
+  salaryPaymentRequest,
+  downloadUnity
 }

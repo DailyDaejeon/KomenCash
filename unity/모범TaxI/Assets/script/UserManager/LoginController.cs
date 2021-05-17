@@ -11,7 +11,7 @@ public class LoginController : MonoBehaviour
   StudentDTO dataController;
   private SceneChangeController mainScene;
 
-  public string baseURL = "http://k4b203.p.ssafy.io:8081/api/";
+  public string baseURL = "https://k4b203.p.ssafy.io/api/";
   public string userId;
   public string userPw;
 

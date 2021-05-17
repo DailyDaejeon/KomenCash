@@ -218,7 +218,7 @@ export default {
         fetchStoreRequestDetail(request.id).then((res) => {
           this.$swal({
             title: `${res.data.studentNickname}님의 상품추가 요청`,
-            text: `'${res.data.name}' 상품이 '${res.data.content}' 이유로 필요합니다. 추가해주세요. `
+            text: `'${res.data.name}' : '${res.data.content}' `
           })
         })
         

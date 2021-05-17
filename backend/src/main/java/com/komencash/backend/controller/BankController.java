@@ -1,7 +1,6 @@
 package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.bank.*;
-import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
 import com.komencash.backend.service.BankService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

@@ -1,6 +1,6 @@
 package com.komencash.backend.entity.board;
 
-import com.komencash.backend.dto.board.BoardInsertUpdateRequest;
+import com.komencash.backend.dto.board.BoardAddUpdateRequestDto;
 import com.komencash.backend.entity.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,16 +30,16 @@ public class Board {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    public void updateBoard(BoardInsertUpdateRequest boardInsertUpdateRequest) {
-        this.title = boardInsertUpdateRequest.getTitle();
-        this.content = boardInsertUpdateRequest.getContent();
+    public void updateBoard(BoardAddUpdateRequestDto boardAddUpdateRequestDto) {
+        this.title = boardAddUpdateRequestDto.getTitle();
+        this.content = boardAddUpdateRequestDto.getContent();
     }
 
 
-    public Board(BoardInsertUpdateRequest boardInsertUpdateRequest, Group group){
-        this.id = boardInsertUpdateRequest.getId();
-        this.title = boardInsertUpdateRequest.getTitle();
-        this.content = boardInsertUpdateRequest.getContent();
+    public Board(BoardAddUpdateRequestDto boardAddUpdateRequestDto, Group group){
+        this.id = boardAddUpdateRequestDto.getId();
+        this.title = boardAddUpdateRequestDto.getTitle();
+        this.content = boardAddUpdateRequestDto.getContent();
         this.group = group;
     }
 

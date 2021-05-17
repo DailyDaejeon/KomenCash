@@ -2,7 +2,7 @@
   <div class="card flex-fill">
     <div class="card-header">
       <h5 class="card-title mb-0">{{propsData.nickname}}님의 은행거래내역
-        <button @click="alertSend" class="float-right btn btn-main">입금</button>
+        <button @click="alertSend" class="float-right btn btn-main">입출금</button>
       </h5>
     </div>
     <table class="text-center table table-hover my-0">
@@ -85,7 +85,7 @@ export default {
         '<div id="swal2-content" class="swal2-html-container" style="display: block;">입금 내역을 적어주세요.</div>'+'<input id="swal-input-content" class="swal2-input" type="text" placeholder="방과후 청소 아르바이트">'
         +'<input id="swal-input-balance" class="swal2-input" type="number" placeholder="100">'+
         '<label class="ml-2">'+
-        '<input id="swal-input-tax" type="checkbox" value="useTax">세금에서 출금할까요?</label>',
+        '<input id="swal-input-tax" type="checkbox" value="useTax">세금에서 입출금할까요?</label>',
         focusConfirm: false,
         preConfirm: () => {
           return [

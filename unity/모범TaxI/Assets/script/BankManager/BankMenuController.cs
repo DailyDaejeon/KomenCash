@@ -612,7 +612,7 @@ public class BankMenuController : MonoBehaviour
               sendSalaryBtn.onClick.AddListener(delegate ()
               {
                 int salary = DataController.GetBalance() + int.Parse(sMemSalary.text) - int.Parse(sMemTax.text);
-                DataController.setSalary(salary);
+                DataController.setBalance(salary);
                 Text statBalance = GameObject.Find("balance").GetComponent<Text>();
                 statBalance.text = "통장 잔액 : " + salary;
                 StartCoroutine(OnPressSalaryPayment(sId.text, sMemId.text));

@@ -154,10 +154,11 @@ public class StoreService {
 
         if(bankService.findBalance(student.getId()) < itemPrice) return false;
 
-        String content = "온라인 스토어 물품 구매(" + student.getNickname() + ") : " + itemName;
+        String accountContent = "구매: " + itemName;
+        String taxContent = "온라인 스토어 물품 구매(" + student.getNickname() + ") : " + itemName;
         onlineStorePerchaseHistoryRepository.save(new OnlineStorePerchaseHistory(itemName, itemPrice, student));
-        bankService.addAccountHistory(new AccountHistoryAddUpdateRequestDto(student.getId(), -itemPrice, content));
-        taxService.addTaxHistory(new TaxHistoryAddUpdateRequestDto(itemPrice, content, student.getJob().getGroup().getId()));
+        bankService.addAccountHistory(new AccountHistoryAddUpdateRequestDto(student.getId(), -itemPrice, accountContent));
+        taxService.addTaxHistory(new TaxHistoryAddUpdateRequestDto(itemPrice, taxContent, student.getJob().getGroup().getId()));
 
         return true;
     }

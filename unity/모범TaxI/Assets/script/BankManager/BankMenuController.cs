@@ -26,9 +26,24 @@ public class SalaryPaymentData
   public string student_id;
 }
 
+[System.Serializable]
+public class FinanRequestListData
+{
+  public int historyId;
+  public string productName;
+  public int studentId;
+  public string studentNickname;
+  public int studentCreditGrade;
+  public int principal;
+  public double rate;
+  public string status;
+  public string startDate;
+  public string endDate;
+}
+
 public class BankMenuController : MonoBehaviour
 {
-  private string baseURL = "http://k4b203.p.ssafy.io:8081/api/";
+  private string baseURL = "https://k4b203.p.ssafy.io/api/";
   public RectTransform uiGroup;
   PlayerController enterPlayer;
 
@@ -93,10 +108,18 @@ public class BankMenuController : MonoBehaviour
   private List<GameObject> memberSalaryList;
 
   /* 금융 상품 요청 리스트 */
+  private List<FinanRequestListData> registerList;
+  private List<FinanRequestListData> terminationList;
 
   //금융 상품 신청 요청
+  private GameObject noneRegRequest;
+  private GameObject FPRClone;
+  private List<GameObject> FPRList;
 
   //금융 상품 중도 해지 요청
+  private GameObject noneTermRequest;
+  private GameObject FPTClone;
+  private List<GameObject> FPTList;
 
   void Start()
   {
@@ -161,6 +184,22 @@ public class BankMenuController : MonoBehaviour
     if (memberSalaryList != null)
     {
       foreach (GameObject item in memberSalaryList)
+      {
+        Destroy(item);
+      }
+    }
+    if (noneRegRequest != null) Destroy(noneRegRequest);
+    if (FPRList != null)
+    {
+      foreach (GameObject item in FPRList)
+      {
+        Destroy(item);
+      }
+    }
+    if (noneTermRequest != null) Destroy(noneRegRequest);
+    if (FPTList != null)
+    {
+      foreach (GameObject item in FPTList)
       {
         Destroy(item);
       }
@@ -611,14 +650,16 @@ public class BankMenuController : MonoBehaviour
 
               sendSalaryBtn.onClick.AddListener(delegate ()
               {
-                int salary = DataController.GetBalance() + int.Parse(sMemSalary.text) - int.Parse(sMemTax.text);
-                DataController.setBalance(salary);
-                Text statBalance = GameObject.Find("balance").GetComponent<Text>();
-                statBalance.text = "통장 잔액 : " + salary;
+                if (sMemName.Equals(DataController.GetStudentNickname()))
+                {
+                  int salary = DataController.GetBalance() + int.Parse(sMemSalary.text) - int.Parse(sMemTax.text);
+                  DataController.setBalance(salary);
+                  Text statBalance = GameObject.Find("balance").GetComponent<Text>();
+                  statBalance.text = "통장 잔액 : " + salary;
+                }
                 StartCoroutine(OnPressSalaryPayment(sId.text, sMemId.text));
                 Destroy(clone);
               });
-
               memberSalaryList.Add(clone);
             }
           }
@@ -667,16 +708,151 @@ public class BankMenuController : MonoBehaviour
         string result = request.downloadHandler.text;
         JSONNode root = JSON.Parse(result);
 
-        if (root.Count <= 0)
+        Debug.Log(result);
+        if (root.Count > 0)
         {
-          // Transform parent = GameObject.Find("GroupMemberList").GetComponent<Transform>();
-          // noneSRClone = NoneContentMsgController.Show("오늘은 월급날이 아닙니다!").gameObject;
+          FinanRequestListData list = new FinanRequestListData();
+          foreach (JSONNode item in root)
+          {
+            list.historyId = item["historyId"].AsInt;
+            list.productName = item["productName"].Value;
+            list.studentId = item["studentId"].AsInt;
+            list.studentNickname = item["studentNickname"].Value;
+            list.studentCreditGrade = item["studentCreditGrade"].AsInt;
+            list.principal = item["principal"].AsInt;
+            list.rate = item["rate"].AsDouble;
+            list.status = item["status"].Value;
+            list.startDate = item["startDate"].Value.Split('T')[0];
+            list.endDate = item["endDate"].Value.Split('T')[0];
 
-          // noneSRClone.transform.SetParent(parent);
+            if (item["status"].Value.Equals("before_deposit"))
+            {
+              registerList.Add(list);
+            }
+            else if (item["status"].Value.Equals("before_termination"))
+            {
+              terminationList.Add(list);
+            }
+          }
         }
-        else
-        {
+      }
+    }
+  }
 
+  private void ShowRegList()
+  {
+    if (registerList.Count <= 0)
+    {
+      Transform parent = GameObject.Find("RegistRequestContent").GetComponent<Transform>();
+      noneRegRequest = NoneContentMsgController.Show("상품 가입 요청이 없습니다!").gameObject;
+
+      noneRegRequest.transform.SetParent(parent);
+    }
+    else
+    {
+      Transform parent = GameObject.Find("RegistRequestContent").GetComponent<Transform>();
+      FPRClone = Resources.Load("FinanRequestItem") as GameObject;
+
+      for (int i = 0; i < registerList.Count; i++)
+      {
+        GameObject clone = Instantiate(FPRClone);
+        Text finanProdHistoryId = clone.transform.GetChild(0).GetComponent<Text>();
+        Text finanProdname = clone.transform.GetChild(1).GetComponent<Text>();
+        Text studentId = clone.transform.GetChild(2).GetComponent<Text>();
+        Text studentName = clone.transform.GetChild(3).GetComponent<Text>();
+        Text principal = clone.transform.GetChild(4).GetComponent<Text>();
+        Text startDate = clone.transform.GetChild(5).GetComponent<Text>();
+        Button confirmButton = clone.transform.GetChild(6).GetComponent<Button>();
+
+        finanProdHistoryId.text = registerList[i].historyId.ToString();
+        finanProdname.text = registerList[i].productName;
+        studentId.text = registerList[i].studentId.ToString();
+        studentName.text = registerList[i].studentNickname;
+        principal.text = registerList[i].principal.ToString();
+        startDate.text = registerList[i].startDate;
+
+        confirmButton.onClick.AddListener(delegate ()
+        {
+          StartCoroutine(ConfirmRegisterRequest(finanProdHistoryId.text));
+          Destroy(clone);
+        });
+
+        clone.transform.SetParent(parent);
+        FPRList.Add(clone);
+      }
+    }
+  }
+  private void ShowTermList()
+  {
+    if (terminationList.Count <= 0)
+    {
+      Transform parent = GameObject.Find("TermRequestContent").GetComponent<Transform>();
+      noneTermRequest = NoneContentMsgController.Show("상품 중도 해지 요청이 없습니다!").gameObject;
+
+      noneTermRequest.transform.SetParent(parent);
+    }
+    else
+    {
+      Transform parent = GameObject.Find("TermRequestContent").GetComponent<Transform>();
+      FPTClone = Resources.Load("FinanRequestItem") as GameObject;
+
+      for (int i = 0; i < terminationList.Count; i++)
+      {
+        GameObject clone = Instantiate(FPTClone);
+        Text finanProdHistoryId = clone.transform.GetChild(0).GetComponent<Text>();
+        Text finanProdname = clone.transform.GetChild(1).GetComponent<Text>();
+        Text studentId = clone.transform.GetChild(2).GetComponent<Text>();
+        Text studentName = clone.transform.GetChild(3).GetComponent<Text>();
+        Text principal = clone.transform.GetChild(4).GetComponent<Text>();
+        Text endDate = clone.transform.GetChild(5).GetComponent<Text>();
+        Button confirmButton = clone.transform.GetChild(6).GetComponent<Button>();
+
+        finanProdHistoryId.text = terminationList[i].historyId.ToString();
+        finanProdname.text = terminationList[i].productName;
+        studentId.text = terminationList[i].studentId.ToString();
+        studentName.text = terminationList[i].studentNickname;
+        principal.text = terminationList[i].principal.ToString();
+        endDate.text = terminationList[i].endDate;
+
+        confirmButton.onClick.AddListener(delegate ()
+        {
+          StartCoroutine(ConfirmRegisterRequest(finanProdHistoryId.text));
+          Destroy(clone);
+        });
+
+        clone.transform.SetParent(parent);
+        FPTList.Add(clone);
+      }
+    }
+  }
+
+  private IEnumerator ConfirmRegisterRequest(string finanProdHistoryId)
+  {
+    FinanProdRegistData data = new FinanProdRegistData();
+
+    string json = JsonUtility.ToJson(data);
+    using (UnityWebRequest request = UnityWebRequest.Put(baseURL + "bank/financial-status-accept/" + finanProdHistoryId, json))
+    {
+      byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+      request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+
+      request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
+      request.SetRequestHeader("Accept", "application/json, text/plain, */*");
+
+      yield return request.SendWebRequest();
+
+      if (request.error != null)
+      {
+        Debug.Log(request.error);
+      }
+      else
+      {
+        Debug.Log(request.downloadHandler.text);
+        string result = request.downloadHandler.text;
+
+        if (result.Equals("true"))
+        {
+          ShowSuccessRequestConfirmAlert();
         }
       }
     }
@@ -714,6 +890,22 @@ public class BankMenuController : MonoBehaviour
     if (memberSalaryList != null)
     {
       foreach (GameObject item in memberSalaryList)
+      {
+        Destroy(item);
+      }
+    }
+    if (noneRegRequest != null) Destroy(noneRegRequest);
+    if (FPRList != null)
+    {
+      foreach (GameObject item in FPRList)
+      {
+        Destroy(item);
+      }
+    }
+    if (noneTermRequest != null) Destroy(noneRegRequest);
+    if (FPTList != null)
+    {
+      foreach (GameObject item in FPTList)
       {
         Destroy(item);
       }
@@ -757,7 +949,25 @@ public class BankMenuController : MonoBehaviour
         Destroy(item);
       }
     }
-
+    if (noneRegRequest != null) Destroy(noneRegRequest);
+    if (FPRList != null)
+    {
+      foreach (GameObject item in FPRList)
+      {
+        Destroy(item);
+      }
+    }
+    if (noneTermRequest != null) Destroy(noneRegRequest);
+    if (FPTList != null)
+    {
+      foreach (GameObject item in FPTList)
+      {
+        Destroy(item);
+      }
+    }
+    registerList = new List<FinanRequestListData>();
+    terminationList = new List<FinanRequestListData>();
+    StartCoroutine(GetFinanProdRequestList());
     ObjectActive("JobMember", -1);
   }
 
@@ -791,12 +1001,16 @@ public class BankMenuController : MonoBehaviour
 
   public void OnPressFPRequestSetting()
   {
+    FPRList = new List<GameObject>();
     ObjectActive("JobContentForms", 1);
+    ShowRegList();
   }
 
   public void OnPressFPRevocationSetting()
   {
+    FPTList = new List<GameObject>();
     ObjectActive("JobContentForms", 2);
+    ShowTermList();
   }
 
   //버튼 클릭하면 해당 아이디가 저장된 오브젝트 활성화 시키기
@@ -907,6 +1121,14 @@ public class BankMenuController : MonoBehaviour
   {
     string title = "";
     string message = "상품 가입 신청이 완료되었습니다!";
+
+    AlertViewController.Show(title, message);
+  }
+
+  private void ShowSuccessRequestConfirmAlert()
+  {
+    string title = "";
+    string message = "요청이 처리되었습니다!";
 
     AlertViewController.Show(title, message);
   }

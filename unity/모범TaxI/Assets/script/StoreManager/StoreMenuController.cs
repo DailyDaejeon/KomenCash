@@ -22,7 +22,7 @@ public class AddItemRequestData
 
 public class StoreMenuController : MonoBehaviour
 {
-  private string baseURL = "http://k4b203.p.ssafy.io:8081/api/";
+  private string baseURL = "https://k4b203.p.ssafy.io/api/";
   public RectTransform uiGroup;
   PlayerController enterPlayer;
 

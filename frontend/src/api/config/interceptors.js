@@ -5,7 +5,7 @@ import router from '@/routes/index.js';
 
 export function setInterceptors() {
   let instance = axios.create({
-    baseURL: 'http://k4b203.p.ssafy.io:8081/api',
+    baseURL: 'https://k4b203.p.ssafy.io/api',
     // CORS 방지코드
     // headers: {
     //   Authorization: store.state.user.token

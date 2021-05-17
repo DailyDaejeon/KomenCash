@@ -115,6 +115,11 @@ public static class DataController
     return student.id;
   }
 
+  public static string GetStudentNickname()
+  {
+    return student.nickname;
+  }
+
   public static string GetMonetaryUnitName()
   {
     return student.group.monetary_unit_name;

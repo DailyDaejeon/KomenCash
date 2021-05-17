@@ -8,94 +8,95 @@ using SimpleJSON;
 [System.Serializable]
 public class UserData
 {
-    public string nickname;
-    public string password;
-    public string code;
+  public string nickname;
+  public string password;
+  public string code;
 }
 
 public class JoinController : MonoBehaviour
 {
-    public string baseURL = "http://k4b203.p.ssafy.io:8081/api/";
-    public string userNickname;
-    public string userPassword;
-    public string userGroupcode;
-    private SceneChangeController loginForm;
+  public string baseURL = "https://k4b203.p.ssafy.io/api/";
+  public string userNickname;
+  public string userPassword;
+  public string userGroupcode;
+  private SceneChangeController loginForm;
 
-    public void setNickname(InputField inputNickname)
+  public void setNickname(InputField inputNickname)
+  {
+    userNickname = inputNickname.text;
+  }
+
+  public void setPassword(InputField inputPassword)
+  {
+    userPassword = inputPassword.text;
+  }
+
+  public void setGroupCode(InputField inputGroupcode)
+  {
+    userGroupcode = inputGroupcode.text;
+  }
+
+  //회원가입
+  public void OnClickButton()
+  {
+    if (userNickname.Length == 0 || userPassword.Length == 0 || userGroupcode.Length == 0)
     {
-        userNickname = inputNickname.text;
+      Debug.Log("모든 항목은 필수 입력값입니다.");
+      return;
     }
-
-    public void setPassword(InputField inputPassword)
+    else if (userNickname.Length != 0 && userPassword.Length != 0 && userGroupcode.Length != 0)
     {
-        userPassword = inputPassword.text;
+      StartCoroutine(Join());
     }
+  }
 
-    public void setGroupCode(InputField inputGroupcode)
-    {
-        userGroupcode = inputGroupcode.text;
-    }
+  private IEnumerator Join()
+  {
+    UserData data = new UserData();
+    data.nickname = userNickname;
+    data.password = userPassword;
+    data.code = userGroupcode;
 
-    //회원가입
-    public void OnClickButton()
+    string json = JsonUtility.ToJson(data);
+    Debug.Log("json : " + json);
+
+    using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "ustudent/student", json))
     {
-        if (userNickname.Length == 0 || userPassword.Length == 0 || userGroupcode.Length == 0)
+      byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+      request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+      /*request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();*/
+
+      request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
+      request.SetRequestHeader("Accept", "application/json, text/plain, */*");
+
+      yield return request.SendWebRequest();
+
+      if (request.error != null)
+      {
+        Debug.Log(request.error);
+      }
+      else
+      {
+        Debug.Log("response : " + request.downloadHandler.text);
+
+        string result = request.downloadHandler.text;
+        JSONNode root = JSON.Parse(result);
+
+        bool isTrue = root["error"];
+
+        if (isTrue)
         {
-            Debug.Log("모든 항목은 필수 입력값입니다.");
-            return;
-        } else if(userNickname.Length != 0 && userPassword.Length != 0 && userGroupcode.Length != 0)
-        {
-            StartCoroutine(Join());
+          Debug.Log(root["error"]);
         }
-    }
-
-    private IEnumerator Join()
-    {
-        UserData data = new UserData();
-        data.nickname = userNickname;
-        data.password = userPassword;
-        data.code = userGroupcode;
-
-        string json = JsonUtility.ToJson(data);
-        Debug.Log("json : " + json);
-
-        using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "ustudent/student", json))
+        else
         {
-            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
-            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
-            /*request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();*/
+          Debug.Log("성공적으로 가입되었습니다.");
 
-            request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
-            request.SetRequestHeader("Accept", "application/json, text/plain, */*");
-
-            yield return request.SendWebRequest();
-
-            if (request.error != null)
-            {
-                Debug.Log(request.error);
-            }
-            else
-            {
-                Debug.Log("response : " + request.downloadHandler.text);
-                
-                string result = request.downloadHandler.text;
-                JSONNode root = JSON.Parse(result);
-
-                bool isTrue = root["error"];
-
-                if (isTrue)
-                {
-                    Debug.Log(root["error"]);
-                }
-                else
-                {
-                    Debug.Log("성공적으로 가입되었습니다.");
-                
-                    //로그인 페이지로 이동
-                    loginForm = GameObject.Find("JoinRestAPIRequester").GetComponent<SceneChangeController>();
-                    loginForm.GoToLoginForm();
-                }
-            }
+          //로그인 페이지로 이동
+          loginForm = GameObject.Find("JoinRestAPIRequester").GetComponent<SceneChangeController>();
+          loginForm.GoToLoginForm();
         }
+      }
     }
+  }
 }

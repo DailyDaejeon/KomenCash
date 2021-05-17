@@ -191,7 +191,7 @@ export default {
           })
 				this.$store.commit('logout')
 				this.$store.commit('deleteGroupInfo')				
-				this.$router.push({name:"Login"})
+				this.$router.push({name:"AboutPage"})
 				}
 			})
      

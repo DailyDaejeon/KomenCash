@@ -22,7 +22,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '@/sass/components/about';
+// @import '@/sass/components/about';
 
 </style>
 

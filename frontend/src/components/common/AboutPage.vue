@@ -16,5 +16,5 @@
 <style lang="scss" scoped>
 @import '@/sass/components/about';
 
-
 </style>
+

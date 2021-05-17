@@ -3,8 +3,8 @@ node_modules
 /dist
 
 # css 파일
-*.css
-/css
+# *.css
+# /css
 
 # local env files
 .env.local

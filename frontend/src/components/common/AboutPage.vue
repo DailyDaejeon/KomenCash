@@ -65,7 +65,7 @@
         </defs>
       </svg>
     </section>
-    <div></div>
+    <div class="about_div"> </div>
     <section id="about3">
   <!-- version3 -->
       <div class="text-effect">
@@ -109,6 +109,11 @@ export default {
 
 
 <style lang="scss" scoped>
+.about_div {
+  height:100vh;
+  position:'relative';
+  display:block;
+}
 // version 1
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
@@ -308,7 +313,7 @@ $height: 960;        // Height of the starfield
   background: radial-gradient(
     circle,
     rgba(255, 252, 0, 1) 0%,
-    rgba(240, 237, 23, 1) 100%
+    rgba(231, 171, 60, 1) 100%
   );
   height: 100vh;
   display: flex;

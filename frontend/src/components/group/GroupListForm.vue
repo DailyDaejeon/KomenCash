@@ -124,7 +124,39 @@ export default {
       {
         title: '튜토리얼 8단계',
         html: 
-            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><h3 class="fw-bold swal2-title">[신용등급]</h3><p>1. 해당 페이지에서는 그룹의 주식을 관리 할 수 있는 페이지입니다.</p><p>2. 학생들이 다음 날 유추를 할 수 있는 힌트와 함께 주식을 새로 추가할 수 있습니다.</p><p>3. 주식을 클릭하면 주가 변동 현황 차트와 주식 내용을 수정 및 삭제를 할 수 있습니다.</p></div>',
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><h3 class="fw-bold swal2-title">[신용등급]</h3><p>1. 해당 페이지에서는 그룹의 신용등급을 볼 수 있는 페이지입니다.</p><p>2. 그룹원의 신용등급 현황을 차트로 볼 수 있습니다.</p><p>3. 표에는 각 그룹원의 신용등급과 신용점수를 볼 수 있습니다.</p></div>',
+        confirmButtonText: 'Next &rarr;',
+        showCancelButton: true,
+        progressSteps: ['1', '2'],
+      },
+      {
+        title: '튜토리얼 9단계',
+        html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><h3 class="fw-bold swal2-title">[제출물관리]</h3><p>1. 해당 페이지에서는 그룹의 제출물을 관리하는 페이지입니다.</p><p>2. "제출물 생성"버튼은 그룹원이 내야 될 제출물을 등록할 수 있습니다.</p><p>3. 해당 제출물 목록을 클릭하면, 상세 내용과 그룹원 목록과 함께 제출여부를 확인할 수 있습니다.</p><p>4. 그룹원이 제출물을 제출했다면 "O"버튼을 눌려 제출완료를 확인해주세요. 신용등급 점수에 영향을 줍니다.</p></div>',
+        confirmButtonText: 'Next &rarr;',
+        showCancelButton: true,
+        progressSteps: ['1', '2'],
+      },
+      {
+        title: '튜토리얼 10단계',
+        html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><h3 class="fw-bold swal2-title">[온라인스토어]</h3><p>1. 해당 페이지에서는 그룹의 온라인 상품을 관리하는 페이지입니다.</p><p>2. "상품추가"버튼을 통해 새로운 상품을 등록할 수 있습니다.</p><p>3. 연필모양을 클릭하면 상품을 수정하고, 삭제할 수 있습니다.</p><p>4. "상품 거래내역 관리" 탭은 그룹원들이 온라인 스토어에서 구매했던 내역을 조회할 수 있습니다.</p></div>',
+        confirmButtonText: 'Next &rarr;',
+        showCancelButton: true,
+        progressSteps: ['1', '2'],
+      },
+      {
+        title: '튜토리얼 11단계',
+        html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><h3 class="fw-bold swal2-title">[그룹정보]</h3><p>1. 해당 페이지에서는 그룹을 관리하는 페이지입니다.</p><p>2. "그룹정보"탭에서는 그룹의 정보를 수정 및 삭제할 수 있습니다.</p><p>3. "내정보"탭에서는 선생님의 정보를 수정, 삭제를 할 수 있습니다.</p><p>4. "자격증 정보"탭에서는 그룹의 자격증을 추가, 수정, 삭제를 할 수 있습니다.</p></div>',
+        confirmButtonText: 'Next &rarr;',
+        showCancelButton: true,
+        progressSteps: ['1', '2'],
+      },
+      {
+        title: '튜토리얼 12단계',
+        html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><h3 class="fw-bold swal2-title">[그룹원정보]</h3><p>1. 해당 페이지에서는 그룹원을 관리하는 페이지입니다.</p><p>2. 그룹원의 정보, 잔고, 신용등급, 자격증, 예금, 주식, 경위서, 상품 구매내역 등 모든 정보를 볼 수 있습니다.</p><p>3. "직업변경" 버튼은 그룹원의 직업을 변경할 수 있습니다.</p><p>4. "자격증"칸은 그룹원이 획득한 자격증을 추가 및 삭제를 할 수 있습니다.</p><p>4. "직업변경" 버튼은 그룹원의 직업을 변경할 수 있습니다.</p></div>',
         confirmButtonText: 'Next &rarr;',
         showCancelButton: true,
         progressSteps: ['1', '2'],

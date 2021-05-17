@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 @RestController
@@ -17,7 +18,7 @@ public class DownloadController {
     DownloadService downloadService;
 
     @GetMapping
-    public InputStreamResource executeFile() throws FileNotFoundException {
+    public File executeFile(){
         return downloadService.executeFile();
     }
 

@@ -6,9 +6,6 @@
           <div class="d-table-cell align-middle">
             <div class="text-center mt-4">
               <h1 class="h2">Welcome back, MONEY JAM!</h1>
-              <p class="lead">
-                Sign in to your account to continue
-              </p>
             </div>
 
             <div class="card">
@@ -22,7 +19,7 @@
                       autocapitalize="off"
                       class="form-control form-control-lg" type="email" name="email" placeholder="moneyjam@moneyjam.com" />
                       <p class="warning-form">
-                        <span class="warning-text" v-if="!isUserIdValid && userId">
+                        <span class="text-danger" v-if="!isUserIdValid && userId">
                         id를 이메일형식으로 입력하세요.
                         </span>
                       </p>
@@ -37,14 +34,6 @@
                       <!-- <div class="input-group-text input-group-button" @click="viewPassword">
                         <font-awesome-icon :icon="['far', fwName]" :style="{ color: '#495057' }"/>
                       </div> -->
-                    </div>
-                    <div>
-                      <label class="form-check">
-                      <input class="form-check-input" type="checkbox" value="remember-me" name="remember-me" checked>
-                      <span class="form-check-label">
-                        Remember me next time
-                      </span>
-                      </label>
                     </div>
                     <div class="text-center mt-3">
                       <button 

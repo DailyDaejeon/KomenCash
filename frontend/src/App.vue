@@ -37,7 +37,7 @@ export default {
   methods: {
     toggleNav() {
       this.istoggleNav = !this.istoggleNav;
-    }
+    },
   }
 }
 </script>

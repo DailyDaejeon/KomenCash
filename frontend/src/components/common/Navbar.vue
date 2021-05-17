@@ -36,6 +36,12 @@ export default {
 	methods : {
 		toggleSidebar() {
 			this.$emit("toggleNav");	
+			if (!this.groupInfo) {
+        this.$swal({
+          title:'그룹을 선택해주세요!',
+          icon:'warning',
+        })
+      }
 		},
 	}
 }

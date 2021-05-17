@@ -46,7 +46,7 @@ export default {
       this.taxList = res.data
       this.taxList = this.taxList.reverse()
       // console.log(this.taxList)
-      this.totalTax = this.taxList[this.taxList.length-1].balance
+      this.totalTax = this.taxList[0].balance
     },
     modifyTax() {
       this.$swal({

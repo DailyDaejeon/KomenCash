@@ -55,7 +55,7 @@ public class GroupService {
 
         Group group = new Group(groupAddUpdateRequestDto, teacher);
         group = groupRepository.save(group);
-        taxHistoryRepository.save(new TaxHistory(new TaxHistoryAddUpdateRequestDto(0, "initial",group.getId()), group, 0));
+        taxHistoryRepository.save(new TaxHistory(new TaxHistoryAddUpdateRequestDto(0, "그룹 생성",group.getId()), group, 0));
         return group.getId();
     }
 

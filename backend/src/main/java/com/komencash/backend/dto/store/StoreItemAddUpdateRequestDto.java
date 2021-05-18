@@ -13,4 +13,10 @@ public class StoreItemAddUpdateRequestDto {
     private String name;
     private int price;
     private int groupId;
+
+    public StoreItemAddUpdateRequestDto(String name, int price, int groupId){
+        this.name = name;
+        this.price = price;
+        this.groupId = groupId;
+    }
 }

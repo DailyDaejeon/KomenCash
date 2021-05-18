@@ -13,4 +13,10 @@ public class CertificateAddUpdateRequestDto {
     private String name;
     private String acquisitionCondition;
     private int groupId;
+
+    public CertificateAddUpdateRequestDto(String name, String acquisitionCondition, int groupId){
+        this.name = name;
+        this.acquisitionCondition = acquisitionCondition;
+        this.groupId = groupId;
+    }
 }

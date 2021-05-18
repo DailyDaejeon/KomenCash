@@ -15,4 +15,12 @@ public class LawAddUpdateRequestDto {
     private int paragraph;
     private String content;
     private int groupId;
+
+    public LawAddUpdateRequestDto(String lawType, int article, int paragraph, String content, int groupId){
+        this.lawType = lawType;
+        this.article = article;
+        this.paragraph = paragraph;
+        this.content = content;
+        this.groupId = groupId;
+    }
 }

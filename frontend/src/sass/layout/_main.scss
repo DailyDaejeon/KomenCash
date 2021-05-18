@@ -11,6 +11,6 @@
   border-bottom-left-radius: 0;
   
   @include media-breakpoint-up(lg) {
-    box-shadow: $main-box-shadow;
+    // box-shadow: $main-box-shadow;
   }
 }

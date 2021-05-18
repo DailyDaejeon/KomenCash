@@ -60,7 +60,7 @@ public class JoinController : MonoBehaviour
     string json = JsonUtility.ToJson(data);
     Debug.Log("json : " + json);
 
-    using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "ustudent/student", json))
+    using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "ustudent/", json))
     {
       byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
       request.uploadHandler = new UploadHandlerRaw(jsonToSend);

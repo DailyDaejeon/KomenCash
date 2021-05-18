@@ -25,7 +25,6 @@
 <script>
 import { validatePhoneNum } from '@/utils/validations';
 import { phoneAuth } from '@/api/user';
-// import store from '@/stores/index';
 import { mapState } from 'vuex';
 
 export default {

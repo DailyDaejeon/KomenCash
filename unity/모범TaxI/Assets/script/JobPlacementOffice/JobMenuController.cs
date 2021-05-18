@@ -413,7 +413,7 @@ public class JobMenuController : MonoBehaviour
       request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
       request.SetRequestHeader("Accept", "application/json, text/plain, */*");
 
-      yield return request.downloadHandler.text;
+      yield return request.SendWebRequest();
 
       if (request.error != null)
       {

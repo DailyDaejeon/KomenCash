@@ -2,7 +2,9 @@
   <b-container class="container-setting">
     <template 
     v-if="showCertiForm"> 
-      <PhoneCertification @checkCertification="checkCertification"/>
+      <PhoneCertification
+      :getIdChk="true" :getUserId="true"
+       @checkCertification="checkCertification"/>
     </template>
     <b-col class="showID" :style="{ display: idDisplay }">
       고객님의 아이디는

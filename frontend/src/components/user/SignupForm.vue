@@ -50,7 +50,7 @@
                       
 										</div>
                     <p class="warning-form warning-signup">
-                      <span class="warning-text" v-if="!isUserIdValid">
+                      <span class="text-danger" v-if="!isUserIdValid">
                         id를 이메일형식으로 입력하세요.
                       </span>
                     </p>
@@ -77,12 +77,14 @@
                       />
                     </div>
                     <p class="warning-form warning-signup">
-                      <span class="warning-text" v-if="!isPasswordConfirmValid">
+                      <span class="text-danger" v-if="!isPasswordConfirmValid">
                         password가 일치하지 않습니다.
                       </span>
                     </p>
                     <div class="mb-3">
-                    <PhoneCertification class="join-authentic" @checkCertification="checkCertification"/>
+                    <PhoneCertification class="join-authentic" 
+                    :getIdChk="true" :getUserId="true"
+                    @checkCertification="checkCertification"/>
                     </div>
                     <div class="fw-checkbox">
                         <input type="checkbox" id="term1" value="term1" v-model="isTerm.term1"
@@ -294,7 +296,7 @@ export default {
     },
     checkCertification(e) {
       this.userPhoneNumber = store.state.userInfo.phoneNumber;
-      this.userPhoneNumber = e
+      this.userPhoneNumber = e.phoneNumber;
       this.showCertiForm = false;
     },
     clickphonebtn() {
@@ -330,6 +332,7 @@ export default {
       }
     },
     async submitSignup() {
+      console.log(this.idCheck)
       if(this.idCheck){
         this.$swal({
         text: "이미 사용중인 아이디입니다.",
@@ -351,15 +354,30 @@ export default {
       if (!this.clickSignupBtn) {
         return;
       }
+      if (!this.userPhoneNumber) {
+        this.$swal({
+        text: "휴대폰 번호 인증을 완료해주세요.",
+        icon: 'info',
+        timer: 1300,
+        showConfirmButton: false,
+      })
+        return;
+      }
       try {
         const userData = {
             email:this.userId,
             password: this.password,
-            phone_number : this.userPhoneNumber,
+            phoneNumber : this.userPhoneNumber,
             nickname : this.username,
         };
-        await registerUser(userData);
-        this.$router.push({name:'Login'});
+        await registerUser(userData).then(() => {
+          this.$swal({
+            title:'회원가입이 완료됐습니다.',
+            icon:'success',
+            timer:1500
+          })
+          this.$router.push({name:'Login'});
+        });
       } catch(error) {
         console.log(error)
       }

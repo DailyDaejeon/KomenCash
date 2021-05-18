@@ -27,10 +27,12 @@ public class PlayerController : MonoBehaviour
   // private GameObject menuButton;
   // GameObject menuButtonClone; //메뉴창을 열기 위한 버튼
 
+  bool runDown; //달릴 때
   bool eDown; //트리거에 들어가서 버튼 클릭하면 메뉴창 열리는 버튼
 
   private bool isStop = false;
   private bool _typing = false;
+
 
   GameObject nearObject;
 
@@ -61,25 +63,6 @@ public class PlayerController : MonoBehaviour
     eDown = Input.GetButtonDown("Interation");
   }
 
-  // private void GetEnterState()
-  // {
-  //   if (!eDown && nearObject != null) //콜라이더 영역에 들어가기만 하고 아직 e버튼은 안눌렀을 때
-  //   {
-  //     _typing = false;
-  //     isStop = false;
-  //   }
-  //   else if (eDown && nearObject != null) //콜라이더 영역에 들어가서 e버튼 눌렀을 때
-  //   {
-  //     _typing = true;
-  //     isStop = true;
-  //   }
-  //   else if (nearObject == null) //콜라이더 영역에 안들어갔을 떄
-  //   {
-  //     _typing = false;
-  //     isStop = false;
-  //   }
-  // }
-
   private void GetMenuState()
   {
     BankMenuController bank = GameObject.Find("SM_Bld_CityHall_01").GetComponent<BankMenuController>();
@@ -103,6 +86,7 @@ public class PlayerController : MonoBehaviour
             S, ↓ 버튼을 입력 => -1   */
     float _moveDirX = Input.GetAxisRaw("Horizontal"); //좌우 이동 크기
     float _moveDirZ = Input.GetAxisRaw("Vertical");   //앞뒤 이동 크기
+    runDown = Input.GetButton("Run");
 
     /*  Vector3 : 3차원 벡터와 위치를 표현. 3차원 공간에서의 위치와 벡터를 표현하기 위해 사용한다.
         Transform : 게임오브젝트의 위치, 회전, 스케일을 나타낸다.
@@ -112,10 +96,11 @@ public class PlayerController : MonoBehaviour
     Vector3 _moveHorizontal = transform.right * _moveDirX; //좌우 이동 벡터 값
     Vector3 _moveVertical = transform.forward * _moveDirZ; //앞뒤 이동 벡터 값
 
-    Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * walkSpeed; //속도 벡터 : (이동할 방향 * 속도 크기)로 character의 속도를 나타낸다. normalized : 방향 값이 1로 보정된 벡터
+    Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * walkSpeed * (runDown ? 1.6f : 1f); //속도 벡터 : (이동할 방향 * 속도 크기)로 character의 속도를 나타낸다. normalized : 방향 값이 1로 보정된 벡터
     myRigid.MovePosition(transform.position + _velocity * Time.deltaTime); //(현재 위치 + 속도 * deltaTime) 위치로 이동
 
     animator.SetBool("isWalk", _velocity != Vector3.zero);
+    animator.SetBool("isRun", runDown);
   }
 
   private void CameraRotation() //위아래 카메라 회전(X축 회전)
@@ -204,6 +189,11 @@ public class PlayerController : MonoBehaviour
         StoreMenuController store = nearObject.GetComponent<StoreMenuController>();
         store.Enter(this);
       }
+      else if (nearObject.tag == "Statistics")
+      {
+        StatisticsMenuController statistics = nearObject.GetComponent<StatisticsMenuController>();
+        statistics.Enter(this);
+      }
       _typing = true;
     }
   }
@@ -229,12 +219,18 @@ public class PlayerController : MonoBehaviour
       position = GameObject.Find("StoreBuilding").GetComponent<Transform>();
       buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
     }
+    else if (other.tag == "Statistics")
+    {
+      nearObject = other.gameObject;
+      position = GameObject.Find("StatisticsBuilding").GetComponent<Transform>();
+      buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
+    }
     isStop = true;
   }
 
   private void OnTriggerStay(Collider other)
   {
-    if (other.tag == "Bank" || other.tag == "Job" || other.tag == "Store")
+    if (other.tag == "Bank" || other.tag == "Job" || other.tag == "Store" || other.tag == "Statistics")
     {
       nearObject = other.gameObject;
     }
@@ -264,6 +260,14 @@ public class PlayerController : MonoBehaviour
     {
       StoreMenuController store = nearObject.GetComponent<StoreMenuController>();
       store.Exit();
+      Destroy(buildingPSClone);
+      nearObject = null;
+      isStop = false;
+    }
+    else if (other.tag == "Statistics")
+    {
+      StatisticsMenuController statistics = nearObject.GetComponent<StatisticsMenuController>();
+      statistics.Exit();
       Destroy(buildingPSClone);
       nearObject = null;
       isStop = false;

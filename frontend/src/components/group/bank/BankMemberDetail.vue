@@ -26,6 +26,9 @@
         </tr>
       </tbody>
     </table>
+    <p class="h4 text-center m-1" v-if="!paginatedData.length">
+      계좌 내역이 없습니다.
+    </p>
     <div  v-if="paginatedData.length" class="btn-cover text-center">
       <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
       <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>

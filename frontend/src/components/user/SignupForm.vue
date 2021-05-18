@@ -61,12 +61,18 @@
                           <font-awesome-icon :icon="['far', fwName ]" :style="{color:'#495057'}" />
                         </span>
                       </h4>
+                      
 											<input 
                       class="form-control form-control-lg"
                       name="password" 
                       v-model="password"
                       :type="passwordType"
                       placeholder="8자 이상 입력해주세요." />
+                      <p class="warning-form warning-signup">
+                      <span class="text-danger" v-if="!isPasswordValid">
+                        password를 8자 이상 입력하세요.
+                      </span>
+                      </p>
 										</div>
                     <div>
                       <input

@@ -1,6 +1,8 @@
 <template>
   <main class="content">
-    <!-- <div>law</div> -->
+    <div class='d-flex justify-content-end'>
+      <button @click="alertTuto" class="btn btn-main">튜토리얼</button>
+    </div>
     <div class="container-fluid p-0">
       <div class="row mb-2 mb-xl-3">
         <div class="col-auto d-none d-sm-block">
@@ -95,8 +97,17 @@ export default {
     })
   },
   methods: {
-
-    
+    alertTuto() {
+      this.$swal.queue([
+        {
+        title: '법률 및 투표 튜토리얼',
+        html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><p>1. 해당 페이지에서는 그룹의 헌법 및 투표를 확인할 수 있습니다.</p><p>2. "법률 제안 요청 관리"에서는 학생들이 제출한 법률 제안서를 확인할 수 있습니다.<p>3. "자세히" 버튼을 클릭하면 투표 결과와 함께 내용을 확인할 수 있습니다.</p><p>4. 법률을 추가하고 싶다면, "헌법추가"버튼을 통해 추가할 수 있습니다.</p><p>5. "수락(O) 또는 거절(X)"을 클릭하여 요청을 없애주세요.</p><p>6. 법률을 수정하고 싶다면 옆의 "노란 연필"버튼을 클릭 후 수정하고 싶은 부분만 작성한 뒤 "수정"버튼을 눌러주세요.</p><p>7. "투표 관리"에서는 학생들이 제시한 투표 목록과 결과를 볼 수 있습니다.</p><p>8. "자세히" 버튼을 클릭하면, 투표 결과를 차트로 확인할 수 있습니다.</p></div>',
+        confirmButtonText: '확인',
+        // showCancelButton: true,
+      },
+      ])
+    },
     addVote() {
       // this.showModal = true;
       this.$swal({

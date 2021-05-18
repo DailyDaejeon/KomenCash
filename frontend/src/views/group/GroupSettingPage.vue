@@ -1,5 +1,8 @@
 <template>
   <main class="content">
+    <div class='d-flex justify-content-end mb-3'>
+      <button @click="alertTuto" class="btn btn-main">튜토리얼</button>
+    </div>
     <div class="container-fluid p-0">
       <div class="row">
         <div class="col-md-3 col-xl-2">
@@ -105,6 +108,19 @@ export default {
       ],
     }
   },
+  methods : {
+    alertTuto() {
+      this.$swal.queue([
+        {
+        title: '그룹정보 튜토리얼',
+        html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><p>1. 해당 페이지에서는 그룹을 관리하는 페이지입니다.</p><p>2. "그룹정보"탭에서는 그룹의 정보를 수정 및 삭제할 수 있습니다.</p><p>3. "내정보"탭에서는 선생님의 정보를 수정, 삭제를 할 수 있습니다.</p><p>4. "자격증 정보"탭에서는 그룹의 자격증을 추가, 수정, 삭제를 할 수 있습니다.</p></div>',
+        confirmButtonText: '확인',
+
+      },
+      ])
+    },
+  }
 }
 </script>
 

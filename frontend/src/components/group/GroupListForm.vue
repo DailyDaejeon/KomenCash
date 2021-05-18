@@ -60,6 +60,14 @@ export default {
       {
         title: '튜토리얼 2단계',
         html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><p>1. Money Jam에서는 그룹이 한 나라가 됩니다.</p><p>2. [국회] 페이지에서는 법을 정할 수 있고 진행된 투표 현황을 볼 수 있습니다.</p><p>3. [직업] 페이지에서는 직업이나 아르바이트를 가질 수 있습니다. 역할을 맡아서 일을 하고, 월급도 받고 세금도 냅니다.<p>4. "자세히" 버튼을 클릭하면 투표 결과와 함께 내용을 확인할 수 있습니다.</p><p>5. 법률을 추가하고 싶다면, "헌법추가"버튼을 통해 추가할 수 있습니다.</p><p>6. "수락(O) 또는 거절(X)"을 클릭하여 요청을 없애주세요.</p><p>7. 법률을 수정하고 싶다면 옆의 "노란 연필"버튼을 클릭 후 수정하고 싶은 부분만 작성한 뒤 "수정"버튼을 눌러주세요.</p><p>8. "투표 관리"에서는 학생들이 제시한 투표 목록과 결과를 볼 수 있습니다.</p><p>9. "자세히" 버튼을 클릭하면, 투표 결과를 차트로 확인할 수 있습니다.</p></div>',
+        confirmButtonText: 'Next &rarr;',
+        showCancelButton: true,
+        progressSteps: ['1', '2','3','4','5','6','7','8','9','10','11','12','13','14'],
+      },
+      {
+        title: '튜토리얼 2단계',
+        html: 
             '<div id="swal2-content" class="swal2-html-container" style="display: block;"><h3 class="fw-bold swal2-title">[그룹 생성 단계]</h3><p>1. 먼저 학생들과 함께 할 그룹을 생성해주세요.</p><p>2. 그룹 이름과 화폐단위를 설정해 그룹을 생성한 뒤 그룹을 클릭해주세요.</p><p>3. 그룹 설정에 들어가셔서 "그룹코드"를 복사한 뒤, 학생들이 "그룹코드"로 회원가입을 진행할 수 있습니다.</p><p>4. 그룹 가입을 요청한 학생들을 "그룹원 가입 요청"에서 "수락(O)"을 눌러주세요.</p></div>',
         confirmButtonText: 'Next &rarr;',
         showCancelButton: true,

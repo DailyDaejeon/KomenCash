@@ -8,7 +8,7 @@
           <h3 class="d-inline-block">{{voteInfo.content}}</h3>
         </div>
       </div>
-      <div class="row">
+      <div class="row" v-if="paginatedData.length">
         <div class="col-12">
           <div class="card flex-fill w-100">
             <div class="card-body">
@@ -19,7 +19,7 @@
           </div>
         </div>
       </div>
-      <table class="text-center table table-hover text-center">
+      <table v-if="paginatedData.length" class="text-center table table-hover text-center">
         <tr>
           <th>No.</th>
           <th>이름</th>
@@ -31,6 +31,9 @@
           <td>{{student.choiceItemContent}}</td>
         </tr>
       </table>
+      <p class="h4" v-if="!paginatedData.length">
+        아직 투표를 한 학생이 없습니다.
+      </p>
       <div  v-if="paginatedData.length" class="btn-cover text-center">
         <button :disabled="pageNum === 0" @click="prevPage" class="page-btn mr-3">이전</button>
         <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>

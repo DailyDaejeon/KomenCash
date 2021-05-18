@@ -3,6 +3,7 @@ package com.komencash.backend.service;
 import com.komencash.backend.dto.certificate.CertificateFindListResponseDto;
 import com.komencash.backend.dto.job.JobFindResponseDto;
 import com.komencash.backend.dto.student.*;
+import com.komencash.backend.dto.tax.TaxHistoryFindResponseDto;
 import com.komencash.backend.entity.bank.AccountHistory;
 import com.komencash.backend.entity.group.Group;
 import com.komencash.backend.entity.job.Job;
@@ -10,6 +11,7 @@ import com.komencash.backend.entity.request_history.Accept;
 import com.komencash.backend.entity.request_history.GroupMemberAddRequestHistory;
 import com.komencash.backend.entity.request_history.ResumeRequestHistory;
 import com.komencash.backend.entity.student.Student;
+import com.komencash.backend.entity.tax.TaxHistory;
 import com.komencash.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,9 @@ public class UStudentService {
     JobAddRequestHistoryRepository jobAddRequestHistoryRepository;
     @Autowired
     ResumeRequestHistoryRepository resumeRequestHistoryRepository;
+    @Autowired
+    TaxService taxService;
+
     public Map<String, Object> joinStudent(StudentJoinRequestDto request) {
         Map<String, Object> resultMap = new HashMap<>();
         Group group = groupRepository.findByCode(request.getCode());
@@ -70,25 +75,35 @@ public class UStudentService {
         groupMemberAddRequestHistoryRepository.save(new GroupMemberAddRequestHistory(Accept.before_confirm, student));
     }
 
+
     public Map<String,Object> login(StudentLoginRequestDto dto) {
         Map<String, Object> resultMap = new HashMap<>();
         Student student = studentRepository.findByNickname(dto.getNickname());
+
         if(student == null){
             resultMap.put("fail", "존재하는 닉네임이 아닙니다.");
             return resultMap;
         }
+
         GroupMemberAddRequestHistory test = groupMemberAddRequestHistoryRepository.findByStudent_Id(student.getId());
         System.out.println(test);
         Accept accept = test.getAccept();
+
         if(accept!= null && accept.equals(Accept.accept)) {
             if (dto.getPassword().equals(student.getPassword())) {
+                List<TaxHistoryFindResponseDto> taxHistoryFindResponseDtos = taxService.findTaxHistoryList(student.getJob().getGroup().getId());
+                double remainTax = taxHistoryFindResponseDtos.size() == 0 ? 0 : taxHistoryFindResponseDtos.get(taxHistoryFindResponseDtos.size() - 1).getBalance();
+
                 resultMap.put("success", student);
+                resultMap.put("remainTax", remainTax);
                 return resultMap;
             }
             resultMap.put("fail", "비밀번호가 틀립니다.");
             return resultMap;
-        }else
-            resultMap.put("fail", "그룹에서 수락하지 않았습니다");
+        }
+
+        else resultMap.put("fail", "그룹에서 수락하지 않았습니다");
+
         return resultMap;
     }
 

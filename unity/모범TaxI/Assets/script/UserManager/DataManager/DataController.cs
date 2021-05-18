@@ -129,4 +129,14 @@ public static class DataController
   {
     return student.balance;
   }
+
+  public static int GetTax()
+  {
+    return student.group.tax;
+  }
+
+  public static double GetTaxRate()
+  {
+    return student.group.tax_rate;
+  }
 }

@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour
     BankMenuController bank = GameObject.Find("SM_Bld_CityHall_01").GetComponent<BankMenuController>();
     JobMenuController job = GameObject.Find("SM_Bld_OfficeOld_Large_01").GetComponent<JobMenuController>();
     StoreMenuController store = GameObject.Find("StoreBuilding").GetComponent<StoreMenuController>();
+    StatisticsMenuController statistics = GameObject.Find("StatisticsBuilding").GetComponent<StatisticsMenuController>();
+    TaxMenuController tax = GameObject.Find("TaxBuilding").GetComponent<TaxMenuController>();
 
     if (bank.GetExitState())
     {
@@ -181,7 +183,6 @@ public class PlayerController : MonoBehaviour
       {
         JobMenuController job = nearObject.GetComponent<JobMenuController>();
         job.Enter(this);
-        // _typing = true;
         StartCoroutine(JobMenuController.GetGenericJobList());
       }
       else if (nearObject.tag == "Store")
@@ -193,6 +194,12 @@ public class PlayerController : MonoBehaviour
       {
         StatisticsMenuController statistics = nearObject.GetComponent<StatisticsMenuController>();
         statistics.Enter(this);
+      }
+      else if (nearObject.tag == "NationalTax")
+      {
+        TaxMenuController tax = nearObject.GetComponent<TaxMenuController>();
+        tax.Enter(this);
+        TaxMenuController.ShowGroupTaxInfo();
       }
       _typing = true;
     }
@@ -225,12 +232,18 @@ public class PlayerController : MonoBehaviour
       position = GameObject.Find("StatisticsBuilding").GetComponent<Transform>();
       buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
     }
+    else if (other.tag == "NationalTax")
+    {
+      nearObject = other.gameObject;
+      position = GameObject.Find("TaxBuilding").GetComponent<Transform>();
+      buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
+    }
     isStop = true;
   }
 
   private void OnTriggerStay(Collider other)
   {
-    if (other.tag == "Bank" || other.tag == "Job" || other.tag == "Store" || other.tag == "Statistics")
+    if (other.tag == "Bank" || other.tag == "Job" || other.tag == "Store" || other.tag == "Statistics" || other.tag == "NationalTax")
     {
       nearObject = other.gameObject;
     }
@@ -268,6 +281,14 @@ public class PlayerController : MonoBehaviour
     {
       StatisticsMenuController statistics = nearObject.GetComponent<StatisticsMenuController>();
       statistics.Exit();
+      Destroy(buildingPSClone);
+      nearObject = null;
+      isStop = false;
+    }
+    else if (other.tag == "NationalTax")
+    {
+      TaxMenuController tax = nearObject.GetComponent<TaxMenuController>();
+      tax.Exit();
       Destroy(buildingPSClone);
       nearObject = null;
       isStop = false;

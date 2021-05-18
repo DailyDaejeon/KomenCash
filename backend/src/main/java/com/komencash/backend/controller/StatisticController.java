@@ -2,10 +2,7 @@ package com.komencash.backend.controller;
 
 import com.komencash.backend.dto.bank.FinancialProductAddUpdateRequestDto;
 import com.komencash.backend.dto.law.LawAddUpdateRequestDto;
-import com.komencash.backend.dto.statistic.StatisticListAddRequestDto;
-import com.komencash.backend.dto.statistic.StatisticListDetailUpdateSubmitRequestDto;
-import com.komencash.backend.dto.statistic.StatisticListFindDetailResponseDto;
-import com.komencash.backend.dto.statistic.StatisticListFindResponseDto;
+import com.komencash.backend.dto.statistic.*;
 import com.komencash.backend.dto.vote.VoteFindResponseDto;
 import com.komencash.backend.service.StatisticService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -65,7 +62,7 @@ public class StatisticController {
 
     @ApiOperation(value = "제출 내역 제출", notes = "신관위로 학생들 제출 내역을 제출하고 결과를 반환")
     @PutMapping("/submit")
-    public boolean updateStatisticListSubmit(@RequestBody int statisticListId) {
-        return statisticService.updateStatisticListSubmit(statisticListId);
+    public boolean updateStatisticListSubmit(@RequestBody StatisticListUpdateSubmitRequestDto statisticListUpdateSubmitRequestDto) {
+        return statisticService.updateStatisticListSubmit(statisticListUpdateSubmitRequestDto.getStatisticListId());
     }
 }

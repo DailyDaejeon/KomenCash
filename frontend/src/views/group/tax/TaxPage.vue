@@ -9,7 +9,7 @@
         </div>  
       </div>
     </div>
-    <TaxHistory :taxHistoryList="taxList" :groupInfo="groupInfo"/>
+    <TaxHistory @updateData="updateData" :taxHistoryList="taxList" :groupInfo="groupInfo"/>
   </main>
 </template>
 
@@ -38,6 +38,9 @@ export default {
     })
   },
   methods: {
+    updateData(){
+      this.fetchTax()
+    },
     priceToString(price) {
       return price.toLocaleString('ko-KR')
     },

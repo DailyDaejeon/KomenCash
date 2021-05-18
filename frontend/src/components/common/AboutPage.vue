@@ -6,8 +6,9 @@
       <div class="about1__button">
         <a class="button-w button btn-2" @click.prevent="goTeacherPage">TEACHER</a>
         <!-- <button class="btn-2" @click="downloadUnity">STUDENT</button> -->
-        <a class="button button-w btn-2" href=".\MoneyJam.zip" download>STUDENT</a>
-        <!--  @click.prevent="downloadHref" -->
+        <span @click="downloadHref">
+        <a id="student" class="button button-w btn-2">STUDENT</a>
+        </span>
       </div>
     </h1>
   </section>
@@ -35,13 +36,16 @@ export default {
         showCancelButton:true
       }).then((res)=>{
         if (res.isConfirmed) {
-          this.url = "./MoneyJam.zip"
+          const studentBtn = document.querySelector('#student');
+          studentBtn.href = "./MoneyJam.zip"
+          studentBtn.download = 'MoneyJam.zip'
+          studentBtn.click()
           // 다운받는 API
-          this.$swal({
-            title:'다운이 완료되었습니다.',
-            text:'유니티를 실행시켜주세요!',
-            icon:'success'
-          })
+          // this.$swal({
+          //   title:'다운이 완료되었습니다.',
+          //   text:'유니티를 실행시켜주세요!',
+          //   icon:'success'
+          // })
         }
       })
     },

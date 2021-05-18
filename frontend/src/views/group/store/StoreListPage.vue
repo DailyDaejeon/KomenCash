@@ -1,5 +1,8 @@
 <template>
   <main class="content">
+    <div class='d-flex justify-content-end mb-3'>
+      <button @click="alertTuto" class="btn btn-main">튜토리얼</button>
+    </div>
     <div class="container-fluid p-0">
       <h1 class="h3 mb-3">온라인스토어</h1>
       <div @click="addProduct">
@@ -36,6 +39,16 @@ export default {
     })
   },
   methods: {
+    alertTuto() {
+      this.$swal.queue([
+        {
+        title: '온라인스토어 튜토리얼',
+        html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><p>1. 해당 페이지에서는 그룹의 온라인 상품을 관리하는 페이지입니다.</p><p>2. "상품추가"버튼을 통해 새로운 상품을 등록할 수 있습니다.</p><p>3. 연필모양을 클릭하면 상품을 수정하고, 삭제할 수 있습니다.</p><p>4. "상품 거래내역 관리" 탭은 그룹원들이 온라인 스토어에서 구매했던 내역을 조회할 수 있습니다.</p></div>',
+        confirmButtonText: '확인',
+      },
+      ])
+    },
     updateData() {
       this.fetchStoreProducts()
     },

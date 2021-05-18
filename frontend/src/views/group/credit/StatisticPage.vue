@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class='d-flex justify-content-end m-3'>
+      <button @click="alertTuto" class="btn btn-main">튜토리얼</button>
+    </div>
     <div class="d-flex flex-row justify-content-end m-3">
       <button @click="addStatis" class="btn btn-main">제출물생성</button>
     </div>
@@ -28,6 +31,16 @@ export default {
     })
   },
   methods: {
+    alertTuto() {
+      this.$swal.queue([
+        {
+        title: '제출물관리 튜토리얼',
+        html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><p>1. 해당 페이지에서는 그룹의 제출물을 관리하는 페이지입니다.</p><p>2. "제출물 생성"버튼은 그룹원이 내야 될 제출물을 등록할 수 있습니다.</p><p>3. 해당 제출물 목록을 클릭하면, 상세 내용과 그룹원 목록과 함께 제출여부를 확인할 수 있습니다.</p><p>4. 그룹원이 제출물을 제출했다면 "O"버튼을 눌려 제출완료를 확인해주세요. 신용등급 점수에 영향을 줍니다.</p></div>',
+        confirmButtonText: '확인',
+      },
+      ])
+    },
     async fetchStatistic() {
       const res = await fetchStatisticList(this.groupInfo.id)
       this.statisticList = res.data

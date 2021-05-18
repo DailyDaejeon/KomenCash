@@ -1,5 +1,8 @@
 <template>
   <main class="content">
+    <div class='d-flex justify-content-end mb-3'>
+      <button @click="alertTuto" class="btn btn-main">튜토리얼</button>
+    </div>
     <button class="mr-3 btn btn-main"  @click="createFinancial">예금상품추가</button>
     <ListItem @updateData="updateData" listType="financial" :propsData="financialData"/>
   </main>
@@ -26,6 +29,16 @@ export default {
     })
   },
   methods: {
+    alertTuto() {
+      this.$swal.queue([
+        {
+        title: '예금상품 튜토리얼',
+        html: 
+            '<div id="swal2-content" class="swal2-html-container" style="display: block;"><p>1. 해당 페이지에서는 그룹의 예금상품을 관리 할 수 있는 페이지입니다.</p><p>2. 신용등급에 따른 예금이율이 다른 상품을 생성할 수 있습니다.</p><p>3. 상품을 선택하면 해당 상품에 가입신청한 학생 목록, 가입된 학생 목록, 예금 상세 내역 등을 볼 수 있습니다.</p></div>',
+        confirmButtonText: '확인',
+      },
+      ])
+    },
     updateData(e) {
       console.log(e)
       this.fetchFinancialData()

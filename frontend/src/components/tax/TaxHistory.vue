@@ -97,7 +97,7 @@ export default {
         {
           title: '세금내역추가 2단계',
           input: 'number',
-          text: '금액을 작성해주세요',
+          text: '금액을 작성해주세요. 세금에서 나가는 돈은 "-"를 붙여주세요.',
           inputPlaceholder: '100',
           confirmButtonText: 'Next &rarr;',
         showCancelButton: true,
@@ -113,12 +113,15 @@ export default {
             content: result.value[0],
             balanceChange: result.value[1]
           }
-          addTaxData(answers)
-        this.$swal({
-            title: '세금내역이 추가됐어요!',
-            icon:"success",
-            confirmButtonText: 'Lovely!'
+          addTaxData(answers).then(()=>{
+            this.$emit('updateData')
+            this.$swal({
+              title: '세금내역이 추가됐어요!',
+              icon:"success",
+              timer:1500
+            })
           })
+        
         }
         })
     },

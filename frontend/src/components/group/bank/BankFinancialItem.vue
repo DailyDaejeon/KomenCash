@@ -33,6 +33,9 @@
       요청 내역이 없습니다.
       </p>
     </div>
+    <span class="w-25 ">
+    <button class="btn btn-main text-center" @click="modifyDetail">예금상품수정</button>
+    </span>
     <div class="row">
       <div class="col-6">
         <h3>예금명</h3>
@@ -80,7 +83,6 @@
         </table>
       </div>
     </div>
-    <button class="btn btn-main" @click="modifyDetail">예금상품수정</button>
     <table class="text-center table table-hover my-0">
       <thead>
         <tr>
@@ -108,6 +110,9 @@
         <span class="page-count mr-3">{{pageNum+1}}/{{pageCount}} 페이지 </span>
         <button :disabled="pageNum >= pageCount-1"  @click="nextPage" class="page-btn">다음</button>
     </div>
+    <p class="h4 text-center m-1" v-if="!paginatedData.length">
+      가입 내역이 없습니다.
+      </p>
     <button class="btn btn-danger" @click="deleteProduct">예금상품삭제</button>
   </div>
 </template>

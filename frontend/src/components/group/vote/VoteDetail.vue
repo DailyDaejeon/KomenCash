@@ -8,7 +8,7 @@
           <h3 class="d-inline-block">{{voteInfo.content}}</h3>
         </div>
       </div>
-      <div class="row" v-if="paginatedData.length">
+      <div class="row" >
         <div class="col-12">
           <div class="card flex-fill w-100">
             <div class="card-body">

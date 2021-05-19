@@ -19,8 +19,8 @@
         <div class="group-list-card" v-for="(group,index) in groupList" :key="index">
           <div class="card" @click="goDetail(group)">
             <div class="card-body" style="padding-top:60px;padding-bottom:60px;text-align:center">
-              <h3 class="mt-1 mb-3">{{group.group.name}}</h3>
-              <span class="text-danger">{{priceToString(group.studentCnt)}}명</span><br>
+              <h1 class="mt-1 mb-3">{{group.group.name}}</h1>
+              <span class="text-success h4">{{priceToString(group.studentCnt)}}명</span><br>
             </div>
           </div>
         </div>

@@ -1,11 +1,3 @@
-.about_div {
-  height:100vh;
-  position:'relative';
-  display:block;
-}
-
-
-// version 1
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
 #about1 {
@@ -96,5 +88,24 @@
         color:white !important;
       }
     }
+  }
+}
+
+
+#about2 {
+  height: 100vh;
+  background-color: $white;
+  text-align: center;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about2 {
+  &__h1 {
+    font-weight: 700;
+    font-family: 'Luckiest Guy';
+    color: $main;
+    font-size: 50pt;
   }
 }

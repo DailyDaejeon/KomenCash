@@ -13175,12 +13175,6 @@ footer.footer ul {
   }
 }
 
-.about_div {
-  height: 100vh;
-  position: 'relative';
-  display: block;
-}
-
 #about1 {
   height: 100vh;
   background-color: #e7ab3c;
@@ -13259,6 +13253,28 @@ footer.footer ul {
 
 .about1__h1 .button-w {
   color: white !important;
+}
+
+#about2 {
+  height: 100vh;
+  background-color: #fff;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.about2__h1 {
+  font-weight: 700;
+  font-family: 'Luckiest Guy';
+  color: #e7ab3c;
+  font-size: 50pt;
 }
 
 .temp-bc.login {
@@ -14308,6 +14324,12 @@ footer.footer ul {
   width: 100%;
   padding-right: 12px;
   padding-left: 12px;
+}
+
+.group-list-card .card .card-body:hover,
+.add-group-card .card .card-body:hover {
+  background-color: #e7ab3c;
+  border-radius: 0.25rem;
 }
 
 .group-list-card:hover {

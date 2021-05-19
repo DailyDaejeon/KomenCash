@@ -74,7 +74,7 @@ public static class DataController
   {
     student.balance = sInfo["balance"].AsInt;
 
-    List<string> list = new List<string>();
+    List<JSONNode> list = new List<JSONNode>();
     if (sInfo["certificates"].Count != 0)
     {
       foreach (JSONNode item in sInfo["certificates"])
@@ -97,6 +97,11 @@ public static class DataController
   public static void setBalance(int balance)
   {
     student.balance = balance;
+  }
+
+  public static void setTax(int tax)
+  {
+    student.group.tax = tax;
   }
 
   //로그인 한 유저 정보 불러오는 메서드

@@ -47,7 +47,7 @@ export default {
         title: '국세청 튜토리얼',
         html: 
             '<div id="swal2-content" class="swal2-html-container" style="display: block;"><p>1. 해당 페이지에서는 그룹의 세금 내역을 확인할 수 있는 페이지입니다.</p><p>2. "세금내역추가"를 통해 내역을 직접 추가할 수도 있습니다.</p><p>3. "소득세율수정" 버튼은 월급을 낼 때 내는 소득세를 수정할 수 있습니다.</p></div>',
-        confirmButtonText: 'ghkrdls',
+        confirmButtonText: '확인',
       },
       ])
     },

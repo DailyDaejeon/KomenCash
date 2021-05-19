@@ -243,6 +243,7 @@ public class BankMenuController : MonoBehaviour
           for (int i = root.Count - 1; i >= 0; i--)
           {
             GameObject clone = Instantiate(accountHistory);
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
             Text date = clone.transform.GetChild(0).GetComponent<Text>();
             Text content = clone.transform.GetChild(1).GetComponent<Text>();
             Text balanceChange = clone.transform.GetChild(2).GetComponent<Text>();
@@ -255,6 +256,7 @@ public class BankMenuController : MonoBehaviour
             balance.text = root[i]["balance"].Value;
 
             clone.transform.SetParent(parent);
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             AHClone.Add(clone);
           }
         }
@@ -292,6 +294,8 @@ public class BankMenuController : MonoBehaviour
           noneMyFPCRect.offsetMax = new Vector2(0, 0);
           noneMyFPCRect.offsetMin = new Vector2(0, 0);
           noneMyFPCRect.anchoredPosition = new Vector2(0, 0);
+
+          noneMyFPCRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
           //다른 페이지로 이동할때는 다시 true 처리 해줘야하나...?
         }
@@ -362,6 +366,9 @@ public class BankMenuController : MonoBehaviour
             itemRect.offsetMax = new Vector2(-8, -10);
             itemRect.offsetMin = new Vector2(5, 0);
             itemClone.SetActive(false);
+
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
             MyFPClone.Add(clone);
             MyFPClone.Add(itemClone);
@@ -456,6 +463,7 @@ public class BankMenuController : MonoBehaviour
           noneFPCRect.offsetMax = new Vector2(0, 0);
           noneFPCRect.offsetMin = new Vector2(0, 0);
           noneFPCRect.anchoredPosition = new Vector2(0, 0);
+          noneFPCRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -482,6 +490,9 @@ public class BankMenuController : MonoBehaviour
               if (FPDClone != null) Destroy(FPDClone);
               StartCoroutine(OnPressFinanProdDetail(clone.transform.GetChild(0).GetComponent<Text>().text));
             });
+
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
             FPClone.Add(clone);
           }
@@ -526,6 +537,7 @@ public class BankMenuController : MonoBehaviour
         RectTransform FPDCRect = FPDClone.GetComponent<RectTransform>();
         FPDCRect.offsetMax = new Vector2(0, 0);
         FPDCRect.offsetMin = new Vector2(0, 0);
+        FPDCRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
         StartCoroutine(GetStudentCreditGrade());
         string myPDId = "";
@@ -623,6 +635,9 @@ public class BankMenuController : MonoBehaviour
           noneSRClone = NoneContentMsgController.Show("오늘은 월급날이 아닙니다!").gameObject;
 
           noneSRClone.transform.SetParent(parent);
+
+          RectTransform noneSRCloneRect = noneSRClone.GetComponent<RectTransform>();
+          noneSRCloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -647,6 +662,8 @@ public class BankMenuController : MonoBehaviour
               sMemTax.text = root[i]["tax_loss"].Value;
 
               clone.transform.SetParent(parent);
+              RectTransform cloneRect = clone.GetComponent<RectTransform>();
+              cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
               sendSalaryBtn.onClick.AddListener(delegate ()
               {
@@ -655,7 +672,7 @@ public class BankMenuController : MonoBehaviour
                   int salary = DataController.GetBalance() + int.Parse(sMemSalary.text) - int.Parse(sMemTax.text);
                   DataController.setBalance(salary);
                   Text statBalance = GameObject.Find("balance").GetComponent<Text>();
-                  statBalance.text = "통장 잔액 : " + salary;
+                  statBalance.text = "통장 잔액 : " + MyInfoController.GetThousandCommaText(salary) + " " + DataController.GetMonetaryUnitName();
                 }
                 StartCoroutine(OnPressSalaryPayment(sId.text, sMemId.text));
                 Destroy(clone);
@@ -747,6 +764,9 @@ public class BankMenuController : MonoBehaviour
       noneRegRequest = NoneContentMsgController.Show("상품 가입 요청이 없습니다!").gameObject;
 
       noneRegRequest.transform.SetParent(parent);
+
+      RectTransform noneRegRequestRect = noneRegRequest.GetComponent<RectTransform>();
+      noneRegRequestRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
     }
     else
     {
@@ -778,6 +798,9 @@ public class BankMenuController : MonoBehaviour
         });
 
         clone.transform.SetParent(parent);
+        RectTransform cloneRect = clone.GetComponent<RectTransform>();
+        cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
         FPRList.Add(clone);
       }
     }
@@ -790,6 +813,9 @@ public class BankMenuController : MonoBehaviour
       noneTermRequest = NoneContentMsgController.Show("상품 중도 해지 요청이 없습니다!").gameObject;
 
       noneTermRequest.transform.SetParent(parent);
+
+      RectTransform noneTermRequestRect = noneTermRequest.GetComponent<RectTransform>();
+      noneTermRequestRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
     }
     else
     {
@@ -821,6 +847,9 @@ public class BankMenuController : MonoBehaviour
         });
 
         clone.transform.SetParent(parent);
+        RectTransform cloneRect = clone.GetComponent<RectTransform>();
+        cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
         FPTList.Add(clone);
       }
     }

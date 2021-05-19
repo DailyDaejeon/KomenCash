@@ -33,7 +33,7 @@ public class TaxMenuController : MonoBehaviour
   private static int gId;
   private int sId;
 
-  private int currentTaxAmount = 0;
+  // private int currentTaxAmount = 0;
 
   //생성해야하는 prefab
   private static GameObject noneItem;
@@ -86,7 +86,7 @@ public class TaxMenuController : MonoBehaviour
   private static void GetGroupTax()
   {
     Text tax = GameObject.Find("TaxContent").GetComponent<Text>();
-    tax.text = DataController.GetTax().ToString() + " " + DataController.GetMonetaryUnitName();
+    tax.text = MyInfoController.GetThousandCommaText(DataController.GetTax()) + " " + DataController.GetMonetaryUnitName();
   }
 
 
@@ -136,8 +136,8 @@ public class TaxMenuController : MonoBehaviour
 
             usageDate.text = root[i]["createdDate"].Value.Split('T')[0];
             usageHistory.text = root[i]["content"].Value;
-            balanceChange.text = root[i]["balanceChange"].Value;
-            balance.text = root[i]["balance"].Value;
+            balanceChange.text = MyInfoController.GetThousandCommaText(root[i]["balanceChange"].AsInt);
+            balance.text = MyInfoController.GetThousandCommaText(root[i]["balance"].AsInt);
 
             clone.transform.SetParent(parent);
 
@@ -166,9 +166,9 @@ public class TaxMenuController : MonoBehaviour
     symbol.transform.GetChild(0).GetComponent<Text>().text = "+";
     taxAmount.text = "";
 
-    totalTax.text = DataController.GetTax().ToString();
+    totalTax.text = MyInfoController.GetThousandCommaText(DataController.GetTax()).ToString();
     currentTax.text = "0";
-    estimatedTax.text = DataController.GetTax().ToString();
+    estimatedTax.text = MyInfoController.GetThousandCommaText(DataController.GetTax()).ToString();
 
     ObjectActive("GenericContentForms", -1);
   }
@@ -183,7 +183,6 @@ public class TaxMenuController : MonoBehaviour
     Text currentTax = calculator.transform.GetChild(3).GetComponent<Text>();
 
     currentTax.text = taxAmount.text;
-    currentTaxAmount = int.Parse(taxAmount.text);
   }
 
   public void OnChangeEstimatedTax()
@@ -194,16 +193,17 @@ public class TaxMenuController : MonoBehaviour
 
     Transform calculator = GameObject.Find("TaxCalculator").GetComponent<Transform>();
     Text cSymbol = calculator.transform.GetChild(2).GetComponent<Text>();
+    Text currentTax = calculator.transform.GetChild(3).GetComponent<Text>();
     Text estimatedTax = calculator.transform.GetChild(4).GetComponent<Text>();
 
     cSymbol.text = symbolText.text;
     if (symbolText.text.Equals("+"))
     {
-      estimatedTax.text = (DataController.GetTax() + currentTaxAmount).ToString();
+      estimatedTax.text = MyInfoController.GetThousandCommaText(DataController.GetTax() + int.Parse(currentTax.text));
     }
     else
     {
-      estimatedTax.text = (DataController.GetTax() - currentTaxAmount).ToString();
+      estimatedTax.text = MyInfoController.GetThousandCommaText(DataController.GetTax() - int.Parse(currentTax.text));
     }
   }
 

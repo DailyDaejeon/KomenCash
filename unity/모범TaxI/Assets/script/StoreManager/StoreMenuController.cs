@@ -127,6 +127,7 @@ public class StoreMenuController : MonoBehaviour
 
           noneSIRect.offsetMin = new Vector2(0, 0);
           noneSIRect.offsetMax = new Vector2(0, 0);
+          noneSIRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -146,6 +147,9 @@ public class StoreMenuController : MonoBehaviour
             itemPrice.text = root[i]["price"].Value;
 
             clone.transform.SetParent(parent);
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
             SIClone.Add(clone);
 
             Button itemBtn = clone.GetComponent<Button>();
@@ -290,6 +294,7 @@ public class StoreMenuController : MonoBehaviour
 
           noneMSHRect.offsetMin = new Vector2(0, 0);
           noneMSHRect.offsetMax = new Vector2(0, 0);
+          noneMSHRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -310,6 +315,10 @@ public class StoreMenuController : MonoBehaviour
             studentName.text = root[i]["studentNickname"].Value;
 
             clone.transform.SetParent(parent);
+
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
             MSHClone.Add(clone);
           }
         }

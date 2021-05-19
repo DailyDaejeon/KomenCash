@@ -174,6 +174,9 @@ public class StatisticsMenuController : MonoBehaviour
           noneItem = NoneContentMsgController.Show("아직 제출 내역이 없습니다!").gameObject;
 
           noneItem.transform.SetParent(parent);
+
+          RectTransform noneItemRect = noneItem.GetComponent<RectTransform>();
+          noneItemRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -201,6 +204,9 @@ public class StatisticsMenuController : MonoBehaviour
             });
 
             clone.transform.SetParent(parent);
+
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
             SHList.Add(clone);
           }
@@ -257,6 +263,9 @@ public class StatisticsMenuController : MonoBehaviour
             submitStatus.text = "<color=#ff0000>미제출</color>";
           }
           clone.transform.SetParent(parent);
+
+          RectTransform cloneRect = clone.GetComponent<RectTransform>();
+          cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
           SHDList.Add(clone);
         }
@@ -346,6 +355,9 @@ public class StatisticsMenuController : MonoBehaviour
           noneItem = NoneContentMsgController.Show("아직 제출 내역이 없습니다!").gameObject;
 
           noneItem.transform.SetParent(parent);
+
+          RectTransform noneItemRect = noneItem.GetComponent<RectTransform>();
+          noneItemRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -373,6 +385,9 @@ public class StatisticsMenuController : MonoBehaviour
             });
 
             clone.transform.SetParent(parent);
+
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
             SIMList.Add(clone);
           }
@@ -447,6 +462,9 @@ public class StatisticsMenuController : MonoBehaviour
 
           clone.transform.SetParent(parent);
 
+          RectTransform cloneRect = clone.GetComponent<RectTransform>();
+          cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
           SIMDList.Add(clone);
         }
       }
@@ -509,6 +527,9 @@ public class StatisticsMenuController : MonoBehaviour
           noneItem = NoneContentMsgController.Show("전송할 제출물 목록이 없습니다.").gameObject;
 
           noneItem.transform.SetParent(parent);
+
+          RectTransform noneItemRect = noneItem.GetComponent<RectTransform>();
+          noneItemRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -538,6 +559,9 @@ public class StatisticsMenuController : MonoBehaviour
             });
 
             clone.transform.SetParent(parent);
+
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
             SSList.Add(clone);
           }

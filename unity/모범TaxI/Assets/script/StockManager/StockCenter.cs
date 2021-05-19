@@ -105,12 +105,9 @@ public class StockCenter : MonoBehaviour
     try
     {
       string a = MyAccount.GetComponent<Text>().text;
-      // Debug.Log(int.Parse(a));
-      // Debug.Log(int.Parse(a) - int.Parse(BuyCount.text));
       string b = Current_Value.GetComponent<Text>().text;
       int accountChange = int.Parse(a) - (int.Parse(BuyCount.text) * int.Parse(b));
       MyAccountChange.GetComponent<Text>().text = accountChange.ToString();
-      // Debug.Log(BuyCount.text);
     }
     catch (Exception e)
     {
@@ -180,6 +177,7 @@ public class StockCenter : MonoBehaviour
 
             cloneRect.offsetMax = new Vector2(-8, -10);
             cloneRect.offsetMin = new Vector2(5, 0);
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             StockItems.Add(clone);
             Debug.Log("root : " + root[i].ToString());
             // Text 
@@ -363,6 +361,9 @@ public class StockCenter : MonoBehaviour
           clone.transform.localPosition = Vector3.zero;
           clone.transform.SetParent(parent);
 
+          RectTransform cloneRect = clone.GetComponent<RectTransform>();
+          cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
           MyStockItems.Add(clone);
           Debug.Log("No Data");
         }
@@ -398,6 +399,7 @@ public class StockCenter : MonoBehaviour
 
             cloneRect.offsetMax = new Vector2(-8, -10);
             cloneRect.offsetMin = new Vector2(5, 0);
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             MyStockItems.Add(clone);
             Debug.Log("root : " + root[i].ToString());
             // Text 

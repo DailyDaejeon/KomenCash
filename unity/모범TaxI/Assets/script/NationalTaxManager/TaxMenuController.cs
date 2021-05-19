@@ -119,6 +119,9 @@ public class TaxMenuController : MonoBehaviour
           noneItem = NoneContentMsgController.Show("아직 세금 내역이 없습니다!").gameObject;
 
           noneItem.transform.SetParent(parent);
+
+          RectTransform noneItemRect = noneItem.GetComponent<RectTransform>();
+          noneItemRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -140,6 +143,9 @@ public class TaxMenuController : MonoBehaviour
             balance.text = MyInfoController.GetThousandCommaText(root[i]["balance"].AsInt);
 
             clone.transform.SetParent(parent);
+
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
             THList.Add(clone);
           }

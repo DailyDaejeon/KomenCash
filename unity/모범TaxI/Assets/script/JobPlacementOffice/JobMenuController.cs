@@ -377,12 +377,6 @@ public class JobMenuController : MonoBehaviour
 
             clone.transform.SetParent(parent);
 
-            // applyBtn.onClick.AddListener(delegate ()
-            // {
-            //   //알바 신청하기
-            //   StartCoroutine(OnPressPTApplyButton(ptId.text));
-            // });
-
             PTListClone.Add(clone);
           }
         }

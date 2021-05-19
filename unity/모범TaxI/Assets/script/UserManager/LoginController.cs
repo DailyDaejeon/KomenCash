@@ -83,6 +83,8 @@ public class LoginController : MonoBehaviour
         {
           //DataController에 학생id, 직업, 그룹, 담당교사 정보 저장
           DataController.setStudentInfo(root["success"]);
+          Debug.Log("tax : " + result);
+          DataController.setTax(root["remainTax"].AsInt);
 
           //DataController에 학생 잔고, 월급, 자격 정보 저장
           string studentId = root["success"]["id"].Value;
@@ -117,6 +119,8 @@ public class LoginController : MonoBehaviour
 
         string result = request.downloadHandler.text;
         JSONNode root = JSON.Parse(result);
+
+        Debug.Log("사용자 추가 정보 : " + result);
 
         DataController.setStudentStatInfo(root);
       }

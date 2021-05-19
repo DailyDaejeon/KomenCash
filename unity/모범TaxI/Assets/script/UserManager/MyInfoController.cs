@@ -12,7 +12,7 @@ public class MyInfoController : MonoBehaviour
   public Text sJobName;  //직업명
   public Text sSalary;   //월급
   public Text sBalance;  //통장잔고
-  public Text sCertList; //자격증 목록
+  // public Text sCertList; //자격증 목록
   private SceneChangeController loginForm;
 
   void Start()
@@ -30,19 +30,28 @@ public class MyInfoController : MonoBehaviour
 
       sNickname.text += data.nickname;
       sJobName.text += data.job.name;
-      sSalary.text += data.job.salary;
-      sBalance.text += data.balance;
+      sSalary.text += GetThousandCommaText(data.job.salary) + " " + data.group.monetary_unit_name;
+      sBalance.text += GetThousandCommaText(data.balance) + " " + data.group.monetary_unit_name;
 
+      Transform parent = GameObject.Find("statCListContent").GetComponent<Transform>();
+      GameObject certificateItem = Resources.Load("cList") as GameObject;
       if (data.certificateList.Count != 0)
       {
-        foreach (string cert in data.certificateList)
+        Debug.Log("자격증 목록 : " + data.certificateList);
+        foreach (JSONNode cert in data.certificateList)
         {
-          sCertList.text += cert + System.Environment.NewLine;
+          GameObject clone = Instantiate(certificateItem);
+          Text cItem = clone.transform.GetComponent<Text>();
+          cItem.text = cert["name"].Value;
+
+          cItem.transform.SetParent(parent);
         }
       }
       else
       {
-        sCertList.text += "아직 보유중인 자격증이 없습니다ㅠ.ㅠ";
+        GameObject clone = Instantiate(certificateItem);
+        Text cItem = clone.transform.GetComponent<Text>();
+        cItem.text += "아직 보유중인 자격증이 없습니다ㅠ.ㅠ";
       }
     }
     catch (NullReferenceException ie)
@@ -52,5 +61,10 @@ public class MyInfoController : MonoBehaviour
       loginForm = GameObject.Find("MainManager").GetComponent<SceneChangeController>();
       loginForm.GoToLoginForm();
     }
+  }
+
+  public static string GetThousandCommaText(int data)
+  {
+    return string.Format("{0:#,###}", data);
   }
 }

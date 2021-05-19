@@ -172,7 +172,7 @@ export default {
         this.$swal({
           title: '오늘의 주가가 추가됐어요!',
           info:"success",
-          confirmButtonText: 'Lovely!'
+          confirmButtonText: '확인'
         })
         this.fetchMoney({
           price:Number(result.value),

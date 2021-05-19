@@ -103,7 +103,6 @@ export default {
         console.log('swal',res)
         if (res.value[0] && res.value[1] && res.isConfirmed) {
           if (res.value[2]) {
-            console.log('세금에서도 나감')
             const taxData = {
               balanceChange: Number(res.value[1])*(-1),
               content: res.value[0],
@@ -117,7 +116,7 @@ export default {
             studentId: this.propsData.student_id
           }
           sendMoney(sendData).then(()=>{
-            console.log('1여긴 BankMemberDetail')
+            console.log('1여긴 ListItem')
             this.$emit('updateData',this.propsData.student_id)
             this.$swal({
               title:'입금이 완료되었습니다.',

@@ -230,10 +230,11 @@ public class BankMenuController : MonoBehaviour
           //통장 내역이 없으면 noneAccountHistory 프리팹 생성해서 안내문 출력
           Transform parent = GameObject.Find("B1AHContent").GetComponent<Transform>();
           noneAHClone = NoneContentMsgController.Show("통장 내역이 없습니다ㅠ.ㅠ").gameObject;
-          // noneAHClone = Instantiate(noneAccountHistory);
-          // nAHRect = noneAHClone.GetComponent<RectTransform>();
+
+          RectTransform noneAHCloneRect = noneAHClone.GetComponent<RectTransform>();
 
           noneAHClone.transform.SetParent(parent);
+          noneAHCloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -369,6 +370,9 @@ public class BankMenuController : MonoBehaviour
 
             RectTransform cloneRect = clone.GetComponent<RectTransform>();
             cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+            RectTransform itemCloneRect = itemClone.GetComponent<RectTransform>();
+            itemCloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
             MyFPClone.Add(clone);
             MyFPClone.Add(itemClone);

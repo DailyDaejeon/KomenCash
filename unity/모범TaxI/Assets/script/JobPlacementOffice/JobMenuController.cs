@@ -158,6 +158,7 @@ public class JobMenuController : MonoBehaviour
           noneJobList.transform.SetParent(parent);
           noneJListRect.offsetMin = new Vector2(0, 0);
           noneJListRect.offsetMax = new Vector2(0, 0);
+          noneJListRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -184,6 +185,8 @@ public class JobMenuController : MonoBehaviour
               personnel.text = root[i]["personnel"].Value;
 
               clone.transform.SetParent(parent);
+              RectTransform cloneRect = clone.GetComponent<RectTransform>();
+              cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
               detailBtn.onClick.AddListener(delegate ()
               {
@@ -266,9 +269,11 @@ public class JobMenuController : MonoBehaviour
         });
 
         JDIClone.transform.SetParent(parent);
+
         RectTransform cloneRect = JDIClone.GetComponent<RectTransform>();
         cloneRect.offsetMin = new Vector2(0, 0); //left, bottom
         cloneRect.offsetMax = new Vector2(0, -35);  //right, top
+        cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
       }
     }
   }
@@ -355,6 +360,7 @@ public class JobMenuController : MonoBehaviour
           nonePTList.transform.SetParent(parent);
           nonePTListRect.offsetMin = new Vector2(0, 0);
           nonePTListRect.offsetMax = new Vector2(0, 0);
+          nonePTListRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -376,6 +382,8 @@ public class JobMenuController : MonoBehaviour
             allowance.text = root[i]["salary"].Value;
 
             clone.transform.SetParent(parent);
+            RectTransform cloneRect = clone.GetComponent<RectTransform>();
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
             PTListClone.Add(clone);
           }

@@ -62,14 +62,12 @@
         <table class="text-center table table-hover my-0">
           <thead>
             <tr>
-              <th>No.</th>
               <th>신용등급</th>
               <th>금리</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(credit,index) in financialList" :key="index">
-              <td>{{index+1}}</td>
               <td v-if="!mActive">{{financialCredit[index]}}급</td>
               <td v-else>
                  <input class="border border-main" type="text" v-model="financialCredit[index]">

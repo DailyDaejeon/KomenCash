@@ -65,10 +65,21 @@
   width: 100%;
   padding-right: 12px;
   padding-left: 12px;
+
+  & .card {
+    & .card-body {
+      &:hover {
+        background-color: $komencash-color;
+        border-radius: 0.25rem;
+      }
+    }
+  }
 }
 
 .group-list-card:hover {
   cursor: pointer;
+  
+  
 }
 
 .not-group {

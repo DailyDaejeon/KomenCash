@@ -4,15 +4,12 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using CodeMonkey.Utils;
 using SimpleJSON;
-using UnityEngine.EventSystems;
 
-public class StockCenter : MonoBehaviour
+public class StockMenuController : MonoBehaviour
 {
   public string baseURL = "http://k4b203.p.ssafy.io:8081/api/";
   public RectTransform uiGroup;
-  public Animator anim;
   PlayerController enterPlayer;
 
   // 증권 화면
@@ -23,7 +20,7 @@ public class StockCenter : MonoBehaviour
   [SerializeField]
   private GameObject stockItem;
   [SerializeField]
-  private List<GameObject> StockItems = new List<GameObject>(); // 주식 종목 리스트
+  private List<GameObject> StockItems; // 주식 종목 리스트
 
 
 
@@ -56,34 +53,41 @@ public class StockCenter : MonoBehaviour
   [SerializeField]
   private List<int> priceList = new List<int>();
 
+  //form object
+  [SerializeField]
+  private GameObject ButtonForm;
+  [SerializeField]
+  private GameObject ButtonFormContent;
+
   int sId;
   int gId;
+
+  //생성해야하는 프리팹
+  private GameObject noneItem;
+
+
   void Start()
   {
+    StockCenters = new List<GameObject>();
     sId = DataController.GetStudentId();
-    gId = DataController.GetGroupId(); ;
-    // BuyCount = GetComponent<InputField>();
-    StockCenters.Add(GameObject.Find("StockList"));
-    StockCenters.Add(GameObject.Find("MyStockItems"));
-    StockCenters.Add(GameObject.Find("GetStockItem"));
+    gId = DataController.GetGroupId();
+    StockCenters.Add(ButtonForm);
+    StockCenters.Add(ButtonFormContent);
+
     BuyCount.onValueChange.AddListener(delegate
     {
       ChangeBalance();
     });
-    OnClickGetStockList();
-  }
-  void Update()
-  {
   }
 
   public void Enter(PlayerController player)
   {
     enterPlayer = player;
     uiGroup.anchoredPosition = Vector3.zero;
-
   }
   public void Exit()
   {
+    if (noneItem != null) Destroy(noneItem);
     if (StockItems != null)
     {
       foreach (GameObject item in StockItems)
@@ -105,12 +109,9 @@ public class StockCenter : MonoBehaviour
     try
     {
       string a = MyAccount.GetComponent<Text>().text;
-      // Debug.Log(int.Parse(a));
-      // Debug.Log(int.Parse(a) - int.Parse(BuyCount.text));
       string b = Current_Value.GetComponent<Text>().text;
       int accountChange = int.Parse(a) - (int.Parse(BuyCount.text) * int.Parse(b));
       MyAccountChange.GetComponent<Text>().text = accountChange.ToString();
-      // Debug.Log(BuyCount.text);
     }
     catch (Exception e)
     {
@@ -122,7 +123,6 @@ public class StockCenter : MonoBehaviour
   {
     using (UnityWebRequest request = UnityWebRequest.Get(baseURL + "stock/list/" + gId))
     {
-      // UnityWebRequest request = UnityWebRequest.Get("http://localhost:8081/ustudent/1"); 
       yield return request.SendWebRequest();
       if (request.error != null)
       {
@@ -133,19 +133,19 @@ public class StockCenter : MonoBehaviour
         string result = request.downloadHandler.text;
         JSONNode root = JSON.Parse(result);
 
-        Transform parent = GameObject.Find("StockList").GetComponent<Transform>();
-        stockItem = Resources.Load("StockItem") as GameObject;
+        Transform parent = GameObject.Find("StockListContent").GetComponent<Transform>();
+        stockItem = Resources.Load("StockListItem") as GameObject;
         Debug.Log(stockItem);
         if (root.Count <= 0)
         {
-          GameObject clone = Instantiate(stockItem);
-          Text name = clone.transform.GetChild(0).GetComponent<Text>();
-          name.text = "No Data";
-          clone.transform.localPosition = Vector3.zero;
-          clone.transform.SetParent(parent);
+          noneItem = NoneContentMsgController.Show("투자할 수 있는 주식 종목이 없습니다!").gameObject;
 
-          StockItems.Add(clone);
-          Debug.Log("No Data");
+          RectTransform noneMSHRect = noneItem.GetComponent<RectTransform>();
+          noneItem.transform.SetParent(parent);
+
+          noneMSHRect.offsetMin = new Vector2(0, 0);
+          noneMSHRect.offsetMax = new Vector2(0, 0);
+          noneMSHRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -157,32 +157,30 @@ public class StockCenter : MonoBehaviour
             Text name = clone.transform.GetChild(1).GetComponent<Text>();
             Text price = clone.transform.GetChild(2).GetComponent<Text>();
             Text prePrice = clone.transform.GetChild(3).GetComponent<Text>();
-
-            Button detailBtn = clone.transform.GetChild(5).GetComponent<Button>();
+            Button detailBtn = clone.transform.GetChild(4).GetComponent<Button>();
 
             id.text = root[i]["id"].Value;
-            prePrice.text = root[i]["prePrice"].Value;
-            price.text = root[i]["price"].Value;
             name.text = root[i]["name"].Value;
+            price.text = root[i]["price"].Value;
+
+            int percent = ((root[i]["price"].AsInt - root[i]["prePrice"].AsInt) / root[i]["prePrice"].AsInt) * 100;
+            prePrice.text = (root[i]["prePrice"].AsInt - root[i]["price"].AsInt) + " (" + percent + "%)";
             string hint = root[i]["hint"].Value;
+
             detailBtn.onClick.AddListener(delegate ()
             {
-              Debug.Log("name : " + clone.transform.GetChild(1).GetComponent<Text>().text);
               onClickDetailBtn();
               showItemHistory(clone.transform.GetChild(0).GetComponent<Text>().text, hint);
-
             });
-
-
 
             clone.transform.localPosition = Vector3.zero;
             clone.transform.SetParent(parent);
 
             cloneRect.offsetMax = new Vector2(-8, -10);
             cloneRect.offsetMin = new Vector2(5, 0);
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
             StockItems.Add(clone);
-            Debug.Log("root : " + root[i].ToString());
-            // Text 
           }
         }
       }
@@ -237,7 +235,6 @@ public class StockCenter : MonoBehaviour
   // 주식 구입
   public IEnumerator MyBuyStockItem(string currentStockId)
   {
-    Debug.Log("좀 살게~~");
     BuyStockItem data = new BuyStockItem();
     data.studentId = sId;
     data.stockId = int.Parse(currentStockId);
@@ -265,17 +262,16 @@ public class StockCenter : MonoBehaviour
         JSONNode root = JSON.Parse(result);
         if (result.Equals("true"))
         {
-          StartCoroutine(MyBalance(sId));
+          ShowSuccessBuyStockItem();
         }
         else
         {
-          Debug.Log("돈없음");
+          ShowFailBuyStockItem();
         }
       }
     }
   }
 
-  // 해당 주식 종목 History
   public IEnumerator StockItemHistory(string stockId, string hint)
   {
     priceList = new List<int>();
@@ -290,10 +286,15 @@ public class StockCenter : MonoBehaviour
       {
         string result = request.downloadHandler.text;
         JSONNode root = JSON.Parse(result);
-        // 없는 경우
         if (root.Count <= 0)
         {
-          Debug.Log(request.error);
+          Transform parent = GameObject.Find("GraphContainer").GetComponent<Transform>();
+          noneItem = NoneContentMsgController.Show("저장된 주식 데이터가 없습니다").gameObject;
+
+          noneItem.transform.SetParent(parent);
+
+          RectTransform noneItemRect = noneItem.GetComponent<RectTransform>();
+          noneItemRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -301,7 +302,6 @@ public class StockCenter : MonoBehaviour
           {
             priceList.Add(int.Parse(root[i]["price"].Value));
             Debug.Log("root : " + root[i].ToString());
-            // Text 
           }
 
           int a = 0;
@@ -311,11 +311,11 @@ public class StockCenter : MonoBehaviour
             Debug.Log(root[root.Count - 1]["price"]);
             Debug.Log(a);
           }
-          GameObject.Find("Hint").GetComponent<Text>().text = hint;
+          GameObject.Find("TodayHint").GetComponent<Text>().text = hint;
           Current_Value.GetComponent<Text>().text = root[root.Count - 1]["price"].Value;
           Increase_Value.GetComponent<Text>().text = a.ToString();
 
-          Window_Graph_Test.ShowGraph(priceList);
+          StockGraphController.ShowGraph(priceList);
         }
       }
     }
@@ -328,7 +328,6 @@ public class StockCenter : MonoBehaviour
 
     using (UnityWebRequest request = UnityWebRequest.Get(baseURL + "/stock/deal/holding-status/" + sId))
     {
-      // UnityWebRequest request = UnityWebRequest.Get("http://localhost:8081/ustudent/1"); 
       yield return request.SendWebRequest();
       if (request.error != null)
       {
@@ -339,32 +338,18 @@ public class StockCenter : MonoBehaviour
         string result = request.downloadHandler.text;
         JSONNode root = JSON.Parse(result);
 
-        Transform parent = GameObject.Find("StockItemDetailBackGround").GetComponent<Transform>();
-        MyStockItem = Resources.Load("MyStockItem") as GameObject;
+        Transform parent = GameObject.Find("MyStockListContent").GetComponent<Transform>();
+        MyStockItem = Resources.Load("MyStockListItem") as GameObject;
 
         if (root.Count <= 0)
         {
-          GameObject clone = Instantiate(MyStockItem);
-          Text id = clone.transform.GetChild(0).GetComponent<Text>();
-          Text stockName = clone.transform.GetChild(1).GetComponent<Text>();
-          Text curPrice = clone.transform.GetChild(2).GetComponent<Text>();
-          Text avgDealPrice = clone.transform.GetChild(3).GetComponent<Text>();
-          Text curAmount = clone.transform.GetChild(4).GetComponent<Text>();
-          Text changePercent = clone.transform.GetChild(5).GetComponent<Text>();
-          InputField SellAmount = clone.transform.GetChild(6).GetComponent<InputField>();
-          Button Sell = clone.transform.GetChild(7).GetComponent<Button>();
+          noneItem = NoneContentMsgController.Show("가지고 있는 주식이 없어요!ㅠ.ㅠ").gameObject;
 
-          id.text = "No Data";
-          stockName.text = "No Data";
-          curPrice.text = "No Data";
-          avgDealPrice.text = "No Data";
-          curAmount.text = "No Data";
-          changePercent.text = "No Data";
-          clone.transform.localPosition = Vector3.zero;
-          clone.transform.SetParent(parent);
+          RectTransform noneItemRect = noneItem.GetComponent<RectTransform>();
+          noneItemRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-          MyStockItems.Add(clone);
-          Debug.Log("No Data");
+          noneItem.transform.SetParent(parent);
+
         }
         else
         {
@@ -398,9 +383,9 @@ public class StockCenter : MonoBehaviour
 
             cloneRect.offsetMax = new Vector2(-8, -10);
             cloneRect.offsetMin = new Vector2(5, 0);
+            cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             MyStockItems.Add(clone);
             Debug.Log("root : " + root[i].ToString());
-            // Text 
           }
         }
       }
@@ -448,46 +433,64 @@ public class StockCenter : MonoBehaviour
         JSONNode root = JSON.Parse(result);
         if (result.Equals("true"))
         {
-          // MyStockItems[index].transform.GetChild(4).GetComponent<InputField>().text = (int.Parse(MyStockItems[index].transform.GetChild(4).GetComponent<InputField>().text)+data.amount).ToString();
-          foreach (GameObject item in MyStockItems)
-          {
-            if (item != null)
-            {
-              Destroy(item);
-            }
-          }
-          Debug.Log("true");
-          StartCoroutine(GetMyStockList());
+          ShowSuccessSellStockItem();
         }
         else
         {
-          Debug.Log("개수가지고 장난질이냐");
+          ShowFailSellStockItem();
         }
       }
     }
   }
+
   public void onClickDetailBtn()
   {
     StartCoroutine(MyBalance(sId));
-
+    if (noneItem != null) Destroy(noneItem);
     foreach (GameObject item in GetStockItem)
     {
       Destroy(item);
     }
-    ObjectActive("GetStockItem", -1);
+    ObjectActive("GenericContentForms", 1);
   }
 
   public void OnClickGetStockList()
   {
-    foreach (GameObject item in StockItems)
+    if (StockItems != null)
     {
-      Destroy(item);
+      foreach (GameObject item in StockItems)
+      {
+        Destroy(item);
+      }
     }
+    if (noneItem != null) Destroy(noneItem);
+    ObjectActive("GenericContentForms", 0);
     StartCoroutine(GetStockList());
-    ObjectActive("StockList", -1);
   }
   public void onClickGetMyStockList()
   {
+    if (MyStockItems != null)
+    {
+      foreach (GameObject item in MyStockItems)
+      {
+        if (item != null)
+        {
+          Destroy(item);
+        }
+      }
+    }
+    if (noneItem != null) Destroy(noneItem);
+    ObjectActive("GenericContentForms", 2);
+    StartCoroutine(GetMyStockList());
+  }
+  public void onClickSellBtn(string stockId)
+  {
+    StartCoroutine(SellMyStock(stockId));
+  }
+
+  public void OnClickB1CBackButton()
+  {
+    if (noneItem != null) Destroy(noneItem);
     foreach (GameObject item in MyStockItems)
     {
       if (item != null)
@@ -495,13 +498,91 @@ public class StockCenter : MonoBehaviour
         Destroy(item);
       }
     }
-    StartCoroutine(GetMyStockList());
-    ObjectActive("MyStockItems", -1);
+    ObjectActive("GenericMember", -1);
   }
-  public void onClickSellBtn(string stockId)
+
+  public void OnClickB1DCBackButton()
   {
-    StartCoroutine(SellMyStock(stockId));
+    if (noneItem != null) Destroy(noneItem);
+    foreach (GameObject item in MyStockItems)
+    {
+      if (item != null)
+      {
+        Destroy(item);
+      }
+    }
+    ObjectActive("GenericContentForms", 0);
   }
+
+  public void OnClickB2CBackButton()
+  {
+    if (noneItem != null) Destroy(noneItem);
+    foreach (GameObject item in MyStockItems)
+    {
+      if (item != null)
+      {
+        Destroy(item);
+      }
+    }
+    ObjectActive("GenericMember", -1);
+  }
+
+  //Alert view 메서드
+  private void ShowSuccessBuyStockItem()
+  {
+    string title = "";
+    string message = "주식을 구입했습니다!🎉🎉";
+
+    AlertViewController.Show(title, message, new AlertViewOptions
+    {
+      okButtonTitle = "확인",
+      okButtonDelegate = () =>
+      {
+        StartCoroutine(MyBalance(sId));
+      }
+    });
+  }
+
+  private void ShowFailBuyStockItem()
+  {
+    string title = "";
+    string message = "주식 구입을 실패했어요ㅠ.ㅠ" + System.Environment.NewLine + "혹시 돈이 모자라진 않은지 확인해주세요!";
+
+    AlertViewController.Show(title, message);
+  }
+
+  private void ShowSuccessSellStockItem()
+  {
+    string title = "";
+    string message = "주식을 판매했어요!💲";
+
+    AlertViewController.Show(title, message, new AlertViewOptions
+    {
+      okButtonTitle = "확인",
+      okButtonDelegate = () =>
+      {
+        foreach (GameObject item in MyStockItems)
+        {
+          if (item != null)
+          {
+            Destroy(item);
+          }
+        }
+        Debug.Log("true");
+        StartCoroutine(GetMyStockList());
+      }
+    });
+  }
+
+  private void ShowFailSellStockItem()
+  {
+    string title = "";
+    string message = "주식 판매에 실패했어요ㅜ.ㅜ" + System.Environment.NewLine + "혹시..판매 개수를 잘못 쓴건 아닐까요?🤔";
+
+    AlertViewController.Show(title, message);
+  }
+
+
   private void ObjectActive(string ojName, int index)
   {
     if (index == -1)

@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
   bool runDown; //달릴 때
   bool eDown; //트리거에 들어가서 버튼 클릭하면 메뉴창 열리는 버튼
+  bool escDown;
 
   private bool isStop = false;
   private bool _typing = false;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
   void Update()
   {
     GetInput();
+    ShowEscMenu();
     if (!_typing)
     {
       Move();               //키보드 입력에 따라 캐릭터 움직임
@@ -61,6 +63,7 @@ public class PlayerController : MonoBehaviour
   private void GetInput()
   {
     eDown = Input.GetButtonDown("Interation");
+    escDown = Input.GetButtonDown("Esc");
   }
 
   private void GetMenuState()
@@ -70,6 +73,8 @@ public class PlayerController : MonoBehaviour
     StoreMenuController store = GameObject.Find("StoreBuilding").GetComponent<StoreMenuController>();
     StatisticsMenuController statistics = GameObject.Find("StatisticsBuilding").GetComponent<StatisticsMenuController>();
     TaxMenuController tax = GameObject.Find("TaxBuilding").GetComponent<TaxMenuController>();
+    StockMenuController stock = GameObject.Find("StockBuilding").GetComponent<StockMenuController>();
+    // StockCenter stock = GameObject.Find("StockBuilding").GetComponent<StockCenter>();
 
     if (bank.GetExitState())
     {
@@ -201,7 +206,25 @@ public class PlayerController : MonoBehaviour
         tax.Enter(this);
         TaxMenuController.ShowGroupTaxInfo();
       }
+      else if (nearObject.tag == "Stock")
+      {
+        StockMenuController stock = nearObject.GetComponent<StockMenuController>();
+        // StockCenter stock = nearObject.GetComponent<StockCenter>();
+        stock.Enter(this);
+      }
       _typing = true;
+    }
+  }
+
+  private void ShowEscMenu()
+  {
+    if (escDown)
+    {
+      //esc 메뉴 올라오기
+      EscMenuController esc = GameObject.Find("World").GetComponent<EscMenuController>();
+      esc.Enter(this);
+      _typing = true;
+      isStop = true;
     }
   }
 
@@ -238,12 +261,19 @@ public class PlayerController : MonoBehaviour
       position = GameObject.Find("TaxBuilding").GetComponent<Transform>();
       buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
     }
+    else if (other.tag == "Stock")
+    {
+      nearObject = other.gameObject;
+      position = GameObject.Find("StockBuilding").GetComponent<Transform>();
+      buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
+    }
     isStop = true;
   }
 
   private void OnTriggerStay(Collider other)
   {
-    if (other.tag == "Bank" || other.tag == "Job" || other.tag == "Store" || other.tag == "Statistics" || other.tag == "NationalTax")
+    if (other.tag == "Bank" || other.tag == "Job" || other.tag == "Store" || other.tag == "Statistics" || other.tag == "NationalTax" ||
+        other.tag == "Stock")
     {
       nearObject = other.gameObject;
     }
@@ -293,15 +323,14 @@ public class PlayerController : MonoBehaviour
       nearObject = null;
       isStop = false;
     }
+    else if (other.tag == "Stock")
+    {
+      StockMenuController stock = nearObject.GetComponent<StockMenuController>();
+      // StockCenter stock = nearObject.GetComponent<StockCenter>();
+      stock.Exit();
+      Destroy(buildingPSClone);
+      nearObject = null;
+      isStop = false;
+    }
   }
-
-  // public void ShowMenu()
-  // {
-  //   if (nearObject != null)
-  //   {
-  //     Debug.Log("near object 채워져 있음!");
-  //     BankMenuController menu = nearObject.GetComponent<BankMenuController>();
-  //     // menu.ShowBankMenu();
-  //   }
-  // }
 }

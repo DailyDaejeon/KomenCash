@@ -68,6 +68,10 @@ function fetchMemberCredit(studentId) {
   return instance.get(`credit/student/${studentId}`)
 }
 
+// 그룹원 신용점수 반영
+function addMemberCreditPoint(studentData) {
+  return instance.post(`credit/point`, studentData)
+}
 
 // 그룹원 잔액 조회 API
 function fetchMemberBalance(studentId) {
@@ -123,6 +127,7 @@ export {
   resetGroupMemberPw,
   fetchGroupMemberCertificate,
   fetchMemberCredit,
+  addMemberCreditPoint,
   fetchGroupMemeberCase,
   fetchMemberBalance,
   fetchMemberFinancial,

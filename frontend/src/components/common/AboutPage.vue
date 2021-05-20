@@ -8,26 +8,10 @@
           <a id="student" class="button button-w btn-2">STUDENT</a>
           </span>
         </div>
-        <!-- <div class="about1__arrow">
-        <button class="about1__arrow__button btn-2"><i class="fas fa-chevron-down"></i>click</button>
-        </div> -->
-        <!-- <div class="about1__container">
-          <div class="chevron"></div>
-          <div class="chevron"></div>
-          <div class="chevron"></div>
-          <span class="about1__text">Scroll down</span>
-        </div> -->
+        
       </h1>
     </section>
-    <!-- <section id="about2">
-      <h1 class="about2__h1">실생활에서 실천하는 초등 경제 교육 플랫폼</h1>
-    </section>
-    <section id="about2">
-      <h1 class="about2__h1">직업도 갖고, 세금도 내며 자산관리까지 체험할 수 있습니다.</h1>
-    </section>
-    <section id="about2">
-      <h1 class="about2__h1">지금 MONEY JAM을 이용해보세요!</h1>
-    </section> -->
+  
   </div>
 </template>
 

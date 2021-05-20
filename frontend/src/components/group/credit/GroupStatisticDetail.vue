@@ -44,7 +44,7 @@
 
 <script>
 import { deleteStatisticItem, fetchStatisticDetail } from '@/api/statistic';
-import { acceptStatisDetail } from '@/api/student';
+import { acceptStatisDetail, addMemberCreditPoint } from '@/api/student';
 export default {
   props:['id','propsData'],
   data() {
@@ -68,6 +68,12 @@ export default {
         studentId:student.studentId
       }
       acceptStatisDetail(submitData).then(()=>{
+        const creditData = {
+          content: this.statisticDetail.submitContent,
+          pointChange: 1,
+          studentId: student.studentId,
+        }
+        addMemberCreditPoint(creditData)
         this.fetchStatistic()
       })
       // window.location.reload()

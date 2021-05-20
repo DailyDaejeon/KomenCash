@@ -698,6 +698,32 @@ public class StatisticsMenuController : MonoBehaviour
     ObjectActive("JobMember", -1);
   }
 
+  public void OnPressStatisticsJobCancelButton()
+  {
+    AddForm = GameObject.Find("StatisticsForm").GetComponent<Transform>();
+
+    InputField statisticsContent = AddForm.transform.GetChild(0).GetChild(1).GetComponent<InputField>();
+
+    InputField startYear = AddForm.transform.GetChild(1).GetChild(0).GetComponent<InputField>();
+    InputField startMonth = AddForm.transform.GetChild(1).GetChild(1).GetComponent<InputField>();
+    InputField startDay = AddForm.transform.GetChild(1).GetChild(2).GetComponent<InputField>();
+
+    InputField endYear = AddForm.transform.GetChild(1).GetChild(3).GetComponent<InputField>();
+    InputField endMonth = AddForm.transform.GetChild(1).GetChild(4).GetComponent<InputField>();
+    InputField endDay = AddForm.transform.GetChild(1).GetChild(5).GetComponent<InputField>();
+
+    statisticsContent.text = "";
+    startYear.text = "";
+    startMonth.text = "";
+    startDay.text = "";
+
+    endYear.text = "";
+    endMonth.text = "";
+    endDay.text = "";
+
+    ObjectActive("JobMember", -1);
+  }
+
   //1. 일반 업무 - 통계 내역 확인하기 버튼
   public void OnPressStatisticsHistoryButton()
   {

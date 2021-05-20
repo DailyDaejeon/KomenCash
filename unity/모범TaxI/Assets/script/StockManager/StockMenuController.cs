@@ -33,6 +33,7 @@ public class StockMenuController : MonoBehaviour
   // 해당 종목 현재 가격, 이전 가격과의 차이
   public GameObject Current_Value;
   public GameObject Increase_Value;
+  public GameObject Value_Percent;
   // 구매 개수 입력
   public InputField BuyCount;
   // 내 잔액 부분
@@ -163,8 +164,22 @@ public class StockMenuController : MonoBehaviour
             name.text = root[i]["name"].Value;
             price.text = root[i]["price"].Value;
 
-            int percent = ((root[i]["price"].AsInt - root[i]["prePrice"].AsInt) / root[i]["prePrice"].AsInt) * 100;
-            prePrice.text = (root[i]["prePrice"].AsInt - root[i]["price"].AsInt) + " (" + percent + "%)";
+            float percent = ((float)(root[i]["price"].AsInt - root[i]["prePrice"].AsInt) / (float)root[i]["prePrice"].AsInt) * 100;
+            int diff = root[i]["prePrice"].AsInt - root[i]["price"].AsInt;
+
+            if (diff < 0)
+            {
+              prePrice.text = " + " + (-1) * diff + " (" + percent.ToString() + "%)";
+            }
+            else if (diff > 0)
+            {
+              prePrice.text = ((-1) * diff) + " (" + percent.ToString() + "%)";
+            }
+            else if (diff == 0)
+            {
+              prePrice.text = diff + " (" + percent.ToString() + "%)";
+            }
+
             string hint = root[i]["hint"].Value;
 
             detailBtn.onClick.AddListener(delegate ()
@@ -313,7 +328,19 @@ public class StockMenuController : MonoBehaviour
           }
           GameObject.Find("TodayHint").GetComponent<Text>().text = hint;
           Current_Value.GetComponent<Text>().text = root[root.Count - 1]["price"].Value;
-          Increase_Value.GetComponent<Text>().text = a.ToString();
+          if (a < 0)
+          {
+            Increase_Value.GetComponent<Text>().text = "<color=#0000ff> ▼ " + a.ToString() + "</color>";
+          }
+          else if (a == 0)
+          {
+            Increase_Value.GetComponent<Text>().text = " - " + a.ToString();
+          }
+          else if (a > 0)
+          {
+            Increase_Value.GetComponent<Text>().text = "<color=#ff0000> ▲ " + a.ToString() + "</color>";
+          }
+          Value_Percent.GetComponent<Text>().text = (((float)a / (float)root[root.Count - 2]["price"].AsInt) * 100).ToString().Substring(0, 2) + "(%)";
 
           StockGraphController.ShowGraph(priceList);
         }

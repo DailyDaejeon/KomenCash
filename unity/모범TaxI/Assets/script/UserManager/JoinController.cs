@@ -41,7 +41,7 @@ public class JoinController : MonoBehaviour
   {
     if (userNickname.Length == 0 || userPassword.Length == 0 || userGroupcode.Length == 0)
     {
-      Debug.Log("모든 항목은 필수 입력값입니다.");
+      AlertViewController.Show("", "모든 항목은 필수 입력값입니다.");
       return;
     }
     else if (userNickname.Length != 0 && userPassword.Length != 0 && userGroupcode.Length != 0)
@@ -90,7 +90,7 @@ public class JoinController : MonoBehaviour
         }
         else
         {
-          Debug.Log("성공적으로 가입되었습니다.");
+          AlertViewController.Show("", "성공적으로 가입되었습니다." + System.Environment.NewLine + "선생님의 수락을 기다려주세요!");
 
           //로그인 페이지로 이동
           loginForm = GameObject.Find("JoinRestAPIRequester").GetComponent<SceneChangeController>();
@@ -98,5 +98,15 @@ public class JoinController : MonoBehaviour
         }
       }
     }
+  }
+
+  public void JoinCancel()
+  {
+    GameObject.Find("inputNickname").GetComponent<Text>().text = "";
+    GameObject.Find("inputPassword").GetComponent<Text>().text = "";
+    GameObject.Find("inputGroupcode").GetComponent<Text>().text = "";
+
+    loginForm = GameObject.Find("JoinRestAPIRequester").GetComponent<SceneChangeController>();
+    loginForm.GoToLoginForm();
   }
 }

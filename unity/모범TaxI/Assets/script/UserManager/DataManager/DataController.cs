@@ -17,18 +17,6 @@ public static class DataController
 
     JSONNode sJob = sInfo["job"];
 
-    /*
-    Debug.Log("--------------- sJob ---------------");
-    //JSONNode 출력 방법 1
-    Debug.Log(sJob.ToString());
-
-    //JSONNode 출력 방법 2
-    foreach (KeyValuePair<string, JSONNode> keyValue in sJob)
-    {
-        Debug.Log(keyValue.Key + " : " + keyValue.Value);
-    }
-    */
-
     JobDTO jobData = new JobDTO();
     jobData.id = sJob["id"].AsInt;
     jobData.name = sJob["name"].Value;
@@ -143,5 +131,19 @@ public static class DataController
   public static double GetTaxRate()
   {
     return student.group.tax_rate;
+  }
+
+  public static void clearUserInfo()
+  {
+    student.id = 0;
+    student.nickname = "";
+    student.password = "";
+    student.code = "";
+    student.balance = 0;
+    student.certificateList = new List<JSONNode>();
+
+    student.job = new JobDTO();
+    student.group = new GroupDTO();
+    student.teacher = new TeacherDTO();
   }
 }

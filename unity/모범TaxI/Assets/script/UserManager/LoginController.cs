@@ -27,18 +27,15 @@ public class LoginController : MonoBehaviour
 
   public void OnClickButton()
   {
-    Debug.Log("버튼 클릭했음");
-    Debug.Log("닉네임 : " + userId);
-    Debug.Log("비밀번호 : " + userPw);
-
     if (userId.Length != 0 && userPw.Length != 0)
     {
-      Debug.Log("둘 다 입력받음!");
       StartCoroutine(Login());
     }
     else if (userId.Length == 0 || userPw.Length == 0)
     {
-      Debug.Log("닉네임 또는 비밀번호를 입력하세요.");
+      string title = "";
+      string message = "닉네임 또는 비밀번호를 입력하세요!";
+      AlertViewController.Show(title, message);
     }
 
   }
@@ -50,9 +47,6 @@ public class LoginController : MonoBehaviour
     data.password = userPw;
 
     string json = JsonUtility.ToJson(data);
-    Debug.Log("json : " + json);
-
-    /*UserData test = JsonUtility.FromJson<UserData>(str); //json -> Object 형변환*/
 
     using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "ustudent/login", json))
     {
@@ -77,7 +71,10 @@ public class LoginController : MonoBehaviour
 
         if (isTrue)
         {
-          Debug.Log(root["fail"].Value);
+          string title = "";
+          string message = root["fail"].Value;
+
+          AlertViewController.Show(title, message);
         }
         else
         {
@@ -88,8 +85,6 @@ public class LoginController : MonoBehaviour
 
           //DataController에 학생 잔고, 월급, 자격 정보 저장
           string studentId = root["success"]["id"].Value;
-          //Debug.Log("로그인 한 학생 id : " + studentId);
-          //Debug.Log("type : " + studentId.GetType());
           StartCoroutine(fetchStatInfo(studentId));
 
           //메인 페이지로 이동

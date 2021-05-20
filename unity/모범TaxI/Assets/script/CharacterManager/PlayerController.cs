@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
     TaxMenuController tax = GameObject.Find("TaxBuilding").GetComponent<TaxMenuController>();
     StockMenuController stock = GameObject.Find("StockBuilding").GetComponent<StockMenuController>();
     // StockCenter stock = GameObject.Find("StockBuilding").GetComponent<StockCenter>();
+    CongressMenuController congress = GameObject.Find("CongressBuilding").GetComponent<CongressMenuController>();
 
     if (bank.GetExitState())
     {
@@ -212,6 +213,11 @@ public class PlayerController : MonoBehaviour
         // StockCenter stock = nearObject.GetComponent<StockCenter>();
         stock.Enter(this);
       }
+      else if (nearObject.tag == "Congress")
+      {
+        CongressMenuController congress = nearObject.GetComponent<CongressMenuController>();
+        congress.Enter(this);
+      }
       _typing = true;
     }
   }
@@ -267,13 +273,19 @@ public class PlayerController : MonoBehaviour
       position = GameObject.Find("StockBuilding").GetComponent<Transform>();
       buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
     }
+    else if (other.tag == "Congress")
+    {
+      nearObject = other.gameObject;
+      position = GameObject.Find("CongressBuilding").GetComponent<Transform>();
+      buildingPSClone = Instantiate(buildingPS, position.transform.position, position.transform.rotation);
+    }
     isStop = true;
   }
 
   private void OnTriggerStay(Collider other)
   {
     if (other.tag == "Bank" || other.tag == "Job" || other.tag == "Store" || other.tag == "Statistics" || other.tag == "NationalTax" ||
-        other.tag == "Stock")
+        other.tag == "Stock" || other.tag == "Congress")
     {
       nearObject = other.gameObject;
     }
@@ -328,6 +340,15 @@ public class PlayerController : MonoBehaviour
       StockMenuController stock = nearObject.GetComponent<StockMenuController>();
       // StockCenter stock = nearObject.GetComponent<StockCenter>();
       stock.Exit();
+      Destroy(buildingPSClone);
+      nearObject = null;
+      isStop = false;
+    }
+    else if (other.tag == "Congress")
+    {
+      CongressMenuController congress = nearObject.GetComponent<CongressMenuController>();
+      // StockCenter stock = nearObject.GetComponent<StockCenter>();
+      congress.Exit();
       Destroy(buildingPSClone);
       nearObject = null;
       isStop = false;

@@ -44,7 +44,22 @@ public class StockGraphController : MonoBehaviour
     float xSize = 50f / 3;
 
     GameObject lastCircleGameObject = null;
-    for (int i = 0; i < valueList.Count; i++)
+
+    int ii = 0;
+    if (valueList.Count > 10)
+    {
+      ii = valueList.Count - 10;
+    }
+    int sum = 0;
+    int avg = 0;
+    for (int i = ii; i < valueList.Count; i++)
+    {
+      sum += valueList[i];
+    }
+    avg = sum / valueList.Count - ii;
+    yMaximum = avg * 2;
+
+    for (int i = ii; i < valueList.Count; i++)
     {
       float xPosition = xSize + i * xSize;
       float yPosition = (valueList[i] / yMaximum) * graphHeight;

@@ -311,15 +311,14 @@ public class BankMenuController : MonoBehaviour
           for (int i = 0; i < root.Count; i++)
           {
             GameObject clone = Instantiate(myFinanProdList);
-            Text prodName = clone.transform.GetChild(0).GetComponent<Text>();
-            Text prodDId = clone.transform.GetChild(1).GetComponent<Text>();
+            Text prodName = clone.transform.GetChild(1).GetComponent<Text>();
+            Text prodDId = clone.transform.GetChild(2).GetComponent<Text>();
 
             prodName.text = root[i]["financialProductName"].Value;
             prodDId.text = root[i]["id"].Value;
 
             clone.GetComponent<Button>().onClick.AddListener(delegate ()
             {
-              Debug.Log("first : " + clone.transform.GetChild(1).GetComponent<Text>().text);
               OnPressProdDetail(clone.transform.GetChild(1).GetComponent<Text>().text);
             });
 
@@ -327,23 +326,52 @@ public class BankMenuController : MonoBehaviour
             RectTransform itemRect = itemClone.GetComponent<RectTransform>();
             Text prodDetailId = itemClone.transform.GetChild(0).GetComponent<Text>();
             Text prodDetailStaus = itemClone.transform.GetChild(1).GetComponent<Text>();
-            Text prodDetail = itemClone.transform.GetChild(2).GetComponent<Text>();
-            Button earlyRedButton = itemClone.transform.GetChild(3).GetComponent<Button>();
-            Button waitToTerminate = itemClone.transform.GetChild(4).GetComponent<Button>();
 
-            if (!root[i]["status"].Value.Equals("deposit"))
+            Button earlyRedButton = itemClone.transform.GetChild(3).GetComponent<Button>();
+            Text waitToTerminate = itemClone.transform.GetChild(4).GetComponent<Text>();
+            Text waitDeposit = itemClone.transform.GetChild(5).GetComponent<Text>();
+            Text terminatedStatus = itemClone.transform.GetChild(6).GetComponent<Text>();
+            Text maturityStatus = itemClone.transform.GetChild(7).GetComponent<Text>();
+
+            if (!root[i]["status"].Value.Equals("deposit")) //가입중인 상태가 아닐 때
             {
               earlyRedButton.gameObject.SetActive(false);
-              if (root[i]["status"].Value.Equals("before_termination"))
+              if (root[i]["status"].Value.Equals("before_termination")) //중도해지 대기중일 때
               {
                 waitToTerminate.gameObject.SetActive(true);
-                waitToTerminate.interactable = true;
+                waitDeposit.gameObject.SetActive(false);
+                terminatedStatus.gameObject.SetActive(false);
+                maturityStatus.gameObject.SetActive(false);
+              }
+              else if (root[i]["status"].Value.Equals("before_deposit")) //가입승인 대기중일 때
+              {
+                waitToTerminate.gameObject.SetActive(false);
+                waitDeposit.gameObject.SetActive(true);
+                terminatedStatus.gameObject.SetActive(false);
+                maturityStatus.gameObject.SetActive(false);
+              }
+              else if (root[i]["status"].Value.Equals("termination")) //중도해지 한 상태일 때
+              {
+                waitToTerminate.gameObject.SetActive(false);
+                waitDeposit.gameObject.SetActive(false);
+                terminatedStatus.gameObject.SetActive(true);
+                maturityStatus.gameObject.SetActive(false);
+              }
+              else if (root[i]["status"].Value.Equals("maturity")) //만기해지 된 상태일 때
+              {
+                waitToTerminate.gameObject.SetActive(false);
+                waitDeposit.gameObject.SetActive(false);
+                terminatedStatus.gameObject.SetActive(false);
+                maturityStatus.gameObject.SetActive(true);
               }
             }
-            else
+            else //deposit 일 때 (가입 했을 때)
             {
               earlyRedButton.gameObject.SetActive(true);
               waitToTerminate.gameObject.SetActive(false);
+              waitDeposit.gameObject.SetActive(false);
+              terminatedStatus.gameObject.SetActive(false);
+              maturityStatus.gameObject.SetActive(false);
               earlyRedButton.onClick.AddListener(delegate ()
               {
                 StartCoroutine(RevocFinanProd(itemClone.transform.GetChild(0).GetComponent<Text>().text));
@@ -352,14 +380,20 @@ public class BankMenuController : MonoBehaviour
 
             prodDetailId.text = root[i]["id"].Value;
             prodDetailStaus.text = root[i]["status"].Value;
-            prodDetail.text = "상품 이름 : " + root[i]["financialProductName"].Value + System.Environment.NewLine +
-                              "이율 : " + root[i]["rate"].Value + "(%)" + System.Environment.NewLine +
-                              "입금 금액 : " + root[i]["principal"].Value + " " + DataController.GetMonetaryUnitName() + System.Environment.NewLine +
-                              "가입 날짜 : " + root[i]["startDate"].Value.Split('T')[0] + System.Environment.NewLine +
-                              "만기 날짜 : " + root[i]["endDate"].Value.Split('T')[0] + System.Environment.NewLine +
-                              System.Environment.NewLine +
-                              "만기해지 시 받는 금액 : " + (int.Parse(root[i]["principal"].Value) + ((double.Parse(root[i]["rate"].Value) / 100) * int.Parse(root[i]["principal"].Value))).ToString().Split('.')[0] + " " + DataController.GetMonetaryUnitName();
 
+            Text detailProdName = itemClone.transform.GetChild(2).GetChild(0).GetComponent<Text>();
+            Text detailProdRate = itemClone.transform.GetChild(2).GetChild(1).GetComponent<Text>();
+            Text detailProdAmount = itemClone.transform.GetChild(2).GetChild(2).GetComponent<Text>();
+            Text detailProdStartDate = itemClone.transform.GetChild(2).GetChild(3).GetComponent<Text>();
+            Text detailProdEndDate = itemClone.transform.GetChild(2).GetChild(4).GetComponent<Text>();
+            Text detailProdMaturityPrice = itemClone.transform.GetChild(2).GetChild(5).GetComponent<Text>();
+
+            detailProdName.text = root[i]["financialProductName"].Value;
+            detailProdRate.text = root[i]["rate"].Value + "(%)";
+            detailProdAmount.text = root[i]["principal"].Value + " " + DataController.GetMonetaryUnitName();
+            detailProdStartDate.text = root[i]["startDate"].Value.Split('T')[0];
+            detailProdEndDate.text = root[i]["endDate"].Value.Split('T')[0];
+            detailProdMaturityPrice.text = (int.Parse(root[i]["principal"].Value) + ((double.Parse(root[i]["rate"].Value) / 100) * int.Parse(root[i]["principal"].Value))).ToString().Split('.')[0] + " " + DataController.GetMonetaryUnitName();
 
             clone.transform.SetParent(ProdParent);
             itemClone.transform.SetParent(DetailParent);

@@ -316,7 +316,7 @@ public class StockMenuController : MonoBehaviour
           for (int i = 0; i < root.Count; i++)
           {
             priceList.Add(int.Parse(root[i]["price"].Value));
-            Debug.Log("root : " + root[i].ToString());
+            Debug.Log("root : " + root[i]["price"].ToString());
           }
 
           int a = 0;

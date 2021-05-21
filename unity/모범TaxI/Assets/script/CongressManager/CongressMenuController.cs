@@ -32,6 +32,8 @@ public class CongressMenuController : MonoBehaviour
   private GameObject JobContentForm;
   [SerializeField]
   private Button JobButton;
+  [SerializeField]
+  private GameObject VoteDetailInfoForm;
 
 
   //투표 리스트
@@ -73,6 +75,8 @@ public class CongressMenuController : MonoBehaviour
   string sNickname;
   bool _isExit = true;
 
+  float deleteBtnAxisZ;
+
   //생성 프리팹
   private GameObject noneItem;
 
@@ -80,7 +84,7 @@ public class CongressMenuController : MonoBehaviour
   private List<GameObject> LTList;
 
   private GameObject lawContentClone;
-  private GameObject LCList;
+  private List<GameObject> LCList;
 
   private GameObject voteIDIClone;
   private List<GameObject> vIDIList;
@@ -98,6 +102,9 @@ public class CongressMenuController : MonoBehaviour
     objectList.Add(JobMember);
     objectList.Add(GenericContentForm);
     objectList.Add(JobContentForm);
+    objectList.Add(VoteDetailInfoForm);
+
+    deleteBtnAxisZ = 0;
   }
 
   public bool GetExitState()
@@ -114,6 +121,8 @@ public class CongressMenuController : MonoBehaviour
     //   JobButton.gameObject.SetActive(false);
     // }
 
+    ObjectActive("GenericMember", -1);
+
     uiGroup.anchoredPosition = Vector3.zero;
     _isExit = false;
   }
@@ -122,6 +131,45 @@ public class CongressMenuController : MonoBehaviour
   {
     uiGroup.anchoredPosition = Vector3.down * -1000;
     ObjectActive("GenericMember", -1);
+
+    if (noneItem != null) Destroy(noneItem);
+    // if (voteIDIClone != null) Destroy(voteIDIClone);
+    if (vIDIList != null)
+    {
+      foreach (GameObject item in vIDIList)
+      {
+        Destroy(item);
+      }
+    }
+    // if (AddCloumnClone != null) Destroy(AddCloumnClone);
+    if (ACList != null)
+    {
+      foreach (GameObject item in ACList)
+      {
+        Destroy(item);
+      }
+    }
+    if (VoteList != null)
+    {
+      foreach (GameObject item in VoteList)
+      {
+        Destroy(item);
+      }
+    }
+    if (LTList != null)
+    {
+      foreach (GameObject item in LTList)
+      {
+        Destroy(item);
+      }
+    }
+    if (LCList != null)
+    {
+      foreach (GameObject item in LCList)
+      {
+        Destroy(item);
+      }
+    }
     _isExit = true;
   }
 
@@ -143,6 +191,8 @@ public class CongressMenuController : MonoBehaviour
         string result = request.downloadHandler.text;
         JSONNode root = JSON.Parse(result);
 
+        Debug.Log("헌법 조회 : " + result);
+
         if (root.Count <= 0)
         {
           Transform parent = GameObject.Find("LawListContents").GetComponent<Transform>();
@@ -155,6 +205,7 @@ public class CongressMenuController : MonoBehaviour
         }
         else
         {
+
           Transform lawListTitleParent = GameObject.Find("LawListTitle").GetComponent<Transform>();
           //   Transform lawListContentParent = GameObject.Find("LawListContents").GetComponent<Transform>();
 
@@ -168,14 +219,25 @@ public class CongressMenuController : MonoBehaviour
             Button getLawContentButton = clone.GetComponent<Button>();
             Text lawTitleTxt = clone.transform.GetChild(0).GetComponent<Text>();
 
+            JSONNode law = root[i].Value;
+            Debug.Log(i + " " + root[i]["lawFindByLawTypeResponseDtoList"].Count);
+
             lawTitleTxt.text = root[i]["lawFindByLawTypeResponseDtoList"][0]["lawType"].Value;
 
             getLawContentButton.onClick.AddListener(delegate ()
             {
+              if (LCList != null)
+              {
+                foreach (GameObject item in LCList)
+                {
+                  Destroy(item);
+                }
+              }
+              LCList = new List<GameObject>();
               showLawContent(root[i]);
             });
 
-            lawTitleClone.transform.SetParent(lawListTitleParent);
+            clone.transform.SetParent(lawListTitleParent);
             RectTransform cloneRect = clone.GetComponent<RectTransform>();
             cloneRect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
@@ -188,6 +250,7 @@ public class CongressMenuController : MonoBehaviour
 
   private void showLawContent(JSONNode root)
   {
+    Debug.Log("들어왔니? " + root["lawFindByLawTypeResponseDtoList"].Value);
     Transform parent = GameObject.Find("LawListContents").GetComponent<Transform>();
     lawContentClone = Resources.Load("LawItem") as GameObject;
 
@@ -202,11 +265,14 @@ public class CongressMenuController : MonoBehaviour
       lawId.text = root["lawFindByLawTypeResponseDtoList"][i]["id"].Value;
       lawArticleParagraph.text = "제 " + root["lawFindByLawTypeResponseDtoList"][i]["article"].Value + "조 " + root["lawFindByLawTypeResponseDtoList"][i]["paragraph"].Value + "항";
       lawContent.text = root["lawFindByLawTypeResponseDtoList"][i]["content"].Value;
+
+      clone.transform.SetParent(parent);
+      LCList.Add(clone);
     }
   }
 
   //2. 투표 조회, 참여하기
-  public IEnumerator GetVoteList(int gId)
+  public IEnumerator GetVoteList()
   {
     using (UnityWebRequest request = UnityWebRequest.Get(baseURL + "vote/list/" + gId))
     {
@@ -281,10 +347,10 @@ public class CongressMenuController : MonoBehaviour
     {
       Destroy(item);
     }
-    foreach (GameObject item in VoteResultCharts)
-    {
-      Destroy(item);
-    }
+    // foreach (GameObject item in VoteResultCharts)
+    // {
+    //   Destroy(item);
+    // }
     // 상세 화면으로 넘어가기
     StartCoroutine(GetVoteDetail(voteId, studentId));
     ObjectActive("GenericContentForms", 2);
@@ -315,20 +381,30 @@ public class CongressMenuController : MonoBehaviour
 
           Text DVoteTitle = gObject.transform.GetChild(1).GetComponent<Text>();
           Text DVoteContent = gObject.transform.GetChild(3).GetComponent<Text>();
-          GameObject DeleteButton = gObject.transform.GetChild(4).GetComponent<GameObject>();
+          RectTransform DeleteButton = gObject.transform.GetChild(4).GetComponent<RectTransform>();
 
           DVoteTitle.text = root[1];
           DVoteContent.text = root[2];
 
+          if (deleteBtnAxisZ == 0)
+          {
+            deleteBtnAxisZ = DeleteButton.localPosition.z;
+          }
+
           if (int.Parse(studentId) != sId)
           {
-            DeleteButton.SetActive(false);
+            DeleteButton.localPosition = new Vector3(DeleteButton.localPosition.x, DeleteButton.localPosition.y, DeleteButton.localPosition.z - 1000);
+          }
+          else
+          {
+            DeleteButton.localPosition = new Vector3(DeleteButton.localPosition.x, DeleteButton.localPosition.y, 0);
           }
 
           Transform parent = GameObject.Find("VoteContent").GetComponent<Transform>();
           VoteDetailItem = Resources.Load("VoteItem") as GameObject;
 
-          for (int i = 0; i < root[6].Count; i++)
+          Debug.Log("항목 : " + root[5].Count);
+          for (int i = 0; i < root[5].Count; i++)
           {
             GameObject clone = Instantiate(VoteDetailItem);
 
@@ -339,21 +415,22 @@ public class CongressMenuController : MonoBehaviour
 
             List<JSONNode> selectList = new List<JSONNode>();
 
-            vNum.text = root[6][i][2].Value;
-            vContent.text = root[6][i][0].Value;
-            vResultCnt.text = root[6][i][3].Value + " / " + root[5].Count;
+            vNum.text = root[5][i][1].Value;
+            vContent.text = root[5][i][2].Value;
+            vResultCnt.text = root[5][i][3].Value + " / " + root[5].Count;
 
-            for (int j = 0; j < root[5].Count; j++)
+            for (int j = 0; j < root[6].Count; j++)
             {
-              if (root[5][j][1].AsInt == int.Parse(vNum.text))
+              if (root[6][j][0].AsInt == int.Parse(vNum.text))
               {
-                selectList.Add(root[5][j]);
+                selectList.Add(root[6][j]);
               }
             }
 
             detailButton.onClick.AddListener(delegate ()
             {
-              GameObject.Find("VoteResultDetailForm").SetActive(true);
+              VoteDetailInfoForm.SetActive(true);
+              //   Debug.Log(GameObject.Find("VoteResultDetailForm"));
               vIDIList = new List<GameObject>();
               ShowVoteItemDetailInfo(selectList);
             });
@@ -362,27 +439,34 @@ public class CongressMenuController : MonoBehaviour
 
             selectButton.onClick.AddListener(delegate ()
             {
-              for (int k = 0; k < root[5].Count; k++)
+              bool isSelect = false;
+              for (int k = 0; k < root[6].Count; k++)
               {
-                if (root[5][k][0].AsInt == sId)
+                if (root[6][k][2].AsInt == sId)
                 {
-                  string title = "";
-                  string message = "이미 투표를 진행한 주제입니다.";
+                  isSelect = true;
+                  break;
+                }
+              }
 
-                  AlertViewController.Show(title, message);
-                }
-                else
+              if (isSelect)
+              {
+                string title = "";
+                string message = "이미 투표를 진행한 주제입니다.";
+
+                AlertViewController.Show(title, message);
+              }
+              else
+              {
+                StartCoroutine(selectVote(voteId, studentId, clone.transform.GetChild(0).GetChild(0).GetComponent<Text>().text));
+                if (VoteDetailItems != null)
                 {
-                  StartCoroutine(selectVote(voteId, studentId, vNum.text));
-                  if (VoteDetailItems != null)
+                  foreach (GameObject item in VoteDetailItems)
                   {
-                    foreach (GameObject item in VoteDetailItems)
-                    {
-                      Destroy(item);
-                    }
+                    Destroy(item);
                   }
-                  StartCoroutine(GetVoteDetail(voteId, studentId));
                 }
+                StartCoroutine(GetVoteDetail(voteId, studentId));
               }
             });
 
@@ -440,7 +524,7 @@ public class CongressMenuController : MonoBehaviour
           Destroy(item);
         }
       }
-      GameObject.Find("VoteResultDetailForm").SetActive(false);
+      VoteDetailInfoForm.SetActive(false);
     });
   }
 
@@ -458,6 +542,12 @@ public class CongressMenuController : MonoBehaviour
 
     using (UnityWebRequest request = UnityWebRequest.Post(baseURL + "vote/choice", json))
     {
+
+      byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+      request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+
+      request.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
+      request.SetRequestHeader("Accept", "application/json, text/plain, */*");
       yield return request.SendWebRequest();
 
       if (request.error != null)
@@ -482,6 +572,13 @@ public class CongressMenuController : MonoBehaviour
               if (vIDIList != null)
               {
                 foreach (GameObject item in vIDIList)
+                {
+                  Destroy(item);
+                }
+              }
+              if (VoteList != null)
+              {
+                foreach (GameObject item in VoteList)
                 {
                   Destroy(item);
                 }
@@ -512,7 +609,7 @@ public class CongressMenuController : MonoBehaviour
     DeleteCandidateBtn.onClick.AddListener(delegate ()
     {
       Destroy(clone);
-      candidateCloneList.RemoveAt(cloneNum);
+      ACList.RemoveAt(cloneNum);
     });
 
     clone.transform.SetParent(parent);
@@ -579,12 +676,10 @@ public class CongressMenuController : MonoBehaviour
         JSONNode root = JSON.Parse(result);
         if (result.Equals("true"))
         {
-          Debug.Log("성공띠");
           ShowSuccssCreateVoteAlert();
         }
         else
         {
-          Debug.Log("실패!");
           ShowFailCreateVoteAlert();
         }
       }
@@ -600,7 +695,7 @@ public class CongressMenuController : MonoBehaviour
   public void OnPressGenericButton()
   {
     if (noneItem != null) Destroy(noneItem);
-    if (voteIDIClone != null) Destroy(voteIDIClone);
+    // if (voteIDIClone != null) Destroy(voteIDIClone);
     if (vIDIList != null)
     {
       foreach (GameObject item in vIDIList)
@@ -608,10 +703,31 @@ public class CongressMenuController : MonoBehaviour
         Destroy(item);
       }
     }
-    if (AddCloumnClone != null) Destroy(AddCloumnClone);
+    // if (AddCloumnClone != null) Destroy(AddCloumnClone);
     if (ACList != null)
     {
       foreach (GameObject item in ACList)
+      {
+        Destroy(item);
+      }
+    }
+    if (LTList != null)
+    {
+      foreach (GameObject item in LTList)
+      {
+        Destroy(item);
+      }
+    }
+    if (LCList != null)
+    {
+      foreach (GameObject item in LCList)
+      {
+        Destroy(item);
+      }
+    }
+    if (VoteList != null)
+    {
+      foreach (GameObject item in VoteList)
       {
         Destroy(item);
       }
@@ -623,7 +739,7 @@ public class CongressMenuController : MonoBehaviour
   public void OnPressJobButton()
   {
     if (noneItem != null) Destroy(noneItem);
-    if (voteIDIClone != null) Destroy(voteIDIClone);
+    // if (voteIDIClone != null) Destroy(voteIDIClone);
     if (vIDIList != null)
     {
       foreach (GameObject item in vIDIList)
@@ -639,37 +755,100 @@ public class CongressMenuController : MonoBehaviour
         Destroy(item);
       }
     }
+    if (LTList != null)
+    {
+      foreach (GameObject item in LTList)
+      {
+        Destroy(item);
+      }
+    }
+    if (LCList != null)
+    {
+      foreach (GameObject item in LCList)
+      {
+        Destroy(item);
+      }
+    }
+    if (VoteList != null)
+    {
+      foreach (GameObject item in VoteList)
+      {
+        Destroy(item);
+      }
+    }
     ObjectActive("JobMember", -1);
   }
 
   //3. 헌법 조회 버튼 클릭
   public void OnPressGetLawHistoryButton()
   {
+    LTList = new List<GameObject>();
+    LCList = new List<GameObject>();
     if (noneItem != null) Destroy(noneItem);
 
     ObjectActive("GenericContentForms", 0);
+    StartCoroutine(GetLawList());
   }
 
   //4. 투표 조회, 참여 버튼 클릭
   public void OnPressGetVoteListButton()
   {
+    vIDIList = new List<GameObject>();
     if (noneItem != null) Destroy(noneItem);
 
     ObjectActive("GenericContentForms", 1);
+    StartCoroutine(GetVoteList());
+  }
+
+  //4-1. 뒤로가기 버튼
+  public void OnPressBackButton()
+  {
+    if (noneItem != null) Destroy(noneItem);
+    // if (voteIDIClone != null) Destroy(voteIDIClone);
+    if (vIDIList != null)
+    {
+      foreach (GameObject item in vIDIList)
+      {
+        Destroy(item);
+      }
+    }
+    // if (AddCloumnClone != null) Destroy(AddCloumnClone);
+    if (ACList != null)
+    {
+      foreach (GameObject item in ACList)
+      {
+        Destroy(item);
+      }
+    }
+    if (VoteList != null)
+    {
+      foreach (GameObject item in VoteList)
+      {
+        Destroy(item);
+      }
+    }
+
+    ObjectActive("GenericMember", -1);
   }
 
   //5. 투표 생성하기 버튼 클릭
   public void OnPressCreateVoteMenuButton()
   {
+    ACList = new List<GameObject>();
     if (noneItem != null) Destroy(noneItem);
 
-    ObjectActive("GenericContentForms", 2);
+    ObjectActive("GenericContentForms", 3);
   }
 
   //6. 투표 생성 버튼(Submit) 클릭
   public void OnPressCreateVoteButton()
   {
     StartCoroutine(CreateVote());
+  }
+
+  public void OnPressAddVoteColumnButton()
+  {
+    AddVoteColumn();
   }
 
   public void OnPressCancelForCreateVoteButton()

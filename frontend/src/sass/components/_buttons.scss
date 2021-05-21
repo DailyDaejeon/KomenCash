@@ -1,0 +1,52 @@
+.btn .feather {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-right {
+  text-align: right;
+}
+
+.btn-right .inline-block {
+  margin: 0 5px;
+}
+
+.admin-btn-cover {
+  text-align: center !important;
+  margin-top: 1rem;
+  font-size: 17px;
+
+  & .page-btn {
+    width: 3rem;
+    height: 2rem;
+  }
+
+  & .page-count {
+    padding: 0 1rem !important;
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @include button-color($white);
+    @include button-color-hover($white);
+  }
+}
+
+@each $color, $value in $social-colors {
+  .btn-#{$color} {
+    @include button-variant($value, $value);
+    @include button-color($white);
+    @include button-color-hover($white);
+  }
+}
+
+.btn-light,
+.btn-white {
+  @include button-color($gray-800);
+  @include button-color-hover($gray-800);
+}
+
+.near-title-btn {
+  top: -3px;
+}

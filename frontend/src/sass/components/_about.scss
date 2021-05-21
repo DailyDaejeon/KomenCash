@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+#about1 {
+  height: 100vh;
+  background-color: #e7ab3c;
+  text-align: center;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-2 {
+  letter-spacing: 0;
+}
+
+.btn-2:hover,
+.btn-2:active {
+  letter-spacing: 5px;
+}
+
+.btn-2:after,
+.btn-2:before {
+  backface-visibility: hidden;
+  // border: 1px solid rgba(#fff, 0);
+  bottom: 0px;
+  content: " ";
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  transition: all 280ms ease-in-out;
+  width: 0;
+}
+
+.btn-2:hover:after,
+.btn-2:hover:before {
+  backface-visibility: hidden;
+  border-color: #fff;
+  transition: width 350ms ease-in-out;
+  width: 70%;
+}
+
+.btn-2:hover:before {
+  bottom: auto;
+  top: 0;
+  width: 70%;
+}
+
+
+.about1 {
+  &__button {
+    display: grid;
+  }
+
+  &__arrow {
+    width: 100%;
+    font-size: 45px;
+    &__button {
+      position: absolute;
+      left: 45%;
+      top: 88vh;
+      &:hover {
+        border-color: #fff;
+      }
+    }
+  }
+
+  &__h1 {
+  font-family: 'Luckiest Guy';
+  color: #fff;
+  & .shadow {
+    font-size: 144pt;
+    font-family: 'Luckiest Guy';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow:   0px -6px 0 #212121,  
+                  0px -6px 0 #212121,
+                  0px  6px 0 #212121,
+                  0px  6px 0 #212121,
+                  -6px  0px 0 #212121,  
+                  6px  0px 0 #212121,
+                  -6px  0px 0 #212121,
+                  6px  0px 0 #212121,
+                  -6px -6px 0 #212121,  
+                  6px -6px 0 #212121,
+                  -6px  6px 0 #212121,
+                  6px  6px 0 #212121,
+                  -6px  18px 0 #212121,
+                  0px  18px 0 #212121,
+                  6px  18px 0 #212121,
+                  0 19px 1px rgba(0,0,0,.1),
+                  0 0 6px rgba(0,0,0,.1),
+                  0 6px 3px rgba(0,0,0,.3),
+                  0 12px 6px rgba(0,0,0,.2),
+                  0 18px 18px rgba(0,0,0,.25),
+                  0 24px 24px rgba(0,0,0,.2),
+                  0 36px 36px rgba(0,0,0,.15);
+  }
+    & .button {
+      font-size: 70pt;
+      &-w {
+        color:white !important;
+      }
+    }
+  }
+
+  &__container {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    left:48%
+  }
+
+  &__text {
+    display: block;
+    margin-top: 75px;
+    margin-left: -30px;
+    font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    font-size: 12px;
+    color: #fff;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: .25;
+    animation: pulse 2s linear alternate infinite;
+  }
+}
+
+.chevron {
+  position: absolute;
+  width: 28px;
+  height: 8px;
+  opacity: 0;
+  transform: scale3d(0.5, 0.5, 0.5);
+  animation: move 3s ease-out infinite;
+}
+
+.chevron:first-child {
+  animation: move 3s ease-out 1s infinite;
+}
+
+.chevron:nth-child(2) {
+  animation: move 3s ease-out 2s infinite;
+}
+
+.chevron:before,
+.chevron:after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 51%;
+  background: #fff;
+}
+
+.chevron:before {
+  left: 0;
+  transform: skew(0deg, 30deg);
+}
+
+.chevron:after {
+  right: 0;
+  width: 50%;
+  transform: skew(0deg, -30deg);
+}
+
+@keyframes move {
+  25% {
+    opacity: 1;
+
+  }
+  33% {
+    opacity: 1;
+    transform: translateY(30px);
+  }
+  67% {
+    opacity: 1;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
+  }
+}
+
+@keyframes pulse {
+  to {
+    opacity: 1;
+  }
+}
+
+
+#about2 {
+  height: 100vh;
+  background-color: $white;
+  text-align: center;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about2 {
+  &__h1 {
+    font-weight: 700;
+    font-family: 'Luckiest Guy';
+    color: $main;
+    font-size: 30pt;
+  }
+  
+}

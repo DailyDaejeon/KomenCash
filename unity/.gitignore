@@ -1,0 +1,25 @@
+# unity file
+*.unity
+*.meta
+*.zip
+*.unitypackage
+
+#Assets folder
+AssetsList/
+Resources/
+Scenes/
+
+#etc folder
+Library/
+Logs/
+Packages/
+projectSettings/
+UserSettings/
+Temp/
+.vs/
+Font/
+obj/
+.vscode/
+CodeMonkey/
+*.sln
+*.csproj

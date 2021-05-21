@@ -1,0 +1,64 @@
+//login
+.temp-bc.login {
+  margin-top: 0 !important;
+}
+
+.login-form {
+  display: block !important;
+  text-align: center;
+}
+
+.sign-setting {
+  height: 8rem;
+  margin: 2rem;
+
+  &-findIdPw {
+    font-size: 0.92rem;
+    margin-bottom: 1rem;
+    padding: 1px 2px;
+    color: black;
+  }
+
+  & h6 {
+    font-family: sans-serif;
+  }
+
+  & h6 a {
+    border-radius: 4px;
+    background-color: $komencash-color;
+    color: $bg-color !important;
+    padding: 1px 2px;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: sans-serif;
+  }
+}
+
+.termView {
+  font-size: 13px;
+  font-weight: 700;
+  margin-left: 0.23rem;
+  cursor: pointer;
+}
+
+.bcol-login {
+  max-width: 50% !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  text-align: center !important;
+
+  & .input-group {
+    width: 64% !important;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+.idView {
+  font-weight: 700;
+  color: $komencash-color;
+}
+
+.swal2-container {
+  z-index: 300000 !important;
+}

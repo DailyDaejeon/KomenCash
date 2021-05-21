@@ -66,6 +66,11 @@ public class PlayerController : MonoBehaviour
     escDown = Input.GetButtonDown("Esc");
   }
 
+  private void GetVertical()
+  {
+
+  }
+
   private void GetMenuState()
   {
     BankMenuController bank = GameObject.Find("SM_Bld_CityHall_01").GetComponent<BankMenuController>();

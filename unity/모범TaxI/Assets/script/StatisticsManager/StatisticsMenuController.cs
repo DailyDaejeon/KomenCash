@@ -253,8 +253,9 @@ public class StatisticsMenuController : MonoBehaviour
           Text submitStatus = clone.transform.GetChild(1).GetComponent<Text>();
 
           studentName.text = status[i]["studentNickname"].Value;
+          Debug.Log("제출 이력 : " + status[i]["submission"].Value);
 
-          if (status[i]["submission"].Value.Equals("true"))
+          if (status[i]["submission"].Value.Equals("True"))
           {
             submitStatus.text = "<color=#0000ff>제출</color>";
           }

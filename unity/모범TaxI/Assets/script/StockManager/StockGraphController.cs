@@ -24,7 +24,7 @@ public class StockGraphController : MonoBehaviour
     gameObject.GetComponent<Image>().sprite = circleSprite;
     RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
     rectTransform.anchoredPosition = anchoredPosition;
-    rectTransform.sizeDelta = new Vector2(8, 8);
+    rectTransform.sizeDelta = new Vector2(11, 11);
     rectTransform.anchorMin = new Vector2(0, 0);
     rectTransform.anchorMax = new Vector2(0, 0);
     return gameObject;
@@ -43,6 +43,8 @@ public class StockGraphController : MonoBehaviour
     float yMaximum = 2000f;
     float xSize = 50f / 3;
 
+    Debug.Log("graph : " + graphHeight);
+
     GameObject lastCircleGameObject = null;
 
     int ii = 0;
@@ -50,14 +52,24 @@ public class StockGraphController : MonoBehaviour
     {
       ii = valueList.Count - 10;
     }
-    int sum = 0;
-    int avg = 0;
+    // int sum = 0;
+    // int avg = 0;
+    // for (int i = ii; i < valueList.Count; i++)
+    // {
+    //   sum += valueList[i];
+    // }
+    // avg = sum / valueList.Count - ii;
+    // yMaximum = avg * 2;
+
+    int maxValue = 0;
     for (int i = ii; i < valueList.Count; i++)
     {
-      sum += valueList[i];
+      if (valueList[i] > maxValue) maxValue = valueList[i];
     }
-    avg = sum / valueList.Count - ii;
-    yMaximum = avg * 2;
+
+    yMaximum = maxValue * 2;
+
+    Debug.Log("y : " + yMaximum);
 
     for (int i = ii; i < valueList.Count; i++)
     {
@@ -76,7 +88,7 @@ public class StockGraphController : MonoBehaviour
   {
     GameObject gameObject = new GameObject("dotConnection", typeof(Image));
     gameObject.transform.SetParent(graphContainer, false);
-    gameObject.GetComponent<Image>().color = new Color(1, 1, 1, .5f);
+    gameObject.GetComponent<Image>().color = new Color(0, 0, 0, .5f);
     RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
     Vector2 dir = (dotPositionB - dotPositionA).normalized;
     float distance = Vector2.Distance(dotPositionA, dotPositionB);
